@@ -1,0 +1,64 @@
+project:
+  type: website
+  output-dir: docs
+
+language: translate_jp.yml
+
+website:
+  title: "Causal Inference@Kobe"
+  site-url: "https://www.jaysong.net/kobe-ci/"
+  date: now
+  page-navigation: true
+  favicon: figs/favicon.png
+  page-footer: 
+    left: "Copyright 2022, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
+    right:
+      - icon: house-fill
+        href: https://www.jaysong.net
+      - icon: github
+        href: https://github.com/JaehyunSong
+  navbar:
+    logo: figs/logo.png
+    search: true
+    background: "#4169E1"
+    pinned: true
+    left:
+      - text: "シラバス"
+        href: syllabus.qmd
+      - sidebar:intro
+      - sidebar:material
+      - text: "データ集"
+        href: data.qmd
+    right: 
+      - icon: terminal
+        href: https://jupyter.cs.rcos.nii.ac.jp/
+      - icon: book
+        href: https://www.jaysong.net/RBook/
+  sidebar:
+    - id: intro
+      title: "Rの使い方"
+      style: "docked"
+      contents:
+        - intro/install.qmd
+        - intro/rstudio.qmd
+        - intro/project.qmd
+        - intro/file.qmd
+        - text: "ファイル管理術"
+          href: intro/filesystem.qmd
+        - text: "パッケージ"
+          href: intro/packages.qmd
+    - id: material
+      title: "講義資料"
+      style: "docked"
+      contents:
+        - materials/day1.qmd
+        - materials/day2.qmd
+        - materials/day3.qmd
+        - materials/day4.qmd
+        - materials/day5.qmd
+  #google-analytics: "G-9TLN2VMPQD"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
