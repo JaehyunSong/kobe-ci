@@ -1,5 +1,5 @@
-# マクロ政治データ分析実習
+# 方法論特殊講義III
 
-関西大学総合情報学部「マクロ政治データ分析実習」サポートページ
+神戸大学法学研究科/法学部「方法論特殊講義III / プログラム講義計量政治学方法論I」サポートページ
 
-URL: <https://www.jaysong.net/macro-book/>
+URL: <https://www.jaysong.net/kobe-ci/>
