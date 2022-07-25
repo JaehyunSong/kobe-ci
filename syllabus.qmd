@@ -179,73 +179,43 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ### 回帰不連続デザイン
 
-	\begin{itemize}
-		\item Textbook
-		\begin{enumerate}
-			\item AP (2008): Ch.6
-			\item AP (2014): Ch.4
-			\item 森田 (2014): 第22章
-			\item 星野・田中 (2016): 第10章
-			\item 中村・津川 (2017): 第6章
-			\item 伊藤 (2017): 第3章
-			\item 安井 (2020): 第5章
-			\item \href{https://www.amazon.co.jp/dp/1108710204}{Cattaneo, Matias D.. 2020. \emph{A Practical Introduction to Regression Discontinuity Designs,} ‎ Cambridge University Press.}
-		\end{enumerate}
-		\item Article
-		\begin{enumerate}
-			\item \href{https://obsstudies.org/reprint-regression-discontinuity-analysis-an-alternative-to-the-ex-post-facto-experiment/}{Thistlethwaite, Donald L., and Donald T. Campbell. 1960. "Regression-discontinuity analysis: An alternative to the ex post facto experiment." \emph{Journal of Educational Psychology,} 51(6): 309--317.}
-			\item \href{https://www.jstor.org/stable/2692190}{Hahn, Jinyong, Petra Todd, and Wilbert Van der Klaauw. 2001. "Identification and Estimation of Treatment Effects with a Regression-Discontinuity Design." \emph{Econometrica,} 69 (1): 201--209.}
-			\item \href{http://econ.ucsb.edu/~doug/245a/Papers/Estimation%20in%20RD%20Model.pdf}{Poter, Jack. 2003. "Estimation in the Regression Discontinuity Model." Working Paper.}
-			\item \href{https://www.sciencedirect.com/science/article/pii/S0304407607001091}{Imbens, Guido W., and Thomas Lemieux. 2008. "Regression Discontinuity Designs: A Guide to Practice." \emph{Journal of Econometrics,} 142 (2): 615--635.}
-			\item \href{https://www.sciencedirect.com/science/article/pii/S0304407607001121}{Lee, David S.. 2008. "Randomized experiments from non-random selection in U.S. House elections." \emph{Journal of Econometrics,} 142 (2): 675--697.}
-			\item \href{https://www.sciencedirect.com/science/article/pii/S0304407607001133}{Justin McCrary. 2008. "Manipulation of the running variable in the regression discontinuity design: A density test." \emph{Journal of Econometrics,} 142 (2): 698-714.}
-			\item \href{https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281}{Lee, David S., and Thomas Lemieux. 2010. "Regression Discontinuity Designs in Economics." \emph{Journal of Economic Literature}, 48 (2): 281--355.}
-			\item \href{https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281}{Lee, David S., and Thomas Lemieux. 2010. "Regression Discontinuity Designs in Economics." \emph{Journal of Economic Literature,} 48 (2): 281--355.}
-			\item \href{https://academic.oup.com/restud/article/79/3/933/1533189}{Imbens, Guido, and Karthik Kalyanaraman. 2011. "Optimal Bandwidth Choice for the Regression Discontinuity Estimator." \emph{Review of Economic Studies,} 79 (3): 933--959.}
-			\item \href{https://www.sciencedirect.com/science/article/pii/S0261379416301020}{Ariga, Kenichi, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. "No sorting, no advantage: Regression discontinuity estimates of incumbency advantage in Japan." \emph{Electoral Studies,} 43: 21--31.}
-			\item \href{https://www.tandfonline.com/doi/full/10.1080/07350015.2017.1366909}{Andrew Gelman and Guido Imbens. 2019. "Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs," \emph{Journal of Business & Economic Statistics,} 37(3): 447-456.}
-		\end{enumerate}
-		\item Monograph
-		\begin{enumerate}
-			\item \href{https://sites.google.com/site/rdpackages/replication/cit-2018-cup}{Cattaneo, Matias D., Nicol\'as Idrobo and Roc\'io Titiunik. 2018. \emph{A Practical Introduction to Regression Discontinuity Designs: Volume I.} Cambridge University Press.}
-			\item \href{https://sites.google.com/site/rdpackages/replication/cit-2018-cup}{Cattaneo, Matias D., Nicol\'as Idrobo and Roc\'io Titiunik. 2018. \emph{A Practical Introduction to Regression Discontinuity Designs: Volume II.} Cambridge University Press.}
-		\end{enumerate}
-		\item R package
-		\begin{enumerate}
-			\item \href{https://cran.r-project.org/web/packages/rdd/index.html}{\{rdd\}: Regression Discontinuity Estimation}
-			\item \href{https://cran.r-project.org/web/packages/rddtools/index.html}{\{rddtools\}: Toolbox for Regression Discontinuity Design ('RDD')}
-			\item \href{https://cran.r-project.org/web/packages/rddapp/index.html}{\{rddapp\}: Regression Discontinuity Design Application}
-			\item \href{https://cran.r-project.org/web/packages/rdrobust/index.html}{\{rdrobust\}: Robust Data-Driven Statistical Inference in Regression-Discontinuity Designs}
-			\item \href{https://cran.r-project.org/web/packages/rdmulti/index.html}{\{rdmulti\}: Analysis of RD Designs with Multiple Cutoffs or Scores}
-			\item \href{https://cran.r-project.org/web/packages/rdpower/index.html}{\{rdpower\}: Power Calculations for RD Designs}
-		\end{enumerate}
-	\end{itemize}
+* Textbook
+   * Cattaneo, Matias D. 2020. [*A Practical Introduction to Regression Discontinuity Designs,*](https://www.amazon.co.jp/dp/1108710204) Cambridge University Press.
+
+* Article
+   * Thistlethwaite, Donald L., and Donald T. Campbell. 1960. "[Regression-discontinuity analysis: An alternative to the ex post facto experiment.](https://obsstudies.org/reprint-regression-discontinuity-analysis-an-alternative-to-the-ex-post-facto-experiment/)" *Journal of Educational Psychology*, 51(6): 309-317.
+   * Hahn, Jinyong, Petra Todd, and Wilbert Van der Klaauw. 2001. "[Identification and Estimation of Treatment Effects with a Regression-Discontinuity Design.](https://www.jstor.org/stable/2692190)" *Econometrica*, 69 (1): 201-209.
+   * Poter, Jack. 2003. "[Estimation in the Regression Discontinuity Model.](http://econ.ucsb.edu/~doug/245a/Papers/Estimation%20in%20RD%20Model.pdf)" Working Paper.
+   * Imbens, Guido W., and Thomas Lemieux. 2008. "[Regression Discontinuity Designs: A Guide to Practice.](https://www.sciencedirect.com/science/article/pii/S0304407607001091)" *Journal of Econometrics*, 142 (2): 615-635.
+   * Lee, David S. 2008. "[Randomized experiments from non-random selection in U.S. House elections.](https://www.sciencedirect.com/science/article/pii/S0304407607001121)" *Journal of Econometrics*, 142 (2): 675-697.
+   * Justin McCrary. 2008. "[Manipulation of the running variable in the regression discontinuity design: A density test.](https://www.sciencedirect.com/science/article/pii/S0304407607001133)" *Journal of Econometrics*, 142 (2): 698-714.
+   * Lee, David S., and Thomas Lemieux. 2010. "[Regression Discontinuity Designs in Economics.](https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281) *Journal of Economic Literature*, 48 (2): 281-355.
+   * Lee, David S., and Thomas Lemieux. 2010. "[Regression Discontinuity Designs in Economics.](https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281)" *Journal of Economic Literature*, 48 (2): 281-355.
+   * Imbens, Guido, and Karthik Kalyanaraman. 2011. "[Optimal Bandwidth Choice for the Regression Discontinuity Estimator.](https://academic.oup.com/restud/article/79/3/933/1533189)" *Review of Economic Studies*, 79 (3): 933-959.
+   * Ariga, Kenichi, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. "[No sorting, no advantage: Regression discontinuity estimates of incumbency advantage in Japan.](https://www.sciencedirect.com/science/article/pii/S0261379416301020)" *Electoral Studies*, 43: 21-31.
+   * Andrew Gelman and Guido Imbens. 2019. "[Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs,](https://www.tandfonline.com/doi/full/10.1080/07350015.2017.1366909)" *Journal of Business & Economic Statistics*, 37(3): 447-456.
+* Monograph
+   * Cattaneo, Matias D., Nicolas Idrobo and Rocio Titiunik. 2018. [*A Practical Introduction to Regression Discontinuity Designs: Volume I.*](https://sites.google.com/site/rdpackages/replication/cit-2018-cup) Cambridge University Press.
+   * Cattaneo, Matias D., Nicol\'as Idrobo and Roc\'io Titiunik. 2018. [*A Practical Introduction to Regression Discontinuity Designs: Volume II.*](https://sites.google.com/site/rdpackages/replication/cit-2018-cup) Cambridge University Press.
+* R package
+   * {[rdd](https://cran.r-project.org/web/packages/rdd/index.html)}: Regression Discontinuity Estimation
+   * {[rddtools](https://cran.r-project.org/web/packages/rddtools/index.html)}: Toolbox for Regression Discontinuity Design ('RDD')
+   * {[rddapp](https://cran.r-project.org/web/packages/rddapp/index.html)}: Regression Discontinuity Design Application
+   * {[rdrobust](https://cran.r-project.org/web/packages/rdrobust/index.html)}: Robust Data-Driven Statistical Inference in Regression-Discontinuity Designs
+   * {[rdmulti](https://cran.r-project.org/web/packages/rdmulti/index.html)}: Analysis of RD Designs with Multiple Cutoffs or Scores
+   * {[rdpower](https://cran.r-project.org/web/packages/rdpower/index.html)}: Power Calculations for RD Designs
 
 ### 操作変数法
 
-	以下の内容はLab Sessionが行わない場合のみ、解説する。
+　以下の内容はLab Sessionを行わない場合のみ、解説する。
 
-	\begin{itemize}
-		\item Textbook
-		\begin{enumerate}
-			\item AP (2008): Ch.4
-			\item AP (2014): Ch.3
-			\item 森田 (2014): 第20$\cdot$21章
-			\item 星野・田中 (2016): 第11章
-			\item 中村・津川 (2017): 第5章
-		\end{enumerate}
-		\item Article
-		\begin{enumerate}
-			\item \href{https://www.aeaweb.org/articles?id=10.1257/jep.15.4.69}{Angrist, Joshua D. and Alan B. Krueger. 2001. "Instrumental Variables and the Search for Identification: From Supply and Demand to Natural Experiments," \emph{Journal of Economic Perspectives,} 15 (4): 69--85}
-			\item \href{https://www.cambridge.org/core/journals/political-analysis/article/model-specification-in-instrumentalvariables-regression/793976A184DB66ACFC0013034B703294}{Dunning, Thad. 2008. "Model Specification in Instrumental-Variables Regression." \emph{Political Analysis,} 16 (3): 290--302.}
-			\item \href{https://www.cambridge.org/core/journals/political-analysis/article/opium-for-the-masses-how-foreign-media-can-stabilize-authoritarian-regimes/CE2EAEB87BD8DAF009BE4BBA6C30A0F8}{Kern, Holger Lutz and Jens Hainmueller. 2009. "Opium for the Masses: How Foreign Media Can Stabilize Authoritarian Regimes." \emph{Political Analysis,} 17 (4): 377--399.}
-			\item \href{https://doi.org/10.1111/j.1540-5907.2010.00477.x}{Allison J. Sovey and Donald P. Green. 2010. "Instrumental Variables Estimation in Political Science: A Readers’ Guide," \emph{American Journal of Political Science,} 55(1): 188-200.}
-			\item \href{https://doi.org/10.1146/annurev-soc-081309-150141}{Bollen, Kenneth A.. 2012. "Instrumental Variables in Sociology and the Social Sciences," \emph{Annual Review of Sociology,} 38:37--72.}
-			\item \href{https://www.cambridge.org/core/journals/political-analysis/article/beyond-late-estimation-of-the-average-treatment-effect-with-an-instrumental-variable/604E0803793175CF88329DB34DAA80B3}{Aronow, Peter M. and Allison Carnegie. 2013. "Beyond LATE: Estimation of the Average Treatment Effect with an Instrumental Variable." \emph{Political Analysis,} 21 (4): 492--506.}
-		\end{enumerate}
-		\item R package
-		\begin{enumerate}
-			\item \href{https://cran.r-project.org/web/packages/AER/index.html}{\{AER\}: Applied Econometrics with R}
-			\item \href{https://cran.r-project.org/web/packages/ivreg/index.html}{\{ivreg\}: Instrumental-Variables Regression by '2SLS', '2SM', or '2SMM', with Diagnostics}
-		\end{enumerate}
-	\end{itemize}
+* Article
+   * Angrist, Joshua D. and Alan B. Krueger. 2001. "[Instrumental Variables and the Search for Identification: From Supply and Demand to Natural Experiments,](https://www.aeaweb.org/articles?id=10.1257/jep.15.4.69)" *Journal of Economic Perspectives,* 15 (4): 69-85
+   * Dunning, Thad. 2008. "[Model Specification in Instrumental-Variables Regression.](https://www.cambridge.org/core/journals/political-analysis/article/model-specification-in-instrumentalvariables-regression/793976A184DB66ACFC0013034B703294)" *Political Analysis,* 16 (3): 290-302.
+   * Kern, Holger Lutz and Jens Hainmueller. 2009. "[Opium for the Masses: How Foreign Media Can Stabilize Authoritarian Regimes.](https://www.cambridge.org/core/journals/political-analysis/article/opium-for-the-masses-how-foreign-media-can-stabilize-authoritarian-regimes/CE2EAEB87BD8DAF009BE4BBA6C30A0F8)" *Political Analysis,* 17 (4): 377-399.
+   * Allison J. Sovey and Donald P. Green. 2010. "[Instrumental Variables Estimation in Political Science: A Readers’ Guide,](https://doi.org/10.1111/j.1540-5907.2010.00477.x)" *American Journal of Political Science,* 55(1): 188-200.
+   * Bollen, Kenneth A. 2012. "[Instrumental Variables in Sociology and the Social Sciences,](https://doi.org/10.1146/annurev-soc-081309-150141)" *Annual Review of Sociology,* 38:37-72.
+   * Aronow, Peter M. and Allison Carnegie. 2013. "[Beyond LATE: Estimation of the Average Treatment Effect with an Instrumental Variable.](https://www.cambridge.org/core/journals/political-analysis/article/beyond-late-estimation-of-the-average-treatment-effect-with-an-instrumental-variable/604E0803793175CF88329DB34DAA80B3)" *Political Analysis,* 21 (4): 492-506.
+* R packages
+   * {[AER](https://cran.r-project.org/web/packages/AER/index.html)}: Applied Econometrics with R}
+   * {[ivreg](https://cran.r-project.org/web/packages/ivreg/index.html)}: Instrumental-Variables Regression by '2SLS', '2SM', or '2SMM', with Diagnostics}
