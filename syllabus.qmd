@@ -22,7 +22,7 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ## 授業の内容
 
-本講義は、近年政治学において関心が高まっている「因果推論」を行うための諸手段を 理解・習得することを目的とする。最初に、最良の因果推論とも称される RCT(ランダム 化比較試験)を説明し、RCT が不可能な際の手法としてマッチング、回帰不連続デザイ ン、差分の差などを紹介する。
+　本講義は、近年政治学において関心が高まっている「因果推論」を行うための諸手段を 理解・習得することを目的とする。最初に、最良の因果推論とも称される RCT(ランダム 化比較試験)を説明し、RCT が不可能な際の手法としてマッチング、回帰不連続デザイ ン、差分の差などを紹介する。
 
 ## 評価
 
@@ -33,16 +33,22 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ## 履修上の注意
 
-* 統計学に関する基礎知識が必要である。目安は母平均の差の検定、および線形回帰分析が理解でき、統計ソフトウェアで実行・解釈が可能なレベルである。
-* 本講義における共通言語はRである。Rの使い方に関しては既にインターネット上に膨大な情報がある。[宋](https://www.jaysong.net)と[矢内勇生](https://yukiyanai.github.io/)(高知工科大学)が執筆中の以下の資料(無料で閲覧可能)を参照することも1つの選択肢である。
-   * 宋財泫・矢内勇生. 『[私たちの R: ベストプラクティスの探究](https://www.jaysong.net/RBook/)』(web-book)
+　統計学に関する基礎知識が必要である。目安は母平均の差の検定、および線形回帰分析が理解でき、統計ソフトウェアで実行・解釈が可能なレベルである。
+
+　本講義における共通言語はRである。Rの使い方に関しては既にインターネット上に膨大な情報がある。[宋](https://www.jaysong.net)と[矢内勇生](https://yukiyanai.github.io/)(高知工科大学)が執筆中の以下の資料(無料で閲覧可能)を参照することも1つの選択肢である。
+
+* 宋財泫・矢内勇生. 『[私たちの R: ベストプラクティスの探究](https://www.jaysong.net/RBook/)』(web-book)
    * Rの導入方法は講義中、宋が解説する。
-* 統計学および定量的分析、Rの使い方については以下の書籍を講義開始日までに読んで
+
+　統計学および定量的分析、Rの使い方については以下の書籍を講義開始日までに読んで
 おくことを強く推奨する。
-   * 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132)』オーム社.
-* R スクリプト作成の際、{tidyverse} というパッケージ群を積極的に活用する。この パッケージには {dplyr}、{ggplot2} などのパッケージが含まれている。各パッケージの 使い方を習得するには以下の教材を推奨する。
-   * Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳](www.amazon.co.jp/dp/487311814X/)あり/[原著](https://r4ds.had.co.nz)はインターネットから無料で閲覧可)
-   * 松村優哉・湯谷啓明・紀ノ定保礼・前田和寛 . 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
+
+* 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132)』オーム社.
+
+　R スクリプト作成の際、{tidyverse} というパッケージ群を積極的に活用する。この パッケージには {dplyr}、{ggplot2} などのパッケージが含まれている。各パッケージの 使い方を習得するには以下の教材を推奨する。
+
+* Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳](www.amazon.co.jp/dp/487311814X/)あり/[原著](https://r4ds.had.co.nz)はインターネットから無料で閲覧可)
+* 松村優哉・湯谷啓明・紀ノ定保礼・前田和寛 . 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
 
 ## 教科書・参考書
 
@@ -66,15 +72,15 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ||Intro/RCT|Matching|Diff-in-Diff|RDD|IV|
 |:---|:---:|:---:|:---:|:---:|:---:|
-| AP 2008 ||||||
-| AP 2014 ||||||
-| 森田 2014 ||||||
-| 星野・田中 2016 ||||||
-| 中室・津川 2017 ||||||
-| 伊藤 2017 ||||||
+| AP 2008 |Ch.2|Ch.3|Ch.5|Ch.6|Ch.4|
+| AP 2014 |Ch.1-2||Ch.5|Ch.4|Ch.3|
+| 森田 2014 |第16章||第18章|第22章|第20章|
+| 星野・田中 2016 |第1-8章|第9章||第10章|第11章|
+| 中室・津川 2017 |第1-3章|第7-8章|第4章|第6章|第5章|
+| 伊藤 2017 |第1-2章||第5章|第3章||
 | 安井 2020 |第1章|第2-3章|第4章|第5章||
 | Cunningham 2021 |Ch.2-4|Ch.5|Ch.8-10|Ch.6|Ch.7|
-| 松林 2021 |第1-4章||第8章|第6章|第7章|
+| 松林 2021 |第1-5章||第8章|第6章|第7章|
 | 高橋 2022 |第1-3章|第4-12章||第15-18章|第13-14章|
 
 ## 講義内容・参考文献
@@ -82,11 +88,6 @@ knitr::opts_chunk$set(fig.align = "center",
 ### 1日目：因果推論の考え方
 
 * Textbook
-   * 森田 (2014): 第16章
-   * 星野・田中 (2016): 第7章
-   * 中村・津川 (2017): 第1章
-   * 伊藤 (2017): 第1章
-   * 安井 (2020): 第1章
    * Imbens, Guido W., and Donald B. Rubin. 2015. [*Causal Inference for Statistics, Social, and Biomedical Sciences.*](http://amzn.asia/d/4hiunWS) Cambridge University Press. (Ch. 1 and 2)
    * Hernan, Miguel A., James M. Robins. 2020. [*Causal Inference.*](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) Chapman & Hall/CRC. (Ch. 1)
 * Article
@@ -103,11 +104,6 @@ knitr::opts_chunk$set(fig.align = "center",
 履修者全員がRの操作に慣れていると判断した場合、Lab Sessionは省略し、最終日に操作変数法の講義を行う。
 
 * Textbook (RCT)
-   * AP (2008): Ch.2
-   * 星野・田中 (2016): 第8章
-   * 中村・津川 (2017): 第2章
-   * 伊藤 (2017): 第2章
-   * 安井 (2020): 第1章
    * Imbens, Guido W., and Donald B. Rubin. 2015. [*Causal Inference for Statistics, Social, and Biomedical Sciences.*](http://amzn.asia/d/4hiunWS) Cambridge University Press. (Part II)}
    * Hernan, Miguel A., James M. Robins. 2020. [*Causal Inference.*](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) Chapman & Hall/CRC. (Ch. 2)
 * Textbook (R Language)
@@ -139,76 +135,47 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ### マッチングとその応用
 
-	\begin{itemize}
-		\item Textbook
-		\begin{enumerate}
-			\item AP (2008): Ch.3
-			\item 森田 (2014): 第17章
-			\item 星野・田中 (2016): 第9章
-			\item 中村・津川 (2017): 第7章
-			\item 安井 (2020): 第2, 3章
-			\item \href{http://amzn.asia/d/hKI3pF1}{Rosenbaum. Paul R. 2002. \emph{Observational Studies, 2nd Ed.} Springer.}
-			\item \href{http://amzn.asia/d/dIlcuiG}{星野崇宏. 2009.『調査観察データの統計科学---因果推論・選択バイアス・データ融合---』岩波書店}（第2・3・4章）
-		\end{enumerate}
-		\item Article
-		\begin{enumerate}
-			\item \href{https://academic.oup.com/biomet/article/70/1/41/240879}{Rosenbaum, Paul R., and Donald B. Rubin. 1983. "The Central Role of the Propensity Score in Observational Studies for Causal Effects." \emph{Biometrika,} 70 (1): 41--55.}
-			\item \href{https://www.aeaweb.org/articles?id=10.1257/000282803321455188}{Abadie, Alberto and Javier Gardeazabal. 2003. "The Economic Costs of Conflict: A Case Study of the Basque Country." \emph{American Economic Review.} 93(1): 113--132.}
-			\item \href{http://journals.sagepub.com/doi/abs/10.1177/0049124106289164}{Morgan, Stephen L., and David J. Harding. 2006. "Matching Estimators of Causal Effects: Prospects and Pitfalls in Theory and Practice." \emph{Sociological Methods \& Research,} 35(1): 3--60.}
-			\item \href{https://www.cambridge.org/core/journals/political-analysis/article/div-classtitlematching-as-nonparametric-preprocessing-for-reducing-model-dependence-in-parametric-causal-inferencediv/4D7E6D07C9727F5A604E5C9FCCA2DD21}{Ho, Daniel E., Kosuke Imai, Gary King, and Elizabeth A. Stuart. 2007. "Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference." \emph{Political Analysis,} 15: 199-236.}
-			\item \href{http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-11}{Sekhon, Jasjeet S. 2008. "The Neyman-Rubin Model of Causal Inference and Estimation via Matching Methods." In Janet M. Box-Steffensmeier, Henry E. Brady, and David Collier, eds. \emph{The Oxford Handbook of Political Methodology,} New York: Oxford University Press, Ch.11.}
-			\item \href{https://www.corwin.com/sites/default/files/upm-binaries/18066_Chapter_11.pdf}{Stuart, Elizabeth A., and Donald B. Rubin. 2008. "Best Practice in Quasi-Experimental Designs: Matching Methods for Causal Inference." In Jason W. Osborne, ed. \emph{Best Practices in Quantitative Methods,} Thousand Oaks: Sage, Ch.11.}
-			\item \href{https://www.annualreviews.org/doi/abs/10.1146/annurev.polisci.11.060606.135444}{Sekhon, Jasjeet S. 2009. "Opiates for the Matches: Matching Methods for Causal Inference." \emph{Annual Review of Political Science,} 12: 487--508.}
-			\item \href{https://www.tandfonline.com/doi/abs/10.1198/jasa.2009.ap08746}{Abadie, Alberto,Alexis Diamond, and Jens Hainmueller. 2010. "Synthetic Control Methods for Comparative Case Studies: Estimating the Effect of California’s Tobacco Control Program." \emph{Journal of the American Statistical Association}. 105 (490): 493--505.}
-			\item \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/}{Stuart, Elizabeth A. 2010. "Matching Methods for Causal Inference: A Review and a Look Forward." \emph{Statistical Science,} 25(1): 1--21.}
-			\item \href{https://www.cambridge.org/core/journals/political-analysis/article/causal-inference-without-balance-checking-coarsened-exact-matching/5ABCF5B3FC3089A87FD59CECBB3465C0}{Iacus, Stefano M., Gary King, and Giuseppe Porro. 2012. "Causal Inference without Balance Checking: Coarsened Exact Matching." \emph{Political Analysis,} 20: 1--24.}
-			\item \href{https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12116}{Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2014. "Comparative Politics and the Synthetic Control Method." \emph{American Journal of Political Science.} 59 (2): 495--510.}
-			\item \href{https://research.google/pubs/pub41854/}{Brodersen, Kay H., Fabian Gallusser, Jim Koehler, Nicolas Remy, and Steven L. Scott. 2015. "Inferring causal impact using Bayesian structural time-series models." \emph{Annals of Applied Statistics.} 9(1): 247--274.}
-			\item \href{https://doi.org/10.2333/jbhmk.43.129}{登藤直弥・小林哲郎・稲増一憲. 2016.「ソフトニュースへの接触は政治的関心を高めるか---般化傾向スコアを用いた因果推論---」『行動計量学』43 (2): 129--141.}
-			\item \href{https://www.cambridge.org/core/journals/political-analysis/article/retrospective-causal-inference-with-machine-learning-ensembles-an-application-to-antirecidivism-policies-in-colombia/B27477770599A4CE0ACB9204685EA95B}{Samii, Cyrus, Laura Paler, and Sarah Zukerman Daly. 2017. "Retrospective Causal Inference with Machine Learning Ensembles: An Application to Anti-recidivism Policies in Colombia." \emph{Political Analysis,} 24 (4): 434--456.}
-		\end{enumerate}
-		\item R Package
-		\begin{enumerate}
-			\item \href{https://cran.r-project.org/web/packages/Matching/index.html}{\{Matching\}: Multivariate and Propensity Score Matching with Balance Optimization}
-			\item \href{https://cran.r-project.org/web/packages/MatchIt/index.html}{\{MatchIt\}: Nonparametric Preprocessing for Parametric Causal Inference}
-			\item \href{https://cran.r-project.org/web/packages/WeightIt/index.html}{\{WeightIt\}: Weighting for Covariate Balance in Observational Studies}
-			\item \href{https://cran.r-project.org/web/packages/SuperLearner/index.html}{\{SuperLearner\}: Super Learner Prediction}
-		\end{enumerate}
-	\end{itemize}
+* Textbook
+   * Rosenbaum. Paul R. 2002. [*Observational Studies, 2nd Ed.*](http://amzn.asia/d/hKI3pF1) Springer.
+   * 星野崇宏. 2009.『[調査観察データの統計科学―因果推論・選択バイアス・データ融合―](http://amzn.asia/d/dIlcuiG)』岩波書店（第2・3・4章）
+* Article
+   * Rosenbaum, Paul R., and Donald B. Rubin. 1983. "[The Central Role of the Propensity Score in Observational Studies for Causal Effects.](https://academic.oup.com/biomet/article/70/1/41/240879)" *Biometrika,* 70 (1): 41-55.
+   * Abadie, Alberto and Javier Gardeazabal. 2003. "[The Economic Costs of Conflict: A Case Study of the Basque Country.](https://www.aeaweb.org/articles?id=10.1257/000282803321455188)" *American Economic Review.* 93(1): 113-132.
+   * Morgan, Stephen L., and David J. Harding. 2006. "[Matching Estimators of Causal Effects: Prospects and Pitfalls in Theory and Practice.](http://journals.sagepub.com/doi/abs/10.1177/0049124106289164)" *Sociological Methods & Research,* 35(1): 3-60.
+   * Ho, Daniel E., Kosuke Imai, Gary King, and Elizabeth A. Stuart. 2007. "[Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference.](https://www.cambridge.org/core/journals/political-analysis/article/div-classtitlematching-as-nonparametric-preprocessing-for-reducing-model-dependence-in-parametric-causal-inferencediv/4D7E6D07C9727F5A604E5C9FCCA2DD21)" *Political Analysis,* 15: 199-236.
+   * Sekhon, Jasjeet S. 2008. "[The Neyman-Rubin Model of Causal Inference and Estimation via Matching Methods.](http://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-11)" In Janet M. Box-Steffensmeier, Henry E. Brady, and David Collier, eds. *The Oxford Handbook of Political Methodology,* New York: Oxford University Press, Ch.11.
+   * Stuart, Elizabeth A., and Donald B. Rubin. 2008. "[Best Practice in Quasi-Experimental Designs: Matching Methods for Causal Inference.](https://www.corwin.com/sites/default/files/upm-binaries/18066_Chapter_11.pdf)" In Jason W. Osborne, ed. *Best Practices in Quantitative Methods,* Thousand Oaks: Sage, Ch.11.
+   * Sekhon, Jasjeet S. 2009. "[Opiates for the Matches: Matching Methods for Causal Inference.](https://www.annualreviews.org/doi/abs/10.1146/annurev.polisci.11.060606.135444)" *Annual Review of Political Science,* 12: 487-508.
+   * Abadie, Alberto,Alexis Diamond, and Jens Hainmueller. 2010. "[Synthetic Control Methods for Comparative Case Studies: Estimating the Effect of California’s Tobacco Control Program.](https://www.tandfonline.com/doi/abs/10.1198/jasa.2009.ap08746)" *Journal of the American Statistical Association*. 105 (490): 493-505.
+   * Stuart, Elizabeth A. 2010. "[Matching Methods for Causal Inference: A Review and a Look Forward.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/)" *Statistical Science,* 25(1): 1-21.
+   * Iacus, Stefano M., Gary King, and Giuseppe Porro. 2012. "[Causal Inference without Balance Checking: Coarsened Exact Matching.](https://www.cambridge.org/core/journals/political-analysis/article/causal-inference-without-balance-checking-coarsened-exact-matching/5ABCF5B3FC3089A87FD59CECBB3465C0)" *Political Analysis,* 20: 1-24.
+   * Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2014. "[Comparative Politics and the Synthetic Control Method.](https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12116)" *American Journal of Political Science.* 59 (2): 495-510.
+   * Brodersen, Kay H., Fabian Gallusser, Jim Koehler, Nicolas Remy, and Steven L. Scott. 2015. "[Inferring causal impact using Bayesian structural time-series models.](https://research.google/pubs/pub41854/)" *Annals of Applied Statistics.* 9(1): 247-274.
+   * 登藤直弥・小林哲郎・稲増一憲. 2016.「[ソフトニュースへの接触は政治的関心を高めるか―一般化傾向スコアを用いた因果推論―](https://doi.org/10.2333/jbhmk.43.129)」『行動計量学』43 (2): 129-141.
+   * Samii, Cyrus, Laura Paler, and Sarah Zukerman Daly. 2017. "[Retrospective Causal Inference with Machine Learning Ensembles: An Application to Anti-recidivism Policies in Colombia.](https://www.cambridge.org/core/journals/political-analysis/article/retrospective-causal-inference-with-machine-learning-ensembles-an-application-to-antirecidivism-policies-in-colombia/B27477770599A4CE0ACB9204685EA95B)" *Political Analysis,* 24 (4): 434-456.
+* R Package
+   * {[Matching](https://cran.r-project.org/web/packages/Matching/index.html)}: Multivariate and Propensity Score Matching with Balance Optimization
+   * {[MatchIt](https://cran.r-project.org/web/packages/MatchIt/index.html)}: Nonparametric Preprocessing for Parametric Causal Inference
+   * {[WeightIt](https://cran.r-project.org/web/packages/WeightIt/index.html)}: Weighting for Covariate Balance in Observational Studies
+   * {[SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/index.html)}: Super Learner Prediction
 
 ### 差分の差分法
 
-	\begin{itemize}
-		\item Textbook
-		\begin{enumerate}
-			\item AP (2008): Ch.5
-			\item AP (2014): Ch.5
-			\item 森田 (2014): 第18章
-			\item 中村・津川 (2017): 第4章
-			\item 伊藤 (2017): 第5章
-			\item 安井 (2020): 第4章
-		\end{enumerate}
-		\item Article
-		\begin{enumerate}
-			
-			\item \href{https://www.aeaweb.org/articles?id=10.1257/aer.90.5.1397}{Card, David, and Alan B. Krueger. 1994. "Minimum Wages and Employment: A Case Study of the Fast Food Industry in New Jersey and Pennsylvania." \emph{American Economic Review,} 90 (5): 1397--1420.}
-			\item \href{https://academic.oup.com/qje/article/119/1/249/1876068}{Bertrand, Marianne, Esther Duflo, and Sendhil Mullainathan. 2004. "How Much Should We Trust Differences-In-Differences Estimates?" \emph{Quarterly Journal of Economics,} 119(1): 249--275.}
-			\item \href{https://www.aeaweb.org/articles?id=10.1257/000282804322970733}{Di Tella, Rafael, and Ernesto Schargrodsky. 2004. "Do Police Reduce Crime? Estimates Using the Allocation of Police Forces After a Terrorist Attack." \emph{American Economic Review,} 94 (1): 115-133.}
-			\item \href{https://www.jstor.org/stable/3700681}{Abadie, Alberto. 2005. "Semiparametric Difference-in-Differences Estimators." \emph{Review of Economic Studies,} 72(1): 1--19.}
-			\item \href{http://journals.sagepub.com/doi/10.1177/0022002708330881}{Lyall, Jason. 2009. "Does Indiscriminate Violence Incite Insurgent Attacks? Evidence from Chechnya." \emph{Journal of Conflict Resolution,} 53(3): 331--362.}
-			\item \href{http://michael-lechner.eu/ml_pdf/journals/2011_Lechner_DiD_2011_ECO%200403%20Lechner_darf%20aufs%20Netz.pdf}{Lechner, Michael. 2010. "The Estimation of Causal Effects by Difference-in-Difference Methods." Working paper.}
-			\item \href{https://www.sciencedirect.com/science/article/pii/S088915831500043X}{Asai, Yukiko, Ryo Kamibayashi, and Shintaro Yamaguchi. 2015. "Childcare availability, household structure, and maternal employment." \emph{Journal of the Japanese and International Economies,} 38: 172--192.}
-			\item \href{https://www.journals.uchicago.edu/doi/abs/10.1086/681563}{Fouirnaies, Alexander, and Hande Mutlu-Eren. 2015. "English Bacon: Copartisan Bias in Intergovernmental Grant Allocation in England." \emph{Journal of Politics,} 77(3): 805--817.}
-			\item \href{https://doi.org/10.1017/pan.2016.2.}{Xu, Yiqing. 2017. "Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models," \emph{Political Analysis,} 25(1): 56-76.}
-		\end{enumerate}
-		\item R Package
-		\begin{enumerate}
-			\item \href{https://cran.r-project.org/web/packages/estimatr/index.html}{\{estimatr\}: Fast Estimators for Design-Based Inference}
-			\item \href{https://cran.r-project.org/web/packages/CausalImpact/index.html}{\{CausalImpact\}: Inferring Causal Effects using Bayesian Structural Time-Series Models}
-			\item \href{https://cran.r-project.org/web/packages/Synth/index.html}{\{Synth\}: Synthetic Control Group Method for Comparative Case Studies}
-			\item \href{https://cran.r-project.org/web/packages/gsynth/index.html}{\{gsynth\}: Generalized Synthetic Control Method}
-		\end{enumerate}
-	\end{itemize}
+* Article
+   * Card, David, and Alan B. Krueger. 1994. "[Minimum Wages and Employment: A Case Study of the Fast Food Industry in New Jersey and Pennsylvania.](https://www.aeaweb.org/articles?id=10.1257/aer.90.5.1397)" *American Economic Review,* 90 (5): 1397-1420.
+   * Bertrand, Marianne, Esther Duflo, and Sendhil Mullainathan. 2004. "[How Much Should We Trust Differences-In-Differences Estimates?](https://academic.oup.com/qje/article/119/1/249/1876068)" *Quarterly Journal of Economics,* 119(1): 249-275.
+   * Di Tella, Rafael, and Ernesto Schargrodsky. 2004. "[Do Police Reduce Crime? Estimates Using the Allocation of Police Forces After a Terrorist Attack.](https://www.aeaweb.org/articles?id=10.1257/000282804322970733)" *American Economic Review,* 94 (1): 115-133.
+   * Abadie, Alberto. 2005. "[Semiparametric Difference-in-Differences Estimators.](https://www.jstor.org/stable/3700681)" *Review of Economic Studies,* 72(1): 1-19.
+   * Lyall, Jason. 2009. "[Does Indiscriminate Violence Incite Insurgent Attacks? Evidence from Chechnya.](http://journals.sagepub.com/doi/10.1177/0022002708330881)" *Journal of Conflict Resolution,* 53(3): 331-362.
+   * Lechner, Michael. 2010. "[The Estimation of Causal Effects by Difference-in-Difference Methods.](http://michael-lechner.eu/ml_pdf/journals/2011_Lechner_DiD_2011_ECO%200403%20Lechner_darf%20aufs%20Netz.pdf)" Working paper.
+   * Asai, Yukiko, Ryo Kamibayashi, and Shintaro Yamaguchi. 2015. "[Childcare availability, household structure, and maternal employment.](https://www.sciencedirect.com/science/article/pii/S088915831500043X)" *Journal of the Japanese and International Economies,* 38: 172-192.
+   * Fouirnaies, Alexander, and Hande Mutlu-Eren. 2015. "[English Bacon: Copartisan Bias in Intergovernmental Grant Allocation in England.](https://www.journals.uchicago.edu/doi/abs/10.1086/681563)" *Journal of Politics,* 77(3): 805--817.
+   * Xu, Yiqing. 2017. "[Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models,](https://doi.org/10.1017/pan.2016.2.)" *Political Analysis,* 25(1): 56-76.
+* R Packages
+   * {[estimatr](https://cran.r-project.org/web/packages/estimatr/index.html)}: Fast Estimators for Design-Based Inference
+   * {[CausalImpact](https://cran.r-project.org/web/packages/CausalImpact/index.html)}: Inferring Causal Effects using Bayesian Structural Time-Series Models
+   * {[Synth](https://cran.r-project.org/web/packages/Synth/index.html)}: Synthetic Control Group Method for Comparative Case Studies
+   * {[gsynth](https://cran.r-project.org/web/packages/gsynth/index.html)}: Generalized Synthetic Control Method
 
 ### 回帰不連続デザイン
 
@@ -236,7 +203,7 @@ knitr::opts_chunk$set(fig.align = "center",
 			\item \href{https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281}{Lee, David S., and Thomas Lemieux. 2010. "Regression Discontinuity Designs in Economics." \emph{Journal of Economic Literature,} 48 (2): 281--355.}
 			\item \href{https://academic.oup.com/restud/article/79/3/933/1533189}{Imbens, Guido, and Karthik Kalyanaraman. 2011. "Optimal Bandwidth Choice for the Regression Discontinuity Estimator." \emph{Review of Economic Studies,} 79 (3): 933--959.}
 			\item \href{https://www.sciencedirect.com/science/article/pii/S0261379416301020}{Ariga, Kenichi, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. "No sorting, no advantage: Regression discontinuity estimates of incumbency advantage in Japan." \emph{Electoral Studies,} 43: 21--31.}
-			\item \href{https://www.tandfonline.com/doi/full/10.1080/07350015.2017.1366909}{Andrew Gelman and Guido Imbens. 2019. "Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs," \emph{Journal of Business \& Economic Statistics,} 37(3): 447-456.}
+			\item \href{https://www.tandfonline.com/doi/full/10.1080/07350015.2017.1366909}{Andrew Gelman and Guido Imbens. 2019. "Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs," \emph{Journal of Business & Economic Statistics,} 37(3): 447-456.}
 		\end{enumerate}
 		\item Monograph
 		\begin{enumerate}

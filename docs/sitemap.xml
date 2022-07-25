@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.jaysong.net/kobe-ci/index.html</loc>
-    <lastmod>2022-07-24T07:47:31.275Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.jaysong.net/kobe-ci/intro/install.html</loc>
-    <lastmod>2022-07-24T06:59:55.754Z</lastmod>
-  </url>
-  <url>
     <loc>https://www.jaysong.net/kobe-ci/intro/filesystem.html</loc>
-    <lastmod>2022-07-24T07:07:36.202Z</lastmod>
+    <lastmod>2022-07-25T05:10:31.823Z</lastmod>
   </url>
   <url>
     <loc>https://www.jaysong.net/kobe-ci/intro/file.html</loc>
-    <lastmod>2022-07-24T07:23:22.991Z</lastmod>
+    <lastmod>2022-07-25T05:10:32.907Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.jaysong.net/kobe-ci/intro/install.html</loc>
+    <lastmod>2022-07-25T05:10:33.864Z</lastmod>
   </url>
   <url>
     <loc>https://www.jaysong.net/kobe-ci/intro/packages.html</loc>
-    <lastmod>2022-07-24T07:03:07.885Z</lastmod>
+    <lastmod>2022-07-25T05:10:34.866Z</lastmod>
   </url>
   <url>
     <loc>https://www.jaysong.net/kobe-ci/intro/project.html</loc>
-    <lastmod>2022-07-24T07:01:30.057Z</lastmod>
+    <lastmod>2022-07-25T05:10:35.807Z</lastmod>
   </url>
   <url>
     <loc>https://www.jaysong.net/kobe-ci/intro/rstudio.html</loc>
-    <lastmod>2022-07-24T07:02:30.633Z</lastmod>
+    <lastmod>2022-07-25T05:10:36.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.jaysong.net/kobe-ci/index.html</loc>
+    <lastmod>2022-07-25T05:10:38.403Z</lastmod>
   </url>
   <url>
     <loc>https://www.jaysong.net/kobe-ci/syllabus.html</loc>
-    <lastmod>2022-07-25T03:57:12.613Z</lastmod>
+    <lastmod>2022-07-25T05:10:39.230Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.jaysong.net/kobe-ci/data.html</loc>
+    <lastmod>2022-07-25T05:10:39.459Z</lastmod>
   </url>
 </urlset>

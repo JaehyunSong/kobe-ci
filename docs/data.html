@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Causal Inference@Kobe -</title>
+<title>Causal Inference@Kobe - 実習用データ集</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ ul.task-list{list-style: none;}
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./data.html">データ集</a>
+    <a class="nav-link active" href="./data.html" aria-current="page">データ集</a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -139,56 +139,74 @@ ul.task-list{list-style: none;}
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">実習用データ集</h1>
+</div>
 
 
-<p>本ウェブサイトは神戸大学法学研究科/法学部「<strong>方法論特殊講義Ⅲ / プログラム講義計量政治学方法論Ⅰ</strong>（2022年度）」のサポートページです。</p>
-<div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-アイコン説明
-</div>
-</div>
-<div class="callout-body-container callout-body">
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="データの利用-niiオンライン分析システムを利用する場合" class="level2">
+<h2 class="anchored" data-anchor-id="データの利用-niiオンライン分析システムを利用する場合">データの利用 (NIIオンライン分析システムを利用する場合)</h2>
+<ol type="1">
+<li>以下のリストからデータのファイル名をクリックし、PCにダウンロード&amp;保存する。</li>
+<li>NIIオンライン分析システムのプロジェクト・フォルダー内に<code>Data</code>という名の新しいフォルダーを作成する。</li>
+<li><code>Data</code>フォルダーにダウンロードしたデータをアップロードする。
 <ul>
-<li><a href="https://jupyter.cs.rcos.nii.ac.jp/" target="_blank"><i class="bi bi-terminal"></i></a>：NIIオンライン分析システムの起動
-<ul>
-<li>右クリックし、新しいタブ（or ウィンドウ）で開いてください。</li>
-<li>初期設定が必要です。初期設定の方法はRの使い方 &gt; <a href="intro/install.html">Rの導入</a>を参照してください。</li>
+<li>プロジェクト・フォルダー直に入れても良いが、データ読み込みの際、パスを適宜修正すること。</li>
 </ul></li>
-<li><a href="https://www.jaysong.net/RBook/" target="_blank"><i class="bi bi-book"></i></a>：Rの教科書（『私たちのR』）</li>
-<li><i class="bi bi-search"></i>：本ウェブサイト内の検索</li>
-</ul>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-ページ情報
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>最終更新日: 2022年07月25日</li>
-<li>開発環境
-<ul>
-<li>macOS 12.4 “Monterey”</li>
-<li>Firefox 102.0.0</li>
-<li>R version 4.2.1 (2022-06-23)</li>
-<li>RStudio 2022.02.3+492 “Prairie Trillium”</li>
-<li>Quarto 1.0.36</li>
-<li>R package {quarto} 1.2</li>
-</ul></li>
-</ul>
-</div>
-</div>
+</ol>
+<!---
+
+## データ一覧
+
+||ファイル名|備考|
+|:---:|:---|:---|
+|1|<a href = "materials/Data/Pref_Vote.csv" download>`Pref_Vote.csv`</a>|第3回講義で使用|
+|2|<a href = "materials/Data/BuildingData.csv" download>`BuildingData.csv`</a>|第8回講義で使用|
+|3|<a href = "materials/Data/Micro09.csv" download>`Micro09.csv`</a>|第9・10・13・14回講義で使用|
+|4|<a href = "materials/Data/Micro11.csv" download>`Micro11.csv`</a>|第11回講義で使用|
+|5|<a href = "materials/Data/Micro14.csv" download>`Micro14.csv`</a>|第14回講義で使用|
+
+: {tbl-colwidths="[10,30,60]"}
+
+## データ説明
+
+### `Pref_Vote.csv`
+
+|変数名|説明|詳細|
+|:---|:---|:---|
+|`ID`     |都道府県のID||
+|`Pref`   |都道府県名||
+|`Zaisei` |財政力指数|2020年|
+|`Young`  |30歳未満人口の割合|2020年 (%)|
+|`Older`  |65歳以上人口の割合|2020年 (%)|
+|`Jimin`  |自民党の得票率|2019参院選比例区; (%)|
+|`Rikken` |立憲民主党の得票率|2019参院選比例区; (%)|
+|`Kokumin`|国民民主党の得票率|2019参院選比例区; (%)|
+|`Komei`  |公明党の得票率|2019参院選比例区; (%)|
+|`Ishin`  |維新の得票率|2019参院選比例区; (%)|
+|`Kyosan` |共産党の得票率|2019参院選比例区; (%)|
+|`Shamin` |社民党の得票率|2019参院選比例区; (%)|
+|`Reiwa`  |れいわ新選組の得票率|2019参院選比例区; (%)|
+|`NHK`    |NHKから国民を守る党の得票率|2019参院選比例区; (%)|
+|`Region2`|地域区分|1 = 東日本; 2 = 西日本|
+|`Region6`|地域区分|1 = 北海道・東北; 2 = 関東; 3 = 中部・北陸; 4 = 近畿; 5 = 中国・四国; 6 = 九州・沖縄|
+
+: {tbl-colwidths="[15,40,45]"}
+--->
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
