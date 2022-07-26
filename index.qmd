@@ -25,4 +25,5 @@ title: ""
    * RStudio 2022.02.3+492 "Prairie Trillium"
    * Quarto `r quarto::quarto_inspect()$quarto$version`
    * R package {quarto} `r packageVersion("quarto")`
+* 本サポートページのレポジトリ<a href="https://github.com/JaehyunSong/kobe-ci" target="_blank"><i class="bi bi-github"></i></a>
 :::
