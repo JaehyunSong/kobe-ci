@@ -941,8 +941,10 @@ tibble(name = c("人種", "面接連絡", "誤差項"),
 :::
 
 :::{.column width=45%}
-<br/><br/><br/><br/>
+<br/><br/>
 $\Rightarrow$ 内生性がある限り、因果効果の識別は困難
+<br/><br/><br/><br/>
+$\Rightarrow$ ケースによって政策的含意が変わる。
 :::
 ::::
 

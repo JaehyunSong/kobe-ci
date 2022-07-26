@@ -319,7 +319,7 @@
     "href": "slide/slide01.html#内生性の可能性",
     "title": "方法論特殊講義III",
     "section": "内生性の可能性",
-    "text": "内生性の可能性\n\n\n\n\n\n\n\n\n\n\n\n\n誤差項 (\\(\\varepsilon\\)) には教育水準、親の所得、居住地などが含まれる可能性\n\n実際に人種と上記の要因には相関あり\n人種 (処置) と誤差項 (\\(\\varepsilon\\)) 間の相関関係 \\(\\rightarrow\\) 内生性\n\n黒人が採用されなかった場合 …\n\n黒人だから? \\(\\leftarrow\\) 人種差別\\(\\bigcirc\\)\n教育水準が低いから \\(\\leftarrow\\) 人種差別\\(\\times\\)\n\n\n\n \\(\\Rightarrow\\) 内生性がある限り、因果効果の識別は困難"
+    "text": "内生性の可能性\n\n\n\n\n\n\n\n\n\n\n\n\n誤差項 (\\(\\varepsilon\\)) には教育水準、親の所得、居住地などが含まれる可能性\n\n実際に人種と上記の要因には相関あり\n人種 (処置) と誤差項 (\\(\\varepsilon\\)) 間の相関関係 \\(\\rightarrow\\) 内生性\n\n黒人が採用されなかった場合 …\n\n黒人だから? \\(\\leftarrow\\) 人種差別\\(\\bigcirc\\)\n教育水準が低いから \\(\\leftarrow\\) 人種差別\\(\\times\\)\n\n\n\n \\(\\Rightarrow\\) 内生性がある限り、因果効果の識別は困難  \\(\\Rightarrow\\) ケースによって政策的含意が変わる。"
   },
   {
     "objectID": "slide/slide01.html#rctの力",
