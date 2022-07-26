@@ -1,0 +1,1224 @@
+---
+title: "方法論特殊講義III"
+subtitle: "第1回 因果推論の考え方とランダム化比較試験"
+author: "<ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby>"
+institute: "関西大学総合情報学部"
+date: "2022年 8月 17日"
+format:
+  revealjs: 
+    width: 1400
+    slide-number: true
+    logo: figs/logo.png
+    theme: [default, styles.scss]
+    footer: <https://www.jaysong.net/kobe-ci>
+    preview-links: true
+    chalkboard: true
+    touch: true
+    controls: true
+    auto-stretch: false
+---
+
+# 講義概要
+
+```{r}
+#| include: false
+pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons)
+pacman::p_load_gh("JaehyunSong/BalanceR")
+knitr::opts_chunk$set(dev       = "ragg_png",
+                      dpi       = 300,
+                      fig.align = "center",
+                      echo      = FALSE,
+                      message   = FALSE,
+                      warning   = FALSE)
+```
+
+## 講師紹介
+
+::::{.columns}
+
+:::{.column width=30%}
+![[LINEスタンプ](https://store.line.me/search/sticker/ja?q=jaehyun%20song)絶賛販売中!](figs/01/Profile.png)
+:::
+
+:::{.column width=70%}
+* <ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby> (SONG JAEHYUN)
+   * 関西大学総合情報学部
+   * 博士（政治学）
+   * 政治行動論、政治学方法論
+
+
+* <song@kansai-u.ac.jp>
+* <https://www.jaysong.net>
+:::
+
+::::
+
+## 内容
+
+各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。
+
+1. 1日目:8月17日(水)
+   * 因果推論の考え方
+   * ランダム化比較試験
+2. 2日目:8月18日(木)
+   * Lab Session: R の使い方
+   * 2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説
+3. 3日目:8月19日(金)
+   * 回帰分析とマッチング、その応用
+4. 4日目:8月29日(月)
+   * 差分の差分法とその応用 
+5. 5日目:8月30日(火)
+   * 回帰不連続デザイン
+
+## 実習
+
+実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。
+
+* 本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能
+* Jared P. Lander. 2017. [*R for Everyone: Advanced Analytics and Graphics (2nd Edition),*](https://www.amazon.co.jp/dp/013454692X/) Addison-Wesley Professional.（[和訳有り](https://www.amazon.co.jp/dp/4839962154/)）
+* 宋財泫・矢内勇生.『[私たちのR: ベストプラクティスの探究](https://www.jaysong.net/RBook)』Web-book
+   * 無料のR入門書: Rを**広く、深く**勉強したい人におすすめ
+
+::::{.columns}
+
+:::{.column width=70%}
+### 宋のR環境
+
+* macOS 12.4 "Monterey"
+* `r version$version.string`
+   * R > 4.1ならOK
+* RStudio 2022.02.3+492 "Prairie Trillium"
+* スライド、サポートページ、実習用資料の執筆環境
+   * Quarto `r quarto::quarto_inspect()$quarto$version`
+   * R package {quarto} `r packageVersion("quarto")`
+:::
+
+:::{.column width=30%}
+![](figs/01/R.png)
+:::
+
+::::
+
+## Rの学習資料
+
+計量政治学とR
+
+* 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132/)』オーム社.
+* 飯田健. 2013.『[計量政治分析](https://www.amazon.co.jp/dp/4320019245/)』共立出版.
+* Kosuke Imai. 2017. [*Quantitative Social Science: An Introduction*](https://www.amazon.co.jp/dp/0691175462/), Princeton University Press. (邦訳あり[[上](https://www.amazon.co.jp/dp/400061245X/)/[下](https://www.amazon.co.jp/dp/4000612468/)])
+
+R全般
+
+* Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/487311814X/)/[原著はインターネットから無料で閲覧可](https://r4ds.had.co.nz/))
+* 松村優哉 他. 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
+* Wickham, Hadley. 2019. [*Advanced R (Second Edition),*](https://www.amazon.co.jp/dp/0815384572/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/432012393X/)/[原著はインターネットから無料で閲覧可](https://adv-r.hadley.nz/))
+
+## Slackについて
+
+### 登録方法
+
+* TAの高根さんにE-mail
+   * 201j024j@stu.kobe-u.ac.jp
+   * メールのタイトルは「計量政治学方法論I」、または「ソンさん、かっこいい！」
+   * 空メールでOK
+
+### Slackの使い方
+
+* Googleで「Slack 使い方」で検索
+* Slack上の表示名は**実名**で
+
+## 評価
+
+平常点と期末レポート 
+
+* **平常点**: 30%
+   * 授業への参加度 (質問/発言)
+   * [Slack](https://slack.com/intl/ja-jp/)での参加度も含む
+* **期末レポート**: 70%
+   * 提出方法、期限は講義最終日に告知
+
+## レポート
+
+以下の3つのオプションから選択
+
+1. 研究のプロポーザル
+   * 本講義で紹介した手法を用いた分析のプロポーザルを作成
+   * 実現可能性があること
+2. 既存研究の再現 (replication)
+   1. 分析をそのまま再現
+   2. 本講義で紹介した手法を用いて再現
+3. 本講義で紹介した手法を用いた2次分析
+
+## 前提知識
+
+本講義の前提知識
+
+* 仮説検定
+* 統計的有意性検定
+* 回帰分析
+* 電卓としてのRの使い方
+   * データクリーニング、回帰分析、可視化などができるならベスト
+   * 2日目にRの解説は行うが、深入りはしない(できない)
+      * https://bit.ly/2VPXL9x $\leftarrow$ これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説
+   * 最低限の使い方（データの読み込みなど）は知っている前提で解説
+   * 『[私たちのR](https://www.jaysong.net/RBook/)』を読もう！
+
+# 因果推論とその敵
+
+## 社会科学における因果推論の意味
+
+[Morgan and Winship (2014) *Counterfactuals and Causal Inference: Methods And Principles For Social Research.* Cambridge.](https://www.amazon.co.jp/dp/1107694167)
+
+> More has been learned about causal inference in the last few decades than sum total of everything that had been learned about it in all prior recorded history. (Gary King)
+
+::::{.columns}
+
+:::{.column width=50%}
+![](figs/01/Morgan_Winship.jpg){height=400px fig-align="center"}
+:::
+
+:::{.column width=50%}
+![](figs/01/GaryKing.jpg){height=400px fig-align="center"}
+:::
+
+::::
+
+## 相関から因果へ
+
+原因 (X) と結果 (Y) の関係
+
+::::{.columns}
+
+:::{.column width=40%}
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+tibble(Age  = c(20, 30, 40, 50, 60, 70),
+       Vote = c(0.7, 0.81, 0.88, 0.93, 0.94, 0.95)) %>%
+  ggplot(aes(x = Age, y = Vote)) +
+  geom_point(size = 5) +
+  geom_line(size = 2) +
+  labs(x = "年齢", y = "投票参加の確率") +
+  scale_x_continuous(breaks = c(20, 30, 40, 50, 60, 70),
+                     labels = c(20, 30, 40, 50, 60, 70)) +
+  coord_cartesian(ylim = c(0.5, 1)) +
+  theme_bw(base_size   = 32)
+```
+:::
+
+:::{.column width=60%}
+年齢(世代)と投票率の関係（架空の例）
+
+* 年齢が上がると高い投票率
+   * 相関関係
+   * 統計分析から得られる結果は相関関係**のみ**
+* 理論/デザインを用いて相関関係が因果関係であることを**説得**
+* 相関関係→因果関係における障害物
+   * Selection Bias
+   * Simultaneity
+   * Spurious Correlation
+   * Reverse Causality
+   * Omitted Variable Biasなど
+:::
+
+::::
+
+## 同時性
+
+**Simultaneity**
+
+::::{.columns}
+
+:::{.column width=40%}
+![](figs/01/Sake.png){fig-align="center"}
+:::
+
+:::{.column width=60%}
+原因と結果の間に双方向の因果関係が存在
+
+* 例) お酒 (原因; X) とストレス (結果; Y) の関係
+   * 酒を飲むとストレスが貯まる
+   * ストレス解消のために酒を飲む
+   * 酒を飲むとストレスが貯まる
+   * ストレス解消のために酒を飲む
+   * 酒を飲むとストレスが貯まる
+   * ...
+* $\rightarrow$ 地獄のような無限ループ
+
+$\Rightarrow$ 酒がストレスに与える影響は?
+:::
+
+::::
+
+## 見かけ上の相関
+
+**Spurious Correlation**、擬似相関
+
+* **たまたま**相関関係がある場合
+   * 例) メイン州の離婚率一人当たりマーガリンの消費量
+
+![](figs/01/Spurious1.png){width=90% fig-align="center"}
+
+## 見かけ上の相関
+
+**Spurious Correlation**、擬似相関
+
+* 共通の要因からの影響
+   * 例) ビール消費量とアイスクリーム消費量
+
+![](figs/01/Spurious2.png){width=60% fig-align="center"}
+
+## 見かけ上の相関
+
+**Spurious Correlation**、擬似相関
+
+* 共通の要因からの影響
+   * 例) ゲームをやると身長が伸びる説
+
+::: {.r-stack}
+![](figs/01/Game_Height1.png){width=50% fig-align="center"}
+
+![](figs/01/Game_Height2.png){.fragment width=50% fig-align="center"}
+:::
+
+## 逆の因果
+
+**Reverse Causality**
+
+* 例) 心臓移植と生存率の例
+
+|||5年後に死亡|5年後に生存|
+|:--|:--|--:|--:|
+|心臓移植を|受けた|10名|5名|
+||受けなかった|5名|10名|
+
+* 心臓移植を受けたら死亡確率が上がる?
+* 死亡確率が高い人が心臓移植を受ける?
+
+## 逆の因果
+
+**Reverse Causality**
+
+* 「人気だから4文字に略されるのか、4文字に略せるからヒットす るのか、どっちなんでしょうね」
+
+![](figs/01/ReverseCausality.png){width=50% fig-align="center"}
+
+## 欠落変数バイアス
+
+**Omitted Variable Bias**
+
+例) 真のモデルが$Y = \beta_0 + \beta_1 \cdot X + \beta_2 \cdot Z + e$の場合
+
+::::{.columns}
+
+:::{.column width=40%}
+```{r}
+#| fig-width: 5
+#| fig-height: 5
+dagify(Y ~ X + Z + e,
+       exposure = "X",
+       outcome  = "Y",
+       coords   = list(x = c(X = 1, Z = 1, 
+                             Y = 2, e = 3),
+                       y = c(X = 3, Z = 1, 
+                             Y = 2, e = 2))) %>%
+  ggdag(text_size = 5, node_size = 15) +
+  theme_dag_blank()
+```
+:::
+
+:::{.column width=60%}
+* モデルに$Z$が含まれていなくても$\beta_1$の推定値は変化$\times$
+   * $X$と$Z$は**独立**（$X \perp Z$）
+   * =$X$と$Z$の共分散が0（$\sigma_{X, Z} = 0$）
+:::
+
+::::
+
+## 欠落変数バイアス
+
+**Omitted Variable Bias**
+
+例) 真のモデルが$Y = \beta_0 + \beta_1 \cdot X + \beta_2 \cdot Z + e$の場合
+
+::::{.columns}
+
+:::{.column width=40%}
+```{r}
+#| fig-width: 5
+#| fig-height: 5
+dagify(Y ~ X + Z + e,
+       X ~ Z,
+       exposure = "X",
+       outcome  = "Y",
+       coords   = list(x = c(X = 1, Z = 1, 
+                             Y = 2, e = 3),
+                       y = c(X = 3, Z = 1, 
+                             Y = 2, e = 2))) %>%
+  ggdag(text_size = 5, node_size = 15) +
+  theme_dag_blank()
+```
+:::
+
+:::{.column width=60%}
+* モデルに $X2$ が含まれていない場合、 $\beta_1$ の推定値にバイアス
+   * $X_1$ と $X_2$ が**相関**
+   * $\sigma_{X_1, X_2} \neq 0$
+* $\beta_1$の真の値（=不偏推定量）を推定するためには$X$と$Y$両方と相関する変数**すべて**が必要
+   * そもそも、「真の値」とは？
+   * $X$と$Y$両方と相関する**すべて**の変数は特定可能? 測定可能?
+* $\rightarrow$ データ分析から得られた結果はあくまでも「**分析モデルが想定している世界**」のものに過ぎない
+   * 定量的手法は反証可能性を高めやすい手法（=科学的な手法に**なりやすい**）であって、科学そのものを保障するものでもなく、得られた結果が真理であることを保障するものでもない。
+:::
+
+::::
+
+## セレクション・バイアス
+
+**Selection Bias**
+
+* 例) 職業訓練と期待収入（参考) 心臓移植）
+
+|||3年後の収入|
+|:--|:--|--:|
+|職業訓練を|受けた|6349ドル|
+||受けなかった|6984ドル|
+
+* 職業訓練を受けたら収入が上がる?
+* もともと低収入の人が職業訓練を受けようとする?
+* 参考) 交絡因子の可能性も（就労意欲など）
+
+## 内生性
+
+これまでの多くの例は**内生性**（endogeneity）の問題
+
+* 内生性: **説明変数と誤差項間に相関**が存在
+   * 誤差項と相関のある説明変数: **内生変数**（endogenous variable）
+* 内生性がある場合、推定値は一致推定量でも、不偏推定量でもはない
+   * サンプルサイズ（$N$）をいくら増やしても無駄
+* 内生性の原因
+   1. 同時性
+   2. 欠落変数バイアス
+   3. 測定誤差
+   4. セレクション・バイアスなど
+* 最近の教科書はこれはすべてを**セレクション・バイアス**や欠落変数バイアスでまとめる傾向
+
+## 相関から因果へ
+
+内生性の除外 $\rightarrow$ 因果効果の推定
+
+::: {layout-ncol=2}
+![](figs/01/Door1.jpg){fig-align="center"}
+
+![](figs/01/Door2.jpg){fig-align="center"}
+:::
+
+# 因果推論の根本問題
+
+## 因果関係の例
+
+ソンさんの講義を履修することで期待年収が上がるか
+
+* 藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+   * ソンさんの授業のおかげで富裕層になった.font50[(次は社交界進出)]
+   * 友達に教えてあげよう
+
+講義履修の効果
+
+* 処置: ソンさんの講義を履修するか否か
+* 効果: 履修した場合の年収 − 履修しなかった場合の年収
+
+## 因果関係の例
+
+ソンさんの講義を履修することで期待年収が上がるか
+
+* 藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+   * ソンさんの授業のおかげで富裕層になった（次は社交界進出）
+   * 友達に教えてあげよう
+
+講義履修の効果（ケース1）
+
+* 藤村君がソンさんの授業を履修しなくても年収5000万円なら
+   * ソンさんの講義の因果効果は0
+
+||履修しなかった場合の年収(A)|履修した場合の年収(B)|効果(B-A)|
+|---|---:|---:|---:|
+|ケース1|5000万|5000万|**0万**|
+
+## 因果関係の例
+
+ソンさんの講義を履修することで期待年収が上がるか
+
+* 藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+   * ソンさんの授業のおかげで富裕層になった（次は社交界進出）
+   * 友達に教えてあげよう
+
+講義履修の効果（ケース2）
+
+* 藤村君がソンさんの授業を履修しなかった場合、年収1000万円なら
+   * ソンさんの講義の因果効果は4000万円
+   * 一生ソンさんには頭が上がらない
+
+||履修しなかった場合の年収(A)|履修した場合の年収(B)|効果(B-A)|
+|---|---:|---:|---:|
+|ケース2|1000万|5000万|**4000万**|
+
+## 因果関係の例
+
+ソンさんの講義を履修することで期待年収が上がるか
+
+* 藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+   * ソンさんの授業のおかげで富裕層になった（次は社交界進出）
+   * 友達に教えてあげよう
+
+講義履修の効果（ケース3）
+
+* 藤村君がソンさんの授業を履修しなかった場合、年収8000万円なら
+   * ソンさんの講義の因果効果は-3000万
+   * ソンさんは悪くない
+
+||履修しなかった場合の年収(A)|履修した場合の年収(B)|効果(B-A)|
+|---|---:|---:|---:|
+|ケース3|8000万|5000万|**-3000万**|
+
+## 因果関係の例
+
+ソンさんの講義を履修することで期待年収が上がるか
+
+* 藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+   * ソンさんの授業のおかげで富裕層になった（次は社交界進出）
+   * 友達に教えてあげよう
+
+講義履修の効果
+
+* ソンさんの講義を**履修しなかった場合**の藤村君の年収は...?
+   * 個人（藤村君）における処置効果を推定する際にはこれが不可欠
+
+||履修しなかった場合の年収(A)|履修した場合の年収(B)|効果(B-A)|
+|---|---:|---:|---:|
+|ケース1|5000万|5000万|**0万**|
+|ケース2|1000万|5000万|**4000万**|
+|ケース3|8000万|5000万|**-3000万**|
+
+## 潜在的結果枠組み
+
+Neyman-Rubin-Hollandの**Potential Outcome Framework**
+
+* $i$ : 学生ID ( $i = 1,2,3,...,N$ )
+* $T$ : 処置
+   * 学生 $i$ が謎の薬を飲んだ ( $T_i = 1$ )
+   * 学生 $i$ が謎の薬を飲まなかった ( $T_i = 0$ )
+* $Y_i(T_i = 1)$ : 学生 $i$ が謎の薬を飲んだ場合の数学成績
+* $Y_i(T_i = 0)$ : 学生 $i$ が謎の薬を飲まなかった場合の数学成績 
+* $ITE_i = Y_i(T_i = 1) − Y_i(T_i = 0)$ : 学生iにおける薬の処置効果
+   * **ITE**: Individual Treatment Effect (個人における処置効果)
+      * = **UTE**: Unit Treatment Effect
+   * 全く同じ個人において薬を飲んだ場合と飲まなかった場合の数学成績の差 = 謎の薬の因果効果
+
+## 薬の効果は?
+
+ITEの平均値は−4であり、個人差はあるものの、全体的に薬は成績に負の影響
+
+| $i$ | $T_i$ | $Y_i(T_i = 0)$ | $Y_i(T_i = 1)$ | $ITE_i$ |
+|:---:|---:|---:|---:|---:|
+|1|1|77|85|8|
+|2|1|49|59|10|
+|3|1|60|66|6|
+|4|0|61|44|-17|
+|5|0|50|39|-11|
+|6|0|75|55|-20|
+|平均||62|58|-4|
+
+## 因果推論の根本問題
+
+しかし、観察できるのは$Y_i(T_i = 1)$か$Y_i(T_i = 0)$、片方のみ
+
+* $Y_i(T_i = 0)$は**反実仮想**（counterfactual）であり、観察不可 ($i \in \{1,2,3\}$)
+* $Y_i(T_i = 1)$も**反実仮想**($i \in \{4,5,6\}$)
+
+| $i$ | $T_i$ | $Y_i(T_i = 0)$ | $Y_i(T_i = 1)$ | $ITE_i$ |
+|:---:|---:|---:|---:|---:|
+|1|1|**?**|85|**?**|
+|2|1|**?**|59|**?**|
+|3|1|**?**|66|**?**|
+|4|0|61|**?**|**?**|
+|5|0|50|**?**|**?**|
+|6|0|75|**?**|**?**|
+|平均||62|70|8|
+
+<br/><br/>
+
+<center>「みんなで薬やろうぜ」って言っていいのか</center>
+
+## 世界一受けたいソンさんの授業
+
+履修者5名と非履修者5名の年収の比較
+
+* ITEは分からないが、平均値の差分を見ると、+100万円の効果
+
+| $i$ | $T_i$ | $Y_i(T_i = 0)$ | $Y_i(T_i = 1)$ | $ITE_i$ |
+|:---:|---:|---:|---:|---:|
+|1|1|**?**|700|**?**|
+|2|1|**?**|1000|**?**|
+|3|1|**?**|550|**?**|
+|4|1|**?**|350|**?**|
+|5|1|**?**|400|**?**|
+|6|0|400|**?**|**?**|
+|7|0|500|**?**|**?**|
+|8|0|350|**?**|**?**|
+|9|0|750|**?**|**?**|
+|10|0|500|**?**|**?**|
+|平均||500|600|100|
+
+## 世界一受けたいソンさんの授業
+
+履修者5名と非履修者5名の年収の比較（ケース1）
+
+* ITEは分からないが、平均値の差分を見ると、+100万円の効果
+* 80万円の価値があるソンさんの講義、みんなで履修しよう!
+
+| $i$ | $T_i$ | $Y_i(T_i = 0)$ | $Y_i(T_i = 1)$ | $ITE_i$ |
+|:---:|---:|---:|---:|---:|
+|1 |1|**550**|700|150|
+|2 |1|**650**|1000|350|
+|3 |1|**600**|550|-50|
+|4 |1|**300**|350|50|
+|5 |1|**300**|400|100|
+|6 |0|400|**300**|-100|
+|7 |0|500|**700**|200|
+|8 |0|350|**600**|250|
+|9 |0|750|**700**|-50|
+|10|0|500|**400**|-100|
+|平均||490|570|80|
+
+## 世界一受けたいソンさんの授業
+
+履修者5名と非履修者5名の年収の比較（ケース2）
+
+* ITEは分からないが、平均値の差分を見ると、+100万円の効果
+* ソンさんは悪くない
+
+| $i$ | $T_i$ | $Y_i(T_i = 0)$ | $Y_i(T_i = 1)$ | $ITE_i$ |
+|:---:|---:|---:|---:|---:|
+|1 |1|**800**|700|-100|
+|2 |1|**650**|1000|350|
+|3 |1|**600**|550|-50|
+|4 |1|**400**|350|-50|
+|5 |1|**350**|400|50|
+|6 |0|400|**300**|-100|
+|7 |0|500|**500**|0|
+|8 |0|350|**400**|50|
+|9 |0|750|**500**|-250|
+|10|0|500|**400**|-100|
+|平均||530|510|-20|
+
+## 因果推論の根本問題
+
+* $Y_i(T_i = 1)$か$Y_i(T_i = 0)$、片方のみしか観察できない状態においてITEから因果効果を推定することは不可能
+   * **因果推論の根本問題** (The Fundamental Problem of Causal Inference)
+
+::: {.fragment fragment-index=1}
+* 解決方法
+   * もう一回、過去に戻って異なる処置を行う
+:::
+
+:::{.r-stack}
+![](figs/01/TimeMachine.png){.fragment .fade-in-then-semi-out fragment-index=1 width=40% fig-align="center"}
+:::
+
+## 因果推論の根本問題
+
+* $Y_i(T_i = 1)$か$Y_i(T_i = 0)$、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能
+   * ただし、のび太くん、ドラえもん、ジャイアンくんを除く
+   * **因果推論の根本問題** (The Fundamental Problem of Causal Inference)
+
+* 潜在的結果を直接観察する方法
+   * ただし、個々人の潜在的結果ではなく、**集団における潜在的結果**
+   * **平均処置効果** (ATE; Average Treatment Effect)
+      * 平均値の差分から**平均的**な因果効果を推定
+      * しかし、...
+   * **無作為割当**の重要性
+
+## 平均取るだけでOK?
+
+観察されたデータから差分を計算するだけではATEは推定不可能
+
+| $i$  | $T_i$ | $Y_i(T_i = 0)$ | $Y_i(T_i = 1)$ | $ITE_i$ |
+|:----:|------:|---------------:|---------------:|--------:|
+| 1    | 1     | **?**          | 700            | **?**   |
+| 2    | 1     | **?**          | 1000           | **?**   |
+| 3    | 1     | **?**          | 550            | **?**   |
+| 4    | 1     | **?**          | 350            | **?**   |
+| 5    | 1     | **?**          | 400            | **?**   |
+| 6    | 0     | 400            | **?**          | **?**   |
+| 7    | 0     | 500            | **?**          | **?**   |
+| 8    | 0     | 350            | **?**          | **?**   |
+| 9    | 0     | 750            | **?**          | **?**   |
+| 10   | 0     | 500            | **?**          | **?**   |
+| 平均 |       | 500            | 600            | 100     |
+
+## 信頼できるATEの条件
+
+ATE 推定値の信頼性を損なう敵: **内生性** (しかも、常に存在する)
+
+例) やる気のある学生だけがソンさんの講義を履修した場合
+
+1. セレクション・バイアス
+   * ソンさんの講義は鬼畜すぎるため、やる気満々の学生には役に立つものの、やる気のない学生にとってはむしろ学習意欲が低下
+2. 疑似相関
+   * やる気のある学生はいろんな方面で頑張るから、将来年収が高くなる。
+3. 測定誤差
+   * 履修者の年収はジンバブエ・ドルで測定されている可能性も（これはないか）
+
+<br/>
+
+<center>
+内生性は因果推論の敵! どうすれば...?
+
+$\downarrow$
+
+**無作為割当** (Random Assignment)
+</center>
+
+## 無作為割当とは
+
+**無作為割当** (Random Assignment)
+
+* 処置を受けるかどうかを無作為に割り当てる方法
+   * 完全無作為割当: 全ての被験者において、どのグループに属するかの確率が等しい
+   * $Pr(T_i = 1) = Pr(T_j = 1) \text{ where } i \neq j$
+   * $Pr(T_i = 0) = Pr(T_j = 0) \text{ where } i \neq j$
+   * 無作為割当の方法は色々
+* 無作為に割り当てると、処置を受けないグループと処置を受けるグループは「集団」として同質なグループになる。
+   * 受けないグループ: **統制群** (Control Group)
+   * 受けるグループ: **処置群** (Treatment Group)
+* **一つの集団を一人の個人として扱い**、ITEを測定 ⇒ ATE
+
+## 無作為割当の力
+
+コインを投げ、表( $H$ )なら統制群、裏( $T$ )なら処置群に割当
+
+* 女性比率が55%、平均年齢が38歳の集団の例
+
+::::{.columns}
+:::{.column width=50%}
+```{r}
+#| echo: true
+set.seed(19861008)
+Data <- tibble(
+   ID = 1:20,
+   Female = sample(0:1, 20, replace = TRUE, 
+                   prob = c(0.4, 0.6)),
+   Age    = round(rnorm(20, 38, 10), 0))
+
+Data %>%
+   summarise(Female = mean(Female),
+             Age    = mean(Age))
+```
+:::
+:::{.column width=50%}
+```{r}
+bind_cols(Data[1:10, ], 
+          tibble(X = rep("", 10)),
+          Data[11:20, ]) %>%
+  kableExtra::kbl(col.names = c("ID", "Female", "Age", 
+                                "　",
+                                "ID", "Female", "Age"))
+```
+:::
+::::
+
+
+## 無作為割当の力
+
+コイン投げの結果
+
+```{r}
+#| echo: true
+set.seed(19861008)
+Coin <- sample(c("H", "T"), 20, replace = TRUE)
+Data$Coin <- Coin
+```
+
+```{r}
+bind_cols(Data[1:10, ], 
+          tibble(X = rep("", 10)),
+          Data[11:20, ]) %>%
+  kableExtra::kbl(col.names = c("ID", "Female", "Age", 
+                                "Coin", "　", "ID", 
+                                "Female", "Age", "Coin"))
+```
+
+## 無作為割当の力
+
+統制群と処置群が比較的同質的なグループに
+
+* 統制群（11名）: 女性比率が54.5%、平均年齢が37.2歳
+* 処置群 (9名): 女性比率が55.6%、平均年齢が39歳
+
+```{r}
+#| echo: true
+Data %>%
+  group_by(Coin) %>%
+  summarise(Female = mean(Female),
+            Age    = mean(Age),
+            N      = n())
+```
+
+## 無作為割当の力
+
+集団として処置群と統制群は、母集団とほぼ同質
+
+* 母集団:女性率が55%、平均年齢が38歳
+* 統制群:女性率が54.5%、平均年齢が37.2歳
+* 処置群:女性率が55.6%、平均年齢が39歳
+* $n \rightarrow \infty$ なら2つのグループはより同質的に（大数の弱法則）
+
+* 統制群と処置群、母集団はそれぞれ**交換可能** (exchangeable)
+   * 処置群に処置を与えること = 母集団全体に処置を与えること
+   * 統制群に処置を与えないこと = 母集団全体に処置を与えないこと
+
+* 統制群と処置群の比較で**集団を一つの単位としたITE (= ATE)**が推定可能
+   * 処置を与えた母集団 vs. 処置を与えなかった母集団
+
+## 無作為割当の力
+
+無作為割当は均質な複数のグループを作る手法
+
+* 講義履修と年収の例だと、無作為割当をすることによって ...
+   * 各グループにやる気のある学生とない学生が均等に
+      * セレクション・バイアス、擬似相関の除去
+   * ジンバブエ・ドルで測定される学生も均等に（これはないか）
+      * 測定誤差の除去
+
+
+* 内生性:処置変数（講義の履修）と誤差項（やる気など）間の相関
+   * コイン投げの結果は被験者（学生）の性質と**無関係**に行われるため、誤差項と相関がない。
+   * **外生変数** (Exogenous variable)
+   * 学生の性質 (X) と処置有無 (T) は独立している ⇒ $X \perp T$
+
+<br/>
+
+<center>**無作為割当は内生性を除去する最良の手法**</center>
+
+# ランダム化比較試験
+
+## ランダム化比較試験とは
+
+**Randomized Controlled Trial** (RCT)
+
+* 無作為割当で複数のグループを作り上げた上で、異なる刺激・処置を与え、結果を観察する手法
+   * 社会科学でいう「**実験**」の多くはこれを指す
+   * **因果推論の王道**
+* 因果効果をもたらす(と想定される)処置変数が外生的
+   * グループ間における結果変数の差 = 因果効果
+* データ生成過程(Data Generating Process; DGP)への直接介入
+   * **「真のモデル」が分かる**
+
+#### 実験の方法
+
+* フィールド実験
+* 実験室実験
+* サーベイ実験など
+
+## データ生成過程への介入
+
+以下のデータ生成過程を仮定
+
+$$
+\begin{align}
+\text{Income} & = \beta_0 + \beta_1 \cdot \text{Quant} + \varepsilon \\
+ε & \sim \text{Normal}(0, \sigma)
+\end{align}
+$$
+
+* Income: 10年後の年収 ($\in [0, \infty)$)
+* Quant:ソンさんの講義を履修したか否か ($\in \{0, 1\})$ )
+* 誤差項( $\varepsilon$ )には「やる気」や「真面目さ」が含まれるため、Quantと相関がある ($\rightarrow$ **内生性**)
+* 無作為割当で受講有無を決めると、「やる気」や「真面目さ」は Qunat と無関係 (**独立**) になる
+   * $\Rightarrow$ 内生性がなくなる!
+
+## RCTの例
+
+Bertand and Mullainathan (2004)
+
+* 労働市場における人種差別
+* 約5000人分の架空の履歴書を求人中の会社へ送る
+   * 履歴書の内容 (性別、人種、能力など) は**完全無作為**
+   * 履歴書に人種は記入できないため、白人っぽい名前 (Emily など)、黒人っぽい名前 (Jamal など) を記入 
+* 後は、返事を待つだけ
+
+
+**処置変数:** 人種 ( $\in \{\text{black}, \text{white}\}$ ) 
+
+**結果変数:** 連絡の有無 ( $\in \{0, 1\}$ )
+
+## 内生性の可能性
+
+```{r, message = FALSE, echo = FALSE, fig.width = 2.5, fig.height = 0.8, dpi = 300, fig.align = "center"}
+#| fig-width: 5
+#| fig-height: 1.25
+tibble(name = c("人種", "面接連絡", "誤差項"),
+       x    = c(1, 2, 3),
+       y    = c(2, 1, 2)) %>%
+   ggplot() +
+   geom_text(aes(x = x, y = y, label = name), size = 3,
+             family = "HiraKakuProN-W3") +
+   geom_segment(aes(x = 1, xend = 1.65, y = 1.75, yend = 1),
+                arrow = arrow(length = unit(0.085, "inches"), type = "closed"), 
+                size = 0.5) +
+   geom_segment(aes(x = 3, xend = 2.35, y = 1.75, yend = 1),
+                arrow = arrow(length = unit(0.085, "inches"), type = "closed"), 
+                size = 0.5) +
+   geom_segment(aes(x = 1.22, xend = 2.73, y = 2, yend = 2),
+                arrow = arrow(length = unit(0.085, "inches"), type = "closed",
+                              ends = "both"), 
+                size = 0.5) +
+   coord_cartesian(xlim = c(0.5, 3.5),
+                   ylim = c(0.5, 2.5)) +
+   theme_void()
+```
+
+::::{.columns}
+:::{.column width=55%}
+* 誤差項 ($\varepsilon$) には教育水準、親の所得、居住地などが含まれる可能性
+   * 実際に人種と上記の要因には相関あり
+   * 人種 (処置) と誤差項 ($\varepsilon$) 間の相関関係 $\rightarrow$ **内生性**
+* 黒人が採用されなかった場合 ...
+   * 黒人だから? $\leftarrow$ 人種差別$\bigcirc$
+   * 教育水準が低いから $\leftarrow$ 人種差別$\times$
+:::
+
+:::{.column width=45%}
+<br/><br/><br/><br/>
+$\Rightarrow$ 内生性がある限り、因果効果の識別は困難
+:::
+::::
+
+
+## RCTの力
+
+||白人の名前|黒人の名前|
+|:---|---:|---:|
+|Female|76.42%|77.45%|
+|HighQuality|50.23%|50.23%|
+|Call Rate|9.65%|6.45%|
+|計 (人)|2435|2435|
+
+* 無作為割当の結果、人種と性別・能力の相関がほぼ0に
+   * 内生性のない状態
+   * この場合、労働市場における人種の因果効果は
+      * ATE = 黒人の平均連絡率 − 白人の平均連絡率
+      * 黒人という理由だけで会社から連絡が来る確率が 3.2%p$\downarrow$
+      * -3.2%p: 人種の**因果効果** or **処置効果** (treatment effect)
+
+## バランスチェック
+
+無作為割当が行われているか否かを確認
+
+::::{.columns}
+
+:::{.column width=50%}
+```{r}
+#| fig-width: 5
+#| fig-height: 4
+#| cahce: true
+df <- read_dta("data/Day1_Data1.dta")
+df %>%
+  select(id, sex, race, h, l, 
+         education, military, call) %>%
+  mutate(high_qlty = ifelse(h == 1, 1, 0),
+         female = ifelse(sex == "f", 1, 0),
+         black  = if_else(race == "b", "Black", "White")) %>%
+  select(-c(id, call, race, h, l, sex)) %>%
+  drop_na() %>% 
+  BalanceR(group = black,
+           cov = c(Female       = female,
+                   Military     = military,
+                   Education    = education,
+                   High_Quality = high_qlty)) %>%
+  plot(abs = TRUE, vline = c(5, 10)) +
+  coord_cartesian(xlim = c(0, 10))
+```
+:::
+
+:::{.column width=50%}
+**標準化差分**を使用
+
+* Standardized Bias (or Difference)
+   * サンプルサイズの影響$\times$
+   * 統計的検定ではない
+* $t$ 検定、ANOVA、 $\chi^2$ 検定は$\times$
+   * バランスチェックに統計的有意性検定は使わない
+* [{cobalt}](https://ngreifer.github.io/cobalt/)、[{BalanceR}](https://github.com/JaehyunSong/BalanceR)など
+:::
+
+::::
+
+## 標準化差分について
+
+連続変数
+
+$$
+\text{SB}_{T-C} = 100 \cdot \frac{\bar{X}_T - \bar{X}_C}{\sqrt{0.5 \cdot (s_T^2 + s_C^2)}}
+$$
+
+二値変数
+
+$$
+\text{SB}_{T-C} = 100 \cdot \frac{\bar{X}_T - \bar{X}_C}{\sqrt{0.5 \cdot (\bar{X}_T(1-\bar{X}_T) + \bar{X}_C(1-\bar{X}_C))}}
+$$
+
+* $\bar{X}_T$ : 処置群におけるXの平均値
+* $s_T^2$ : 処置群におけるXの分散
+* |SB|が小さいほどバランス
+   * 明確な基準はないが、3、5、10、25などを使用
+* グループが3つ以上の場合、それぞれのペアで実行
+
+## 因果効果の推定
+
+* **方法1:** グループ間の結果変数の差分の検定 ($t$検定)
+   * 因果効果 (ATE): $\mathbb{E}[\mbox{Call}|\mbox{Race = Black}] - \mathbb{E}[\mbox{Call}|\mbox{Race = White}] = -0.032$
+   * ATE = 0の帰無仮説の検定
+      * $t_{\text{df} = 4711.7} = −4.117$; $p$ < 0.001; 95% CI = [−0.047, −0.017]
+   * 応答変数の尺度に応じてノンパラメトリック分析
+* **方法2:** 単回帰分析 (線形 or ロジスティックス/プロビット)
+
+<center>
+::: {layout-ncol=3}
+|Covriates|Est.|S.E.|
+|:---|---:|---:|
+|Intercept|0.064|0.006|
+|Race: White|**0.032**|0.008|
+
+: 線形回帰分析（LPM）
+
+|Covriates|Est.|S.E.|
+|:---|---:|---:|
+|Intercept|-2.675|0.083|
+|Race: White|**0.438**|0.107|
+
+: ロジスティック回帰分析
+
+|Covriates|Est.|S.E.|
+|:---|---:|---:|
+|Intercept|-1.518|0.039|
+|Race: White|**0.21654**|0.053|
+
+: プロビット回帰分析
+:::
+</center>
+
+* Freedman, David A. 2008. "Randomization Does Not Justify Logistic Regression," *Statistical Science
+Statistical Science,* 23(2): 237-249.
+   * Logit: 一致推定量$\times$ & 不偏推定量$\times$
+   * Linear: 一致推定量$\bigcirc$ & 不偏推定量$\times$
+   * [一致性と不偏性の違いについて](https://www.jaysong.net/notes/simulation/consistency.html)
+
+## 因果効果の推定: 重回帰分析は?
+
+無作為割当のおかげですべての変数が互いに独立
+
+* 重回帰分析をしても人種のATEは変化しない (OVB がない)
+   * 無作為割当の場合、回帰は**してもしなくても**良い
+* 現実的に**完全に**バランスが取れていないため、若干の変化はある
+
+|Covriates|Est.|S.E.|
+|:---|---:|---:|
+|Intercept|0.057|0.007|
+|Race: White|**0.032**|0.08|
+|Female|0.007|0.009|
+|Military|-0.027|0.014|
+|Education|-0.002|0.005|
+|High Quality|0.019|0.008|
+
+## 因果効果の不均一性
+
+因果効果が下位グループによって異なる場合
+
+* **因果効果の不均一性** (heterogeneous treatment effects)
+   * 例) 性別によって薬の効果が異なる場合
+   * 薬の効果が男性なら 1、女性なら 2 の場合
+      * 男女比が1:1なら、ATEは1.5に
+   * 薬の効果が男性なら 4、女性なら-1 の場合
+      * 男女比が1:1なら、ATEは1.5だが...
+* **方法1:** 男女に分けてATEを推定
+* **方法2:** 性別と処置有無の交差項を投入した重回帰分析
+* 参考) Bryan, Christopher J., Elizabeth Tipton and David S. Yeager. 2021. "Behavioural science is unlikely to change the world without a heterogeneity revolution," *Nature Human Behaviour.* 5: 980–989.
+
+## 因果効果の不均一性
+
+**方法1:** 男女に分けてATEを推定
+
+||統制群|処置群|ATE| $t$ | $p$ |
+|:---|---:|---:|---:|---:|---:|
+|男性のみ|0.611|1.561|0.951|-7.521|< 0.001|
+|女性のみ|0.493|2.480|1.987|-15.573|< 0.001|
+|全体|0.551|2.057|1.506|-15.945|< 0.001|
+
+## 因果効果の不均一性
+
+**方法2:** 性別と処置有無の交差項を投入した重回帰分析
+
+::::{.columns}
+
+:::{.column width=30%}
+```{r}
+read_csv("data/Day1_Data2.csv") |>
+   rename("Treatment" = "T",
+          "Female"    = "F") |>
+   lm(Y ~ Treatment * Female, data = _) |>
+   modelsummary(estimate = "{estimate} ({std.error})",
+                statistic = NULL)
+```
+:::
+
+:::{.column width=70%}
+$$
+\begin{align}
+\hat{y} & = \beta_0 + \beta_1 \mbox{Treatment} + \beta_2 \mbox{Female} + \beta_3 \mbox{Treatment} \cdot \mbox{Female} \\
+& = \beta_0 + (\beta_1 + \beta_3 \mbox{Female}) \mbox{Treatment} + \beta_2 \mbox{Female}.
+\end{align}
+$$
+
+* 男性のATE: $\beta_1 + \beta_3 \cdot 0 = \beta_1$ = 0.951
+* 女性のATE: $\beta_1 + \beta_3 \cdot 1 = \beta_1 + \beta_3$ = 1.987
+:::
+
+::::
+
+## 因果推論の前提:SUTVA
+
+**Stable Unit Treatment Value Assumption**
+
+:::{.panel-tabset}
+### 非干渉性
+
+**非干渉性:** 他人の処置・統制有無が処置効果に影響を与えないこと
+
+* 例) AさんITEは
+   * 例1) Bさんが統制群の場合は10、処置群の場合は5 $\leftarrow$ `r fontawesome("angry")`
+   * 例2) Bさんが統制群の場合も、処置群の場合も、5 $\leftarrow$ `r fontawesome("smile")`
+
+<center>
+:::{layout-ncol=2}
+|               | Aさんが統制群 | Aさんが処置群 |
+| ------------- | ------------- | ------------- |
+| Bさんが統制群 | 0             | 10            |
+| Bさんが処置群 | 15            | 20            |
+
+: 例1
+
+|               | Aさんが統制群 | Aさんが処置群 |
+| ------------- | ------------- | ------------- |
+| Bさんが統制群 | 5             | 10            |
+| Bさんが処置群 | 15            | 20            |
+
+: 例2
+:::
+</center>
+
+### 処置の無分散性
+
+**処置の無分散性:** 同じグループに属する対象は同じ処置を受けること 
+
+* 手術の場合: 医者、設備、手順、環境など
+* 投票参加: 当日、期日前など
+:::
+
+* サーベイ実験では問題にならない場合が多い
+   * 実験室実験、フィールド実験の場合、「非干渉性」には気をつける
+   * 例) 隣の人が見てるのとと私が見てるのが違いますが...?
+
+## 二重盲検法
+
+**二重盲検法** (Double Blind Test):ある被験者がどのような処置を受けているかについて研究者と被験者両方において不明な状態で実験を行う
+
+<br/>
+
+二重盲検法を使えば以下の問題点に対処することが可能
+
+* **プラセボ効果** (placebo effect):偽薬が与えられても、薬だと信じ込む 事によって何らかの効果が生じる
+* **ホーソン効果** (Hawthorne effect):自分が観察されていることを認知さ れることによって何らかの効果が生じる
+* **観察者効果** (observer/experimenter effect):研究者の期待により被験者へ の対応が異なったり、被験者がその期待に添えるように行動すること
+
+# 実習
+
+## データ
+
+### これまで紹介した例題
+
+* 労働市場と人種差別: `Day1_Data1.dta`
+   * Marianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” *American Economic Review.* 94(4) pp. 991–1013
+* 処置効果の不均一性: `Day1_Data2.csv`
+   * 架空データ
+
+### Lab Session用のデータ (第2講)
+
+* 社会的圧力と投票参加: `Day1_Data3.csv`
+   * Alan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” *American Political Science Review.* 102(1) pp. 33–48
+
+## バランスチェック
+
+処置が複数の場合、組み合わせごとに標準化差分を計算
+
+```{r}
+#| cache: true
+#| fig-width: 8
+#| fig-height: 3.5
+gg_df <- read_csv("data/Day1_Data3.csv")
+gg_df <- gg_df %>%
+   mutate(Female  = if_else(sex == "female", 1, 0),
+          Voted00 = if_else(p2000 == "yes", 1, 0),
+          Voted02 = if_else(p2002 == "yes", 1, 0),
+          Voted04 = if_else(p2004 == "Yes", 1, 0), 
+          Voted   = if_else(voted == "Yes", 1, 0))
+
+gg_df %>%
+   BalanceR(group = treatment,
+            cov   = c(Female, yob, hh_size, 
+                      Voted00, Voted02, Voted04)) %>%
+   plot(text.size = 16) +
+   scale_y_discrete(labels = c("yob"     = "Year of birth",
+                               "hh_size" = "Household size",
+                               "Voted00" = "Turnout (2000)",
+                               "Voted02" = "Turnout (2002)",
+                               "Voted04" = "Turnout (2004)")) +
+   theme(legend.position = "right")
+```
+
+## 処置効果の可視化
+
+```{r}
+#| cache: true
+#| fig-width: 8
+#| fig-height: 4
+gg_df <- gg_df %>%
+   mutate(treatment = factor(treatment,
+                             levels = c("Control", "Civic Duty", "Hawthorne",
+                                        "Self", "Neighbors")))
+
+lm(Voted ~ treatment, data = gg_df) %>%
+   broom::tidy() %>%
+   filter(term != "(Intercept)") %>%
+   mutate(ci_lower = estimate + qnorm(0.025) * std.error,
+          ci_upper = estimate + qnorm(0.975) * std.error,
+          term     = str_sub(term, 10, -1L)) %>% 
+   ggplot() +
+   geom_hline(yintercept = 0, linetype = 2) +
+   geom_pointrange(aes(x = term, y = estimate, 
+                       ymin = ci_lower, ymax = ci_upper)) +
+   coord_cartesian(ylim = c(0, 0.1)) +
+   labs(x = "Treatments", y = "Treatment Effects") +
+   theme_minimal(base_size = 16)
+```
+
+## 実習内容
+
+* Rの導入
+   * R + RStudioがインストールされていない場合、NIIオンライン分析システムを利用する。
+* Rの基礎（プロジェクト管理、データの読み込みなど）
+* 記述統計量の計算
+* バランスチェック
+* 処置効果の推定
+* 処置効果の報告

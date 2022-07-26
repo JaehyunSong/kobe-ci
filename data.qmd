@@ -3,6 +3,14 @@ title: "実習用データ集"
 toc: false
 ---
 
+一部のデータはSlackで配布します。
+
+||ファイル名|備考|
+|:---:|:---|:---|
+|1|<a href = "data/Day1_Data2.csv" download>`Day1_Data2.csv`</a>|第1回スライド（pp.00-00）|
+
+: {tbl-colwidths="[10,30,60]"}
+
 <!---
 
 ## データの利用 (NIIオンライン分析システムを利用する場合)
