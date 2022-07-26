@@ -44,5 +44,6 @@ vignettes/*.pdf
 /.quarto/
 
 /slide/data/
-/Syllabus/
+/material/data/
+/syllabus/
 /old/

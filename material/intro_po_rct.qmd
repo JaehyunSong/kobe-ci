@@ -1,8 +1,10 @@
 ---
 title: "第1回講義資料"
 subtitle: "因果推論の考え方とランダム化比較試験"
+toc: true
 link-external-icon: true
 link-external-newwindow: true
+code-line-numbers: true
 ---
 
 ## スライド
@@ -13,3 +15,123 @@ link-external-newwindow: true
 <iframe class="slide-deck" src="../slide/slide01.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
 ```
 
+```{r}
+#| include: false
+pacman::p_load(tidyverse, gt, modelsummary, ggdag, dagitty)
+pacman::p_load_gh("JaehyunSong/BalanceR")
+knitr::opts_chunk$set(dev       = "ragg_png",
+                      dpi       = 300,
+                      fig.align = "center",
+                      message   = FALSE,
+                      warning   = FALSE)
+```
+
+## データの読み込みと確認
+
+```{r}
+raw_df <- read_csv("data/Day1_Data3.csv")
+raw_df
+```
+
+```{r}
+dim(raw_df)
+```
+
+```{r}
+names(raw_df)
+```
+
+## データハンドリングとパイプ演算子
+
+パイプ演算子には{magrittr}パッケージが提供する`%>%`とR 4.1から提供されるネイティブパイプ演算子の`|>`がある。現在の主流は古くから使われた`%>%`であるが、今後、`|>`が主流になると考えられるため、以下では`|>`を使用する。しかし、多くの場合、`|>`の代わりに`%>%`を使っても同じ結果が得られる。
+
+パイプ演算子はパイプ前のオブジェクトを、パイプ後の関数の**第一引数**として渡す単純な演算子。たとえば、列名を変更する関数は`rename()`であるが、使い方は`renames(データ名, 新しい列名 = 既存の列名, ...)`である。`raw_df`の`gender`列の名前を`female`に変更する場合は以下のように書く。
+
+```{r}
+rename(raw_df, female = gender)
+```
+
+ここで第1引数が`raw_df`だが、パイプ演算子を使うと以下のようになり、人間にとって読みやすいコードになる。
+
+```{r}
+raw_df |>
+  rename(female = gender)
+```
+
+要するに、`X |> Y`は「`X`（の結果）を使って`Y`を行う」ことを意味する。
+
+続いて、変数のリコーディング。`x`の値が`"A"`なら1、それ以外は0のように、戻り値が2種類の場合のリコーディングには`if_else()`を使用する。書き方は以下の通り
+
+```{r}
+#| eval: false
+if_else(条件式, 条件が満たされる場合の戻り値, 条件が満たされない場合の戻り値)
+```
+
+たとえば、`raw_df`の`gender`列の値が`"female"`なら1、それ以外なら0とし、その結果を`female`列として追加するコードは以下の通り。同値を意味する演算子が`=`でなく、`==`であることに注意すること。
+
+```{r}
+mutate(raw_df, 
+       female = if_else(gender == "female", 1, 0))
+```
+
+`mutate()`は指定された列に対して何らかの処理を行い、その結果を新しい列として追加するか、上書きする関数である。これもパイプ演算子を使えば以下の通り
+
+```{r}
+raw_df |>
+  mutate(female = if_else(gender == "female", 1, 0))
+```
+
+`mutate()`内には複数のコードを書くのも可能
+
+```{r}
+raw_df |>
+  mutate(female    = if_else(gender    == "female", 1, 0),
+         voted2000 = if_else(voted2000 == "yes", 1, 0),
+         voted2002 = if_else(voted2002 == "yes", 1, 0),
+         voted2004 = if_else(voted2004 == "yes", 1, 0),
+         voted2006 = if_else(voted2006 == "yes", 1, 0))
+```
+
+以下のように複数のパイプでコードを繋ぐこともできる
+
+```{r}
+raw_df |>
+  rename(female = gender) |>
+  mutate(female    = if_else(female    == "female", 1, 0),
+         voted2000 = if_else(voted2000 == "yes", 1, 0),
+         voted2002 = if_else(voted2002 == "yes", 1, 0),
+         voted2004 = if_else(voted2004 == "yes", 1, 0),
+         voted2006 = if_else(voted2006 == "yes", 1, 0))
+```
+
+以上のコードはデータを加工し、その結果を**出力するだけ**であって、その結果を保存しない。
+
+```{r}
+raw_df
+```
+
+結果を保存するためには代入演算子（`<-`）を使い、名前を付けて作業空間内に保存する（ファイルとして保存されるわけではない）。今回は架空の結果を`df`という名で保存する。`raw_df`に上書きしても問題はないが、生データはとりあえず作業空間内に残しておくことを推奨（Rに慣れれば上書きしても良い）。
+
+```{r}
+df <- raw_df |>
+  rename(female = gender) |>
+  mutate(female    = if_else(female    == "female", 1, 0),
+         voted2000 = if_else(voted2000 == "yes", 1, 0),
+         voted2002 = if_else(voted2002 == "yes", 1, 0),
+         voted2004 = if_else(voted2004 == "yes", 1, 0),
+         voted2006 = if_else(voted2006 == "yes", 1, 0))
+
+df
+```
+
+ちなみに、`across()`関数とラムダ式（無名関数）を組み合わせると効率化することも可能。詳細は『私たちのR』の[第13.1章](https://www.jaysong.net/RBook/datahandling2.html#handling2-summarise)を参照
+
+```{r}
+#| eval: false
+df <- raw_df |>
+  rename(female = gender) |>
+  mutate(female = if_else(female == "female", 1, 0),
+         across(starts_with("voted"), ~if_else(.x == "yes", 1, 0)))
+```
+
+## 記述統計量
