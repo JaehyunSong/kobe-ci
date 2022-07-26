@@ -2070,6 +2070,56 @@
 <center>
 <strong>無作為割当は内生性を除去する最良の手法</strong>
 </center>
+</section>
+<section id="無作為抽出と無作為割当" class="slide level2">
+<h2>無作為抽出と無作為割当</h2>
+<ul>
+<li>無作為<strong>抽出</strong>によってサンプル（標本）と母集団が交換可能（実はここが難しい）</li>
+<li>無作為<strong>割当</strong>によって各グループとサンプルに交換可能（=各グループ間で交換可能）</li>
+<li>無作為<strong>抽出</strong>&amp;無作為<strong>割当</strong>によって各グループと母集団が交換可能（グループへの刺激=母集団への刺激）</li>
+</ul>
+<div class="r-stack">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment1.png" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment2.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment3.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment4.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment5.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment6.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment7.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/01/RandomAssignment8.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
 </section></section>
 <section>
 <section id="ランダム化比較試験" class="title-slide slide level1 center">
@@ -2098,27 +2148,47 @@
 <ul>
 <li>フィールド実験</li>
 <li>実験室実験</li>
-<li>サーベイ実験など</li>
+<li>サーベイ実験
+<ul>
+<li>SONG Jaehyun・秦正樹. 2020. 「<a href="https://doi.org/10.11218/ojjams.35.92">オンライン・サーベイ実験の方法: 理論編</a>」『理論と方法』35 (1): 92-108.</li>
+<li>秦正樹・SONG Jaehyun. 2020. 「<a href="https://doi.org/10.11218/ojjams.35.109">オンライン・サーベイ実験の方法: 実践編</a>」『理論と方法』35 (1): 109-127.</li>
+</ul></li>
 </ul>
 </section>
 <section id="データ生成過程への介入" class="slide level2">
 <h2>データ生成過程への介入</h2>
 <p>以下のデータ生成過程を仮定</p>
 <p><span class="math display">\[
-\begin{align}
-\text{Income} &amp; = \beta_0 + \beta_1 \cdot \text{Quant} + \varepsilon \\
-ε &amp; \sim \text{Normal}(0, \sigma)
-\end{align}
+\text{Income} = \beta_0 + \beta_1 \cdot \text{Quant} + \varepsilon
 \]</span></p>
 <ul>
 <li>Income: 10年後の年収 (<span class="math inline">\(\in [0, \infty)\)</span>)</li>
 <li>Quant:ソンさんの講義を履修したか否か (<span class="math inline">\(\in \{0, 1\})\)</span> )</li>
 <li>誤差項( <span class="math inline">\(\varepsilon\)</span> )には「やる気」や「真面目さ」が含まれるため、Quantと相関がある (<span class="math inline">\(\rightarrow\)</span> <strong>内生性</strong>)</li>
-<li>無作為割当で受講有無を決めると、「やる気」や「真面目さ」は Qunat と無関係 (<strong>独立</strong>) になる
+<li>無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (<strong>独立</strong>) になる
 <ul>
+<li>例) 受講有無をコイン投げで決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）</li>
 <li><span class="math inline">\(\Rightarrow\)</span> 内生性がなくなる!</li>
 </ul></li>
 </ul>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-10-1.png" width="2700"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-10-2.png" width="2700"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="rctの例" class="slide level2">
 <h2>RCTの例</h2>
@@ -2141,7 +2211,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-10-1.png" width="1500"></p>
+<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-11-1.png" width="1500"></p>
 </figure>
 </div>
 </div>
@@ -2220,7 +2290,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-11-1.png" width="1500"></p>
+<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-12-1.png" width="1500"></p>
 </figure>
 </div>
 </div>
@@ -2688,11 +2758,11 @@
 <section id="バランスチェック-1" class="slide level2">
 <h2>バランスチェック</h2>
 <p>処置が複数の場合、組み合わせごとに標準化差分を計算</p>
-<div class="cell" data-layout-align="center" data-hash="slide01_cache/revealjs/unnamed-chunk-13_d85b185e76c944440d7b9d0ba6eca5f9">
+<div class="cell" data-layout-align="center" data-hash="slide01_cache/revealjs/unnamed-chunk-14_bc0212cca9331f6c1f1387a9ed01be42">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-13-1.png" width="2400"></p>
+<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-14-1.png" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -2700,11 +2770,11 @@
 </section>
 <section id="処置効果の可視化" class="slide level2">
 <h2>処置効果の可視化</h2>
-<div class="cell" data-layout-align="center" data-hash="slide01_cache/revealjs/unnamed-chunk-14_0ccafa5a3d724f88b87080e408ecc3fd">
+<div class="cell" data-layout-align="center" data-hash="slide01_cache/revealjs/unnamed-chunk-15_8518b8f04b6a69ceecbf87ceffb53a86">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-14-1.png" width="2400"></p>
+<p><img data-src="slide01_files/figure-revealjs/unnamed-chunk-15-1.png" width="2400"></p>
 </figure>
 </div>
 </div>

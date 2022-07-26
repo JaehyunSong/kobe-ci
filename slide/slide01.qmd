@@ -801,6 +801,30 @@ Data %>%
 
 <center>**無作為割当は内生性を除去する最良の手法**</center>
 
+## 無作為抽出と無作為割当
+
+* 無作為**抽出**によってサンプル（標本）と母集団が交換可能（実はここが難しい）
+* 無作為**割当**によって各グループとサンプルに交換可能（=各グループ間で交換可能）
+* 無作為**抽出**&無作為**割当**によって各グループと母集団が交換可能（グループへの刺激=母集団への刺激）
+
+::: {.r-stack}
+![](figs/01/RandomAssignment1.png){width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment2.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment3.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment4.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment5.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment6.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment7.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+
+![](figs/01/RandomAssignment8.png){.fragment .fade-in-then-semi-out width="60%" fig-align="center"}
+:::
+
 # ランダム化比較試験
 
 ## ランダム化比較試験とは
@@ -819,24 +843,51 @@ Data %>%
 
 * フィールド実験
 * 実験室実験
-* サーベイ実験など
+* サーベイ実験
+   * SONG Jaehyun・秦正樹. 2020. 「[オンライン・サーベイ実験の方法: 理論編](https://doi.org/10.11218/ojjams.35.92)」『理論と方法』35 (1): 92-108.
+   * 秦正樹・SONG Jaehyun. 2020. 「[オンライン・サーベイ実験の方法: 実践編](https://doi.org/10.11218/ojjams.35.109)」『理論と方法』35 (1): 109-127.
 
 ## データ生成過程への介入
 
 以下のデータ生成過程を仮定
 
 $$
-\begin{align}
-\text{Income} & = \beta_0 + \beta_1 \cdot \text{Quant} + \varepsilon \\
-ε & \sim \text{Normal}(0, \sigma)
-\end{align}
+\text{Income} = \beta_0 + \beta_1 \cdot \text{Quant} + \varepsilon
 $$
 
 * Income: 10年後の年収 ($\in [0, \infty)$)
 * Quant:ソンさんの講義を履修したか否か ($\in \{0, 1\})$ )
 * 誤差項( $\varepsilon$ )には「やる気」や「真面目さ」が含まれるため、Quantと相関がある ($\rightarrow$ **内生性**)
-* 無作為割当で受講有無を決めると、「やる気」や「真面目さ」は Qunat と無関係 (**独立**) になる
+* 無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (**独立**) になる
+   * 例) 受講有無をコイン投げで決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）
    * $\Rightarrow$ 内生性がなくなる!
+
+```{r}
+#| layout-ncol: 2
+#| fig-width: 9
+#| fig-height: 3
+dagify(Y ~ X + Z + e,
+       X ~ Z,
+       exposure = "X",
+       outcome  = "Y",
+       coords   = list(x = c(X = 1, Z = 2, 
+                             Y = 3, e = 3),
+                       y = c(X = 1, Z = 2, 
+                             Y = 1, e = 2))) %>%
+  ggdag(text_size = 7, node_size = 15) +
+  theme_dag_blank()
+
+dagify(Y ~ X + Z + e,
+       X ~ W,
+       exposure = "X",
+       outcome  = "Y",
+       coords   = list(x = c(X = 1, Z = 2, W = 1,
+                             Y = 3, e = 3),
+                       y = c(X = 1, Z = 2, W = 2, 
+                             Y = 1, e = 1.5))) %>%
+  ggdag(text_size = 7, node_size = 15) +
+  theme_dag_blank()
+```
 
 ## RCTの例
 
@@ -855,7 +906,7 @@ Bertand and Mullainathan (2004)
 
 ## 内生性の可能性
 
-```{r, message = FALSE, echo = FALSE, fig.width = 2.5, fig.height = 0.8, dpi = 300, fig.align = "center"}
+```{r}
 #| fig-width: 5
 #| fig-height: 1.25
 tibble(name = c("人種", "面接連絡", "誤差項"),
