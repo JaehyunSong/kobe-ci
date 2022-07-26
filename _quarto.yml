@@ -51,7 +51,7 @@ website:
       title: "講義資料"
       style: "docked"
       contents:
-        - materials/intro_po_rct.qmd
+        - material/intro_po_rct.qmd
         #- materials/day2.qmd
         #- materials/day3.qmd
         #- materials/day4.qmd

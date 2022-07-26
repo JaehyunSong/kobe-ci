@@ -413,6 +413,13 @@
     "text": "処置効果の可視化"
   },
   {
+    "objectID": "slide/slide01.html#実習内容",
+    "href": "slide/slide01.html#実習内容",
+    "title": "方法論特殊講義III",
+    "section": "実習内容",
+    "text": "実習内容\n\nRの導入\n\nR + RStudioがインストールされていない場合、NIIオンライン分析システムを利用する。\n\nRの基礎（プロジェクト管理、データの読み込みなど）\n記述統計量の計算\nバランスチェック\n処置効果の推定\n処置効果の報告\n\n\n\n\nhttps://www.jaysong.net/kobe-ci"
+  },
+  {
     "objectID": "intro/filesystem.html",
     "href": "intro/filesystem.html",
     "title": "本講義のためのファイル管理術",
@@ -642,19 +649,5 @@
     "title": "実習用データ集",
     "section": "",
     "text": "ファイル名\n備考\n\n\n\n\n1\nDay1_Data2.csv\n第1回スライド（pp.00-00）"
-  },
-  {
-    "objectID": "data.html#データ一覧",
-    "href": "data.html#データ一覧",
-    "title": "実習用データ集",
-    "section": "データ一覧",
-    "text": "データ一覧\n\n\n\n\n\n\n\n\n\nファイル名\n備考\n\n\n\n\n1\nDay1_Data2.csv\n第1回スライド（pp.00-00）"
-  },
-  {
-    "objectID": "slide/slide01.html#実習内容",
-    "href": "slide/slide01.html#実習内容",
-    "title": "方法論特殊講義III",
-    "section": "実習内容",
-    "text": "実習内容\n\nRの導入\n\nR + RStudioがインストールされていない場合、NIIオンライン分析システムを利用する。\n\nRの基礎（プロジェクト管理、データの読み込みなど）\n記述統計量の計算\nバランスチェック\n処置効果の推定\n処置効果の報告\n\n\n\n\nhttps://www.jaysong.net/kobe-ci"
   }
 ]
