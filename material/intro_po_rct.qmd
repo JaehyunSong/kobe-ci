@@ -17,13 +17,31 @@ code-line-numbers: true
 
 ```{r}
 #| include: false
-pacman::p_load(tidyverse, gt, modelsummary, ggdag, dagitty)
-pacman::p_load_gh("JaehyunSong/BalanceR")
 knitr::opts_chunk$set(dev       = "ragg_png",
                       dpi       = 300,
                       fig.align = "center",
                       message   = FALSE,
                       warning   = FALSE)
+```
+
+## パッケージ
+
+```{r}
+#| eval: false
+# NIIオンライン分析システムを利用する場合、導入ずみ
+install.packages("pacman")
+```
+
+パッケージを読み込む際、`pacman::p_load(読み込むパッケージ名)`を入力する。インストールされていない場合は、自動的にCRANからダウンロード&インストールした上で読み込んでくれるので便利。
+
+```{r}
+pacman::p_load(tidyverse, gt, summarytools, modelsummary, fastDummies)
+```
+
+CRANでなく、GitHub上で公開されているパッケージを使う場合は`pacman::p_load_gh()`を使用する。中には`"ユーザー名/リポジトリ名"`を入力。たとえば、{BalanceR}の作成者のGitHubアカウント名は`JaehyunSong`であり、{BalanceR}のリポジトリ名は`BalanceR`だから、以下のように入力する。
+
+```{r}
+pacman::p_load_gh("JaehyunSong/BalanceR")
 ```
 
 ## データの読み込みと確認
@@ -135,3 +153,225 @@ df <- raw_df |>
 ```
 
 ## 記述統計量
+
+記述統計量の計算には{summarytools}の`descr()`関数が便利。`descr(データ名)`のみでも良いが、情報量が多いため、論文などで報告する際によく使う平均値（`"mean"`）、標準偏差（`"sd"`）、最小値（`"min"`）、最大値（`"max"`）、有効ケース数（`"n.valid"`）のみ出力する。
+
+```{r}
+df |>
+  descr(stats = c("mean", "sd", "min", "max", "n.valid"))
+```
+
+ただし、`descr()`は数値型（numeric）変数の記述統計量のみ表示。`df`だと、`treatment`列は文字型（character）であるため、表示されない[^data-type]。各グループがサンプルの何割かを計算するためには、`treatment`変数をダミー変数へ変換する必要がある。ダミー変数の作成は面倒な作業であるが、{fastDummies}パッケージの`dummy_cols()`を使えば簡単にできる。`dummy_cols()`の中には`select_columns = "ダミー化する列名"`を入れるだけだ。
+
+[^data-type]: 変数のデータ型はデータを出力する際、列名の下段に表示される。`<chr>`は文字型、`<dbl>`と`<int>`は数値型、`<fct>`はfactor型である。他にもいくつかのデータ型がある。詳細は『私たちのR』の[第8章](https://www.jaysong.net/RBook/datatype.html)を参照すること。
+
+```{r}
+df <- df |>
+  dummy_cols(select_columns = "treatment")
+```
+
+画面には表示されないが、出力結果の下段を見ると`treatment_`で始まるいくつかの変数が追加されたことが分かる。ここでは`"tretmant"`で始まる列のみを抽出つして確認してみよう。
+
+```{r}
+df |>
+  select(starts_with("treatment"))
+```
+
+`select()`関数内には抽出する列名を入力するだけで良い。たとえば、`female`と`yob`列を抽出するなら`select(female, yob)`である。また、`female`**から**`voted2006`**まで**の意味で`female:voted2006`のような書き方もできる。他にも上の例のように`starts_with()`や`ends_with()`、`contain()`を使って特定の文字列で始まる（で終わる、を含む）列を指定することもできる。一部の列を除外する場合は変数名の前に`!`か`-`を付ける。
+
+とにかく、問題なくダミー化されていることが分かる。もう一度記述統計量を出してみよう。`descr()`は仕様上、出力される変数の順番はアルファベット順になるが、ここでは元の順番を維持するために`order = "p"`を追加する。また、通常の記述統計表が、先ほど見たものとは違って、各行が変数を、列は記述統計量を表す場合が多い。このように行と列を交換するためには`transpose = TRUE`を追加する[^descr-rmarkdown]。
+
+[^descr-rmarkdown]: RMarkdown内に埋め込むなら更に`style = "rmarkdown"`を追加してみよう。ただし、Chunkオプションに`results = "asis"`（Quartoなら`#| results: "asis"`）を付けること。
+
+```{r}
+#| results: "asis"
+df |>
+  descr(stats = c("mean", "sd", "min", "max", "n.valid"),
+        order = "p", transpose = TRUE, headings = FALSE)
+```
+
+他にも以下のようなコードを使えば、綺麗な表としてまとめてくれる。これも{summarytools}パッケージの機能
+
+```{r}
+df |>
+  select(-starts_with("treatment_")) |>
+  dfSummary(headings = FALSE) |> 
+  print(method = "render", round.digits = 3)
+```
+
+## 処置効果の確認
+
+### グループごとの応答変数の平均値
+
+```{r}
+df |>
+  summarise(mean(voted2006, na.rm = TRUE))
+```
+
+```{r}
+df |>
+  summarise(Outcome = mean(voted2006, na.rm = TRUE))
+```
+
+```{r}
+df |>
+  group_by(treatment) |>
+  summarise(Outcome = mean(voted2006, na.rm = TRUE))
+```
+
+```{r}
+df |>
+  group_by(Groups = treatment) |>
+  summarise(Outcome = mean(voted2006, na.rm = TRUE))
+```
+
+```{r}
+df |>
+  mutate(treatment = factor(treatment,
+                            levels = c("Control", "Civic Duty",
+                                       "Self", "Neighbors", "Hawthorne")))
+```
+
+```{r}
+df <- df |>
+  mutate(treatment = factor(treatment,
+                            levels = c("Control", "Civic Duty",
+                                       "Self", "Neighbors", "Hawthorne")))
+```
+
+```{r}
+out_mean_df <- df |>
+  group_by(Groups = treatment) |>
+  summarise(Outcome = mean(voted2006, na.rm = TRUE))
+
+out_mean_df
+```
+
+```{r fig-intro-bar-1}
+out_mean_df |>
+  ggplot() +
+  geom_bar(aes(x = Groups, y = Outcome), stat = "identity") +
+  labs(y = "Mean(Outcome)") +
+  theme_gray(base_size = 14)
+```
+
+```{r fig-intro-bar-2}
+out_mean_df |>
+  ggplot() +
+  geom_bar(aes(x = Groups, y = Outcome), stat = "identity") +
+  geom_label(aes(x = Groups, y = Outcome, label = Outcome)) +
+  labs(y = "Mean(Outcome)") +
+  theme_gray(base_size = 14)
+```
+
+`sprintf()`を使用。覚える必要はなく、必要な時にググるか、本資料のコードをコピペする[^sprintf]。
+
+[^sprintf]: もっと使いやすい`round()`があるが、`round()`の場合、丸めた結果が1.100なら1.1としか表記されない。表示される桁数を固定するためには`sprintf()`を使う。
+
+```{r fig-intro-bar-3}
+out_mean_df |>
+  ggplot() +
+  geom_bar(aes(x = Groups, y = Outcome), stat = "identity") +
+  geom_label(aes(x = Groups, y = Outcome, label = sprintf("%.3f", Outcome))) +
+  labs(y = "Mean(Outcome)") +
+  theme_gray(base_size = 14)
+```
+
+### 統計的推定
+
+```{r}
+fit1 <- lm(voted2006 ~ treatment, data = df)
+
+summary(fit1)
+```
+
+これもパイプ演算子を使うことができる。ただし、第1引数として渡すパイプ演算子の特徴上、そのまま使うことはできない。なぜなら`lm()`関数の第1引数はデータでなく、回帰式（formula型）だから。この場合はプレースホルダー（place holder）を指定する必要がある。パイプ前のオブジェクトが入る位置を任意に指定することであり、`_`を使う。`%>%`演算子を使う場合は`_`でなく、`.`を使う。上記のコードと以下のコードは同じコードとなる。プレースホルダーは自分が使うパイプ演算子によって使い分けること。
+
+```{r}
+#| eval: false
+fit1 <- df |> # |> パイプを使う場合
+  lm(voted2006 ~ treatment, data = _)
+
+fit1 <- df %>% # %>% パイプを使う場合
+  lm(voted2006 ~ treatment, data = .)
+```
+
+　Factor型、または文字型変数が説明変数の場合、自動的にダミー変数として処理され、Factor型の場合、最初の水準（ここでは`"Control"`）がベースカテゴリとなる。説明変数が文字型ならアルファベット順で最初の水準がベースカテゴリとなり、今回の例だと`"Civic Duty"`がベースカテゴリとなる。処置効果は「統制群に比べて〜」が重要となるので、数値型以外の説明変数は予めfactor化しておいた方が望ましい。
+
+　Civic Dutyの推定値は約`r sprintf("%.3f", coef(fit1)[2])`であり、これは統制群に比べ、Civic Duty群の`voted2006`の平均値は約`r sprintf("%.3f", coef(fit1)[2])`高いことを意味する。応答変数が0、1であるため、これを割合（=投票率）で換算すると、約`r sprintf("%.1f", coef(fit1)[2] * 100)`%p高いことを意味する。つまり、Civic Dutyのはがきをもらった被験者はそうでない被験者に比べて投票率が約`r sprintf("%.1f", coef(fit1)[2] * 100)`%p高いことを意味する。他の推定値も同じやり方で解釈すれば良い。
+
+　それではこれらの処置効果が**統計的に有意**なものかを確認してみよう。統計的有意か否かを判定するためには有意と非有意の境界線が必要である、これは通常、**有意水準**（significance level; $\alpha$）と呼ばれる。この有意水準は分析者が決めるものであるが、社会科学で広く使われる基準は$\alpha = 0.05$、つまり5%だ。分析結果の画面には`Pr(>|t|)`列が表示されているが、これが$p$値と呼ばれるもので、これが0.05を下回る場合、統計的に有意と判定する。もし、$\alpha = 0.1$を採用するなら、$p < 0.1$の場合において統計的に有意と判定する。Civic Dutyの$p$値は5.85e-12であり、これは$5.75 \times 10^{-12}$を意味する。$10^{-1}$は0.1、$10^{-2}$は0.01であることを考えると非常に小さい数値であり、統計的に有意であると考えられる。また、$p$値が一定値以下であれば`< 2e-16`と表示される。4つの処置群において処置効果は統計的に有意であると判定できよう。
+
+```{r}
+# 90%信頼区間を使うのであれば conf.int = 0.9 を追加（デフォルトは0.95）
+fit1_coef <- tidy(fit1, conf.int = TRUE)
+
+fit1_coef
+```
+
+```{r}
+fit1_coef <- fit1_coef |>
+  filter(term != "(Intercept)")
+
+fit1_coef
+```
+
+```{r fig-intro-pointrange-1}
+fit1_coef |>
+  ggplot() +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high))
+```
+
+```{r fig-intro-pointrange-2}
+fit1_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12)
+```
+
+```{r}
+fit1_coef <- fit1_coef |>
+  mutate(term = recode(term,
+                       "treatmentCivic Duty" = "Civic Duty",
+                       "treatmentHawthorne"  = "Hawthorne",
+                       "treatmentNeighbors"  = "Neighbors",
+                       "treatmentSelf"       = "Self"))
+
+fit1_coef
+```
+
+```{r}
+#| eval: false
+fit1_coef <- fit1_coef |>
+  mutate(term = str_replace(term, "treatment", ""))
+```
+
+```{r fig-intro-pointrange-3}
+fit1_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12)
+```
+
+```{r}
+fit1_coef <- fit1_coef |>
+  mutate(term = fct_inorder(term))
+fit1_coef
+```
+
+```{r fig-intro-pointrange-4}
+fit1_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12)
+```
