@@ -1,6 +1,5 @@
 ---
-title: "第1回講義資料"
-subtitle: "因果推論の考え方とランダム化比較試験"
+title: "因果推論の考え方とランダム化比較試験"
 toc: true
 link-external-icon: true
 link-external-newwindow: true
@@ -9,10 +8,10 @@ code-line-numbers: true
 
 ## スライド
 
-<a href="../slide/slide01.html" class="btn btn-primary btn-sm" target="_blank" role="button"><i class="bi bi-window"></i> 新しいタブで開く</a>
+<a href="../slide/intro_rct.html" class="btn btn-primary btn-sm" target="_blank" role="button"><i class="bi bi-window"></i> 新しいタブで開く</a>
 
 ```{=html}
-<iframe class="slide-deck" src="../slide/slide01.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
+<iframe class="slide-deck" src="../slide/intro_rct.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
 ```
 
 ```{r}

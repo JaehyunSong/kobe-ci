@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Causal Inference@Kobe - RStudioの設定</title>
+<title>Causal Inference@Kobe - 差分の差分法</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,8 +24,8 @@ ul.task-list{list-style: none;}
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../intro/project.html" rel="next">
-<link href="../intro/install.html" rel="prev">
+<link href="../material/rdd.html" rel="next">
+<link href="../material/matching.html" rel="prev">
 <link href="../figs/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -163,7 +163,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">RStudioの設定</h1>
+      <h1 class="quarto-secondary-nav-title">差分の差分法</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -178,32 +178,27 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro/install.html" class="sidebar-item-text sidebar-link">Rの導入</a>
+  <a href="../material/intro_po_rct.html" class="sidebar-item-text sidebar-link">因果推論の考え方とランダム化比較試験</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro/rstudio.html" class="sidebar-item-text sidebar-link active">RStudioの設定</a>
+  <a href="../material/matching.html" class="sidebar-item-text sidebar-link">マッチング</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro/project.html" class="sidebar-item-text sidebar-link">プロジェクト管理</a>
+  <a href="../material/did.html" class="sidebar-item-text sidebar-link active">差分の差分法</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro/file.html" class="sidebar-item-text sidebar-link">ファイル管理</a>
+  <a href="../material/rdd.html" class="sidebar-item-text sidebar-link">回帰不連続デザイン</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro/filesystem.html" class="sidebar-item-text sidebar-link">ファイル管理術</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../intro/packages.html" class="sidebar-item-text sidebar-link">パッケージ</a>
+  <a href="../material/iv.html" class="sidebar-item-text sidebar-link">操作変数法</a>
   </div>
 </li>
     </ul>
@@ -211,31 +206,14 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
-    <h2 id="toc-title">目次</h2>
-   
-  <ul>
-  <li><a href="#general" id="toc-general" class="nav-link active" data-scroll-target="#general"> <span class="header-section-number">1</span> General</a></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"> <span class="header-section-number">2</span> Code</a>
-  <ul class="collapse">
-  <li><a href="#editingタブ" id="toc-editingタブ" class="nav-link" data-scroll-target="#editingタブ"> <span class="header-section-number">2.1</span> Editingタブ</a></li>
-  <li><a href="#displayタブ" id="toc-displayタブ" class="nav-link" data-scroll-target="#displayタブ"> <span class="header-section-number">2.2</span> Displayタブ</a></li>
-  <li><a href="#savingタブ" id="toc-savingタブ" class="nav-link" data-scroll-target="#savingタブ"> <span class="header-section-number">2.3</span> Savingタブ</a></li>
-  <li><a href="#completionタブ" id="toc-completionタブ" class="nav-link" data-scroll-target="#completionタブ"> <span class="header-section-number">2.4</span> Completionタブ</a></li>
-  </ul></li>
-  <li><a href="#console" id="toc-console" class="nav-link" data-scroll-target="#console"> <span class="header-section-number">3</span> Console</a></li>
-  <li><a href="#appearance" id="toc-appearance" class="nav-link" data-scroll-target="#appearance"> <span class="header-section-number">4</span> Appearance</a></li>
-  <li><a href="#pane-layout" id="toc-pane-layout" class="nav-link" data-scroll-target="#pane-layout"> <span class="header-section-number">5</span> Pane Layout</a></li>
-  <li><a href="#r-markdown" id="toc-r-markdown" class="nav-link" data-scroll-target="#r-markdown"> <span class="header-section-number">6</span> R Markdown</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">RStudioの設定</h1>
+<h1 class="title d-none d-lg-block">差分の差分法</h1>
 </div>
 
 
@@ -249,141 +227,8 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 
 </header>
 
-<p>　RStudioはそのままでも使えるが、少しカスタマイズするとより使い勝手が良くなる。RStudioのカスタマイズ画面はTools &gt; Global Optionsをクリックすることで表示される。</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize01.png" class="img-fluid" width="744"></p>
-</div>
-</div>
-<p>　以下の設定はNIIオンライン分析システムで使用可能なRStudio最新版 (RStudio Server 2021.09.1+372)の設定であり、宋の設定と同じである。</p>
-<section id="general" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="general"><span class="header-section-number">1</span> General</h2>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize02.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Restore .RData into workspace at startupのチェックを<strong>消す</strong>。</li>
-<li>Save workspace to .RData on exit:を<strong>Never</strong>に変更する。</li>
-<li>Always save history (even when not saving .RData)のチェックを<strong>消す</strong>。</li>
-</ul>
-</section>
-<section id="code" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="code"><span class="header-section-number">2</span> Code</h2>
-<section id="editingタブ" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="editingタブ"><span class="header-section-number">2.1</span> Editingタブ</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize03.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Insert spaces for tabのチェックを<strong>付ける</strong>。</li>
-<li>Tab widthは<strong>2、または4</strong>を指定する。</li>
-<li>Auto-detect code indentationのチェックを<strong>付ける</strong>。</li>
-<li>Insert matching parens/quotesのチェックを<strong>付ける</strong>。</li>
-<li>Auto-indent code after pasteのチェックを<strong>付ける</strong>。</li>
-<li>Vertically align arguments in auto-indentのチェックを<strong>付ける</strong>。</li>
-<li>Always save R scripts before sourcingのチェックを<strong>付ける</strong>。</li>
-<li>Ctrl + Return executes:を<strong>Multi-line R statement</strong>に変更する。</li>
-</ul>
-</section>
-<section id="displayタブ" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="displayタブ"><span class="header-section-number">2.2</span> Displayタブ</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize04.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Highlight selected wordのチェックを<strong>付ける</strong>。</li>
-<li>Highlight selected lineのチェックを<strong>付ける</strong>。</li>
-<li>Show line numbersのチェックを<strong>付ける</strong>。</li>
-<li>Show syntax highlighting in console inputのチェックを<strong>付ける</strong>。</li>
-<li>Highlight R function callsのチェックを<strong>付ける</strong>。</li>
-<li>Rainbow parenthesesのチェックを<strong>付ける</strong>。</li>
-</ul>
-</section>
-<section id="savingタブ" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="savingタブ"><span class="header-section-number">2.3</span> Savingタブ</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize05.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Default text encoding:のChangeをクリックし、<strong>UTF-8</strong>を選択する。</li>
-</ul>
-</section>
-<section id="completionタブ" class="level3" data-number="2.4">
-<h3 data-number="2.4" class="anchored" data-anchor-id="completionタブ"><span class="header-section-number">2.4</span> Completionタブ</h3>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize06.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Show code completion:を<strong>Automatically</strong>に変更する。</li>
-<li>Allow automatic completions in consoleのチェックを<strong>付ける</strong>。</li>
-<li>Insert parentheses after function completionsのチェックを<strong>付ける</strong>。</li>
-<li>Show help tooltip after function completionsのチェックを<strong>付ける</strong>。</li>
-<li>Insert spaces around equals for argument completionsのチェックを<strong>付ける</strong>。</li>
-<li>Use tab for autocompletionのチェックを<strong>付ける</strong>。</li>
-</ul>
-</section>
-</section>
-<section id="console" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="console"><span class="header-section-number">3</span> Console</h2>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize07.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Show syntax highlighting in console inputのチェックを<strong>付ける</strong>。</li>
-</ul>
-</section>
-<section id="appearance" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="appearance"><span class="header-section-number">4</span> Appearance</h2>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize08.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>自分の好みのものを選択する。ただし、小さすぎる文字サイズ (font size) は推奨しない。目に優しくないだけでなく、誤字脱字が見つけにくくなる。</li>
-</ul>
-</section>
-<section id="pane-layout" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="pane-layout"><span class="header-section-number">5</span> Pane Layout</h2>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize09.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>左上: Source</li>
-<li>右上: Console</li>
-<li>左下: 全てチェックを<strong>消す</strong>。</li>
-<li>左下: 全てチェックを<strong>付ける</strong>。</li>
-</ul>
-</section>
-<section id="r-markdown" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="r-markdown"><span class="header-section-number">6</span> R Markdown</h2>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="Figs/RStudio/Customize10.png" class="img-fluid" width="590"></p>
-</div>
-</div>
-<ul>
-<li>Show output preview in:を<strong>Viewer Pane</strong>に変更する。</li>
-<li>Show output inline for all R Markdown documentsのチェックを<strong>消す</strong>。</li>
-</ul>
-<p>設定が終わったら右下のOK、またはApplyをクリックする。</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -481,17 +326,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return popup.innerHTML;
     });
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/www\.jaysong\.net\/kobe-ci\//);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          // default icon
+          link.classList.add("external");
+      }
+    }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../intro/install.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Rの導入</span>
+      <a href="../material/matching.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">マッチング</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../intro/project.html" class="pagination-link">
-        <span class="nav-page-text">プロジェクト管理</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../material/rdd.html" class="pagination-link">
+        <span class="nav-page-text">回帰不連続デザイン</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

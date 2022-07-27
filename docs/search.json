@@ -1,427 +1,427 @@
 [
   {
-    "objectID": "slide/slide01.html#講師紹介",
-    "href": "slide/slide01.html#講師紹介",
+    "objectID": "slide/intro_rct.html#講師紹介",
+    "href": "slide/intro_rct.html#講師紹介",
     "title": "方法論特殊講義III",
     "section": "講師紹介",
     "text": "講師紹介\n\n\n\n\n\nLINEスタンプ絶賛販売中!\n\n\n\n\n宋(そん)  財泫(じぇひょん) (SONG JAEHYUN)\n\n関西大学総合情報学部\n博士（政治学）\n政治行動論、政治学方法論\n\nsong@kansai-u.ac.jp\nhttps://www.jaysong.net"
   },
   {
-    "objectID": "slide/slide01.html#内容",
-    "href": "slide/slide01.html#内容",
+    "objectID": "slide/intro_rct.html#内容",
+    "href": "slide/intro_rct.html#内容",
     "title": "方法論特殊講義III",
     "section": "内容",
     "text": "内容\n各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。\n\n1日目:8月17日(水)\n\n因果推論の考え方\nランダム化比較試験\n\n2日目:8月18日(木)\n\nLab Session: R の使い方\n2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説\n\n3日目:8月19日(金)\n\n回帰分析とマッチング、その応用\n\n4日目:8月29日(月)\n\n差分の差分法とその応用\n\n5日目:8月30日(火)\n\n回帰不連続デザイン"
   },
   {
-    "objectID": "slide/slide01.html#実習",
-    "href": "slide/slide01.html#実習",
+    "objectID": "slide/intro_rct.html#実習",
+    "href": "slide/intro_rct.html#実習",
     "title": "方法論特殊講義III",
     "section": "実習",
     "text": "実習\n実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。\n\n本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能\nJared P. Lander. 2017. R for Everyone: Advanced Analytics and Graphics (2nd Edition), Addison-Wesley Professional.（和訳有り）\n宋財泫・矢内勇生.『私たちのR: ベストプラクティスの探究』Web-book\n\n無料のR入門書: Rを広く、深く勉強したい人におすすめ\n\n\n\n\n宋のR環境\n\nmacOS 12.4 “Monterey”\nR version 4.2.1 (2022-06-23)\n\nR > 4.1ならOK\n\nRStudio 2022.02.3+492 “Prairie Trillium”\nスライド、サポートページ、実習用資料の執筆環境\n\nQuarto 1.0.36\nR package {quarto} 1.2"
   },
   {
-    "objectID": "slide/slide01.html#rの学習資料",
-    "href": "slide/slide01.html#rの学習資料",
+    "objectID": "slide/intro_rct.html#rの学習資料",
+    "href": "slide/intro_rct.html#rの学習資料",
     "title": "方法論特殊講義III",
     "section": "Rの学習資料",
     "text": "Rの学習資料\n計量政治学とR\n\n浅野正彦・矢内勇生. 2019『Rによる計量政治学』オーム社.\n飯田健. 2013.『計量政治分析』共立出版.\nKosuke Imai. 2017. Quantitative Social Science: An Introduction, Princeton University Press. (邦訳あり[上/下])\n\nR全般\n\nWickham, Hadley and Grolemund, Garrett. 2017. R for Data Science: Import, Tidy, Transform, Visualize, and Model Data, O’Reilly. (邦訳あり/原著はインターネットから無料で閲覧可)\n松村優哉 他. 2021. 『改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—』技術評論社.\nWickham, Hadley. 2019. Advanced R (Second Edition), O’Reilly. (邦訳あり/原著はインターネットから無料で閲覧可)"
   },
   {
-    "objectID": "slide/slide01.html#slackについて",
-    "href": "slide/slide01.html#slackについて",
+    "objectID": "slide/intro_rct.html#slackについて",
+    "href": "slide/intro_rct.html#slackについて",
     "title": "方法論特殊講義III",
     "section": "Slackについて",
     "text": "Slackについて\n登録方法\n\nTAの高根さんにE-mail\n\n201j024j@stu.kobe-u.ac.jp\nメールのタイトルは「計量政治学方法論I」、または「ソンさん、かっこいい！」\n空メールでOK\n\n\nSlackの使い方\n\nGoogleで「Slack 使い方」で検索\nSlack上の表示名は実名で"
   },
   {
-    "objectID": "slide/slide01.html#評価",
-    "href": "slide/slide01.html#評価",
+    "objectID": "slide/intro_rct.html#評価",
+    "href": "slide/intro_rct.html#評価",
     "title": "方法論特殊講義III",
     "section": "評価",
     "text": "評価\n平常点と期末レポート\n\n平常点: 30%\n\n授業への参加度 (質問/発言)\nSlackでの参加度も含む\n\n期末レポート: 70%\n\n提出方法、期限は講義最終日に告知"
   },
   {
-    "objectID": "slide/slide01.html#レポート",
-    "href": "slide/slide01.html#レポート",
+    "objectID": "slide/intro_rct.html#レポート",
+    "href": "slide/intro_rct.html#レポート",
     "title": "方法論特殊講義III",
     "section": "レポート",
     "text": "レポート\n以下の3つのオプションから選択\n\n研究のプロポーザル\n\n本講義で紹介した手法を用いた分析のプロポーザルを作成\n実現可能性があること\n\n既存研究の再現 (replication)\n\n分析をそのまま再現\n本講義で紹介した手法を用いて再現\n\n本講義で紹介した手法を用いた2次分析"
   },
   {
-    "objectID": "slide/slide01.html#前提知識",
-    "href": "slide/slide01.html#前提知識",
+    "objectID": "slide/intro_rct.html#前提知識",
+    "href": "slide/intro_rct.html#前提知識",
     "title": "方法論特殊講義III",
     "section": "前提知識",
     "text": "前提知識\n本講義の前提知識\n\n仮説検定\n統計的有意性検定\n回帰分析\n電卓としてのRの使い方\n\nデータクリーニング、回帰分析、可視化などができるならベスト\n2日目にRの解説は行うが、深入りはしない(できない)\n\nhttps://bit.ly/2VPXL9x \\(\\leftarrow\\) これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説\n\n最低限の使い方（データの読み込みなど）は知っている前提で解説\n『私たちのR』を読もう！"
   },
   {
-    "objectID": "slide/slide01.html#社会科学における因果推論の意味",
-    "href": "slide/slide01.html#社会科学における因果推論の意味",
+    "objectID": "slide/intro_rct.html#社会科学における因果推論の意味",
+    "href": "slide/intro_rct.html#社会科学における因果推論の意味",
     "title": "方法論特殊講義III",
     "section": "社会科学における因果推論の意味",
     "text": "社会科学における因果推論の意味\nMorgan and Winship (2014) Counterfactuals and Causal Inference: Methods And Principles For Social Research. Cambridge.\n\nMore has been learned about causal inference in the last few decades than sum total of everything that had been learned about it in all prior recorded history. (Gary King)"
   },
   {
-    "objectID": "slide/slide01.html#相関から因果へ",
-    "href": "slide/slide01.html#相関から因果へ",
+    "objectID": "slide/intro_rct.html#相関から因果へ",
+    "href": "slide/intro_rct.html#相関から因果へ",
     "title": "方法論特殊講義III",
     "section": "相関から因果へ",
     "text": "相関から因果へ\n原因 (X) と結果 (Y) の関係\n\n\n\n\n\n\n\n\n\n\n\n\n年齢(世代)と投票率の関係（架空の例）\n\n年齢が上がると高い投票率\n\n相関関係\n統計分析から得られる結果は相関関係のみ\n\n理論/デザインを用いて相関関係が因果関係であることを説得\n相関関係→因果関係における障害物\n\nSelection Bias\nSimultaneity\nSpurious Correlation\nReverse Causality\nOmitted Variable Biasなど"
   },
   {
-    "objectID": "slide/slide01.html#同時性",
-    "href": "slide/slide01.html#同時性",
+    "objectID": "slide/intro_rct.html#同時性",
+    "href": "slide/intro_rct.html#同時性",
     "title": "方法論特殊講義III",
     "section": "同時性",
     "text": "同時性\nSimultaneity\n\n\n\n\n\n\n\n\n原因と結果の間に双方向の因果関係が存在\n\n例) お酒 (原因; X) とストレス (結果; Y) の関係\n\n酒を飲むとストレスが貯まる\nストレス解消のために酒を飲む\n酒を飲むとストレスが貯まる\nストレス解消のために酒を飲む\n酒を飲むとストレスが貯まる\n…\n\n\\(\\rightarrow\\) 地獄のような無限ループ\n\n\\(\\Rightarrow\\) 酒がストレスに与える影響は?"
   },
   {
-    "objectID": "slide/slide01.html#見かけ上の相関",
-    "href": "slide/slide01.html#見かけ上の相関",
+    "objectID": "slide/intro_rct.html#見かけ上の相関",
+    "href": "slide/intro_rct.html#見かけ上の相関",
     "title": "方法論特殊講義III",
     "section": "見かけ上の相関",
     "text": "見かけ上の相関\nSpurious Correlation、擬似相関\n\nたまたま相関関係がある場合\n\n例) メイン州の離婚率一人当たりマーガリンの消費量"
   },
   {
-    "objectID": "slide/slide01.html#見かけ上の相関-1",
-    "href": "slide/slide01.html#見かけ上の相関-1",
+    "objectID": "slide/intro_rct.html#見かけ上の相関-1",
+    "href": "slide/intro_rct.html#見かけ上の相関-1",
     "title": "方法論特殊講義III",
     "section": "見かけ上の相関",
     "text": "見かけ上の相関\nSpurious Correlation、擬似相関\n\n共通の要因からの影響\n\n例) ビール消費量とアイスクリーム消費量"
   },
   {
-    "objectID": "slide/slide01.html#見かけ上の相関-2",
-    "href": "slide/slide01.html#見かけ上の相関-2",
+    "objectID": "slide/intro_rct.html#見かけ上の相関-2",
+    "href": "slide/intro_rct.html#見かけ上の相関-2",
     "title": "方法論特殊講義III",
     "section": "見かけ上の相関",
     "text": "見かけ上の相関\nSpurious Correlation、擬似相関\n\n共通の要因からの影響\n\n例) ゲームをやると身長が伸びる説"
   },
   {
-    "objectID": "slide/slide01.html#逆の因果",
-    "href": "slide/slide01.html#逆の因果",
+    "objectID": "slide/intro_rct.html#逆の因果",
+    "href": "slide/intro_rct.html#逆の因果",
     "title": "方法論特殊講義III",
     "section": "逆の因果",
     "text": "逆の因果\nReverse Causality\n\n例) 心臓移植と生存率の例\n\n\n\n\n\n\n5年後に死亡\n5年後に生存\n\n\n\n\n心臓移植を\n受けた\n10名\n5名\n\n\n\n受けなかった\n5名\n10名\n\n\n\n\n心臓移植を受けたら死亡確率が上がる?\n死亡確率が高い人が心臓移植を受ける?"
   },
   {
-    "objectID": "slide/slide01.html#逆の因果-1",
-    "href": "slide/slide01.html#逆の因果-1",
+    "objectID": "slide/intro_rct.html#逆の因果-1",
+    "href": "slide/intro_rct.html#逆の因果-1",
     "title": "方法論特殊講義III",
     "section": "逆の因果",
     "text": "逆の因果\nReverse Causality\n\n「人気だから4文字に略されるのか、4文字に略せるからヒットす るのか、どっちなんでしょうね」"
   },
   {
-    "objectID": "slide/slide01.html#欠落変数バイアス",
-    "href": "slide/slide01.html#欠落変数バイアス",
+    "objectID": "slide/intro_rct.html#欠落変数バイアス",
+    "href": "slide/intro_rct.html#欠落変数バイアス",
     "title": "方法論特殊講義III",
     "section": "欠落変数バイアス",
     "text": "欠落変数バイアス\nOmitted Variable Bias\n例) 真のモデルが\\(Y = \\beta_0 + \\beta_1 \\cdot X + \\beta_2 \\cdot Z + e\\)の場合\n\n\n\n\n\n\n\n\n\n\n\n\n\nモデルに\\(Z\\)が含まれていなくても\\(\\beta_1\\)の推定値は変化\\(\\times\\)\n\n\\(X\\)と\\(Z\\)は独立（\\(X \\perp Z\\)）\n=\\(X\\)と\\(Z\\)の共分散が0（\\(\\sigma_{X, Z} = 0\\)）"
   },
   {
-    "objectID": "slide/slide01.html#欠落変数バイアス-1",
-    "href": "slide/slide01.html#欠落変数バイアス-1",
+    "objectID": "slide/intro_rct.html#欠落変数バイアス-1",
+    "href": "slide/intro_rct.html#欠落変数バイアス-1",
     "title": "方法論特殊講義III",
     "section": "欠落変数バイアス",
     "text": "欠落変数バイアス\nOmitted Variable Bias\n例) 真のモデルが\\(Y = \\beta_0 + \\beta_1 \\cdot X + \\beta_2 \\cdot Z + e\\)の場合\n\n\n\n\n\n\n\n\n\n\n\n\n\nモデルに \\(X2\\) が含まれていない場合、 \\(\\beta_1\\) の推定値にバイアス\n\n\\(X_1\\) と \\(X_2\\) が相関\n\\(\\sigma_{X_1, X_2} \\neq 0\\)\n\n\\(\\beta_1\\)の真の値（=不偏推定量）を推定するためには\\(X\\)と\\(Y\\)両方と相関する変数すべてが必要\n\nそもそも、「真の値」とは？\n\\(X\\)と\\(Y\\)両方と相関するすべての変数は特定可能? 測定可能?\n\n\\(\\rightarrow\\) データ分析から得られた結果はあくまでも「分析モデルが想定している世界」のものに過ぎない\n\n定量的手法は反証可能性を高めやすい手法（=科学的な手法になりやすい）であって、科学そのものを保障するものでもなく、得られた結果が真理であることを保障するものでもない。"
   },
   {
-    "objectID": "slide/slide01.html#セレクションバイアス",
-    "href": "slide/slide01.html#セレクションバイアス",
+    "objectID": "slide/intro_rct.html#セレクションバイアス",
+    "href": "slide/intro_rct.html#セレクションバイアス",
     "title": "方法論特殊講義III",
     "section": "セレクション・バイアス",
     "text": "セレクション・バイアス\nSelection Bias\n\n例) 職業訓練と期待収入（参考) 心臓移植）\n\n\n\n\n\n\n3年後の収入\n\n\n\n\n職業訓練を\n受けた\n6349ドル\n\n\n\n受けなかった\n6984ドル\n\n\n\n\n職業訓練を受けたら収入が上がる?\nもともと低収入の人が職業訓練を受けようとする?\n参考) 交絡因子の可能性も（就労意欲など）"
   },
   {
-    "objectID": "slide/slide01.html#内生性",
-    "href": "slide/slide01.html#内生性",
+    "objectID": "slide/intro_rct.html#内生性",
+    "href": "slide/intro_rct.html#内生性",
     "title": "方法論特殊講義III",
     "section": "内生性",
     "text": "内生性\nこれまでの多くの例は内生性（endogeneity）の問題\n\n内生性: 説明変数と誤差項間に相関が存在\n\n誤差項と相関のある説明変数: 内生変数（endogenous variable）\n\n内生性がある場合、推定値は一致推定量でも、不偏推定量でもはない\n\nサンプルサイズ（\\(N\\)）をいくら増やしても無駄\n\n内生性の原因\n\n同時性\n欠落変数バイアス\n測定誤差\nセレクション・バイアスなど\n\n最近の教科書はこれはすべてをセレクション・バイアスや欠落変数バイアスでまとめる傾向"
   },
   {
-    "objectID": "slide/slide01.html#相関から因果へ-1",
-    "href": "slide/slide01.html#相関から因果へ-1",
+    "objectID": "slide/intro_rct.html#相関から因果へ-1",
+    "href": "slide/intro_rct.html#相関から因果へ-1",
     "title": "方法論特殊講義III",
     "section": "相関から因果へ",
     "text": "相関から因果へ\n内生性の除外 \\(\\rightarrow\\) 因果効果の推定"
   },
   {
-    "objectID": "slide/slide01.html#因果関係の例",
-    "href": "slide/slide01.html#因果関係の例",
+    "objectID": "slide/intro_rct.html#因果関係の例",
+    "href": "slide/intro_rct.html#因果関係の例",
     "title": "方法論特殊講義III",
     "section": "因果関係の例",
     "text": "因果関係の例\nソンさんの講義を履修することで期待年収が上がるか\n\n藤村君の場合: ソンさんの講義を履修し、年収が5000万円に\n\nソンさんの授業のおかげで富裕層になった.font50[(次は社交界進出)]\n友達に教えてあげよう\n\n\n講義履修の効果\n\n処置: ソンさんの講義を履修するか否か\n効果: 履修した場合の年収 − 履修しなかった場合の年収"
   },
   {
-    "objectID": "slide/slide01.html#因果関係の例-1",
-    "href": "slide/slide01.html#因果関係の例-1",
+    "objectID": "slide/intro_rct.html#因果関係の例-1",
+    "href": "slide/intro_rct.html#因果関係の例-1",
     "title": "方法論特殊講義III",
     "section": "因果関係の例",
     "text": "因果関係の例\nソンさんの講義を履修することで期待年収が上がるか\n\n藤村君の場合: ソンさんの講義を履修し、年収が5000万円に\n\nソンさんの授業のおかげで富裕層になった（次は社交界進出）\n友達に教えてあげよう\n\n\n講義履修の効果（ケース1）\n\n藤村君がソンさんの授業を履修しなくても年収5000万円なら\n\nソンさんの講義の因果効果は0\n\n\n\n\n\n\n履修しなかった場合の年収(A)\n履修した場合の年収(B)\n効果(B-A)\n\n\n\n\nケース1\n5000万\n5000万\n0万"
   },
   {
-    "objectID": "slide/slide01.html#因果関係の例-2",
-    "href": "slide/slide01.html#因果関係の例-2",
+    "objectID": "slide/intro_rct.html#因果関係の例-2",
+    "href": "slide/intro_rct.html#因果関係の例-2",
     "title": "方法論特殊講義III",
     "section": "因果関係の例",
     "text": "因果関係の例\nソンさんの講義を履修することで期待年収が上がるか\n\n藤村君の場合: ソンさんの講義を履修し、年収が5000万円に\n\nソンさんの授業のおかげで富裕層になった（次は社交界進出）\n友達に教えてあげよう\n\n\n講義履修の効果（ケース2）\n\n藤村君がソンさんの授業を履修しなかった場合、年収1000万円なら\n\nソンさんの講義の因果効果は4000万円\n一生ソンさんには頭が上がらない\n\n\n\n\n\n\n履修しなかった場合の年収(A)\n履修した場合の年収(B)\n効果(B-A)\n\n\n\n\nケース2\n1000万\n5000万\n4000万"
   },
   {
-    "objectID": "slide/slide01.html#因果関係の例-3",
-    "href": "slide/slide01.html#因果関係の例-3",
+    "objectID": "slide/intro_rct.html#因果関係の例-3",
+    "href": "slide/intro_rct.html#因果関係の例-3",
     "title": "方法論特殊講義III",
     "section": "因果関係の例",
     "text": "因果関係の例\nソンさんの講義を履修することで期待年収が上がるか\n\n藤村君の場合: ソンさんの講義を履修し、年収が5000万円に\n\nソンさんの授業のおかげで富裕層になった（次は社交界進出）\n友達に教えてあげよう\n\n\n講義履修の効果（ケース3）\n\n藤村君がソンさんの授業を履修しなかった場合、年収8000万円なら\n\nソンさんの講義の因果効果は-3000万\nソンさんは悪くない\n\n\n\n\n\n\n履修しなかった場合の年収(A)\n履修した場合の年収(B)\n効果(B-A)\n\n\n\n\nケース3\n8000万\n5000万\n-3000万"
   },
   {
-    "objectID": "slide/slide01.html#因果関係の例-4",
-    "href": "slide/slide01.html#因果関係の例-4",
+    "objectID": "slide/intro_rct.html#因果関係の例-4",
+    "href": "slide/intro_rct.html#因果関係の例-4",
     "title": "方法論特殊講義III",
     "section": "因果関係の例",
     "text": "因果関係の例\nソンさんの講義を履修することで期待年収が上がるか\n\n藤村君の場合: ソンさんの講義を履修し、年収が5000万円に\n\nソンさんの授業のおかげで富裕層になった（次は社交界進出）\n友達に教えてあげよう\n\n\n講義履修の効果\n\nソンさんの講義を履修しなかった場合の藤村君の年収は…?\n\n個人（藤村君）における処置効果を推定する際にはこれが不可欠\n\n\n\n\n\n\n履修しなかった場合の年収(A)\n履修した場合の年収(B)\n効果(B-A)\n\n\n\n\nケース1\n5000万\n5000万\n0万\n\n\nケース2\n1000万\n5000万\n4000万\n\n\nケース3\n8000万\n5000万\n-3000万"
   },
   {
-    "objectID": "slide/slide01.html#潜在的結果枠組み",
-    "href": "slide/slide01.html#潜在的結果枠組み",
+    "objectID": "slide/intro_rct.html#潜在的結果枠組み",
+    "href": "slide/intro_rct.html#潜在的結果枠組み",
     "title": "方法論特殊講義III",
     "section": "潜在的結果枠組み",
     "text": "潜在的結果枠組み\nNeyman-Rubin-HollandのPotential Outcome Framework\n\n\\(i\\) : 学生ID ( \\(i = 1,2,3,...,N\\) )\n\\(T\\) : 処置\n\n学生 \\(i\\) が謎の薬を飲んだ ( \\(T_i = 1\\) )\n学生 \\(i\\) が謎の薬を飲まなかった ( \\(T_i = 0\\) )\n\n\\(Y_i(T_i = 1)\\) : 学生 \\(i\\) が謎の薬を飲んだ場合の数学成績\n\\(Y_i(T_i = 0)\\) : 学生 \\(i\\) が謎の薬を飲まなかった場合の数学成績\n\\(ITE_i = Y_i(T_i = 1) − Y_i(T_i = 0)\\) : 学生iにおける薬の処置効果\n\nITE: Individual Treatment Effect (個人における処置効果)\n\n= UTE: Unit Treatment Effect\n\n全く同じ個人において薬を飲んだ場合と飲まなかった場合の数学成績の差 = 謎の薬の因果効果"
   },
   {
-    "objectID": "slide/slide01.html#薬の効果は",
-    "href": "slide/slide01.html#薬の効果は",
+    "objectID": "slide/intro_rct.html#薬の効果は",
+    "href": "slide/intro_rct.html#薬の効果は",
     "title": "方法論特殊講義III",
     "section": "薬の効果は?",
     "text": "薬の効果は?\nITEの平均値は−4であり、個人差はあるものの、全体的に薬は成績に負の影響\n\n\n\n\\(i\\)\n\\(T_i\\)\n\\(Y_i(T_i = 0)\\)\n\\(Y_i(T_i = 1)\\)\n\\(ITE_i\\)\n\n\n\n\n1\n1\n77\n85\n8\n\n\n2\n1\n49\n59\n10\n\n\n3\n1\n60\n66\n6\n\n\n4\n0\n61\n44\n-17\n\n\n5\n0\n50\n39\n-11\n\n\n6\n0\n75\n55\n-20\n\n\n平均\n\n62\n58\n-4"
   },
   {
-    "objectID": "slide/slide01.html#因果推論の根本問題-1",
-    "href": "slide/slide01.html#因果推論の根本問題-1",
+    "objectID": "slide/intro_rct.html#因果推論の根本問題-1",
+    "href": "slide/intro_rct.html#因果推論の根本問題-1",
     "title": "方法論特殊講義III",
     "section": "因果推論の根本問題",
     "text": "因果推論の根本問題\nしかし、観察できるのは\\(Y_i(T_i = 1)\\)か\\(Y_i(T_i = 0)\\)、片方のみ\n\n\\(Y_i(T_i = 0)\\)は反実仮想（counterfactual）であり、観察不可 (\\(i \\in \\{1,2,3\\}\\))\n\\(Y_i(T_i = 1)\\)も反実仮想(\\(i \\in \\{4,5,6\\}\\))\n\n\n\n\n\\(i\\)\n\\(T_i\\)\n\\(Y_i(T_i = 0)\\)\n\\(Y_i(T_i = 1)\\)\n\\(ITE_i\\)\n\n\n\n\n1\n1\n?\n85\n?\n\n\n2\n1\n?\n59\n?\n\n\n3\n1\n?\n66\n?\n\n\n4\n0\n61\n?\n?\n\n\n5\n0\n50\n?\n?\n\n\n6\n0\n75\n?\n?\n\n\n平均\n\n62\n70\n8\n\n\n\n\n\n「みんなで薬やろうぜ」って言っていいのか"
   },
   {
-    "objectID": "slide/slide01.html#世界一受けたいソンさんの授業",
-    "href": "slide/slide01.html#世界一受けたいソンさんの授業",
+    "objectID": "slide/intro_rct.html#世界一受けたいソンさんの授業",
+    "href": "slide/intro_rct.html#世界一受けたいソンさんの授業",
     "title": "方法論特殊講義III",
     "section": "世界一受けたいソンさんの授業",
     "text": "世界一受けたいソンさんの授業\n履修者5名と非履修者5名の年収の比較\n\nITEは分からないが、平均値の差分を見ると、+100万円の効果\n\n\n\n\n\\(i\\)\n\\(T_i\\)\n\\(Y_i(T_i = 0)\\)\n\\(Y_i(T_i = 1)\\)\n\\(ITE_i\\)\n\n\n\n\n1\n1\n?\n700\n?\n\n\n2\n1\n?\n1000\n?\n\n\n3\n1\n?\n550\n?\n\n\n4\n1\n?\n350\n?\n\n\n5\n1\n?\n400\n?\n\n\n6\n0\n400\n?\n?\n\n\n7\n0\n500\n?\n?\n\n\n8\n0\n350\n?\n?\n\n\n9\n0\n750\n?\n?\n\n\n10\n0\n500\n?\n?\n\n\n平均\n\n500\n600\n100"
   },
   {
-    "objectID": "slide/slide01.html#世界一受けたいソンさんの授業-1",
-    "href": "slide/slide01.html#世界一受けたいソンさんの授業-1",
+    "objectID": "slide/intro_rct.html#世界一受けたいソンさんの授業-1",
+    "href": "slide/intro_rct.html#世界一受けたいソンさんの授業-1",
     "title": "方法論特殊講義III",
     "section": "世界一受けたいソンさんの授業",
     "text": "世界一受けたいソンさんの授業\n履修者5名と非履修者5名の年収の比較（ケース1）\n\nITEは分からないが、平均値の差分を見ると、+100万円の効果\n80万円の価値があるソンさんの講義、みんなで履修しよう!\n\n\n\n\n\\(i\\)\n\\(T_i\\)\n\\(Y_i(T_i = 0)\\)\n\\(Y_i(T_i = 1)\\)\n\\(ITE_i\\)\n\n\n\n\n1\n1\n550\n700\n150\n\n\n2\n1\n650\n1000\n350\n\n\n3\n1\n600\n550\n-50\n\n\n4\n1\n300\n350\n50\n\n\n5\n1\n300\n400\n100\n\n\n6\n0\n400\n300\n-100\n\n\n7\n0\n500\n700\n200\n\n\n8\n0\n350\n600\n250\n\n\n9\n0\n750\n700\n-50\n\n\n10\n0\n500\n400\n-100\n\n\n平均\n\n490\n570\n80"
   },
   {
-    "objectID": "slide/slide01.html#世界一受けたいソンさんの授業-2",
-    "href": "slide/slide01.html#世界一受けたいソンさんの授業-2",
+    "objectID": "slide/intro_rct.html#世界一受けたいソンさんの授業-2",
+    "href": "slide/intro_rct.html#世界一受けたいソンさんの授業-2",
     "title": "方法論特殊講義III",
     "section": "世界一受けたいソンさんの授業",
     "text": "世界一受けたいソンさんの授業\n履修者5名と非履修者5名の年収の比較（ケース2）\n\nITEは分からないが、平均値の差分を見ると、+100万円の効果\nソンさんは悪くない\n\n\n\n\n\\(i\\)\n\\(T_i\\)\n\\(Y_i(T_i = 0)\\)\n\\(Y_i(T_i = 1)\\)\n\\(ITE_i\\)\n\n\n\n\n1\n1\n800\n700\n-100\n\n\n2\n1\n650\n1000\n350\n\n\n3\n1\n600\n550\n-50\n\n\n4\n1\n400\n350\n-50\n\n\n5\n1\n350\n400\n50\n\n\n6\n0\n400\n300\n-100\n\n\n7\n0\n500\n500\n0\n\n\n8\n0\n350\n400\n50\n\n\n9\n0\n750\n500\n-250\n\n\n10\n0\n500\n400\n-100\n\n\n平均\n\n530\n510\n-20"
   },
   {
-    "objectID": "slide/slide01.html#因果推論の根本問題-2",
-    "href": "slide/slide01.html#因果推論の根本問題-2",
+    "objectID": "slide/intro_rct.html#因果推論の根本問題-2",
+    "href": "slide/intro_rct.html#因果推論の根本問題-2",
     "title": "方法論特殊講義III",
     "section": "因果推論の根本問題",
     "text": "因果推論の根本問題\n\n\\(Y_i(T_i = 1)\\)か\\(Y_i(T_i = 0)\\)、片方のみしか観察できない状態においてITEから因果効果を推定することは不可能\n\n因果推論の根本問題 (The Fundamental Problem of Causal Inference)\n\n\n\n\n解決方法\n\nもう一回、過去に戻って異なる処置を行う"
   },
   {
-    "objectID": "slide/slide01.html#因果推論の根本問題-3",
-    "href": "slide/slide01.html#因果推論の根本問題-3",
+    "objectID": "slide/intro_rct.html#因果推論の根本問題-3",
+    "href": "slide/intro_rct.html#因果推論の根本問題-3",
     "title": "方法論特殊講義III",
     "section": "因果推論の根本問題",
     "text": "因果推論の根本問題\n\n\\(Y_i(T_i = 1)\\)か\\(Y_i(T_i = 0)\\)、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能\n\nただし、のび太くん、ドラえもん、ジャイアンくんを除く\n因果推論の根本問題 (The Fundamental Problem of Causal Inference)\n\n潜在的結果を直接観察する方法\n\nただし、個々人の潜在的結果ではなく、集団における潜在的結果\n平均処置効果 (ATE; Average Treatment Effect)\n\n平均値の差分から平均的な因果効果を推定\nしかし、…\n\n無作為割当の重要性"
   },
   {
-    "objectID": "slide/slide01.html#平均取るだけでok",
-    "href": "slide/slide01.html#平均取るだけでok",
+    "objectID": "slide/intro_rct.html#平均取るだけでok",
+    "href": "slide/intro_rct.html#平均取るだけでok",
     "title": "方法論特殊講義III",
     "section": "平均取るだけでOK?",
     "text": "平均取るだけでOK?\n観察されたデータから差分を計算するだけではATEは推定不可能\n\n\n\n\\(i\\)\n\\(T_i\\)\n\\(Y_i(T_i = 0)\\)\n\\(Y_i(T_i = 1)\\)\n\\(ITE_i\\)\n\n\n\n\n1\n1\n?\n700\n?\n\n\n2\n1\n?\n1000\n?\n\n\n3\n1\n?\n550\n?\n\n\n4\n1\n?\n350\n?\n\n\n5\n1\n?\n400\n?\n\n\n6\n0\n400\n?\n?\n\n\n7\n0\n500\n?\n?\n\n\n8\n0\n350\n?\n?\n\n\n9\n0\n750\n?\n?\n\n\n10\n0\n500\n?\n?\n\n\n平均\n\n500\n600\n100"
   },
   {
-    "objectID": "slide/slide01.html#信頼できるateの条件",
-    "href": "slide/slide01.html#信頼できるateの条件",
+    "objectID": "slide/intro_rct.html#信頼できるateの条件",
+    "href": "slide/intro_rct.html#信頼できるateの条件",
     "title": "方法論特殊講義III",
     "section": "信頼できるATEの条件",
     "text": "信頼できるATEの条件\nATE 推定値の信頼性を損なう敵: 内生性 (しかも、常に存在する)\n例) やる気のある学生だけがソンさんの講義を履修した場合\n\nセレクション・バイアス\n\nソンさんの講義は鬼畜すぎるため、やる気満々の学生には役に立つものの、やる気のない学生にとってはむしろ学習意欲が低下\n\n疑似相関\n\nやる気のある学生はいろんな方面で頑張るから、将来年収が高くなる。\n\n測定誤差\n\n履修者の年収はジンバブエ・ドルで測定されている可能性も（これはないか）\n\n\n\n\n内生性は因果推論の敵! どうすれば…?\n\\(\\downarrow\\)\n無作為割当 (Random Assignment)"
   },
   {
-    "objectID": "slide/slide01.html#無作為割当とは",
-    "href": "slide/slide01.html#無作為割当とは",
+    "objectID": "slide/intro_rct.html#無作為割当とは",
+    "href": "slide/intro_rct.html#無作為割当とは",
     "title": "方法論特殊講義III",
     "section": "無作為割当とは",
     "text": "無作為割当とは\n無作為割当 (Random Assignment)\n\n処置を受けるかどうかを無作為に割り当てる方法\n\n完全無作為割当: 全ての被験者において、どのグループに属するかの確率が等しい\n\\(Pr(T_i = 1) = Pr(T_j = 1) \\text{ where } i \\neq j\\)\n\\(Pr(T_i = 0) = Pr(T_j = 0) \\text{ where } i \\neq j\\)\n無作為割当の方法は色々\n\n無作為に割り当てると、処置を受けないグループと処置を受けるグループは「集団」として同質なグループになる。\n\n受けないグループ: 統制群 (Control Group)\n受けるグループ: 処置群 (Treatment Group)\n\n一つの集団を一人の個人として扱い、ITEを測定 ⇒ ATE"
   },
   {
-    "objectID": "slide/slide01.html#無作為割当の力",
-    "href": "slide/slide01.html#無作為割当の力",
+    "objectID": "slide/intro_rct.html#無作為割当の力",
+    "href": "slide/intro_rct.html#無作為割当の力",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
     "text": "無作為割当の力\nコインを投げ、表( \\(H\\) )なら統制群、裏( \\(T\\) )なら処置群に割当\n\n女性比率が55%、平均年齢が38歳の集団の例\n\n\n\n\nset.seed(19861008)\nData <- tibble(\n   ID = 1:20,\n   Female = sample(0:1, 20, replace = TRUE, \n                   prob = c(0.4, 0.6)),\n   Age    = round(rnorm(20, 38, 10), 0))\n\nData %>%\n   summarise(Female = mean(Female),\n             Age    = mean(Age))\n\n# A tibble: 1 × 2\n  Female   Age\n   <dbl> <dbl>\n1   0.55    38\n\n\n\n\n\n\n\n \n  \n    ID \n    Female \n    Age \n    　 \n    ID \n    Female \n    Age \n  \n \n\n  \n    1 \n    1 \n    31 \n     \n    11 \n    0 \n    38 \n  \n  \n    2 \n    1 \n    41 \n     \n    12 \n    1 \n    29 \n  \n  \n    3 \n    0 \n    31 \n     \n    13 \n    0 \n    21 \n  \n  \n    4 \n    1 \n    46 \n     \n    14 \n    0 \n    26 \n  \n  \n    5 \n    1 \n    37 \n     \n    15 \n    1 \n    36 \n  \n  \n    6 \n    1 \n    37 \n     \n    16 \n    1 \n    40 \n  \n  \n    7 \n    0 \n    30 \n     \n    17 \n    0 \n    50 \n  \n  \n    8 \n    1 \n    46 \n     \n    18 \n    0 \n    42 \n  \n  \n    9 \n    1 \n    56 \n     \n    19 \n    0 \n    29 \n  \n  \n    10 \n    0 \n    47 \n     \n    20 \n    1 \n    47"
   },
   {
-    "objectID": "slide/slide01.html#無作為割当の力-1",
-    "href": "slide/slide01.html#無作為割当の力-1",
+    "objectID": "slide/intro_rct.html#無作為割当の力-1",
+    "href": "slide/intro_rct.html#無作為割当の力-1",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
     "text": "無作為割当の力\nコイン投げの結果\n\nset.seed(19861008)\nCoin <- sample(c(\"H\", \"T\"), 20, replace = TRUE)\nData$Coin <- Coin\n\n\n\n\n\n \n  \n    ID \n    Female \n    Age \n    Coin \n    　 \n    ID \n    Female \n    Age \n    Coin \n  \n \n\n  \n    1 \n    1 \n    31 \n    H \n     \n    11 \n    0 \n    38 \n    H \n  \n  \n    2 \n    1 \n    41 \n    T \n     \n    12 \n    1 \n    29 \n    T \n  \n  \n    3 \n    0 \n    31 \n    T \n     \n    13 \n    0 \n    21 \n    H \n  \n  \n    4 \n    1 \n    46 \n    T \n     \n    14 \n    0 \n    26 \n    T \n  \n  \n    5 \n    1 \n    37 \n    H \n     \n    15 \n    1 \n    36 \n    H \n  \n  \n    6 \n    1 \n    37 \n    H \n     \n    16 \n    1 \n    40 \n    T \n  \n  \n    7 \n    0 \n    30 \n    H \n     \n    17 \n    0 \n    50 \n    T \n  \n  \n    8 \n    1 \n    46 \n    T \n     \n    18 \n    0 \n    42 \n    T \n  \n  \n    9 \n    1 \n    56 \n    H \n     \n    19 \n    0 \n    29 \n    H \n  \n  \n    10 \n    0 \n    47 \n    H \n     \n    20 \n    1 \n    47 \n    H"
   },
   {
-    "objectID": "slide/slide01.html#無作為割当の力-2",
-    "href": "slide/slide01.html#無作為割当の力-2",
+    "objectID": "slide/intro_rct.html#無作為割当の力-2",
+    "href": "slide/intro_rct.html#無作為割当の力-2",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
     "text": "無作為割当の力\n統制群と処置群が比較的同質的なグループに\n\n統制群（11名）: 女性比率が54.5%、平均年齢が37.2歳\n処置群 (9名): 女性比率が55.6%、平均年齢が39歳\n\n\nData %>%\n  group_by(Coin) %>%\n  summarise(Female = mean(Female),\n            Age    = mean(Age),\n            N      = n())\n\n# A tibble: 2 × 4\n  Coin  Female   Age     N\n  <chr>  <dbl> <dbl> <int>\n1 H      0.545  37.2    11\n2 T      0.556  39       9"
   },
   {
-    "objectID": "slide/slide01.html#無作為割当の力-3",
-    "href": "slide/slide01.html#無作為割当の力-3",
+    "objectID": "slide/intro_rct.html#無作為割当の力-3",
+    "href": "slide/intro_rct.html#無作為割当の力-3",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
     "text": "無作為割当の力\n集団として処置群と統制群は、母集団とほぼ同質\n\n母集団:女性率が55%、平均年齢が38歳\n統制群:女性率が54.5%、平均年齢が37.2歳\n処置群:女性率が55.6%、平均年齢が39歳\n\\(n \\rightarrow \\infty\\) なら2つのグループはより同質的に（大数の弱法則）\n統制群と処置群、母集団はそれぞれ交換可能 (exchangeable)\n\n処置群に処置を与えること = 母集団全体に処置を与えること\n統制群に処置を与えないこと = 母集団全体に処置を与えないこと\n\n統制群と処置群の比較で集団を一つの単位としたITE (= ATE)が推定可能\n\n処置を与えた母集団 vs. 処置を与えなかった母集団"
   },
   {
-    "objectID": "slide/slide01.html#無作為割当の力-4",
-    "href": "slide/slide01.html#無作為割当の力-4",
+    "objectID": "slide/intro_rct.html#無作為割当の力-4",
+    "href": "slide/intro_rct.html#無作為割当の力-4",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
     "text": "無作為割当の力\n無作為割当は均質な複数のグループを作る手法\n\n講義履修と年収の例だと、無作為割当をすることによって …\n\n各グループにやる気のある学生とない学生が均等に\n\nセレクション・バイアス、擬似相関の除去\n\nジンバブエ・ドルで測定される学生も均等に（これはないか）\n\n測定誤差の除去\n\n\n内生性:処置変数（講義の履修）と誤差項（やる気など）間の相関\n\nコイン投げの結果は被験者（学生）の性質と無関係に行われるため、誤差項と相関がない。\n外生変数 (Exogenous variable)\n学生の性質 (X) と処置有無 (T) は独立している ⇒ \\(X \\perp T\\)\n\n\n\n\n無作為割当は内生性を除去する最良の手法"
   },
   {
-    "objectID": "slide/slide01.html#無作為抽出と無作為割当",
-    "href": "slide/slide01.html#無作為抽出と無作為割当",
+    "objectID": "slide/intro_rct.html#無作為抽出と無作為割当",
+    "href": "slide/intro_rct.html#無作為抽出と無作為割当",
     "title": "方法論特殊講義III",
     "section": "無作為抽出と無作為割当",
     "text": "無作為抽出と無作為割当\n\n無作為抽出によってサンプル（標本）と母集団が交換可能（実はここが難しい）\n無作為割当によって各グループとサンプルに交換可能（=各グループ間で交換可能）\n無作為抽出&無作為割当によって各グループと母集団が交換可能（グループへの刺激=母集団への刺激）"
   },
   {
-    "objectID": "slide/slide01.html#ランダム化比較試験とは",
-    "href": "slide/slide01.html#ランダム化比較試験とは",
+    "objectID": "slide/intro_rct.html#ランダム化比較試験とは",
+    "href": "slide/intro_rct.html#ランダム化比較試験とは",
     "title": "方法論特殊講義III",
     "section": "ランダム化比較試験とは",
     "text": "ランダム化比較試験とは\nRandomized Controlled Trial (RCT)\n\n無作為割当で複数のグループを作り上げた上で、異なる刺激・処置を与え、結果を観察する手法\n\n社会科学でいう「実験」の多くはこれを指す\n因果推論の王道\n\n因果効果をもたらす(と想定される)処置変数が外生的\n\nグループ間における結果変数の差 = 因果効果\n\nデータ生成過程(Data Generating Process; DGP)への直接介入\n\n「真のモデル」が分かる\n\n\n実験の方法\n\nフィールド実験\n実験室実験\nサーベイ実験\n\nSONG Jaehyun・秦正樹. 2020. 「オンライン・サーベイ実験の方法: 理論編」『理論と方法』35 (1): 92-108.\n秦正樹・SONG Jaehyun. 2020. 「オンライン・サーベイ実験の方法: 実践編」『理論と方法』35 (1): 109-127."
   },
   {
-    "objectID": "slide/slide01.html#データ生成過程への介入",
-    "href": "slide/slide01.html#データ生成過程への介入",
+    "objectID": "slide/intro_rct.html#データ生成過程への介入",
+    "href": "slide/intro_rct.html#データ生成過程への介入",
     "title": "方法論特殊講義III",
     "section": "データ生成過程への介入",
     "text": "データ生成過程への介入\n以下のデータ生成過程を仮定\n\\[\n\\text{Income} = \\beta_0 + \\beta_1 \\cdot \\text{Quant} + \\varepsilon\n\\]\n\nIncome: 10年後の年収 (\\(\\in [0, \\infty)\\))\nQuant:ソンさんの講義を履修したか否か (\\(\\in \\{0, 1\\})\\) )\n誤差項( \\(\\varepsilon\\) )には「やる気」や「真面目さ」が含まれるため、Quantと相関がある (\\(\\rightarrow\\) 内生性)\n無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (独立) になる\n\n例) 受講有無をコイン投げで決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）\n\\(\\Rightarrow\\) 内生性がなくなる!"
   },
   {
-    "objectID": "slide/slide01.html#rctの例",
-    "href": "slide/slide01.html#rctの例",
+    "objectID": "slide/intro_rct.html#rctの例",
+    "href": "slide/intro_rct.html#rctの例",
     "title": "方法論特殊講義III",
     "section": "RCTの例",
     "text": "RCTの例\nBertand and Mullainathan (2004)\n\n労働市場における人種差別\n約5000人分の架空の履歴書を求人中の会社へ送る\n\n履歴書の内容 (性別、人種、能力など) は完全無作為\n履歴書に人種は記入できないため、白人っぽい名前 (Emily など)、黒人っぽい名前 (Jamal など) を記入\n\n後は、返事を待つだけ\n\n処置変数: 人種 ( \\(\\in \\{\\text{black}, \\text{white}\\}\\) )\n結果変数: 連絡の有無 ( \\(\\in \\{0, 1\\}\\) )"
   },
   {
-    "objectID": "slide/slide01.html#内生性の可能性",
-    "href": "slide/slide01.html#内生性の可能性",
+    "objectID": "slide/intro_rct.html#内生性の可能性",
+    "href": "slide/intro_rct.html#内生性の可能性",
     "title": "方法論特殊講義III",
     "section": "内生性の可能性",
     "text": "内生性の可能性\n\n\n\n\n\n\n\n\n\n\n\n\n誤差項 (\\(\\varepsilon\\)) には教育水準、親の所得、居住地などが含まれる可能性\n\n実際に人種と上記の要因には相関あり\n人種 (処置) と誤差項 (\\(\\varepsilon\\)) 間の相関関係 \\(\\rightarrow\\) 内生性\n\n黒人が採用されなかった場合 …\n\n黒人だから? \\(\\leftarrow\\) 人種差別\\(\\bigcirc\\)\n教育水準が低いから \\(\\leftarrow\\) 人種差別\\(\\times\\)\n\n\n\n \\(\\Rightarrow\\) 内生性がある限り、因果効果の識別は困難  \\(\\Rightarrow\\) ケースによって政策的含意が変わる。"
   },
   {
-    "objectID": "slide/slide01.html#rctの力",
-    "href": "slide/slide01.html#rctの力",
+    "objectID": "slide/intro_rct.html#rctの力",
+    "href": "slide/intro_rct.html#rctの力",
     "title": "方法論特殊講義III",
     "section": "RCTの力",
     "text": "RCTの力\n\n\n\n\n白人の名前\n黒人の名前\n\n\n\n\nFemale\n76.42%\n77.45%\n\n\nHighQuality\n50.23%\n50.23%\n\n\nCall Rate\n9.65%\n6.45%\n\n\n計 (人)\n2435\n2435\n\n\n\n\n無作為割当の結果、人種と性別・能力の相関がほぼ0に\n\n内生性のない状態\nこの場合、労働市場における人種の因果効果は\n\nATE = 黒人の平均連絡率 − 白人の平均連絡率\n黒人という理由だけで会社から連絡が来る確率が 3.2%p\\(\\downarrow\\)\n-3.2%p: 人種の因果効果 or 処置効果 (treatment effect)"
   },
   {
-    "objectID": "slide/slide01.html#バランスチェック",
-    "href": "slide/slide01.html#バランスチェック",
+    "objectID": "slide/intro_rct.html#バランスチェック",
+    "href": "slide/intro_rct.html#バランスチェック",
     "title": "方法論特殊講義III",
     "section": "バランスチェック",
     "text": "バランスチェック\n無作為割当が行われているか否かを確認\n\n\n\n\n\n\n\n\n\n\n\n\n標準化差分を使用\n\nStandardized Bias (or Difference)\n\nサンプルサイズの影響\\(\\times\\)\n統計的検定ではない\n\n\\(t\\) 検定、ANOVA、 \\(\\chi^2\\) 検定は\\(\\times\\)\n\nバランスチェックに統計的有意性検定は使わない\n\n{cobalt}、{BalanceR}など"
   },
   {
-    "objectID": "slide/slide01.html#標準化差分について",
-    "href": "slide/slide01.html#標準化差分について",
+    "objectID": "slide/intro_rct.html#標準化差分について",
+    "href": "slide/intro_rct.html#標準化差分について",
     "title": "方法論特殊講義III",
     "section": "標準化差分について",
     "text": "標準化差分について\n連続変数\n\\[\n\\text{SB}_{T-C} = 100 \\cdot \\frac{\\bar{X}_T - \\bar{X}_C}{\\sqrt{0.5 \\cdot (s_T^2 + s_C^2)}}\n\\]\n二値変数\n\\[\n\\text{SB}_{T-C} = 100 \\cdot \\frac{\\bar{X}_T - \\bar{X}_C}{\\sqrt{0.5 \\cdot (\\bar{X}_T(1-\\bar{X}_T) + \\bar{X}_C(1-\\bar{X}_C))}}\n\\]\n\n\\(\\bar{X}_T\\) : 処置群におけるXの平均値\n\\(s_T^2\\) : 処置群におけるXの分散\n|SB|が小さいほどバランス\n\n明確な基準はないが、3、5、10、25などを使用\n\nグループが3つ以上の場合、それぞれのペアで実行"
   },
   {
-    "objectID": "slide/slide01.html#因果効果の推定",
-    "href": "slide/slide01.html#因果効果の推定",
+    "objectID": "slide/intro_rct.html#因果効果の推定",
+    "href": "slide/intro_rct.html#因果効果の推定",
     "title": "方法論特殊講義III",
     "section": "因果効果の推定",
     "text": "因果効果の推定\n\n方法1: グループ間の結果変数の差分の検定 (\\(t\\)検定)\n\n因果効果 (ATE): \\(\\mathbb{E}[\\mbox{Call}|\\mbox{Race = Black}] - \\mathbb{E}[\\mbox{Call}|\\mbox{Race = White}] = -0.032\\)\nATE = 0の帰無仮説の検定\n\n\\(t_{\\text{df} = 4711.7} = −4.117\\); \\(p\\) < 0.001; 95% CI = [−0.047, −0.017]\n\n応答変数の尺度に応じてノンパラメトリック分析\n\n方法2: 単回帰分析 (線形 or ロジスティックス/プロビット)\n\n\n\n\n\n\n線形回帰分析（LPM）\n\n\nCovriates\nEst.\nS.E.\n\n\n\n\nIntercept\n0.064\n0.006\n\n\nRace: White\n0.032\n0.008\n\n\n\n\n\n\nロジスティック回帰分析\n\n\nCovriates\nEst.\nS.E.\n\n\n\n\nIntercept\n-2.675\n0.083\n\n\nRace: White\n0.438\n0.107\n\n\n\n\n\n\nプロビット回帰分析\n\n\nCovriates\nEst.\nS.E.\n\n\n\n\nIntercept\n-1.518\n0.039\n\n\nRace: White\n0.21654\n0.053\n\n\n\n\n\n\n\n\nFreedman, David A. 2008. “Randomization Does Not Justify Logistic Regression,” Statistical Science Statistical Science, 23(2): 237-249.\n\nLogit: 一致推定量\\(\\times\\) & 不偏推定量\\(\\times\\)\nLinear: 一致推定量\\(\\bigcirc\\) & 不偏推定量\\(\\times\\)\n一致性と不偏性の違いについて"
   },
   {
-    "objectID": "slide/slide01.html#因果効果の推定-重回帰分析は",
-    "href": "slide/slide01.html#因果効果の推定-重回帰分析は",
+    "objectID": "slide/intro_rct.html#因果効果の推定-重回帰分析は",
+    "href": "slide/intro_rct.html#因果効果の推定-重回帰分析は",
     "title": "方法論特殊講義III",
     "section": "因果効果の推定: 重回帰分析は?",
     "text": "因果効果の推定: 重回帰分析は?\n無作為割当のおかげですべての変数が互いに独立\n\n重回帰分析をしても人種のATEは変化しない (OVB がない)\n\n無作為割当の場合、回帰はしてもしなくても良い\n\n現実的に完全にバランスが取れていないため、若干の変化はある\n\n\n\n\nCovriates\nEst.\nS.E.\n\n\n\n\nIntercept\n0.057\n0.007\n\n\nRace: White\n0.032\n0.08\n\n\nFemale\n0.007\n0.009\n\n\nMilitary\n-0.027\n0.014\n\n\nEducation\n-0.002\n0.005\n\n\nHigh Quality\n0.019\n0.008"
   },
   {
-    "objectID": "slide/slide01.html#因果効果の不均一性",
-    "href": "slide/slide01.html#因果効果の不均一性",
+    "objectID": "slide/intro_rct.html#因果効果の不均一性",
+    "href": "slide/intro_rct.html#因果効果の不均一性",
     "title": "方法論特殊講義III",
     "section": "因果効果の不均一性",
     "text": "因果効果の不均一性\n因果効果が下位グループによって異なる場合\n\n因果効果の不均一性 (heterogeneous treatment effects)\n\n例) 性別によって薬の効果が異なる場合\n薬の効果が男性なら 1、女性なら 2 の場合\n\n男女比が1:1なら、ATEは1.5に\n\n薬の効果が男性なら 4、女性なら-1 の場合\n\n男女比が1:1なら、ATEは1.5だが…\n\n\n方法1: 男女に分けてATEを推定\n方法2: 性別と処置有無の交差項を投入した重回帰分析\n参考) Bryan, Christopher J., Elizabeth Tipton and David S. Yeager. 2021. “Behavioural science is unlikely to change the world without a heterogeneity revolution,” Nature Human Behaviour. 5: 980–989."
   },
   {
-    "objectID": "slide/slide01.html#因果効果の不均一性-1",
-    "href": "slide/slide01.html#因果効果の不均一性-1",
+    "objectID": "slide/intro_rct.html#因果効果の不均一性-1",
+    "href": "slide/intro_rct.html#因果効果の不均一性-1",
     "title": "方法論特殊講義III",
     "section": "因果効果の不均一性",
     "text": "因果効果の不均一性\n方法1: 男女に分けてATEを推定\n\n\n\n\n統制群\n処置群\nATE\n\\(t\\)\n\\(p\\)\n\n\n\n\n男性のみ\n0.611\n1.561\n0.951\n-7.521\n< 0.001\n\n\n女性のみ\n0.493\n2.480\n1.987\n-15.573\n< 0.001\n\n\n全体\n0.551\n2.057\n1.506\n-15.945\n< 0.001"
   },
   {
-    "objectID": "slide/slide01.html#因果効果の不均一性-2",
-    "href": "slide/slide01.html#因果効果の不均一性-2",
+    "objectID": "slide/intro_rct.html#因果効果の不均一性-2",
+    "href": "slide/intro_rct.html#因果効果の不均一性-2",
     "title": "方法論特殊講義III",
     "section": "因果効果の不均一性",
     "text": "因果効果の不均一性\n方法2: 性別と処置有無の交差項を投入した重回帰分析\n\n\n\n\n\n\n \n  \n      \n    Model 1 \n  \n \n\n  \n    (Intercept) \n    0.611 (0.091) \n  \n  \n    Treatment \n    0.951 (0.131) \n  \n  \n    Female \n    −0.117 (0.127) \n  \n  \n    Treatment × Female \n    1.036 (0.180) \n  \n  \n    Num.Obs. \n    500 \n  \n  \n    R2 \n    0.401 \n  \n  \n    R2 Adj. \n    0.398 \n  \n  \n    AIC \n    1431.3 \n  \n  \n    BIC \n    1452.3 \n  \n  \n    Log.Lik. \n    −710.629 \n  \n  \n    F \n    110.905 \n  \n  \n    RMSE \n    1.00 \n  \n\n\n\n\n\n\n\\[\n\\begin{align}\n\\hat{y} & = \\beta_0 + \\beta_1 \\mbox{Treatment} + \\beta_2 \\mbox{Female} + \\beta_3 \\mbox{Treatment} \\cdot \\mbox{Female} \\\\\n& = \\beta_0 + (\\beta_1 + \\beta_3 \\mbox{Female}) \\mbox{Treatment} + \\beta_2 \\mbox{Female}.\n\\end{align}\n\\]\n\n男性のATE: \\(\\beta_1 + \\beta_3 \\cdot 0 = \\beta_1\\) = 0.951\n女性のATE: \\(\\beta_1 + \\beta_3 \\cdot 1 = \\beta_1 + \\beta_3\\) = 1.987"
   },
   {
-    "objectID": "slide/slide01.html#因果推論の前提sutva",
-    "href": "slide/slide01.html#因果推論の前提sutva",
+    "objectID": "slide/intro_rct.html#因果推論の前提sutva",
+    "href": "slide/intro_rct.html#因果推論の前提sutva",
     "title": "方法論特殊講義III",
     "section": "因果推論の前提:SUTVA",
     "text": "因果推論の前提:SUTVA\nStable Unit Treatment Value Assumption\n\n非干渉性処置の無分散性\n\n\n非干渉性: 他人の処置・統制有無が処置効果に影響を与えないこと\n\n例) AさんITEは\n\n例1) Bさんが統制群の場合は10、処置群の場合は5 \\(\\leftarrow\\)  \n例2) Bさんが統制群の場合も、処置群の場合も、5 \\(\\leftarrow\\)  \n\n\n\n\n\n\n\n例1\n\n\n\nAさんが統制群\nAさんが処置群\n\n\n\n\nBさんが統制群\n0\n10\n\n\nBさんが処置群\n15\n20\n\n\n\n\n\n\n例2\n\n\n\nAさんが統制群\nAさんが処置群\n\n\n\n\nBさんが統制群\n5\n10\n\n\nBさんが処置群\n15\n20\n\n\n\n\n\n\n\n\n\n処置の無分散性: 同じグループに属する対象は同じ処置を受けること\n\n手術の場合: 医者、設備、手順、環境など\n投票参加: 当日、期日前など\n\n\n\n\n\nサーベイ実験では問題にならない場合が多い\n\n実験室実験、フィールド実験の場合、「非干渉性」には気をつける\n例) 隣の人が見てるのとと私が見てるのが違いますが…?"
   },
   {
-    "objectID": "slide/slide01.html#二重盲検法",
-    "href": "slide/slide01.html#二重盲検法",
+    "objectID": "slide/intro_rct.html#二重盲検法",
+    "href": "slide/intro_rct.html#二重盲検法",
     "title": "方法論特殊講義III",
     "section": "二重盲検法",
     "text": "二重盲検法\n二重盲検法 (Double Blind Test):ある被験者がどのような処置を受けているかについて研究者と被験者両方において不明な状態で実験を行う\n\n二重盲検法を使えば以下の問題点に対処することが可能\n\nプラセボ効果 (placebo effect):偽薬が与えられても、薬だと信じ込む 事によって何らかの効果が生じる\nホーソン効果 (Hawthorne effect):自分が観察されていることを認知さ れることによって何らかの効果が生じる\n観察者効果 (observer/experimenter effect):研究者の期待により被験者へ の対応が異なったり、被験者がその期待に添えるように行動すること"
   },
   {
-    "objectID": "slide/slide01.html#データ",
-    "href": "slide/slide01.html#データ",
+    "objectID": "slide/intro_rct.html#データ",
+    "href": "slide/intro_rct.html#データ",
     "title": "方法論特殊講義III",
     "section": "データ",
     "text": "データ\nこれまで紹介した例題\n\n労働市場と人種差別: Day1_Data1.dta\n\nMarianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” American Economic Review. 94(4) pp. 991–1013\n\n処置効果の不均一性: Day1_Data2.csv\n\n架空データ\n\n\nLab Session用のデータ (第2講)\n\n社会的圧力と投票参加: Day1_Data3.csv\n\nAlan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” American Political Science Review. 102(1) pp. 33–48"
   },
   {
-    "objectID": "slide/slide01.html#バランスチェック-1",
-    "href": "slide/slide01.html#バランスチェック-1",
+    "objectID": "slide/intro_rct.html#バランスチェック-1",
+    "href": "slide/intro_rct.html#バランスチェック-1",
     "title": "方法論特殊講義III",
     "section": "バランスチェック",
     "text": "バランスチェック\n処置が複数の場合、組み合わせごとに標準化差分を計算"
   },
   {
-    "objectID": "slide/slide01.html#処置効果の可視化",
-    "href": "slide/slide01.html#処置効果の可視化",
+    "objectID": "slide/intro_rct.html#処置効果の可視化",
+    "href": "slide/intro_rct.html#処置効果の可視化",
     "title": "方法論特殊講義III",
     "section": "処置効果の可視化",
     "text": "処置効果の可視化"
   },
   {
-    "objectID": "slide/slide01.html#実習内容",
-    "href": "slide/slide01.html#実習内容",
+    "objectID": "slide/intro_rct.html#実習内容",
+    "href": "slide/intro_rct.html#実習内容",
     "title": "方法論特殊講義III",
     "section": "実習内容",
     "text": "実習内容\n\nRの導入\n\nR + RStudioがインストールされていない場合、NIIオンライン分析システムを利用する。\n\nRの基礎（プロジェクト管理、データの読み込みなど）\n記述統計量の計算\nバランスチェック\n処置効果の推定\n処置効果の報告\n\n\n\n\nhttps://www.jaysong.net/kobe-ci"
@@ -599,7 +599,7 @@
     "href": "index.html",
     "title": "Causal Inference@Kobe",
     "section": "",
-    "text": "アイコン説明\n\n\n\n\n：NIIオンライン分析システムの起動\n\n右クリックし、新しいタブ（or ウィンドウ）で開いてください。\n初期設定が必要です。初期設定の方法はRの使い方 > Rの導入を参照してください。\n\n：Rの教科書（『私たちのR』）\n：本ウェブサイト内の検索\n\n\n\n\n\n\n\n\n\nページ情報\n\n\n\n\n最終更新日: 2022年07月26日\n開発環境\n\nmacOS 12.4 “Monterey”\nFirefox 102.0.0\nR version 4.2.1 (2022-06-23)\nRStudio 2022.02.3+492 “Prairie Trillium”\nQuarto 1.0.36\nR package {quarto} 1.2\n\n本サポートページのレポジトリ"
+    "text": "アイコン説明\n\n\n\n\n：NIIオンライン分析システムの起動\n\n右クリックし、新しいタブ（or ウィンドウ）で開いてください。\n初期設定が必要です。初期設定の方法はRの使い方 > Rの導入を参照してください。\n\n：Rの教科書（『私たちのR』）\n：本ウェブサイト内の検索\n\n\n\n\n\n\n\n\n\nページ情報\n\n\n\n\n最終更新日: 2022年07月27日\n開発環境\n\nmacOS 12.4 “Monterey”\nFirefox 102.0.0\nR version 4.2.1 (2022-06-23)\nRStudio 2022.02.3+492 “Prairie Trillium”\nQuarto 1.0.36\nR package {quarto} 1.2\n\n本サポートページのレポジトリ"
   },
   {
     "objectID": "syllabus.html",
@@ -646,44 +646,58 @@
   {
     "objectID": "material/intro_po_rct.html",
     "href": "material/intro_po_rct.html",
-    "title": "第1回講義資料",
+    "title": "因果推論の考え方とランダム化比較試験",
     "section": "",
     "text": "新しいタブで開く"
   },
   {
     "objectID": "material/intro_po_rct.html#パッケージ",
     "href": "material/intro_po_rct.html#パッケージ",
-    "title": "第1回講義資料",
+    "title": "因果推論の考え方とランダム化比較試験",
     "section": "パッケージ",
     "text": "パッケージ\n　通常、Rでのパッケージのインストールとアップーでとにはinstall.packages()関数、読み込みにはlibrary()、またはrequire()関数を使う。また、R公式レポジトリにないパッケージは{devtools}か{remote}パッケージを使う。これらの関数を使い分けることは面倒なので、本講義ではこれらの処理を統合した{pacman}パッケージを使用する。まずは、{pacman}パッケージをインストールする。\n\n# NIIオンライン分析システムを利用する場合、導入済み\ninstall.packages(\"pacman\")\n\n　パッケージを読み込む際、pacman::p_load(読み込むパッケージ名)を入力する。インストールされていない場合は、自動的にCRANからダウンロード&インストールした上で読み込んでくれるので便利だ1。以下では本講義で使用するパッケージとして{tidyverse}、{summarytools}、{fastDummies}、{modelsummary}を読み込む。\n\npacman::p_load(tidyverse, summarytools, fastDummies,\n               modelsummary, broom)\n\n　CRANでなく、GitHub上で公開されているパッケージを使う場合はpacman::p_load_gh()を使用する。()の中には\"ユーザー名/リポジトリ名\"を入力。たとえば、{BalanceR}の作成者のGitHubアカウント名はJaehyunSongであり、{BalanceR}のリポジトリ名はBalanceRだから、以下のように入力する。\n\npacman::p_load_gh(\"JaehyunSong/BalanceR\")"
   },
   {
     "objectID": "material/intro_po_rct.html#データの読み込みと確認",
     "href": "material/intro_po_rct.html#データの読み込みと確認",
-    "title": "第1回講義資料",
+    "title": "因果推論の考え方とランダム化比較試験",
     "section": "データの読み込みと確認",
     "text": "データの読み込みと確認\n　.csv形式のデータを読み込むにはread_csv()関数を使用する。()内には読み込むファイルのパスを\"で囲んで記入する。read_csv()関数はファイルの読み込みのみの機能しか持たない。現在の作業環境内に読み込んだデータを格納するためには代入演算子<-を使う。ここではdataフォルダー内のDay1_Data3.csvを読み込み、raw_dfという名のオブジェクトとしてく格納する。作業環境内のオブジェクトはRを再起動すると削除されるため、改めてパッケージ・データの読み込みが必要だ。\n\nraw_df <- read_csv(\"data/Day1_Data3.csv\")\n\n　オブジェクトの中身を出力するためにはオブジェクト名を入力する。\n\nraw_df\n\n# A tibble: 344,084 × 8\n   treatment  gender   yob hh_size voted2000 voted2002 voted2004 voted2006\n   <chr>      <chr>  <dbl>   <dbl> <chr>     <chr>     <chr>     <chr>    \n 1 Civic Duty male    1941       2 no        yes       no        no       \n 2 Civic Duty female  1947       2 no        yes       no        no       \n 3 Hawthorne  male    1951       3 no        yes       no        yes      \n 4 Hawthorne  female  1950       3 no        yes       no        yes      \n 5 Hawthorne  female  1982       3 no        yes       no        yes      \n 6 Control    male    1981       3 no        no        no        no       \n 7 Control    female  1959       3 no        yes       no        yes      \n 8 Control    male    1956       3 no        yes       no        yes      \n 9 Control    female  1968       2 no        yes       no        no       \n10 Control    male    1967       2 no        yes       no        no       \n# … with 344,074 more rows\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　表形式データの大きさ（行の列の数）の確認にはdim()関数を使う。\n\ndim(raw_df)\n\n[1] 344084      8\n\n\n　表形式データの場合、各列には名前が付いており、それぞれが一つの変数に該当する。これら変数名のみの出力にはnames()関数を使う。今回のデータだと、列の数が少ないこともあり、一画面に全列が表示されるが、数百列のデータとなると画面に収まらないので、変数名を確認しておくことを推奨する。\n\nnames(raw_df)\n\n[1] \"treatment\" \"gender\"    \"yob\"       \"hh_size\"   \"voted2000\" \"voted2002\"\n[7] \"voted2004\" \"voted2006\""
   },
   {
     "objectID": "material/intro_po_rct.html#データハンドリングとパイプ演算子",
     "href": "material/intro_po_rct.html#データハンドリングとパイプ演算子",
-    "title": "第1回講義資料",
+    "title": "因果推論の考え方とランダム化比較試験",
     "section": "データハンドリングとパイプ演算子",
     "text": "データハンドリングとパイプ演算子\n　パイプ演算子には{magrittr}パッケージが提供する%>%とR 4.1から提供されるネイティブパイプ演算子の|>がある。現在の主流は古くから使われた%>%であるが、今後、|>が主流になると考えられるため、以下では|>を使用する。しかし、多くの場合、|>の代わりに%>%を使っても同じ結果が得られる。\n　パイプ演算子はパイプ前のオブジェクトを、パイプ後の関数の第一引数として渡す単純な演算子だ。たとえば、列名を変更する関数はrename()であるが、使い方はrenames(データ名, 新しい列名 = 既存の列名, ...)である。raw_dfのgender列の名前をfemaleに変更する場合は以下のように書く。\n\nrename(raw_df, female = gender)\n\n# A tibble: 344,084 × 8\n   treatment  female   yob hh_size voted2000 voted2002 voted2004 voted2006\n   <chr>      <chr>  <dbl>   <dbl> <chr>     <chr>     <chr>     <chr>    \n 1 Civic Duty male    1941       2 no        yes       no        no       \n 2 Civic Duty female  1947       2 no        yes       no        no       \n 3 Hawthorne  male    1951       3 no        yes       no        yes      \n 4 Hawthorne  female  1950       3 no        yes       no        yes      \n 5 Hawthorne  female  1982       3 no        yes       no        yes      \n 6 Control    male    1981       3 no        no        no        no       \n 7 Control    female  1959       3 no        yes       no        yes      \n 8 Control    male    1956       3 no        yes       no        yes      \n 9 Control    female  1968       2 no        yes       no        no       \n10 Control    male    1967       2 no        yes       no        no       \n# … with 344,074 more rows\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　ここで第1引数がraw_dfだが、パイプ演算子を使うと以下のようになり、人間にとって読みやすいコードになる。\n\nraw_df |>\n  rename(female = gender)\n\n# A tibble: 344,084 × 8\n   treatment  female   yob hh_size voted2000 voted2002 voted2004 voted2006\n   <chr>      <chr>  <dbl>   <dbl> <chr>     <chr>     <chr>     <chr>    \n 1 Civic Duty male    1941       2 no        yes       no        no       \n 2 Civic Duty female  1947       2 no        yes       no        no       \n 3 Hawthorne  male    1951       3 no        yes       no        yes      \n 4 Hawthorne  female  1950       3 no        yes       no        yes      \n 5 Hawthorne  female  1982       3 no        yes       no        yes      \n 6 Control    male    1981       3 no        no        no        no       \n 7 Control    female  1959       3 no        yes       no        yes      \n 8 Control    male    1956       3 no        yes       no        yes      \n 9 Control    female  1968       2 no        yes       no        no       \n10 Control    male    1967       2 no        yes       no        no       \n# … with 344,074 more rows\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　要するに、X |> Yは「X（の結果）を使ってYを行う」ことを意味する。\n　続いて、変数のリコーディングをしてみよう。xの値が\"A\"なら1、それ以外は0のように、戻り値が2種類の場合のリコーディングにはif_else()を使用する。書き方は以下の通りだ。\n\nif_else(条件式, 条件が満たされる場合の戻り値, 条件が満たされない場合の戻り値)\n\n　たとえば、raw_dfのgender列の値が\"female\"なら1、それ以外なら0とし、その結果をfemale列として追加するコードは以下の通り。同値を意味する演算子が=でなく、==であることに注意すること（=は<-と同じ代入演算子であるが、Rでは代入演算子として=より<-の使用を推奨している）。\n\nmutate(raw_df, \n       female = if_else(gender == \"female\", 1, 0))\n\n# A tibble: 344,084 × 9\n   treatment  gender   yob hh_size voted2000 voted2002 voted2004 voted2…¹ female\n   <chr>      <chr>  <dbl>   <dbl> <chr>     <chr>     <chr>     <chr>     <dbl>\n 1 Civic Duty male    1941       2 no        yes       no        no            0\n 2 Civic Duty female  1947       2 no        yes       no        no            1\n 3 Hawthorne  male    1951       3 no        yes       no        yes           0\n 4 Hawthorne  female  1950       3 no        yes       no        yes           1\n 5 Hawthorne  female  1982       3 no        yes       no        yes           1\n 6 Control    male    1981       3 no        no        no        no            0\n 7 Control    female  1959       3 no        yes       no        yes           1\n 8 Control    male    1956       3 no        yes       no        yes           0\n 9 Control    female  1968       2 no        yes       no        no            1\n10 Control    male    1967       2 no        yes       no        no            0\n# … with 344,074 more rows, and abbreviated variable name ¹​voted2006\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　mutate()は指定された列に対して何らかの処理を行い、その結果を新しい列として追加するか、上書きする関数である。このmutate()関数の第1引数もデータであるため、以下のようにパイプ演算子を使うこともできる。\n\nraw_df |>\n  mutate(female = if_else(gender == \"female\", 1, 0))\n\n# A tibble: 344,084 × 9\n   treatment  gender   yob hh_size voted2000 voted2002 voted2004 voted2…¹ female\n   <chr>      <chr>  <dbl>   <dbl> <chr>     <chr>     <chr>     <chr>     <dbl>\n 1 Civic Duty male    1941       2 no        yes       no        no            0\n 2 Civic Duty female  1947       2 no        yes       no        no            1\n 3 Hawthorne  male    1951       3 no        yes       no        yes           0\n 4 Hawthorne  female  1950       3 no        yes       no        yes           1\n 5 Hawthorne  female  1982       3 no        yes       no        yes           1\n 6 Control    male    1981       3 no        no        no        no            0\n 7 Control    female  1959       3 no        yes       no        yes           1\n 8 Control    male    1956       3 no        yes       no        yes           0\n 9 Control    female  1968       2 no        yes       no        no            1\n10 Control    male    1967       2 no        yes       no        no            0\n# … with 344,074 more rows, and abbreviated variable name ¹​voted2006\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　また、mutate()内には複数のコードを書くのもできる。voted2000列からvoted2006列までそれぞれの値が\"yes\"であれば、1を、それ以外の場合は0にリコーディングしてみよう。\n\nraw_df |>\n  mutate(female    = if_else(gender    == \"female\", 1, 0),\n         voted2000 = if_else(voted2000 == \"yes\", 1, 0),\n         voted2002 = if_else(voted2002 == \"yes\", 1, 0),\n         voted2004 = if_else(voted2004 == \"yes\", 1, 0),\n         voted2006 = if_else(voted2006 == \"yes\", 1, 0))\n\n# A tibble: 344,084 × 9\n   treatment  gender   yob hh_size voted2000 voted2002 voted2004 voted2…¹ female\n   <chr>      <chr>  <dbl>   <dbl>     <dbl>     <dbl>     <dbl>    <dbl>  <dbl>\n 1 Civic Duty male    1941       2         0         1         0        0      0\n 2 Civic Duty female  1947       2         0         1         0        0      1\n 3 Hawthorne  male    1951       3         0         1         0        1      0\n 4 Hawthorne  female  1950       3         0         1         0        1      1\n 5 Hawthorne  female  1982       3         0         1         0        1      1\n 6 Control    male    1981       3         0         0         0        0      0\n 7 Control    female  1959       3         0         1         0        1      1\n 8 Control    male    1956       3         0         1         0        1      0\n 9 Control    female  1968       2         0         1         0        0      1\n10 Control    male    1967       2         0         1         0        0      0\n# … with 344,074 more rows, and abbreviated variable name ¹​voted2006\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　また、パイプ演算子は2つ以上使うこともできる。たとえば、rename()を使ってgender列をfemaleに変更し、mutate()でリコーディングを行う場合、以下のように書く。これはraw_dfを使ってrename()の処理を行い、その結果をmutate()関数のデータとして渡すことを意味する。\n\nraw_df |>\n  rename(female = gender) |>\n  mutate(female    = if_else(female    == \"female\", 1, 0),\n         voted2000 = if_else(voted2000 == \"yes\", 1, 0),\n         voted2002 = if_else(voted2002 == \"yes\", 1, 0),\n         voted2004 = if_else(voted2004 == \"yes\", 1, 0),\n         voted2006 = if_else(voted2006 == \"yes\", 1, 0))\n\n# A tibble: 344,084 × 8\n   treatment  female   yob hh_size voted2000 voted2002 voted2004 voted2006\n   <chr>       <dbl> <dbl>   <dbl>     <dbl>     <dbl>     <dbl>     <dbl>\n 1 Civic Duty      0  1941       2         0         1         0         0\n 2 Civic Duty      1  1947       2         0         1         0         0\n 3 Hawthorne       0  1951       3         0         1         0         1\n 4 Hawthorne       1  1950       3         0         1         0         1\n 5 Hawthorne       1  1982       3         0         1         0         1\n 6 Control         0  1981       3         0         0         0         0\n 7 Control         1  1959       3         0         1         0         1\n 8 Control         0  1956       3         0         1         0         1\n 9 Control         1  1968       2         0         1         0         0\n10 Control         0  1967       2         0         1         0         0\n# … with 344,074 more rows\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　以上のコードはデータを加工し、その結果を出力するだけであって、その結果を保存しない。\n\nraw_df\n\n# A tibble: 344,084 × 8\n   treatment  gender   yob hh_size voted2000 voted2002 voted2004 voted2006\n   <chr>      <chr>  <dbl>   <dbl> <chr>     <chr>     <chr>     <chr>    \n 1 Civic Duty male    1941       2 no        yes       no        no       \n 2 Civic Duty female  1947       2 no        yes       no        no       \n 3 Hawthorne  male    1951       3 no        yes       no        yes      \n 4 Hawthorne  female  1950       3 no        yes       no        yes      \n 5 Hawthorne  female  1982       3 no        yes       no        yes      \n 6 Control    male    1981       3 no        no        no        no       \n 7 Control    female  1959       3 no        yes       no        yes      \n 8 Control    male    1956       3 no        yes       no        yes      \n 9 Control    female  1968       2 no        yes       no        no       \n10 Control    male    1967       2 no        yes       no        no       \n# … with 344,074 more rows\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　このように頑張ってデータを加工したもののその結果が全く反映されていない。加工したデータを引き続き使っていくためには、加工結果を作業環境内に保存する必要がある。作業環境内にオブジェクトを保存するためには代入演算子（<-）を使い、名前を付けて作業空間内に保存する（ファイルとして保存されるわけではない）必要がある。今回は加工の結果をdfという名で保存する。raw_dfに上書きしても問題はないが、生データはとりあえず作業空間内に残しておくことを推奨する（Rに慣れれば上書きしても良い）。\n\ndf <- raw_df |>\n  rename(female = gender) |>\n  mutate(female    = if_else(female    == \"female\", 1, 0),\n         voted2000 = if_else(voted2000 == \"yes\", 1, 0),\n         voted2002 = if_else(voted2002 == \"yes\", 1, 0),\n         voted2004 = if_else(voted2004 == \"yes\", 1, 0),\n         voted2006 = if_else(voted2006 == \"yes\", 1, 0))\n\ndf\n\n# A tibble: 344,084 × 8\n   treatment  female   yob hh_size voted2000 voted2002 voted2004 voted2006\n   <chr>       <dbl> <dbl>   <dbl>     <dbl>     <dbl>     <dbl>     <dbl>\n 1 Civic Duty      0  1941       2         0         1         0         0\n 2 Civic Duty      1  1947       2         0         1         0         0\n 3 Hawthorne       0  1951       3         0         1         0         1\n 4 Hawthorne       1  1950       3         0         1         0         1\n 5 Hawthorne       1  1982       3         0         1         0         1\n 6 Control         0  1981       3         0         0         0         0\n 7 Control         1  1959       3         0         1         0         1\n 8 Control         0  1956       3         0         1         0         1\n 9 Control         1  1968       2         0         1         0         0\n10 Control         0  1967       2         0         1         0         0\n# … with 344,074 more rows\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　ちなみに、across()関数とラムダ式（無名関数）を組み合わせると以上のコードを効率化することもできる。across()は強力な関数だが、初心者にはやや難しいかも知れない。詳細は『私たちのR』の第13.1章を参照されたい。\n\ndf <- raw_df |>\n  rename(female = gender) |>\n  mutate(female = if_else(female == \"female\", 1, 0),\n         across(starts_with(\"voted\"), ~if_else(.x == \"yes\", 1, 0)))"
   },
   {
     "objectID": "material/intro_po_rct.html#記述統計量",
     "href": "material/intro_po_rct.html#記述統計量",
-    "title": "第1回講義資料",
+    "title": "因果推論の考え方とランダム化比較試験",
     "section": "記述統計量",
     "text": "記述統計量\n　記述統計量の計算には{summarytools}のdescr()関数が便利だ。descr(データ名)を入力するだけで各変数の記述統計量が出力される。実際にやってみると分かるが、情報量がかなり多い。しかし、実際の論文では各変数の歪度や尖度まで報告することはあまりないだろう。ここではstats引数を追加して、論文などでよく使う平均値（\"mean\"）、標準偏差（\"sd\"）、最小値（\"min\"）、最大値（\"max\"）、有効ケース数（\"n.valid\"）のみ出力する。\n\ndf |>\n  descr(stats = c(\"mean\", \"sd\", \"min\", \"max\", \"n.valid\"))\n\nDescriptive Statistics  \ndf  \nN: 344084  \n\n                   female     hh_size   voted2000   voted2002   voted2004   voted2006         yob\n------------- ----------- ----------- ----------- ----------- ----------- ----------- -----------\n         Mean        0.50        2.18        0.25        0.39        0.40        0.32     1956.21\n      Std.Dev        0.50        0.79        0.43        0.49        0.49        0.46       14.45\n          Min        0.00        1.00        0.00        0.00        0.00        0.00     1900.00\n          Max        1.00        8.00        1.00        1.00        1.00        1.00     1986.00\n      N.Valid   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00\n\n\n　ただし、descr()を使うと数値型（numeric）変数の記述統計量のみ表示される。dfだと、treatment列は文字型（character）であるため、表示されない2。各グループがサンプルの何割かを計算するためには、treatment変数をダミー変数へ変換する必要がある。ダミー変数の作成は面倒な作業であるが、{fastDummies}パッケージのdummy_cols()を使えば簡単にできる。dummy_cols()の中にはselect_columns = \"ダミー化する列名\"を入れれば、当該変数をダミー変数へ変換し、新しい列として追加してくれる。それではtreatment列をダミー化&追加し、その結果をdfに上書きしてみよう。\n\ndf <- df |>\n  dummy_cols(select_columns = \"treatment\")\n\ndf\n\n# A tibble: 344,084 × 13\n   treatm…¹ female   yob hh_size voted…² voted…³ voted…⁴ voted…⁵ treat…⁶ treat…⁷\n   <chr>     <dbl> <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <int>   <int>\n 1 Civic D…      0  1941       2       0       1       0       0       1       0\n 2 Civic D…      1  1947       2       0       1       0       0       1       0\n 3 Hawthor…      0  1951       3       0       1       0       1       0       0\n 4 Hawthor…      1  1950       3       0       1       0       1       0       0\n 5 Hawthor…      1  1982       3       0       1       0       1       0       0\n 6 Control       0  1981       3       0       0       0       0       0       1\n 7 Control       1  1959       3       0       1       0       1       0       1\n 8 Control       0  1956       3       0       1       0       1       0       1\n 9 Control       1  1968       2       0       1       0       0       0       1\n10 Control       0  1967       2       0       1       0       0       0       1\n# … with 344,074 more rows, 3 more variables: treatment_Hawthorne <int>,\n#   treatment_Neighbors <int>, treatment_Self <int>, and abbreviated variable\n#   names ¹​treatment, ²​voted2000, ³​voted2002, ⁴​voted2004, ⁵​voted2006,\n#   ⁶​`treatment_Civic Duty`, ⁷​treatment_Control\n# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names\n\n\n　画面には表示されないが、出力結果の下段を見るとtreatment_で始まるいくつかの変数が追加されたことが分かる。ここでは\"tretmant\"で始まる列のみを抽出つして確認してみよう。\n\ndf |>\n  select(starts_with(\"treatment\"))\n\n# A tibble: 344,084 × 6\n   treatment  `treatment_Civic Duty` treatment_Control treatme…¹ treat…² treat…³\n   <chr>                       <int>             <int>     <int>   <int>   <int>\n 1 Civic Duty                      1                 0         0       0       0\n 2 Civic Duty                      1                 0         0       0       0\n 3 Hawthorne                       0                 0         1       0       0\n 4 Hawthorne                       0                 0         1       0       0\n 5 Hawthorne                       0                 0         1       0       0\n 6 Control                         0                 1         0       0       0\n 7 Control                         0                 1         0       0       0\n 8 Control                         0                 1         0       0       0\n 9 Control                         0                 1         0       0       0\n10 Control                         0                 1         0       0       0\n# … with 344,074 more rows, and abbreviated variable names\n#   ¹​treatment_Hawthorne, ²​treatment_Neighbors, ³​treatment_Self\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　select()関数内には抽出する列名を入力するだけで良い。たとえば、femaleとyob列を抽出するならselect(female, yob)である。また、femaleからvoted2006までの意味でfemale:voted2006のような書き方もできる。他にも上の例のようにstarts_with()やends_with()、contain()を使って特定の文字列で始まる（で終わる、を含む）列を指定することもできる。一部の列を除外する場合は変数名の前に!か-を付ける。\n　とにかく、問題なくダミー化されていることが分かる。もう一度記述統計量を出してみよう。descr()は仕様上、出力される変数の順番はアルファベット順になるが、ここでは元の順番を維持するためにorder = \"p\"を追加する。また、通常の記述統計表が、先ほど見たものとは違って、各行が変数を、列は記述統計量を表す場合が多い。このように行と列を交換するためにはtranspose = TRUEを追加する3。\n\ndf |>\n  descr(stats = c(\"mean\", \"sd\", \"min\", \"max\", \"n.valid\"),\n        order = \"p\", transpose = TRUE, headings = FALSE)\n\n\n\n\nMean\nStd.Dev\nMin\nMax\nN.Valid\n\n\n\n\nfemale\n0.50\n0.50\n0.00\n1.00\n344084.00\n\n\nyob\n1956.21\n14.45\n1900.00\n1986.00\n344084.00\n\n\nhh_size\n2.18\n0.79\n1.00\n8.00\n344084.00\n\n\nvoted2000\n0.25\n0.43\n0.00\n1.00\n344084.00\n\n\nvoted2002\n0.39\n0.49\n0.00\n1.00\n344084.00\n\n\nvoted2004\n0.40\n0.49\n0.00\n1.00\n344084.00\n\n\nvoted2006\n0.32\n0.46\n0.00\n1.00\n344084.00\n\n\ntreatment_Civic Duty\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Control\n0.56\n0.50\n0.00\n1.00\n344084.00\n\n\ntreatment_Hawthorne\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Neighbors\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Self\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\n\n\n　他にも以下のようにdfSummary()関数を使えば、綺麗な表としてまとめてくれる。しかも文字型、factor型変数の場合も度数分布表を作成してくれるので非常に便利だ。これも{summarytools}パッケージに含まれた機能なので、別途、パッケージを読み込む必要はない。\n\ndf |>\n  select(-starts_with(\"treatment_\")) |>\n  dfSummary(headings = FALSE) |> \n  print(method = \"render\", round.digits = 3)\n\n\n\n\n  \n    \n      No\n      Variable\n      Stats / Values\n      Freqs (% of Valid)\n      Graph\n      Valid\n      Missing\n    \n  \n  \n    \n      1\n      treatment\n[character]\n      1. Civic Duty2. Control3. Hawthorne4. Neighbors5. Self\n      38218(11.1%)191243(55.6%)38204(11.1%)38201(11.1%)38218(11.1%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      2\n      female\n[numeric]\n      Min  : 0Mean : 0.5Max  : 1\n      0:172289(50.1%)1:171795(49.9%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      3\n      yob\n[numeric]\n      Mean (sd) : 1956.2 (14.4)min ≤ med ≤ max:1900 ≤ 1956 ≤ 1986IQR (CV) : 18 (0)\n      86 distinct values\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      4\n      hh_size\n[numeric]\n      Mean (sd) : 2.2 (0.8)min ≤ med ≤ max:1 ≤ 2 ≤ 8IQR (CV) : 0 (0.4)\n      1:47834(13.9%)2:214086(62.2%)3:57474(16.7%)4:20916(6.1%)5:3315(1.0%)6:402(0.1%)7:49(0.0%)8:8(0.0%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      5\n      voted2000\n[numeric]\n      Min  : 0Mean : 0.3Max  : 1\n      0:257464(74.8%)1:86620(25.2%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      6\n      voted2002\n[numeric]\n      Min  : 0Mean : 0.4Max  : 1\n      0:209947(61.0%)1:134137(39.0%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      7\n      voted2004\n[numeric]\n      Min  : 0Mean : 0.4Max  : 1\n      0:205934(59.8%)1:138150(40.2%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      8\n      voted2006\n[numeric]\n      Min  : 0Mean : 0.3Max  : 1\n      0:235388(68.4%)1:108696(31.6%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n  \n\nGenerated by summarytools 1.0.1 (R version 4.2.1)2022-07-27"
   },
   {
+    "objectID": "material/intro_po_rct.html#バランスチェック",
+    "href": "material/intro_po_rct.html#バランスチェック",
+    "title": "因果推論の考え方とランダム化比較試験",
+    "section": "バランスチェック",
+    "text": "バランスチェック"
+  },
+  {
     "objectID": "material/intro_po_rct.html#処置効果の確認",
     "href": "material/intro_po_rct.html#処置効果の確認",
-    "title": "第1回講義資料",
+    "title": "因果推論の考え方とランダム化比較試験",
     "section": "処置効果の確認",
     "text": "処置効果の確認\n\nグループごとの応答変数の平均値\n　処置効果を確認するためには各グループごとの応答変数（ここではvoted2006）の平均値を計算し、処置群の平均値から統制群の平均値を引く必要がある。まずは、特定の変数の平均値を計算する方法について紹介する。データ内にある特定の変数の平均値を計算するためにはsummarise()関数内に平均値を求めるmean()関数を入れる。たとえば、dfのvoted2006の平均値を計算するコードは以下の通りである。\n\ndf |>\n  summarise(mean(voted2006, na.rm = TRUE))\n\n# A tibble: 1 × 1\n  `mean(voted2006, na.rm = TRUE)`\n                            <dbl>\n1                           0.316\n\n\n　na.rm = TRUEは「欠損値があれば、それを除外する」を意味し、指定されていない場合（=既定値）はFALSEになる。今回は欠損値がないものの、念の為に入れておく。\n　出力結果を見ると、平均値が表示される列の名前が`mean(voted2006, na.rm = TRUE)`となっており、非常に見にくい。この場合、以下のようにmean()の前に出力される列名を予め指定することもできる。\n\ndf |>\n  # voted2006の平均値が表示される列名を Outcome にする。\n  summarise(Outcome = mean(voted2006, na.rm = TRUE))\n\n# A tibble: 1 × 1\n  Outcome\n    <dbl>\n1   0.316\n\n\n　我々が知りたいのはvoted2006の平均値でなく、グループごとの平均値だろう。被験者がどのグループに属しているかわ示す変数はtreatmentであるが、summarise()にデータを渡す前にgroup_by()変数を使うと、グループごとに計算を行い、その結果を返す。\n\ndf |>\n  group_by(treatment) |>\n  summarise(Outcome = mean(voted2006, na.rm = TRUE))\n\n# A tibble: 5 × 2\n  treatment  Outcome\n  <chr>        <dbl>\n1 Civic Duty   0.315\n2 Control      0.297\n3 Hawthorne    0.322\n4 Neighbors    0.378\n5 Self         0.345\n\n\n　group_by()内でも=演算子を使うと、グループ名が出力される列名を変更することができる。\n\ndf |>\n  # グループ名が表示される列名を Group にする。\n  group_by(Groups = treatment) |>\n  summarise(Outcome = mean(voted2006, na.rm = TRUE))\n\n# A tibble: 5 × 2\n  Groups     Outcome\n  <chr>        <dbl>\n1 Civic Duty   0.315\n2 Control      0.297\n3 Hawthorne    0.322\n4 Neighbors    0.378\n5 Self         0.345\n\n\n　ここで一つ注目したいのが、グループの表示順番である。変数のデータ型が文字型だと（Rコンソール上でclass(df$treatment)を入力するか、dfの出力画面でtreatmentの下に<chr>と表示されていることで確認できる）、今のようにアルファベット順で表示される。しかし、統制群は最初か最後に来るのが通例である。この順番をアルファベット順でなく、任意の順番にするためにはtreatment変数をfactor型変数へ変換する必要がある。Factor型は「順序付きの文字型変数」だと理解しても良い4。列の追加・上書き（今回はtreatment列の上書き）の処理が必要なのでmutate()関数を使う。変数をfactor型に変換する関数はfactor()関数で、第1引数としてはfactor型へ変換する変数名を指定する。第2引数はlevelsであり、出力したい順番の文字型ベクトルを指定する。スペルミスに注意すること。\n\ndf |>\n  mutate(treatment = factor(treatment,\n                            levels = c(\"Control\", \"Civic Duty\",\n                                       \"Self\", \"Neighbors\", \"Hawthorne\")))\n\n# A tibble: 344,084 × 13\n   treatm…¹ female   yob hh_size voted…² voted…³ voted…⁴ voted…⁵ treat…⁶ treat…⁷\n   <fct>     <dbl> <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <int>   <int>\n 1 Civic D…      0  1941       2       0       1       0       0       1       0\n 2 Civic D…      1  1947       2       0       1       0       0       1       0\n 3 Hawthor…      0  1951       3       0       1       0       1       0       0\n 4 Hawthor…      1  1950       3       0       1       0       1       0       0\n 5 Hawthor…      1  1982       3       0       1       0       1       0       0\n 6 Control       0  1981       3       0       0       0       0       0       1\n 7 Control       1  1959       3       0       1       0       1       0       1\n 8 Control       0  1956       3       0       1       0       1       0       1\n 9 Control       1  1968       2       0       1       0       0       0       1\n10 Control       0  1967       2       0       1       0       0       0       1\n# … with 344,074 more rows, 3 more variables: treatment_Hawthorne <int>,\n#   treatment_Neighbors <int>, treatment_Self <int>, and abbreviated variable\n#   names ¹​treatment, ²​voted2000, ³​voted2002, ⁴​voted2004, ⁵​voted2006,\n#   ⁶​`treatment_Civic Duty`, ⁷​treatment_Control\n# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names\n\n\n　treatment列名の下が<fct>となっていることが分かる。これはtreatment列のデータ型がfactor型であることを意味する。問題なく動くことが確認できたので、dfを上書きしよう。\n\ndf <- df |>\n  mutate(treatment = factor(treatment,\n                            levels = c(\"Control\", \"Civic Duty\",\n                                       \"Self\", \"Neighbors\", \"Hawthorne\")))\n\n　それでは、改めてグループごとのvoted2006の平均値を計算してみよう。今回は計算結果をout_mean_dfという名のオブジェクトとして格納する。\n\nout_mean_df <- df |>\n  group_by(Groups = treatment) |>\n  summarise(Outcome = mean(voted2006, na.rm = TRUE))\n\nout_mean_df\n\n# A tibble: 5 × 2\n  Groups     Outcome\n  <fct>        <dbl>\n1 Control      0.297\n2 Civic Duty   0.315\n3 Self         0.345\n4 Neighbors    0.378\n5 Hawthorne    0.322\n\n\n　今回は統制群は最初に出力されていることが確認できる。\n　それではこの結果をグラフとして示してみよう。作図には{ggplot2}パッケージを使う。まずはout_mean_dfをggplot()関数に渡す。ggplot()関数以降は、+演算子を使ってレイヤーを足していくこととなる。棒グラフのレイヤーはgeom_bar()関数であり、その中にaes()関数を入れる。aes()の中には棒グラフの作図に必要な情報を入れる必要がある（これをマッピング（mapping）と呼ぶ）。棒グラフを作成するために必要な最低限の情報とは各棒の横軸上の位置（x）と棒の高さ（y）だ。今回は横軸がグループ名、縦軸が平均値となる棒グラフを作る。aes()外側にはstat = \"identity\"を忘れずに付けること。\n\nout_mean_df |>\n  ggplot() +\n  geom_bar(aes(x = Groups, y = Outcome), stat = \"identity\")\n\n\n\n\n図 1: ?(caption)\n\n\n\n\n　続いて、このグラフの見た目を調整してみよう。\n\nout_mean_df |>\n  ggplot() +\n  geom_bar(aes(x = Groups, y = Outcome), stat = \"identity\") +\n  # 縦軸（y軸）のラベルを変更する\n  labs(y = \"Mean(Outcome)\") +\n  # grayテーマ（デフォルトのテーマ）を使用し、フォントサイズは14\n  theme_gray(base_size = 14)\n\n\n\n\n図 2: ?(caption)\n\n\n\n\n　また、geom_label()レイヤーを足すと、棒の上にラベルを付けることもできる。ラベルに必要な情報は各ラベルの横軸上の位置（x）、縦軸上の位置（y）、ラベルの表示内容（label）だ。今回のラベルは平均値の具体的な数値を入れてみよう。\n\nout_mean_df |>\n  ggplot() +\n  geom_bar(aes(x = Groups, y = Outcome), stat = \"identity\") +\n  geom_label(aes(x = Groups, y = Outcome, label = Outcome)) +\n  labs(y = \"Mean(Outcome)\") +\n  theme_gray(base_size = 14)\n\n\n\n\n図 3: ?(caption)\n\n\n\n\n　小数点が長すぎるので3桁まで表示としよう。ここではsprintf()を使用する。使い方が簡単とは言えないが、覚える必要はなく、必要な時にググるか、本資料のコードをコピペすれば良い5。\n\nout_mean_df |>\n  ggplot() +\n  geom_bar(aes(x = Groups, y = Outcome), stat = \"identity\") +\n  # 2桁までなら %.3f を %.2f に変更\n  geom_label(aes(x = Groups, y = Outcome, label = sprintf(\"%.3f\", Outcome))) +\n  labs(y = \"Mean(Outcome)\") +\n  theme_gray(base_size = 14)\n\n\n\n\n図 4: ?(caption)\n\n\n\n\n　これで可視化ができた。ただし、以上のコードには改善の余地がある。geom_bar()とgeom_label()内のaes()関数に注目して欲しい。よく見るとxとyと同じだろう。geom_*()が共有するマッピングがあれば、ggplot()内で指定することでコードを効率化することもできる。\n\nout_mean_df |>\n  ggplot(aes(x = Groups, y = Outcome)) +\n  geom_bar(stat = \"identity\") +\n  geom_label(aes(label = sprintf(\"%.3f\", Outcome))) +\n  labs(y = \"Mean(Outcome)\") +\n  theme_gray(base_size = 14)\n\n\n\n\n図 5: ?(caption)\n\n\n\n\n\n\n統計的推定（単回帰分析）\n　これまでの作業はグループごとの応答変数の平均値であって、処置効果ではない。処置効果を計算するためには処置群の平均値から統制群の平均値を引く必要がある。たとえば、Civic Dutyはがき群の平均値は約0.315、統制群のそれは0.297であるため、Civic Dutyはがきの処置効果は約0.018である。しかし、これを各グループごとに計算することは面倒だし、何よりも得られた値が点推定値だという限界がある。得られた処置効果の不確実性は計算できない。\n　ここで有効なのが線形回帰分析である。回帰分析を行うことで処置効果の点推定値のみならず、不確実性の指標である標準誤差も計算され、区間推定や統計的仮説検定も可能となる。線形回帰分析の関数はlm()だ。第1引数としては回帰式であり、応答変数 ~ 説明変数と表記する。第2引数はdataであり、回帰式で指定した変数が入っているデータ名を指定する。回帰分析の結果は名前を付けてオブジェクトとして格納し、summary()関数を使うと、詳細が確認できる。\n\nfit1 <- lm(voted2006 ~ treatment, data = df)\n\nsummary(fit1)\n\n\nCall:\nlm(formula = voted2006 ~ treatment, data = df)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-0.3780 -0.3145 -0.2966  0.6549  0.7034 \n\nCoefficients:\n                    Estimate Std. Error t value Pr(>|t|)    \n(Intercept)         0.296638   0.001061 279.525  < 2e-16 ***\ntreatmentCivic Duty 0.017899   0.002600   6.884 5.85e-12 ***\ntreatmentSelf       0.048513   0.002600  18.657  < 2e-16 ***\ntreatmentNeighbors  0.081310   0.002601  31.263  < 2e-16 ***\ntreatmentHawthorne  0.025736   0.002601   9.896  < 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.4641 on 344079 degrees of freedom\nMultiple R-squared:  0.003394,  Adjusted R-squared:  0.003383 \nF-statistic:   293 on 4 and 344079 DF,  p-value: < 2.2e-16\n\n\n　ちなみに、これもパイプ演算子を使うことができる。ただし、第1引数として渡すパイプ演算子の特徴上、そのまま使うことはできない。なぜならlm()関数の第1引数はデータでなく、回帰式（formula型）だから。この場合はプレースホルダー（place holder）を指定する必要がある。パイプ前のオブジェクトが入る位置を任意に指定することであり、_を使う。%>%演算子を使う場合は_でなく、.を使う。上記のコードと以下のコードは同じコードとなる。プレースホルダーは自分が使うパイプ演算子によって使い分けること。\n\nfit1 <- df |> # |> パイプを使う場合\n  lm(voted2006 ~ treatment, data = _)\n\nfit1 <- df %>% # %>% パイプを使う場合\n  lm(voted2006 ~ treatment, data = .)\n\n　Factor型、または文字型変数が説明変数の場合、自動的にダミー変数として処理され、Factor型の場合、最初の水準（ここでは\"Control\"）がベースカテゴリとなる。説明変数が文字型ならアルファベット順で最初の水準がベースカテゴリとなり、今回の例だと\"Civic Duty\"がベースカテゴリとなる。処置効果は「統制群に比べて〜」が重要となるので、数値型以外の説明変数は予めfactor化しておいた方が望ましい。\n　Civic Dutyの推定値は約0.018であり、これは統制群に比べ、Civic Duty群のvoted2006の平均値は約0.018高いことを意味する。応答変数が0、1であるため、これを割合（=投票率）で換算すると、約1.8%p高いことを意味する。つまり、Civic Dutyのはがきをもらった被験者はそうでない被験者に比べて投票率が約1.8%p高いことを意味する。他の推定値も同じやり方で解釈すれば良い。\n　それではこれらの処置効果が統計的に有意なものかを確認してみよう。統計的有意か否かを判定するためには有意と非有意の境界線が必要である、これは通常、有意水準（significance level; \\(\\alpha\\)）と呼ばれる。この有意水準は分析者が決めるものであるが、社会科学で広く使われる基準は\\(\\alpha = 0.05\\)、つまり5%だ。分析結果の画面にはPr(>|t|)列が表示されているが、これが\\(p\\)値と呼ばれるもので、これが0.05を下回る場合、統計的に有意と判定する。もし、\\(\\alpha = 0.1\\)を採用するなら、\\(p < 0.1\\)の場合において統計的に有意と判定する。Civic Dutyの\\(p\\)値は5.85e-12であり、これは\\(5.75 \\times 10^{-12}\\)を意味する。\\(10^{-1}\\)は0.1、\\(10^{-2}\\)は0.01であることを考えると非常に小さい数値であり、統計的に有意であると考えられる。また、\\(p\\)値が一定値以下であれば< 2e-16と表示される。4つの処置群において処置効果は統計的に有意であると判定できよう。\n　続いて、この結果を可視化してみよう。ここでも{ggplot2}パッケージを使って可視化をするが、{ggplot2}で使用可能なオブジェクトは表形式のデータである。Rコンソール上でclass(オブジェクト名)を入力すると、データのクラスが出力されるが、このクラスに\"data.frame\"があれば、{ggplot2}で使用できる。たとえば、fit1オブジェクトのクラスは\"lm\"であるため、そのまま{ggplot2}で使うことはできない。\n\nclass(fit1)\n\n[1] \"lm\"\n\n\n　推定結果を表形式に変換するためには{broom}パッケージのtidy()関数が便利だ。使い方は簡単でtidy()内に回帰分析の推定結果が格納されたオブジェクトを入れるだけである。ただし、デフォルトの設定では95%信頼区間が表示されないため、中にはconf.int = TRUEを追加しておく必要がある。\n\n# 90%信頼区間を使うのであれば conf.int = 0.9 を追加（デフォルトは0.95）\nfit1_coef <- tidy(fit1, conf.int = TRUE)\n\nfit1_coef\n\n# A tibble: 5 × 7\n  term                estimate std.error statistic   p.value conf.low conf.high\n  <chr>                  <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 (Intercept)           0.297    0.00106    280.   0           0.295     0.299 \n2 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230\n3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536\n4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864\n5 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308\n\nclass(fit1_coef)\n\n[1] \"tbl_df\"     \"tbl\"        \"data.frame\"\n\n\n　fit1_coefのクラスに\"data.frame\"が含まれているので、これを使って作図することができる。\n　作図する前に、fit1_coefの加工しておきたい。それぞれの係数（estimate列）は処置効果を表しているが、切片（\"(Intercept)\"）の推定値は処置効果とは無関係である。したがって、予め切片の行を除外しておきたい。特定の行を残したり、除外する関数はfilter()である。今回はterm列の値が\"(Intercept)\"ではない行を残したいので、同値演算子（==）の否定を意味する!=演算子を使用する。\n\nfit1_coef <- fit1_coef |>\n  filter(term != \"(Intercept)\")\n\nfit1_coef\n\n# A tibble: 4 × 7\n  term                estimate std.error statistic   p.value conf.low conf.high\n  <chr>                  <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230\n2 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536\n3 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864\n4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308\n\n\n　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準偏差ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%であれば、95%信頼区間を示し、10%なら90%信頼区間を用いる。\n　点と区間を同時に示すプロットがpoint-rangeプロットであり、{ggplot2}ではgeom_pointrange()レイヤーを使う。必要な情報はpoint-rangeの横軸上の位置（x）、点の縦軸上の位置（y）、区間の上限（ymax）と下限（ymin）である。これらの情報は全てfit1_coefに入っているため、fit1_coefをそのままggplot()関数に渡して作図することができる。\n\nfit1_coef |>\n  ggplot() +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high))\n\n\n\n\n図 6: ?(caption)\n\n\n\n\n　それでは図をカスタマイズしてみよう。図内の様々なラベルを修正するlabs()レイヤーでラベルを修正する。テーマはデフォルトのtheme_gray()の代わりに白黒テーマ（theme_bw()）を使用し、フォントサイズは12とする。また、y = 0の水平線を追加する。95%信頼区間内に0が含まれる場合、「5%水準で統計的に有意でない」と判断できる。水平線を描くにはgeom_hline()レイヤーを追加し、yintercept = 0を指定することで、0のところに水平線が描ける。\n\nfit1_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 7: ?(caption)\n\n\n\n\n　まだ気になる点がある。それは横軸の目盛りラベルにtreatmentという不要な情報がある点だ。これは作図の時点で修正することも可能だが、まずはdfのterm変数の値を修正する方法を紹介する。変数の値を修正する時にはrecode()関数を使用する。第1引数はリコーディングする変数名であり、引き続き\"元の値\" = \"新しい値\"を指定すれば良い。スペルミスに注意すること。\n\nfit1_coef <- fit1_coef |>\n  mutate(term = recode(term,\n                       \"treatmentCivic Duty\" = \"Civic Duty\",\n                       \"treatmentHawthorne\"  = \"Hawthorne\",\n                       \"treatmentNeighbors\"  = \"Neighbors\",\n                       \"treatmentSelf\"       = \"Self\"))\n\nfit1_coef\n\n# A tibble: 4 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <chr>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308\n\n\n　以上の作業はterm列の各値から\"treatment\"文字を\"\"に置換することなので、文字列を置換する関数であるstr_replace()を使えば、より短くすることができる。\n\nfit1_coef <- fit1_coef |>\n  mutate(term = str_replace(term, \"treatment\", \"\"))\n\n　fit1_coefも修正できたので、 図 7 と同じコードでもう一度作図してみよう。\n\nfit1_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 8: ?(caption)\n\n\n\n\n　最後に横軸の順番を修正してみよう。fit1_coefのterm列は文字型変数であるため、アルファベット順になる。これをdfのtreatment列と同様、Civic Duty、Self、Neighbors、Hawthorneの順にしたい。この場合fit1_coefのterm列をfactor化すれば良い。factor()関数を使っても良いが、ここではまた便利な技を紹介しよう。それはfct_inorder()関数だ。これは表示されている順番をfactorの順番とする関数だ。実際、fit1_coefの中身を見ると、表示順番はCivic Duty、Self、Neighbors、Hawthorneだ。非常に嬉しい状況なので、fct_inorder()を使ってみよう。\n\nfit1_coef <- fit1_coef |>\n  mutate(term = fct_inorder(term))\n\nfit1_coef\n\n# A tibble: 4 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308\n\n\n　それでは、 図 8 と同じコードでもう一度作図してみよう。\n\nfit1_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 9: ?(caption)\n\n\n\n\n　これで処置効果の可視化もバッチリだ。\n\n\n多重比較の問題\n\nfit1_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)\n\nfit1_coef\n\n# A tibble: 5 × 7\n  term                estimate std.error statistic   p.value conf.low conf.high\n  <chr>                  <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 (Intercept)           0.297    0.00106    280.   0           0.294     0.299 \n2 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n5 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nfit1_coef <- fit1_coef |>\n  slice(2:5)\n\nfit1_coef\n\n# A tibble: 4 × 7\n  term                estimate std.error statistic   p.value conf.low conf.high\n  <chr>                  <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nfit1_coef <- fit1_coef |>\n  mutate(term = recode(term,\n                       \"treatmentCivic Duty\" = \"Civic Duty\",\n                       \"treatmentHawthorne\"  = \"Hawthorne\",\n                       \"treatmentNeighbors\"  = \"Neighbors\",\n                       \"treatmentSelf\"       = \"Self\"),\n         term = fct_inorder(term))\n\nfit1_coef\n\n# A tibble: 4 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nfit1_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high)) +\n  labs(x = \"Treatments\", \n       y = \"Average Treatment Effects (w/ 98.75% CI)\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 10: ?(caption)\n\n\n\n\n\n\n統計的推定（重回帰分析）\n\nfit2 <-lm(voted2006 ~ treatment + female + yob + hh_size +\n            voted2000 + voted2002 + voted2004, data = df)\n\nsummary(fit2)\n\n\nCall:\nlm(formula = voted2006 ~ treatment + female + yob + hh_size + \n    voted2000 + voted2002 + voted2004, data = df)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-0.7679 -0.3344 -0.1953  0.5300  0.9359 \n\nCoefficients:\n                      Estimate Std. Error t value Pr(>|t|)    \n(Intercept)          5.845e+00  1.099e-01  53.202  < 2e-16 ***\ntreatmentCivic Duty  1.839e-02  2.504e-03   7.343 2.10e-13 ***\ntreatmentSelf        4.797e-02  2.504e-03  19.157  < 2e-16 ***\ntreatmentNeighbors   8.064e-02  2.504e-03  32.199  < 2e-16 ***\ntreatmentHawthorne   2.506e-02  2.504e-03  10.005  < 2e-16 ***\nfemale              -5.783e-03  1.525e-03  -3.791  0.00015 ***\nyob                 -2.913e-03  5.642e-05 -51.633  < 2e-16 ***\nhh_size              5.075e-03  1.018e-03   4.986 6.17e-07 ***\nvoted2000            9.401e-02  1.783e-03  52.722  < 2e-16 ***\nvoted2002            1.414e-01  1.590e-03  88.876  < 2e-16 ***\nvoted2004            1.578e-01  1.564e-03 100.838  < 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.4469 on 344073 degrees of freedom\nMultiple R-squared:  0.07592,   Adjusted R-squared:  0.0759 \nF-statistic:  2827 on 10 and 344073 DF,  p-value: < 2.2e-16\n\n\n\nmodelsummary(fit2)\n\n\n\n \n  \n      \n    Model 1 \n  \n \n\n  \n    (Intercept) \n    5.845 \n  \n  \n     \n    (0.110) \n  \n  \n    treatmentCivic Duty \n    0.018 \n  \n  \n     \n    (0.003) \n  \n  \n    treatmentSelf \n    0.048 \n  \n  \n     \n    (0.003) \n  \n  \n    treatmentNeighbors \n    0.081 \n  \n  \n     \n    (0.003) \n  \n  \n    treatmentHawthorne \n    0.025 \n  \n  \n     \n    (0.003) \n  \n  \n    female \n    −0.006 \n  \n  \n     \n    (0.002) \n  \n  \n    yob \n    −0.003 \n  \n  \n     \n    (0.000) \n  \n  \n    hh_size \n    0.005 \n  \n  \n     \n    (0.001) \n  \n  \n    voted2000 \n    0.094 \n  \n  \n     \n    (0.002) \n  \n  \n    voted2002 \n    0.141 \n  \n  \n     \n    (0.002) \n  \n  \n    voted2004 \n    0.158 \n  \n  \n     \n    (0.002) \n  \n  \n    Num.Obs. \n    344084 \n  \n  \n    R2 \n    0.076 \n  \n  \n    R2 Adj. \n    0.076 \n  \n  \n    AIC \n    422192.9 \n  \n  \n    BIC \n    422321.9 \n  \n  \n    Log.Lik. \n    −211084.453 \n  \n  \n    F \n    2826.942 \n  \n  \n    RMSE \n    0.45 \n  \n\n\n\n\n\n\nmodelsummary(list(\"w/o Covariates\" = fit1, \"w/ Covariates\" = fit2))\n\n\n\n \n  \n      \n    w/o Covariates \n    w/ Covariates \n  \n \n\n  \n    (Intercept) \n    0.297 \n    5.845 \n  \n  \n     \n    (0.001) \n    (0.110) \n  \n  \n    treatmentCivic Duty \n    0.018 \n    0.018 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    treatmentSelf \n    0.049 \n    0.048 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    treatmentNeighbors \n    0.081 \n    0.081 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    treatmentHawthorne \n    0.026 \n    0.025 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    female \n     \n    −0.006 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    yob \n     \n    −0.003 \n  \n  \n     \n     \n    (0.000) \n  \n  \n    hh_size \n     \n    0.005 \n  \n  \n     \n     \n    (0.001) \n  \n  \n    voted2000 \n     \n    0.094 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    voted2002 \n     \n    0.141 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    voted2004 \n     \n    0.158 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    Num.Obs. \n    344084 \n    344084 \n  \n  \n    R2 \n    0.003 \n    0.076 \n  \n  \n    R2 Adj. \n    0.003 \n    0.076 \n  \n  \n    AIC \n    448179.9 \n    422192.9 \n  \n  \n    BIC \n    448244.4 \n    422321.9 \n  \n  \n    Log.Lik. \n    −224083.935 \n    −211084.453 \n  \n  \n    F \n    292.976 \n    2826.942 \n  \n  \n    RMSE \n    0.46 \n    0.45 \n  \n\n\n\n\n\n\nmodelsummary(list(\"w/o Covariates\" = fit1, \"w/ Covariates\" = fit2),\n             estimate  = \"{estimate} ({std.error})\",\n             statistic = NULL)\n\n\n\n \n  \n      \n    w/o Covariates \n    w/ Covariates \n  \n \n\n  \n    (Intercept) \n    0.297 (0.001) \n    5.845 (0.110) \n  \n  \n    treatmentCivic Duty \n    0.018 (0.003) \n    0.018 (0.003) \n  \n  \n    treatmentSelf \n    0.049 (0.003) \n    0.048 (0.003) \n  \n  \n    treatmentNeighbors \n    0.081 (0.003) \n    0.081 (0.003) \n  \n  \n    treatmentHawthorne \n    0.026 (0.003) \n    0.025 (0.003) \n  \n  \n    female \n     \n    −0.006 (0.002) \n  \n  \n    yob \n     \n    −0.003 (0.000) \n  \n  \n    hh_size \n     \n    0.005 (0.001) \n  \n  \n    voted2000 \n     \n    0.094 (0.002) \n  \n  \n    voted2002 \n     \n    0.141 (0.002) \n  \n  \n    voted2004 \n     \n    0.158 (0.002) \n  \n  \n    Num.Obs. \n    344084 \n    344084 \n  \n  \n    R2 \n    0.003 \n    0.076 \n  \n  \n    R2 Adj. \n    0.003 \n    0.076 \n  \n  \n    AIC \n    448179.9 \n    422192.9 \n  \n  \n    BIC \n    448244.4 \n    422321.9 \n  \n  \n    Log.Lik. \n    −224083.935 \n    −211084.453 \n  \n  \n    F \n    292.976 \n    2826.942 \n  \n  \n    RMSE \n    0.46 \n    0.45 \n  \n\n\n\n\n\n\nmodelsummary(list(\"w/o Covariates\" = fit1, \"w/ Covariates\" = fit2),\n             estimate  = \"{estimate} ({std.error})\",\n             statistic = NULL,\n             coef_rename = c(\"treatmentCivic Duty\" = \"Civic Duty\",\n                             \"treatmentSelf\"       = \"Self\",\n                             \"treatmentNeighbors\"  = \"Neighbors\",\n                             \"treatmentHawthorne\"  = \"Hawthorne\",\n                             \"female\"              = \"Female\",\n                             \"yob\"                 = \"Year of Birth\",\n                             \"hh_size\"             = \"Household Size\",\n                             \"voted2000\"           = \"Voted (2000)\",\n                             \"voted2002\"           = \"Voted (2002)\",\n                             \"voted2004\"           = \"Voted (2004)\"))\n\n\n\n \n  \n      \n    w/o Covariates \n    w/ Covariates \n  \n \n\n  \n    (Intercept) \n    0.297 (0.001) \n    5.845 (0.110) \n  \n  \n    Civic Duty \n    0.018 (0.003) \n    0.018 (0.003) \n  \n  \n    Self \n    0.049 (0.003) \n    0.048 (0.003) \n  \n  \n    Neighbors \n    0.081 (0.003) \n    0.081 (0.003) \n  \n  \n    Hawthorne \n    0.026 (0.003) \n    0.025 (0.003) \n  \n  \n    Female \n     \n    −0.006 (0.002) \n  \n  \n    Year of Birth \n     \n    −0.003 (0.000) \n  \n  \n    Household Size \n     \n    0.005 (0.001) \n  \n  \n    Voted (2000) \n     \n    0.094 (0.002) \n  \n  \n    Voted (2002) \n     \n    0.141 (0.002) \n  \n  \n    Voted (2004) \n     \n    0.158 (0.002) \n  \n  \n    Num.Obs. \n    344084 \n    344084 \n  \n  \n    R2 \n    0.003 \n    0.076 \n  \n  \n    R2 Adj. \n    0.003 \n    0.076 \n  \n  \n    AIC \n    448179.9 \n    422192.9 \n  \n  \n    BIC \n    448244.4 \n    422321.9 \n  \n  \n    Log.Lik. \n    −224083.935 \n    −211084.453 \n  \n  \n    F \n    292.976 \n    2826.942 \n  \n  \n    RMSE \n    0.46 \n    0.45"
+  },
+  {
+    "objectID": "material/intro_po_rct.html#番外編",
+    "href": "material/intro_po_rct.html#番外編",
+    "title": "因果推論の考え方とランダム化比較試験",
+    "section": "番外編",
+    "text": "番外編\n\nfit2_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)\n\nfit2_coef <- fit2_coef |>\n  slice(2:5) |>\n  mutate(term = recode(term,\n                       \"treatmentCivic Duty\" = \"Civic Duty\",\n                       \"treatmentHawthorne\"  = \"Hawthorne\",\n                       \"treatmentNeighbors\"  = \"Neighbors\",\n                       \"treatmentSelf\"       = \"Self\"),\n         term = fct_inorder(term))\n\nfit2_coef\n\n# A tibble: 4 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nbind_rows(list(\"Model 1\" = fit1_coef, \n               \"Model 2\" = fit2_coef))\n\n# A tibble: 8 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n5 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n6 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n7 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n8 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nbind_rows(list(\"Model 1\" = fit1_coef, \n               \"Model 2\" = fit2_coef),\n          .id = \"Model\")\n\n# A tibble: 8 × 8\n  Model   term       estimate std.error statistic   p.value conf.low conf.high\n  <chr>   <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Model 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Model 1 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Model 1 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Model 1 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n5 Model 2 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n6 Model 2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n7 Model 2 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n8 Model 2 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nfit_coef <- bind_rows(list(\"Model 1\" = fit1_coef, \n                           \"Model 2\" = fit2_coef),\n                      .id = \"Model\")\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  facet_wrap(~ Model) +\n  theme_bw(base_size = 12)\n\n\n\n\n図 11: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 12: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 13: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model),\n                  position = position_dodge2(1/2)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 14: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model),\n                  position = position_dodge2(1/2)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12) +\n  theme(legend.position = \"bottom\")\n\n\n\n\n図 15: ?(caption)"
   },
   {
     "objectID": "data.html",
@@ -691,26 +705,5 @@
     "title": "実習用データ集",
     "section": "",
     "text": "ファイル名\n備考\n\n\n\n\n1\nDay1_Data2.csv\n第1回スライド（pp.00-00）"
-  },
-  {
-    "objectID": "material/intro_po_rct.html#共変量の追加",
-    "href": "material/intro_po_rct.html#共変量の追加",
-    "title": "第1回講義資料",
-    "section": "共変量の追加",
-    "text": "共変量の追加\n\nfit2 <-lm(voted2006 ~ treatment + female + yob + hh_size +\n            voted2000 + voted2002 + voted2004, data = df)\n\nfit2\n\n\nCall:\nlm(formula = voted2006 ~ treatment + female + yob + hh_size + \n    voted2000 + voted2002 + voted2004, data = df)\n\nCoefficients:\n        (Intercept)  treatmentCivic Duty        treatmentSelf  \n           5.845066             0.018385             0.047969  \n treatmentNeighbors   treatmentHawthorne               female  \n           0.080641             0.025057            -0.005783  \n                yob              hh_size            voted2000  \n          -0.002913             0.005075             0.094008  \n          voted2002            voted2004  \n           0.141353             0.157754  \n\n\n\nmodelsummary(fit2)\n\n\n\n \n  \n      \n    Model 1 \n  \n \n\n  \n    (Intercept) \n    5.845 \n  \n  \n     \n    (0.110) \n  \n  \n    treatmentCivic Duty \n    0.018 \n  \n  \n     \n    (0.003) \n  \n  \n    treatmentSelf \n    0.048 \n  \n  \n     \n    (0.003) \n  \n  \n    treatmentNeighbors \n    0.081 \n  \n  \n     \n    (0.003) \n  \n  \n    treatmentHawthorne \n    0.025 \n  \n  \n     \n    (0.003) \n  \n  \n    female \n    −0.006 \n  \n  \n     \n    (0.002) \n  \n  \n    yob \n    −0.003 \n  \n  \n     \n    (0.000) \n  \n  \n    hh_size \n    0.005 \n  \n  \n     \n    (0.001) \n  \n  \n    voted2000 \n    0.094 \n  \n  \n     \n    (0.002) \n  \n  \n    voted2002 \n    0.141 \n  \n  \n     \n    (0.002) \n  \n  \n    voted2004 \n    0.158 \n  \n  \n     \n    (0.002) \n  \n  \n    Num.Obs. \n    344084 \n  \n  \n    R2 \n    0.076 \n  \n  \n    R2 Adj. \n    0.076 \n  \n  \n    AIC \n    422192.9 \n  \n  \n    BIC \n    422321.9 \n  \n  \n    Log.Lik. \n    −211084.453 \n  \n  \n    F \n    2826.942 \n  \n  \n    RMSE \n    0.45 \n  \n\n\n\n\n\n\nmodelsummary(list(\"w/o Covariates\" = fit1, \"w/ Covariates\" = fit2))\n\n\n\n \n  \n      \n    w/o Covariates \n    w/ Covariates \n  \n \n\n  \n    (Intercept) \n    0.297 \n    5.845 \n  \n  \n     \n    (0.001) \n    (0.110) \n  \n  \n    treatmentCivic Duty \n    0.018 \n    0.018 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    treatmentSelf \n    0.049 \n    0.048 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    treatmentNeighbors \n    0.081 \n    0.081 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    treatmentHawthorne \n    0.026 \n    0.025 \n  \n  \n     \n    (0.003) \n    (0.003) \n  \n  \n    female \n     \n    −0.006 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    yob \n     \n    −0.003 \n  \n  \n     \n     \n    (0.000) \n  \n  \n    hh_size \n     \n    0.005 \n  \n  \n     \n     \n    (0.001) \n  \n  \n    voted2000 \n     \n    0.094 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    voted2002 \n     \n    0.141 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    voted2004 \n     \n    0.158 \n  \n  \n     \n     \n    (0.002) \n  \n  \n    Num.Obs. \n    344084 \n    344084 \n  \n  \n    R2 \n    0.003 \n    0.076 \n  \n  \n    R2 Adj. \n    0.003 \n    0.076 \n  \n  \n    AIC \n    448179.9 \n    422192.9 \n  \n  \n    BIC \n    448244.4 \n    422321.9 \n  \n  \n    Log.Lik. \n    −224083.935 \n    −211084.453 \n  \n  \n    F \n    292.976 \n    2826.942 \n  \n  \n    RMSE \n    0.46 \n    0.45"
-  },
-  {
-    "objectID": "material/intro_po_rct.html#バランスチェック",
-    "href": "material/intro_po_rct.html#バランスチェック",
-    "title": "第1回講義資料",
-    "section": "バランスチェック",
-    "text": "バランスチェック"
-  },
-  {
-    "objectID": "material/intro_po_rct.html#番外編",
-    "href": "material/intro_po_rct.html#番外編",
-    "title": "第1回講義資料",
-    "section": "番外編",
-    "text": "番外編\n\nfit2_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)\n\nfit2_coef <- fit2_coef |>\n  slice(2:5) |>\n  mutate(term = recode(term,\n                       \"treatmentCivic Duty\" = \"Civic Duty\",\n                       \"treatmentHawthorne\"  = \"Hawthorne\",\n                       \"treatmentNeighbors\"  = \"Neighbors\",\n                       \"treatmentSelf\"       = \"Self\"),\n         term = fct_inorder(term))\n\nfit2_coef\n\n# A tibble: 4 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nbind_rows(list(\"Model 1\" = fit1_coef, \n               \"Model 2\" = fit2_coef))\n\n# A tibble: 8 × 7\n  term       estimate std.error statistic   p.value conf.low conf.high\n  <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n5 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n6 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n7 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n8 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nbind_rows(list(\"Model 1\" = fit1_coef, \n               \"Model 2\" = fit2_coef),\n          .id = \"Model\")\n\n# A tibble: 8 × 8\n  Model   term       estimate std.error statistic   p.value conf.low conf.high\n  <chr>   <fct>         <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>\n1 Model 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n2 Model 1 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n3 Model 1 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n4 Model 1 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n5 Model 2 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244\n6 Model 2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550\n7 Model 2 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878\n8 Model 2 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322\n\n\n\nfit_coef <- bind_rows(list(\"Model 1\" = fit1_coef, \n                           \"Model 2\" = fit2_coef),\n                      .id = \"Model\")\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  facet_wrap(~ Model) +\n  theme_bw(base_size = 12)\n\n\n\n\n図 11: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 12: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 13: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model),\n                  position = position_dodge2(1/2)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12)\n\n\n\n\n図 14: ?(caption)\n\n\n\n\n\nfit_coef |>\n  ggplot() +\n  geom_hline(yintercept = 0) +\n  geom_pointrange(aes(x = term, y = estimate,\n                      ymin = conf.low, ymax = conf.high,\n                      color = Model),\n                  position = position_dodge2(1/2)) +\n  labs(x = \"Treatments\", y = \"Average Treatment Effects\") +\n  theme_bw(base_size = 12) +\n  theme(legend.position = \"bottom\")\n\n\n\n\n図 15: ?(caption)"
   }
 ]

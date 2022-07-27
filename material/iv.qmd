@@ -1,0 +1,16 @@
+---
+title: "操作変数法"
+toc: true
+link-external-icon: true
+link-external-newwindow: true
+code-line-numbers: true
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(dev       = "ragg_png",
+                      dpi       = 300,
+                      fig.align = "center",
+                      message   = FALSE,
+                      warning   = FALSE)
+```

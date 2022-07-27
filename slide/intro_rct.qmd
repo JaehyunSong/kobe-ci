@@ -1,9 +1,9 @@
 ---
 title: "方法論特殊講義III"
-subtitle: "第1回 因果推論の考え方とランダム化比較試験"
+subtitle: "因果推論の考え方とランダム化比較試験"
 author: "<ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby>"
 institute: "関西大学総合情報学部"
-date: "2022年 8月 17日"
+date: "2022年 8月 17-19、29-30日"
 format:
   revealjs: 
     width: 1400

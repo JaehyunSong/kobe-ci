@@ -52,10 +52,10 @@ website:
       style: "docked"
       contents:
         - material/intro_po_rct.qmd
-        #- materials/day2.qmd
-        #- materials/day3.qmd
-        #- materials/day4.qmd
-        #- materials/day5.qmd
+        - material/matching.qmd
+        - material/did.qmd
+        - material/rdd.qmd
+        - material/iv.qmd
   google-analytics: "G-9F94XL4N4M"
 
 format:
