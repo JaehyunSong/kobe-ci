@@ -1,0 +1,33 @@
+---
+title: "方法論特殊講義III"
+subtitle: "操作変数法"
+author: "<ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby>"
+institute: "関西大学総合情報学部"
+date: "2022年 8月 17-19、29-30日"
+format:
+  revealjs: 
+    width: 1400
+    slide-number: true
+    logo: figs/logo.png
+    theme: [default, styles.scss]
+    footer: <https://www.jaysong.net/kobe-ci>
+    preview-links: true
+    chalkboard: true
+    touch: true
+    controls: true
+    auto-stretch: false
+---
+
+# 
+
+```{r}
+#| include: false
+pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons)
+pacman::p_load_gh("JaehyunSong/BalanceR")
+knitr::opts_chunk$set(dev       = "ragg_png",
+                      dpi       = 300,
+                      fig.align = "center",
+                      echo      = FALSE,
+                      message   = FALSE,
+                      warning   = FALSE)
+```
