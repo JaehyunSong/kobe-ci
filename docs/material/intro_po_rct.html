@@ -126,6 +126,9 @@ gtag('js', new Date());
 gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </script>
 
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
@@ -241,11 +244,15 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
   <li><a href="#データの読み込みと確認" id="toc-データの読み込みと確認" class="nav-link" data-scroll-target="#データの読み込みと確認">データの読み込みと確認</a></li>
   <li><a href="#データハンドリングとパイプ演算子" id="toc-データハンドリングとパイプ演算子" class="nav-link" data-scroll-target="#データハンドリングとパイプ演算子">データハンドリングとパイプ演算子</a></li>
   <li><a href="#記述統計量" id="toc-記述統計量" class="nav-link" data-scroll-target="#記述統計量">記述統計量</a></li>
+  <li><a href="#バランスチェック" id="toc-バランスチェック" class="nav-link" data-scroll-target="#バランスチェック">バランスチェック</a></li>
   <li><a href="#処置効果の確認" id="toc-処置効果の確認" class="nav-link" data-scroll-target="#処置効果の確認">処置効果の確認</a>
   <ul class="collapse">
   <li><a href="#グループごとの応答変数の平均値" id="toc-グループごとの応答変数の平均値" class="nav-link" data-scroll-target="#グループごとの応答変数の平均値">グループごとの応答変数の平均値</a></li>
-  <li><a href="#統計的推定" id="toc-統計的推定" class="nav-link" data-scroll-target="#統計的推定">統計的推定</a></li>
+  <li><a href="#統計的推定単回帰分析" id="toc-統計的推定単回帰分析" class="nav-link" data-scroll-target="#統計的推定単回帰分析">統計的推定（単回帰分析）</a></li>
+  <li><a href="#多重比較の問題" id="toc-多重比較の問題" class="nav-link" data-scroll-target="#多重比較の問題">多重比較の問題</a></li>
+  <li><a href="#統計的推定重回帰分析" id="toc-統計的推定重回帰分析" class="nav-link" data-scroll-target="#統計的推定重回帰分析">統計的推定（重回帰分析）</a></li>
   </ul></li>
+  <li><a href="#番外編" id="toc-番外編" class="nav-link" data-scroll-target="#番外編">番外編</a></li>
   </ul>
 </nav>
     </div>
@@ -278,12 +285,13 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="パッケージ">パッケージ</h2>
 <p>　通常、Rでのパッケージのインストールとアップーでとには<code>install.packages()</code>関数、読み込みには<code>library()</code>、または<code>require()</code>関数を使う。また、R公式レポジトリにないパッケージは{devtools}か{remote}パッケージを使う。これらの関数を使い分けることは面倒なので、本講義ではこれらの処理を統合した{pacman}パッケージを使用する。まずは、{pacman}パッケージをインストールする。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># NIIオンライン分析システムを利用する場合、導入ずみ</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># NIIオンライン分析システムを利用する場合、導入済み</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　パッケージを読み込む際、<code>pacman::p_load(読み込むパッケージ名)</code>を入力する。インストールされていない場合は、自動的にCRANからダウンロード&amp;インストールした上で読み込んでくれるので便利だ<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。以下では本講義で使用するパッケージとして{tidyverse}、{summarytools}、{fastDummies}、{modelsummary}を読み込む。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, summarytools, modelsummary, fastDummies)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, summarytools, fastDummies,</span>
+<span id="cb2-2"><a href="#cb2-2"></a>               modelsummary, broom)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　CRANでなく、GitHub上で公開されているパッケージを使う場合は<code>pacman::p_load_gh()</code>を使用する。<code>()</code>の中には<code>"ユーザー名/リポジトリ名"</code>を入力。たとえば、{BalanceR}の作成者のGitHubアカウント名は<code>JaehyunSong</code>であり、{BalanceR}のリポジトリ名は<code>BalanceR</code>だから、以下のように入力する。</p>
 <div class="cell" data-layout-align="center">
@@ -754,7 +762,7 @@ N: 344084
 [character]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">1. Civic Duty</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">2. Control</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">3. Hawthorne</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">4. Neighbors</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">5. Self</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">38218</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">11.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">191243</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">55.6%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">38204</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">11.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">38201</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">11.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">38218</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">11.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGAAAAB9CAQAAAD32a72AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRcn6bCFAAABB0lEQVR42u3aQQrCMBBG4UR6Rw/hefQOPaVuE7G1xcWbX963ExHmQSpkaH+2bBd6AAPoAX61jB8eXx+IW6cHbq21ccxl/uq6+8OVnvyD+CNkAM0AmgE0A2gG0AygGUAzgPZ2I6t459rXx/tliQvvAePM8UfIANr0EN9TFqXDw3pqL1TD/E8Zf4QMoBlAM4BmAM0AmgE0A2gG0OIDXGwRXGxVcnIvVON9oc0A3xcywIA8BtAMoBlAM4BmAM0AmgE090IE90KVuBeixR8hA2gG0AygGUAzgGYAzQCaAbT4APdCBPdClbgXosUfIQNoBtAMoBlAM4BmAM0AmgG0+ID/2gslij9CBtBeu/od7x9DAtEAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDU6MjU6MjMrMDA6MDCRkJD9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA1OjI1OjIzKzAwOjAw4M0oQQAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGAAAAB9CAQAAAD32a72AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwWyIfSBAAABB0lEQVR42u3aQQrCMBBG4UR6Rw/hefQOPaVuE7G1xcWbX963ExHmQSpkaH+2bBd6AAPoAX61jB8eXx+IW6cHbq21ccxl/uq6+8OVnvyD+CNkAM0AmgE0A2gG0AygGUAzgPZ2I6t459rXx/tliQvvAePM8UfIANr0EN9TFqXDw3pqL1TD/E8Zf4QMoBlAM4BmAM0AmgE0A2gG0OIDXGwRXGxVcnIvVON9oc0A3xcywIA8BtAMoBlAM4BmAM0AmgE090IE90KVuBeixR8hA2gG0AygGUAzgGYAzQCaAbT4APdCBPdClbgXosUfIQNoBtAMoBlAM4BmAM0AmgG0+ID/2gslij9CBtBeu/od7x9DAtEAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDk6NTE6MDUrMDA6MDAKD664AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA5OjUxOjA1KzAwOjAwe1IWBAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -766,7 +774,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Min  : 0</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean : 0.5</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Max  : 1</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">0</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">172289</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">50.1%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">171795</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">49.9%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAFgAAAA3CAQAAAAiPkUwAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRcn6bCFAAAAkklEQVRo3u3YsQ2AMAxE0RixIzvAPLBDpoTWiaCJFOKL/nVurFecIsV2J60sowGAo2X1wxW00Lt9gFPaRttekotJrhKAAQMGDBgw4FABDBgw4MnA1Z8ut235MeY/yta8pm+8Ua4ScuCiw2fIQ8pRNDX8IaV+BuQqARgwYMCAAQMOFcCAAQOeDKx9SFGIXCUA984D81ILx+yzmEIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDU6MjU6MjMrMDA6MDCRkJD9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA1OjI1OjIzKzAwOjAw4M0oQQAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAFgAAAA3CAQAAAAiPkUwAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwWyIfSBAAAAkklEQVRo3u3YsQ2AMAxE0RixIzvAPLBDpoTWiaCJFOKL/nVurFecIsV2J60sowGAo2X1wxW00Lt9gFPaRttekotJrhKAAQMGDBgw4FABDBgw4MnA1Z8ut235MeY/yta8pm+8Ua4ScuCiw2fIQ8pRNDX8IaV+BuQqARgwYMCAAQMOFcCAAQOeDKx9SFGIXCUA984D81ILx+yzmEIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDk6NTE6MDUrMDA6MDAKD664AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA5OjUxOjA1KzAwOjAwe1IWBAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -778,7 +786,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean (sd) : 1956.2 (14.4)</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">min ≤ med ≤ max:</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">1900 ≤ 1956 ≤ 1986</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">IQR (CV) : 18 (0)</td></tr></tbody></table></td>
       <td align="left" style="vertical-align:middle">86 distinct values</td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuCAQAAABxABKuAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRcn6bCFAAABx0lEQVR42u3cQZKCMBQAUbG8o3fQ8+gdPKVuQ7TUhoT8hH47NyN2zQ+BYZyeBxHH1gfQG4NBBoNO6Yup9dH87fa29F4rHnz6ZqfFP6Wx8+zVY7P3dSQhg0EGgzpZw25h9tedBGu3yOccSchgkMEgg0EGgwwGdbOt+GW+U6t3KT5MsHSfVnOX5khCBoMMBhkMCrvox7k/MRc22HbnPcaRhAwGGQwyGGQwyGCQwSCDQQaDDAYZDDIYZDDIYJDBIINBBoMMBhkMMhhkMMhgUOA/s62R/1Wz3NM8gwar98y1IwkZDAozklGfpciFCRbnfz2+cyQhg0EGgwwGGQwyGGQwyGCQwSCDQQaDAl1LtsK+x8dgB3bZ70hCBoMMBhkMarbo93JLOtfwLNnHLemcIwkZDDIYZDDIYNBOriXLPc2zk2DltjCOJGQwyGCQwaDNFv1YF9vLj2bDs2Ski+3l3+vjSEIGgwwGGQwyGFTxLBlrI1FK1W1FzC/lW8eRhAwGGQwyGFRw0R/nrPj2SZIb2kXPkpEur2t9DkcSMhhkMGjFGjbOIk+sWvRHWeQJRxJCv2H7HMK5KW1wN8hHl2TjOtmIcQ2DDAYZDHoBkgoxatSAN4MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDU6MjU6MjMrMDA6MDCRkJD9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA1OjI1OjIzKzAwOjAw4M0oQQAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuCAQAAABxABKuAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwWyIfSBAAABx0lEQVR42u3cQZKCMBQAUbG8o3fQ8+gdPKVuQ7TUhoT8hH47NyN2zQ+BYZyeBxHH1gfQG4NBBoNO6Yup9dH87fa29F4rHnz6ZqfFP6Wx8+zVY7P3dSQhg0EGgzpZw25h9tedBGu3yOccSchgkMEgg0EGgwwGdbOt+GW+U6t3KT5MsHSfVnOX5khCBoMMBhkMCrvox7k/MRc22HbnPcaRhAwGGQwyGGQwyGCQwSCDQQaDDAYZDDIYZDDIYJDBIINBBoMMBhkMMhhkMMhgUOA/s62R/1Wz3NM8gwar98y1IwkZDAozklGfpciFCRbnfz2+cyQhg0EGgwwGGQwyGGQwyGCQwSCDQQaDAl1LtsK+x8dgB3bZ70hCBoMMBhkMarbo93JLOtfwLNnHLemcIwkZDDIYZDDIYNBOriXLPc2zk2DltjCOJGQwyGCQwaDNFv1YF9vLj2bDs2Ski+3l3+vjSEIGgwwGGQwyGFTxLBlrI1FK1W1FzC/lW8eRhAwGGQwyGFRw0R/nrPj2SZIb2kXPkpEur2t9DkcSMhhkMGjFGjbOIk+sWvRHWeQJRxJCv2H7HMK5KW1wN8hHl2TjOtmIcQ2DDAYZDHoBkgoxatSAN4MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDk6NTE6MDUrMDA6MDAKD664AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA5OjUxOjA1KzAwOjAwe1IWBAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -790,7 +798,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean (sd) : 2.2 (0.8)</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">min ≤ med ≤ max:</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">1 ≤ 2 ≤ 8</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">IQR (CV) : 0 (0.4)</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">47834</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">13.9%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">214086</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">62.2%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">3</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">57474</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">16.7%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">4</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">20916</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">6.1%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">5</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">3315</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">1.0%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">6</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">402</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">7</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">49</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">8</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">8</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGoAAADECAQAAADdPnyCAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRi3Vq0UAAABgUlEQVR42u3bYUoCURhG4Qz32CJaj+2hVdrfGY3SIrzn63n+SSBz6M6AL3o4P83z/OgLEPWfo47bF2933GCvh0df+t720o/7P73c+Bbvj2740sjjJ6pCVIWoClEVoipEVYiqEFUxMuri4/zaH9NvddgOFottKXfZdow8fiOjdvfUqTysb+6dH+5+q9k/4EYeP1EVoipEVYiqEFUhqkJUhaiKkVF2v5XZ/Yp+vfut9r2/q6j7d781Hywjj5+oClEVoipEVYiqEFUhqkJUhYlsZSayopFR3+5+K+56d0Vd737Np+HI4yeqQlSFqApRFaIqRFWIqhBVYfdbmd2vaH7U6Zz+pe/nUVOIqhBVIapCVIWoClEVoipEVYiqsPtViKq42P0efTl/EDWFqApRFaIqRFWIqhBVIapCVIWoCrtfxfwoE9nCRFWIqhBVIapCVIWoClEVoipEVYyMsvtVzI+y+y1MVIWoClEVoipEVYiqEFUhqkJUxciow5CtZWfkf0pUxQeNeCis3OJezAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNy0yN1QwNToyNToyNCswMDowMFQ3rnMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDctMjdUMDU6MjU6MjQrMDA6MDAlahbPAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGoAAADECAQAAADdPnyCAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwWyIfSBAAABgUlEQVR42u3bYUoCURhG4Qz32CJaj+2hVdrfGY3SIrzn63n+SSBz6M6AL3o4P83z/OgLEPWfo47bF2933GCvh0df+t720o/7P73c+Bbvj2740sjjJ6pCVIWoClEVoipEVYiqEFUxMuri4/zaH9NvddgOFottKXfZdow8fiOjdvfUqTysb+6dH+5+q9k/4EYeP1EVoipEVYiqEFUhqkJUhaiKkVF2v5XZ/Yp+vfut9r2/q6j7d781Hywjj5+oClEVoipEVYiqEFUhqkJUhYlsZSayopFR3+5+K+56d0Vd737Np+HI4yeqQlSFqApRFaIqRFWIqhBVYfdbmd2vaH7U6Zz+pe/nUVOIqhBVIapCVIWoClEVoipEVYiqsPtViKq42P0efTl/EDWFqApRFaIqRFWIqhBVIapCVIWoCrtfxfwoE9nCRFWIqhBVIapCVIWoClEVoipEVYyMsvtVzI+y+y1MVIWoClEVoipEVYiqEFUhqkJUxciow5CtZWfkf0pUxQeNeCis3OJezAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNy0yN1QwOTo1MTowNSswMDowMAoPrrgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDctMjdUMDk6NTE6MDUrMDA6MDB7UhYEAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -802,7 +810,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Min  : 0</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean : 0.3</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Max  : 1</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">0</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">257464</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">74.8%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">86620</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">25.2%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAH0AAAA3CAQAAACLSo2kAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRi3Vq0UAAAAnklEQVRo3u3ZsQ2AIBQAUTDu6A46j+7AlNqiiQ0REe9eR2O45GMBcQ9UQ+sNmG76m8Z8sf3+4M/xJj2EqfXeqkqnFXjgTScynch0ItOJTCcynch0ItOJTCe63M2lsq90KeaXsLH4M73Ia8EDD04/nfX1wSeI5fOnp9ITRA+/S/DAm05kOpHpRKYTmU5kOpHpRKYTmU7kEwQReOBNJzoAJacLx1TWcigAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDU6MjU6MjQrMDA6MDBUN65zAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA1OjI1OjI0KzAwOjAwJWoWzwAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAH0AAAA3CAQAAACLSo2kAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwWyIfSBAAAAnklEQVRo3u3ZsQ2AIBQAUTDu6A46j+7AlNqiiQ0REe9eR2O45GMBcQ9UQ+sNmG76m8Z8sf3+4M/xJj2EqfXeqkqnFXjgTScynch0ItOJTCcynch0ItOJTCe63M2lsq90KeaXsLH4M73Ia8EDD04/nfX1wSeI5fOnp9ITRA+/S/DAm05kOpHpRKYTmU5kOpHpRKYTmU7kEwQReOBNJzoAJacLx1TWcigAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMjdUMDk6NTE6MDUrMDA6MDAKD664AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTI3VDA5OjUxOjA1KzAwOjAwe1IWBAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -814,7 +822,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Min  : 0</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean : 0.4</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Max  : 1</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">0</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">209947</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">61.0%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">134137</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">39.0%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGgAAAA3CAQAAABKzccIAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRi3Vq0UAAAAn0lEQVRo3u3YsQmAMBBA0UTc0R10Ht3BKbWNgk0Q7nv+36WRPLhYXD1KroboCwj6G2hsD9tHH9RcH0ClTNF362i/nNKNnCB6gugJoieIniB6gugJoieIniB6t53C3vcVULVd9NTuz8TWGtKNXDrQ5Q2tIYvG5dVJD180vv0bSjdygugJoieIniB6gugJoieIniB6gujlXjRmKN3ICaJ3AppiC8fdrh9zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA3LTI3VDA1OjI1OjI0KzAwOjAwVDeucwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNy0yN1QwNToyNToyNCswMDowMCVqFs8AAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAASUVORK5CYII="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGgAAAA3CAQAAABKzccIAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwWyIfSBAAAAn0lEQVRo3u3YsQmAMBBA0UTc0R10Ht3BKbWNgk0Q7nv+36WRPLhYXD1KroboCwj6G2hsD9tHH9RcH0ClTNF362i/nNKNnCB6gugJoieIniB6gugJoieIniB6t53C3vcVULVd9NTuz8TWGtKNXDrQ5Q2tIYvG5dVJD180vv0bSjdygugJoieIniB6gugJoieIniB6gujlXjRmKN3ICaJ3AppiC8fdrh9zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA3LTI3VDA5OjUxOjA1KzAwOjAwCg+uuAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNy0yN1QwOTo1MTowNSswMDowMHtSFgQAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAASUVORK5CYII="></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -826,7 +834,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Min  : 0</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean : 0.4</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Max  : 1</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">0</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">205934</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">59.8%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">138150</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">40.2%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGYAAAA3CAQAAABUBPe7AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRi3Vq0UAAAAoElEQVRo3u3YsQmAMBBA0UTc0R10Ht0hU2obBQtFyM/5X5dG8uFicXlPcQytL2DMH2LG+rB1+IDmfBOT0tT6bg+V0ynUmBlDZQyVMVTGUBlDZQyVMVTGUBlDddkBlHdfgcj1Qia//kw79f1DjVmomNObWZstAZdPJhyxBPzqtxNqzIyhMobKGCpjqIyhMobKGCpjqIyhirsE7F2oMTOG6gClgAvHCon2YAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNy0yN1QwNToyNToyNCswMDowMFQ3rnMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDctMjdUMDU6MjU6MjQrMDA6MDAlahbPAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAGYAAAA3CAQAAABUBPe7AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwYrKKU7AAAAoElEQVRo3u3YsQmAMBBA0UTc0R10Ht0hU2obBQtFyM/5X5dG8uFicXlPcQytL2DMH2LG+rB1+IDmfBOT0tT6bg+V0ynUmBlDZQyVMVTGUBlDZQyVMVTGUBlDddkBlHdfgcj1Qia//kw79f1DjVmomNObWZstAZdPJhyxBPzqtxNqzIyhMobKGCpjqIyhMobKGCpjqIyhirsE7F2oMTOG6gClgAvHCon2YAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNy0yN1QwOTo1MTowNiswMDowMDvntCUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDctMjdUMDk6NTE6MDYrMDA6MDBKugyZAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -838,7 +846,7 @@ N: 344084
 [numeric]</td>
       <td align="left" style="padding:8;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Min  : 0</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Mean : 0.3</td></tr><tr style="background-color:transparent"><td style="padding:0;margin:0;border:0" align="left">Max  : 1</td></tr></tbody></table></td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tbody><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">0</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">235388</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">68.4%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 2px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px;border:0;" align="left">:</td><td style="padding:0 4px 0 6px;margin:0;border:0" align="right">108696</td><td style="padding:0;border:0" align="left">(</td><td style="padding:0 2px;margin:0;border:0" align="right">31.6%</td><td style="padding:0 4px 0 0;border:0" align="left">)</td></tr></tbody></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHMAAAA3CAQAAACVg70XAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsFGRi3Vq0UAAAAoElEQVRo3u3YQQ5AMBBA0Vbc0R04D3dwSrYlsdCg8ue/XTfSn0wtJm8pgq71Bcw0866+PCyohzrmi8yUhtZ3e8x6OAUZWjNJzCQxk8RMEjNJzCQxk8RMEjNJTrugte4rv5fLZV6u/swflWVBhjZI5uFtzi+vo6dmr+LDdXTL31uQoTWTxEwSM0nMJDGTxEwSM0nMJDGTJOI6mivI0JpJsgNdPQvHfudQawAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNy0yN1QwNToyNToyNCswMDowMFQ3rnMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDctMjdUMDU6MjU6MjQrMDA6MDAlahbPAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent;"><img style="border:none;background-color:transparent;padding:0;max-width:max-content;" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHMAAAA3CAQAAACVg70XAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBxsJMwYrKKU7AAAAoElEQVRo3u3YQQ5AMBBA0Vbc0R04D3dwSrYlsdCg8ue/XTfSn0wtJm8pgq71Bcw0866+PCyohzrmi8yUhtZ3e8x6OAUZWjNJzCQxk8RMEjNJzCQxk8RMEjNJTrugte4rv5fLZV6u/swflWVBhjZI5uFtzi+vo6dmr+LDdXTL31uQoTWTxEwSM0nMJDGTxEwSM0nMJDGTJOI6mivI0JpJsgNdPQvHfudQawAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wNy0yN1QwOTo1MTowNiswMDowMDvntCUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDctMjdUMDk6NTE6MDYrMDA6MDBKugyZAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
       <td align="center">344084
 (100.0%)</td>
       <td align="center">0
@@ -850,6 +858,9 @@ N: 344084
 </div>
 </div>
 </div>
+</section>
+<section id="バランスチェック" class="level2">
+<h2 class="anchored" data-anchor-id="バランスチェック">バランスチェック</h2>
 </section>
 <section id="処置効果の確認" class="level2">
 <h2 class="anchored" data-anchor-id="処置効果の確認">処置効果の確認</h2>
@@ -1050,8 +1061,8 @@ N: 344084
 </div>
 </div>
 </section>
-<section id="統計的推定" class="level3">
-<h3 class="anchored" data-anchor-id="統計的推定">統計的推定</h3>
+<section id="統計的推定単回帰分析" class="level3">
+<h3 class="anchored" data-anchor-id="統計的推定単回帰分析">統計的推定（単回帰分析）</h3>
 <p>　これまでの作業はグループごとの応答変数の平均値であって、処置効果ではない。処置効果を計算するためには処置群の平均値から統制群の平均値を引く必要がある。たとえば、Civic Dutyはがき群の平均値は約0.315、統制群のそれは0.297であるため、Civic Dutyはがきの処置効果は約0.018である。しかし、これを各グループごとに計算することは面倒だし、何よりも得られた値が<strong>点推定値</strong>だという限界がある。得られた処置効果の不確実性は計算できない。</p>
 <p>　ここで有効なのが線形回帰分析である。回帰分析を行うことで処置効果の点推定値のみならず、不確実性の指標である標準誤差も計算され、区間推定や統計的仮説検定も可能となる。線形回帰分析の関数は<code>lm()</code>だ。第1引数としては回帰式であり、<code>応答変数 ~ 説明変数</code>と表記する。第2引数は<code>data</code>であり、回帰式で指定した変数が入っているデータ名を指定する。回帰分析の結果は名前を付けてオブジェクトとして格納し、<code>summary()</code>関数を使うと、詳細が確認できる。</p>
 <div class="cell" data-layout-align="center">
@@ -1138,7 +1149,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
 </div>
 </div>
-<p>　それでは作図に入ろう。</p>
+<p>　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準<strong>偏差</strong>ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%であれば、95%信頼区間を示し、10%なら90%信頼区間を用いる。</p>
+<p>　点と区間を同時に示すプロットがpoint-rangeプロットであり、{ggplot2}では<code>geom_pointrange()</code>レイヤーを使う。必要な情報はpoint-rangeの横軸上の位置（<code>x</code>）、点の縦軸上の位置（<code>y</code>）、区間の上限（<code>ymax</code>）と下限（<code>ymin</code>）である。これらの情報は全て<code>fit1_coef</code>に入っているため、<code>fit1_coef</code>をそのまま<code>ggplot()</code>関数に渡して作図することができる。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a>fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb66-2"><a href="#cb66-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -1153,6 +1165,7 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
+<p>　それでは図をカスタマイズしてみよう。図内の様々なラベルを修正する<code>labs()</code>レイヤーでラベルを修正する。テーマはデフォルトの<code>theme_gray()</code>の代わりに白黒テーマ（<code>theme_bw()</code>）を使用し、フォントサイズは12とする。また、y = 0の水平線を追加する。95%信頼区間内に0が含まれる場合、「5%水準で統計的に有意でない」と判断できる。水平線を描くには<code>geom_hline()</code>レイヤーを追加し、<code>yintercept = 0</code>を指定することで、0のところに水平線が描ける。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a>fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb67-2"><a href="#cb67-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -1170,6 +1183,7 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
+<p>　まだ気になる点がある。それは横軸の目盛りラベルに<code>treatment</code>という不要な情報がある点だ。これは作図の時点で修正することも可能だが、まずは<code>df</code>の<code>term</code>変数の値を修正する方法を紹介する。変数の値を修正する時には<code>recode()</code>関数を使用する。第1引数はリコーディングする変数名であり、引き続き<code>"元の値" = "新しい値"</code>を指定すれば良い。<strong>スペルミスに注意</strong>すること。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>fit1_coef <span class="ot">&lt;-</span> fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb68-2"><a href="#cb68-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">recode</span>(term,</span>
@@ -1189,10 +1203,12 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
 </div>
 </div>
+<p>　以上の作業は<code>term</code>列の各値から<code>"treatment"</code>文字を<code>""</code>に置換することなので、文字列を置換する関数である<code>str_replace()</code>を使えば、より短くすることができる。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a>fit1_coef <span class="ot">&lt;-</span> fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb70-2"><a href="#cb70-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">str_replace</span>(term, <span class="st">"treatment"</span>, <span class="st">""</span>))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>　<code>fit1_coef</code>も修正できたので、 <a href="#fig-intro-pointrange-2">図&nbsp;7</a> と同じコードでもう一度作図してみよう。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a>fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb71-2"><a href="#cb71-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -1210,10 +1226,12 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
+<p>　最後に横軸の順番を修正してみよう。<code>fit1_coef</code>の<code>term</code>列は文字型変数であるため、アルファベット順になる。これを<code>df</code>の<code>treatment</code>列と同様、Civic Duty、Self、Neighbors、Hawthorneの順にしたい。この場合<code>fit1_coef</code>の<code>term</code>列をfactor化すれば良い。<code>factor()</code>関数を使っても良いが、ここではまた便利な技を紹介しよう。それは<code>fct_inorder()</code>関数だ。これは表示されている順番をfactorの順番とする関数だ。実際、<code>fit1_coef</code>の中身を見ると、表示順番はCivic Duty、Self、Neighbors、Hawthorneだ。非常に嬉しい状況なので、<code>fct_inorder()</code>を使ってみよう。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a>fit1_coef <span class="ot">&lt;-</span> fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb72-2"><a href="#cb72-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">fct_inorder</span>(term))</span>
-<span id="cb72-3"><a href="#cb72-3"></a>fit1_coef</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb72-3"><a href="#cb72-3"></a></span>
+<span id="cb72-4"><a href="#cb72-4"></a>fit1_coef</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 7
   term       estimate std.error statistic   p.value conf.low conf.high
@@ -1224,6 +1242,7 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
 </div>
 </div>
+<p>　それでは、 <a href="#fig-intro-pointrange-3">図&nbsp;8</a> と同じコードでもう一度作図してみよう。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb74-2"><a href="#cb74-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -1241,9 +1260,824 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-
-
+<p>　これで処置効果の可視化もバッチリだ。</p>
 </section>
+<section id="多重比較の問題" class="level3">
+<h3 class="anchored" data-anchor-id="多重比較の問題">多重比較の問題</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>fit1_coef <span class="ot">&lt;-</span> <span class="fu">tidy</span>(fit1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.9875</span>)</span>
+<span id="cb75-2"><a href="#cb75-2"></a></span>
+<span id="cb75-3"><a href="#cb75-3"></a>fit1_coef</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  term                estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)           0.297    0.00106    280.   0           0.294     0.299 
+2 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+5 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a>fit1_coef <span class="ot">&lt;-</span> fit1_coef <span class="sc">|&gt;</span></span>
+<span id="cb77-2"><a href="#cb77-2"></a>  <span class="fu">slice</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb77-3"><a href="#cb77-3"></a></span>
+<span id="cb77-4"><a href="#cb77-4"></a>fit1_coef</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 7
+  term                estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+2 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+3 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>fit1_coef <span class="ot">&lt;-</span> fit1_coef <span class="sc">|&gt;</span></span>
+<span id="cb79-2"><a href="#cb79-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">recode</span>(term,</span>
+<span id="cb79-3"><a href="#cb79-3"></a>                       <span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
+<span id="cb79-4"><a href="#cb79-4"></a>                       <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
+<span id="cb79-5"><a href="#cb79-5"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
+<span id="cb79-6"><a href="#cb79-6"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>),</span>
+<span id="cb79-7"><a href="#cb79-7"></a>         <span class="at">term =</span> <span class="fu">fct_inorder</span>(term))</span>
+<span id="cb79-8"><a href="#cb79-8"></a></span>
+<span id="cb79-9"><a href="#cb79-9"></a>fit1_coef</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 7
+  term       estimate std.error statistic   p.value conf.low conf.high
+  &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>fit1_coef <span class="sc">|&gt;</span></span>
+<span id="cb81-2"><a href="#cb81-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb81-3"><a href="#cb81-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb81-4"><a href="#cb81-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate,</span>
+<span id="cb81-5"><a href="#cb81-5"></a>                      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb81-6"><a href="#cb81-6"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatments"</span>, </span>
+<span id="cb81-7"><a href="#cb81-7"></a>       <span class="at">y =</span> <span class="st">"Average Treatment Effects (w/ 98.75% CI)"</span>) <span class="sc">+</span></span>
+<span id="cb81-8"><a href="#cb81-8"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-intro-pointrange-5" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_po_rct_files/figure-html/fig-intro-pointrange-5-1.png" class="img-fluid figure-img" width="2100"></p>
+<p></p><figcaption class="figure-caption">図 10: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="統計的推定重回帰分析" class="level3">
+<h3 class="anchored" data-anchor-id="統計的推定重回帰分析">統計的推定（重回帰分析）</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>fit2 <span class="ot">&lt;-</span><span class="fu">lm</span>(voted2006 <span class="sc">~</span> treatment <span class="sc">+</span> female <span class="sc">+</span> yob <span class="sc">+</span> hh_size <span class="sc">+</span></span>
+<span id="cb82-2"><a href="#cb82-2"></a>            voted2000 <span class="sc">+</span> voted2002 <span class="sc">+</span> voted2004, <span class="at">data =</span> df)</span>
+<span id="cb82-3"><a href="#cb82-3"></a></span>
+<span id="cb82-4"><a href="#cb82-4"></a><span class="fu">summary</span>(fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = voted2006 ~ treatment + female + yob + hh_size + 
+    voted2000 + voted2002 + voted2004, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.7679 -0.3344 -0.1953  0.5300  0.9359 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          5.845e+00  1.099e-01  53.202  &lt; 2e-16 ***
+treatmentCivic Duty  1.839e-02  2.504e-03   7.343 2.10e-13 ***
+treatmentSelf        4.797e-02  2.504e-03  19.157  &lt; 2e-16 ***
+treatmentNeighbors   8.064e-02  2.504e-03  32.199  &lt; 2e-16 ***
+treatmentHawthorne   2.506e-02  2.504e-03  10.005  &lt; 2e-16 ***
+female              -5.783e-03  1.525e-03  -3.791  0.00015 ***
+yob                 -2.913e-03  5.642e-05 -51.633  &lt; 2e-16 ***
+hh_size              5.075e-03  1.018e-03   4.986 6.17e-07 ***
+voted2000            9.401e-02  1.783e-03  52.722  &lt; 2e-16 ***
+voted2002            1.414e-01  1.590e-03  88.876  &lt; 2e-16 ***
+voted2004            1.578e-01  1.564e-03 100.838  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4469 on 344073 degrees of freedom
+Multiple R-squared:  0.07592,   Adjusted R-squared:  0.0759 
+F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a><span class="fu">modelsummary</span>(fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> Model 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 5.845 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.110) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentCivic Duty </td>
+   <td style="text-align:center;"> 0.018 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentSelf </td>
+   <td style="text-align:center;"> 0.048 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentNeighbors </td>
+   <td style="text-align:center;"> 0.081 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentHawthorne </td>
+   <td style="text-align:center;"> 0.025 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:center;"> −0.006 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> yob </td>
+   <td style="text-align:center;"> −0.003 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hh_size </td>
+   <td style="text-align:center;"> 0.005 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.001) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2000 </td>
+   <td style="text-align:center;"> 0.094 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2002 </td>
+   <td style="text-align:center;"> 0.141 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2004 </td>
+   <td style="text-align:center;"> 0.158 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 344084 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 422192.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 422321.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> −211084.453 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 2826.942 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.45 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">"w/o Covariates"</span> <span class="ot">=</span> fit1, <span class="st">"w/ Covariates"</span> <span class="ot">=</span> fit2))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> w/o Covariates </th>
+   <th style="text-align:center;"> w/ Covariates </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.297 </td>
+   <td style="text-align:center;"> 5.845 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.001) </td>
+   <td style="text-align:center;"> (0.110) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentCivic Duty </td>
+   <td style="text-align:center;"> 0.018 </td>
+   <td style="text-align:center;"> 0.018 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentSelf </td>
+   <td style="text-align:center;"> 0.049 </td>
+   <td style="text-align:center;"> 0.048 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentNeighbors </td>
+   <td style="text-align:center;"> 0.081 </td>
+   <td style="text-align:center;"> 0.081 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentHawthorne </td>
+   <td style="text-align:center;"> 0.026 </td>
+   <td style="text-align:center;"> 0.025 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.003) </td>
+   <td style="text-align:center;"> (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> −0.006 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> yob </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> −0.003 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hh_size </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.005 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.001) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2000 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.094 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2002 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.141 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2004 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.158 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 344084 </td>
+   <td style="text-align:center;"> 344084 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 448179.9 </td>
+   <td style="text-align:center;"> 422192.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 448244.4 </td>
+   <td style="text-align:center;"> 422321.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> −224083.935 </td>
+   <td style="text-align:center;"> −211084.453 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 292.976 </td>
+   <td style="text-align:center;"> 2826.942 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.46 </td>
+   <td style="text-align:center;"> 0.45 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">"w/o Covariates"</span> <span class="ot">=</span> fit1, <span class="st">"w/ Covariates"</span> <span class="ot">=</span> fit2),</span>
+<span id="cb86-2"><a href="#cb86-2"></a>             <span class="at">estimate  =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb86-3"><a href="#cb86-3"></a>             <span class="at">statistic =</span> <span class="cn">NULL</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> w/o Covariates </th>
+   <th style="text-align:center;"> w/ Covariates </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.297 (0.001) </td>
+   <td style="text-align:center;"> 5.845 (0.110) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentCivic Duty </td>
+   <td style="text-align:center;"> 0.018 (0.003) </td>
+   <td style="text-align:center;"> 0.018 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentSelf </td>
+   <td style="text-align:center;"> 0.049 (0.003) </td>
+   <td style="text-align:center;"> 0.048 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentNeighbors </td>
+   <td style="text-align:center;"> 0.081 (0.003) </td>
+   <td style="text-align:center;"> 0.081 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> treatmentHawthorne </td>
+   <td style="text-align:center;"> 0.026 (0.003) </td>
+   <td style="text-align:center;"> 0.025 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> −0.006 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> yob </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> −0.003 (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hh_size </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.005 (0.001) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2000 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.094 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> voted2002 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.141 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px"> voted2004 </td>
+   <td style="text-align:center;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> 0.158 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 344084 </td>
+   <td style="text-align:center;"> 344084 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 448179.9 </td>
+   <td style="text-align:center;"> 422192.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 448244.4 </td>
+   <td style="text-align:center;"> 422321.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> −224083.935 </td>
+   <td style="text-align:center;"> −211084.453 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 292.976 </td>
+   <td style="text-align:center;"> 2826.942 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.46 </td>
+   <td style="text-align:center;"> 0.45 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">"w/o Covariates"</span> <span class="ot">=</span> fit1, <span class="st">"w/ Covariates"</span> <span class="ot">=</span> fit2),</span>
+<span id="cb87-2"><a href="#cb87-2"></a>             <span class="at">estimate  =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb87-3"><a href="#cb87-3"></a>             <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb87-4"><a href="#cb87-4"></a>             <span class="at">coef_rename =</span> <span class="fu">c</span>(<span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
+<span id="cb87-5"><a href="#cb87-5"></a>                             <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>,</span>
+<span id="cb87-6"><a href="#cb87-6"></a>                             <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
+<span id="cb87-7"><a href="#cb87-7"></a>                             <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
+<span id="cb87-8"><a href="#cb87-8"></a>                             <span class="st">"female"</span>              <span class="ot">=</span> <span class="st">"Female"</span>,</span>
+<span id="cb87-9"><a href="#cb87-9"></a>                             <span class="st">"yob"</span>                 <span class="ot">=</span> <span class="st">"Year of Birth"</span>,</span>
+<span id="cb87-10"><a href="#cb87-10"></a>                             <span class="st">"hh_size"</span>             <span class="ot">=</span> <span class="st">"Household Size"</span>,</span>
+<span id="cb87-11"><a href="#cb87-11"></a>                             <span class="st">"voted2000"</span>           <span class="ot">=</span> <span class="st">"Voted (2000)"</span>,</span>
+<span id="cb87-12"><a href="#cb87-12"></a>                             <span class="st">"voted2002"</span>           <span class="ot">=</span> <span class="st">"Voted (2002)"</span>,</span>
+<span id="cb87-13"><a href="#cb87-13"></a>                             <span class="st">"voted2004"</span>           <span class="ot">=</span> <span class="st">"Voted (2004)"</span>))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> w/o Covariates </th>
+   <th style="text-align:center;"> w/ Covariates </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.297 (0.001) </td>
+   <td style="text-align:center;"> 5.845 (0.110) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Civic Duty </td>
+   <td style="text-align:center;"> 0.018 (0.003) </td>
+   <td style="text-align:center;"> 0.018 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Self </td>
+   <td style="text-align:center;"> 0.049 (0.003) </td>
+   <td style="text-align:center;"> 0.048 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Neighbors </td>
+   <td style="text-align:center;"> 0.081 (0.003) </td>
+   <td style="text-align:center;"> 0.081 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Hawthorne </td>
+   <td style="text-align:center;"> 0.026 (0.003) </td>
+   <td style="text-align:center;"> 0.025 (0.003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Female </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> −0.006 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of Birth </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> −0.003 (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household Size </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.005 (0.001) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Voted (2000) </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.094 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Voted (2002) </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.141 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px"> Voted (2004) </td>
+   <td style="text-align:center;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> 0.158 (0.002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 344084 </td>
+   <td style="text-align:center;"> 344084 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.003 </td>
+   <td style="text-align:center;"> 0.076 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 448179.9 </td>
+   <td style="text-align:center;"> 422192.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 448244.4 </td>
+   <td style="text-align:center;"> 422321.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> −224083.935 </td>
+   <td style="text-align:center;"> −211084.453 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 292.976 </td>
+   <td style="text-align:center;"> 2826.942 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.46 </td>
+   <td style="text-align:center;"> 0.45 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+</section>
+<section id="番外編" class="level2">
+<h2 class="anchored" data-anchor-id="番外編">番外編</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1"></a>fit2_coef <span class="ot">&lt;-</span> <span class="fu">tidy</span>(fit1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.9875</span>)</span>
+<span id="cb88-2"><a href="#cb88-2"></a></span>
+<span id="cb88-3"><a href="#cb88-3"></a>fit2_coef <span class="ot">&lt;-</span> fit2_coef <span class="sc">|&gt;</span></span>
+<span id="cb88-4"><a href="#cb88-4"></a>  <span class="fu">slice</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb88-5"><a href="#cb88-5"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">recode</span>(term,</span>
+<span id="cb88-6"><a href="#cb88-6"></a>                       <span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
+<span id="cb88-7"><a href="#cb88-7"></a>                       <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
+<span id="cb88-8"><a href="#cb88-8"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
+<span id="cb88-9"><a href="#cb88-9"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>),</span>
+<span id="cb88-10"><a href="#cb88-10"></a>         <span class="at">term =</span> <span class="fu">fct_inorder</span>(term))</span>
+<span id="cb88-11"><a href="#cb88-11"></a></span>
+<span id="cb88-12"><a href="#cb88-12"></a>fit2_coef</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 7
+  term       estimate std.error statistic   p.value conf.low conf.high
+  &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a><span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"Model 1"</span> <span class="ot">=</span> fit1_coef, </span>
+<span id="cb90-2"><a href="#cb90-2"></a>               <span class="st">"Model 2"</span> <span class="ot">=</span> fit2_coef))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 7
+  term       estimate std.error statistic   p.value conf.low conf.high
+  &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+5 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+6 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+7 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+8 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1"></a><span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"Model 1"</span> <span class="ot">=</span> fit1_coef, </span>
+<span id="cb92-2"><a href="#cb92-2"></a>               <span class="st">"Model 2"</span> <span class="ot">=</span> fit2_coef),</span>
+<span id="cb92-3"><a href="#cb92-3"></a>          <span class="at">.id =</span> <span class="st">"Model"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 8
+  Model   term       estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;   &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 Model 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+2 Model 1 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+3 Model 1 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+4 Model 1 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+5 Model 2 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
+6 Model 2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+7 Model 2 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
+8 Model 2 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1"></a>fit_coef <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"Model 1"</span> <span class="ot">=</span> fit1_coef, </span>
+<span id="cb94-2"><a href="#cb94-2"></a>                           <span class="st">"Model 2"</span> <span class="ot">=</span> fit2_coef),</span>
+<span id="cb94-3"><a href="#cb94-3"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1"></a>fit_coef <span class="sc">|&gt;</span></span>
+<span id="cb95-2"><a href="#cb95-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb95-3"><a href="#cb95-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb95-4"><a href="#cb95-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate,</span>
+<span id="cb95-5"><a href="#cb95-5"></a>                      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb95-6"><a href="#cb95-6"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatments"</span>, <span class="at">y =</span> <span class="st">"Average Treatment Effects"</span>) <span class="sc">+</span></span>
+<span id="cb95-7"><a href="#cb95-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Model) <span class="sc">+</span></span>
+<span id="cb95-8"><a href="#cb95-8"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-intro-pointrange-6" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_po_rct_files/figure-html/fig-intro-pointrange-6-1.png" class="img-fluid figure-img" width="2100"></p>
+<p></p><figcaption class="figure-caption">図 11: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1"></a>fit_coef <span class="sc">|&gt;</span></span>
+<span id="cb96-2"><a href="#cb96-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb96-3"><a href="#cb96-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb96-4"><a href="#cb96-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate,</span>
+<span id="cb96-5"><a href="#cb96-5"></a>                      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high,</span>
+<span id="cb96-6"><a href="#cb96-6"></a>                      <span class="at">color =</span> Model)) <span class="sc">+</span></span>
+<span id="cb96-7"><a href="#cb96-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatments"</span>, <span class="at">y =</span> <span class="st">"Average Treatment Effects"</span>) <span class="sc">+</span></span>
+<span id="cb96-8"><a href="#cb96-8"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-intro-pointrange-7" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_po_rct_files/figure-html/fig-intro-pointrange-7-1.png" class="img-fluid figure-img" width="2100"></p>
+<p></p><figcaption class="figure-caption">図 12: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1"></a>fit_coef <span class="sc">|&gt;</span></span>
+<span id="cb97-2"><a href="#cb97-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb97-3"><a href="#cb97-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb97-4"><a href="#cb97-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate,</span>
+<span id="cb97-5"><a href="#cb97-5"></a>                      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high,</span>
+<span id="cb97-6"><a href="#cb97-6"></a>                      <span class="at">color =</span> Model)) <span class="sc">+</span></span>
+<span id="cb97-7"><a href="#cb97-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatments"</span>, <span class="at">y =</span> <span class="st">"Average Treatment Effects"</span>) <span class="sc">+</span></span>
+<span id="cb97-8"><a href="#cb97-8"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-intro-pointrange-8" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_po_rct_files/figure-html/fig-intro-pointrange-8-1.png" class="img-fluid figure-img" width="2100"></p>
+<p></p><figcaption class="figure-caption">図 13: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1"></a>fit_coef <span class="sc">|&gt;</span></span>
+<span id="cb98-2"><a href="#cb98-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb98-3"><a href="#cb98-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb98-4"><a href="#cb98-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate,</span>
+<span id="cb98-5"><a href="#cb98-5"></a>                      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high,</span>
+<span id="cb98-6"><a href="#cb98-6"></a>                      <span class="at">color =</span> Model),</span>
+<span id="cb98-7"><a href="#cb98-7"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb98-8"><a href="#cb98-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatments"</span>, <span class="at">y =</span> <span class="st">"Average Treatment Effects"</span>) <span class="sc">+</span></span>
+<span id="cb98-9"><a href="#cb98-9"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-intro-pointrange-9" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_po_rct_files/figure-html/fig-intro-pointrange-9-1.png" class="img-fluid figure-img" width="2100"></p>
+<p></p><figcaption class="figure-caption">図 14: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1"></a>fit_coef <span class="sc">|&gt;</span></span>
+<span id="cb99-2"><a href="#cb99-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb99-3"><a href="#cb99-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb99-4"><a href="#cb99-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> term, <span class="at">y =</span> estimate,</span>
+<span id="cb99-5"><a href="#cb99-5"></a>                      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high,</span>
+<span id="cb99-6"><a href="#cb99-6"></a>                      <span class="at">color =</span> Model),</span>
+<span id="cb99-7"><a href="#cb99-7"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb99-8"><a href="#cb99-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatments"</span>, <span class="at">y =</span> <span class="st">"Average Treatment Effects"</span>) <span class="sc">+</span></span>
+<span id="cb99-9"><a href="#cb99-9"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb99-10"><a href="#cb99-10"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-intro-pointrange-10" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="intro_po_rct_files/figure-html/fig-intro-pointrange-10-1.png" class="img-fluid figure-img" width="2100"></p>
+<p></p><figcaption class="figure-caption">図 15: <strong>?(caption)</strong></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+
+
 </section>
 
 

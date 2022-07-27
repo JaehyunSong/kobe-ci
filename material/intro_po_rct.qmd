@@ -30,7 +30,7 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 
 ```{r}
 #| eval: false
-# NIIオンライン分析システムを利用する場合、導入ずみ
+# NIIオンライン分析システムを利用する場合、導入済み
 install.packages("pacman")
 ```
 
@@ -39,7 +39,8 @@ install.packages("pacman")
 [^pacman-update]: パッケージのアップデートには`pacman::p_update()`または`pacman::p_up()`関数を使う。`()`内に何も入力しない場合、全パッケージがアップデートされる。
 
 ```{r}
-pacman::p_load(tidyverse, summarytools, modelsummary, fastDummies)
+pacman::p_load(tidyverse, summarytools, fastDummies,
+               modelsummary, broom)
 ```
 
 　CRANでなく、GitHub上で公開されているパッケージを使う場合は`pacman::p_load_gh()`を使用する。`()`の中には`"ユーザー名/リポジトリ名"`を入力。たとえば、{BalanceR}の作成者のGitHubアカウント名は`JaehyunSong`であり、{BalanceR}のリポジトリ名は`BalanceR`だから、以下のように入力する。
@@ -216,6 +217,8 @@ df |>
   print(method = "render", round.digits = 3)
 ```
 
+## バランスチェック
+
 ## 処置効果の確認
 
 ### グループごとの応答変数の平均値
@@ -342,7 +345,7 @@ out_mean_df |>
   theme_gray(base_size = 14)
 ```
 
-### 統計的推定
+### 統計的推定（単回帰分析）
 
 　これまでの作業はグループごとの応答変数の平均値であって、処置効果ではない。処置効果を計算するためには処置群の平均値から統制群の平均値を引く必要がある。たとえば、Civic Dutyはがき群の平均値は約`r round(out_mean_df$Outcome[2], 3)`、統制群のそれは`r round(out_mean_df$Outcome[1], 3)`であるため、Civic Dutyはがきの処置効果は約`r round(out_mean_df$Outcome[2] - out_mean_df$Outcome[1], 3)`である。しかし、これを各グループごとに計算することは面倒だし、何よりも得られた値が**点推定値**だという限界がある。得られた処置効果の不確実性は計算できない。
 
@@ -399,7 +402,9 @@ fit1_coef <- fit1_coef |>
 fit1_coef
 ```
 
-　それでは作図に入ろう。
+　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準**偏差**ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%であれば、95%信頼区間を示し、10%なら90%信頼区間を用いる。
+
+　点と区間を同時に示すプロットがpoint-rangeプロットであり、{ggplot2}では`geom_pointrange()`レイヤーを使う。必要な情報はpoint-rangeの横軸上の位置（`x`）、点の縦軸上の位置（`y`）、区間の上限（`ymax`）と下限（`ymin`）である。これらの情報は全て`fit1_coef`に入っているため、`fit1_coef`をそのまま`ggplot()`関数に渡して作図することができる。
 
 ```{r fig-intro-pointrange-1}
 #| fig-height: 3.5
@@ -408,6 +413,8 @@ fit1_coef |>
   geom_pointrange(aes(x = term, y = estimate,
                       ymin = conf.low, ymax = conf.high))
 ```
+
+　それでは図をカスタマイズしてみよう。図内の様々なラベルを修正する`labs()`レイヤーでラベルを修正する。テーマはデフォルトの`theme_gray()`の代わりに白黒テーマ（`theme_bw()`）を使用し、フォントサイズは12とする。また、y = 0の水平線を追加する。95%信頼区間内に0が含まれる場合、「5%水準で統計的に有意でない」と判断できる。水平線を描くには`geom_hline()`レイヤーを追加し、`yintercept = 0`を指定することで、0のところに水平線が描ける。
 
 ```{r fig-intro-pointrange-2}
 #| fig-height: 3.5
@@ -420,6 +427,8 @@ fit1_coef |>
   theme_bw(base_size = 12)
 ```
 
+　まだ気になる点がある。それは横軸の目盛りラベルに`treatment`という不要な情報がある点だ。これは作図の時点で修正することも可能だが、まずは`df`の`term`変数の値を修正する方法を紹介する。変数の値を修正する時には`recode()`関数を使用する。第1引数はリコーディングする変数名であり、引き続き`"元の値" = "新しい値"`を指定すれば良い。**スペルミスに注意**すること。
+
 ```{r}
 fit1_coef <- fit1_coef |>
   mutate(term = recode(term,
@@ -431,11 +440,15 @@ fit1_coef <- fit1_coef |>
 fit1_coef
 ```
 
+　以上の作業は`term`列の各値から`"treatment"`文字を`""`に置換することなので、文字列を置換する関数である`str_replace()`を使えば、より短くすることができる。
+
 ```{r}
 #| eval: false
 fit1_coef <- fit1_coef |>
   mutate(term = str_replace(term, "treatment", ""))
 ```
+
+　`fit1_coef`も修正できたので、 @fig-intro-pointrange-2 と同じコードでもう一度作図してみよう。
 
 ```{r fig-intro-pointrange-3}
 #| fig-height: 3.5
@@ -448,11 +461,16 @@ fit1_coef |>
   theme_bw(base_size = 12)
 ```
 
+　最後に横軸の順番を修正してみよう。`fit1_coef`の`term`列は文字型変数であるため、アルファベット順になる。これを`df`の`treatment`列と同様、Civic Duty、Self、Neighbors、Hawthorneの順にしたい。この場合`fit1_coef`の`term`列をfactor化すれば良い。`factor()`関数を使っても良いが、ここではまた便利な技を紹介しよう。それは`fct_inorder()`関数だ。これは表示されている順番をfactorの順番とする関数だ。実際、`fit1_coef`の中身を見ると、表示順番はCivic Duty、Self、Neighbors、Hawthorneだ。非常に嬉しい状況なので、`fct_inorder()`を使ってみよう。
+
 ```{r}
 fit1_coef <- fit1_coef |>
   mutate(term = fct_inorder(term))
+
 fit1_coef
 ```
+
+　それでは、 @fig-intro-pointrange-3 と同じコードでもう一度作図してみよう。
 
 ```{r fig-intro-pointrange-4}
 #| fig-height: 3.5
@@ -463,4 +481,181 @@ fit1_coef |>
                       ymin = conf.low, ymax = conf.high)) +
   labs(x = "Treatments", y = "Average Treatment Effects") +
   theme_bw(base_size = 12)
+```
+
+　これで処置効果の可視化もバッチリだ。
+
+### 多重比較の問題
+
+```{r}
+fit1_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)
+
+fit1_coef
+```
+
+```{r}
+fit1_coef <- fit1_coef |>
+  slice(2:5)
+
+fit1_coef
+```
+
+```{r}
+fit1_coef <- fit1_coef |>
+  mutate(term = recode(term,
+                       "treatmentCivic Duty" = "Civic Duty",
+                       "treatmentHawthorne"  = "Hawthorne",
+                       "treatmentNeighbors"  = "Neighbors",
+                       "treatmentSelf"       = "Self"),
+         term = fct_inorder(term))
+
+fit1_coef
+```
+
+```{r fig-intro-pointrange-5}
+#| fig-height: 3.5
+fit1_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Treatments", 
+       y = "Average Treatment Effects (w/ 98.75% CI)") +
+  theme_bw(base_size = 12)
+```
+
+### 統計的推定（重回帰分析）
+
+```{r}
+fit2 <-lm(voted2006 ~ treatment + female + yob + hh_size +
+            voted2000 + voted2002 + voted2004, data = df)
+
+summary(fit2)
+```
+
+```{r}
+modelsummary(fit2)
+```
+
+```{r}
+modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2))
+```
+
+```{r}
+modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
+             estimate  = "{estimate} ({std.error})",
+             statistic = NULL)
+```
+
+```{r}
+modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
+             estimate  = "{estimate} ({std.error})",
+             statistic = NULL,
+             coef_rename = c("treatmentCivic Duty" = "Civic Duty",
+                             "treatmentSelf"       = "Self",
+                             "treatmentNeighbors"  = "Neighbors",
+                             "treatmentHawthorne"  = "Hawthorne",
+                             "female"              = "Female",
+                             "yob"                 = "Year of Birth",
+                             "hh_size"             = "Household Size",
+                             "voted2000"           = "Voted (2000)",
+                             "voted2002"           = "Voted (2002)",
+                             "voted2004"           = "Voted (2004)"))
+```
+
+## 番外編
+
+```{r}
+fit2_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)
+
+fit2_coef <- fit2_coef |>
+  slice(2:5) |>
+  mutate(term = recode(term,
+                       "treatmentCivic Duty" = "Civic Duty",
+                       "treatmentHawthorne"  = "Hawthorne",
+                       "treatmentNeighbors"  = "Neighbors",
+                       "treatmentSelf"       = "Self"),
+         term = fct_inorder(term))
+
+fit2_coef
+```
+
+```{r}
+bind_rows(list("Model 1" = fit1_coef, 
+               "Model 2" = fit2_coef))
+```
+
+```{r}
+bind_rows(list("Model 1" = fit1_coef, 
+               "Model 2" = fit2_coef),
+          .id = "Model")
+```
+
+```{r}
+fit_coef <- bind_rows(list("Model 1" = fit1_coef, 
+                           "Model 2" = fit2_coef),
+                      .id = "Model")
+```
+
+```{r fig-intro-pointrange-6}
+#| fig-height: 3.5
+fit_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  facet_wrap(~ Model) +
+  theme_bw(base_size = 12)
+```
+
+```{r fig-intro-pointrange-7}
+#| fig-height: 3.5
+fit_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high,
+                      color = Model)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12)
+```
+
+```{r fig-intro-pointrange-8}
+#| fig-height: 3.5
+fit_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high,
+                      color = Model)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12)
+```
+
+```{r fig-intro-pointrange-9}
+#| fig-height: 3.5
+fit_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high,
+                      color = Model),
+                  position = position_dodge2(1/2)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12)
+```
+
+```{r fig-intro-pointrange-10}
+#| fig-height: 3.5
+fit_coef |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = term, y = estimate,
+                      ymin = conf.low, ymax = conf.high,
+                      color = Model),
+                  position = position_dodge2(1/2)) +
+  labs(x = "Treatments", y = "Average Treatment Effects") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
 ```
