@@ -218,6 +218,62 @@ df |>
 
 ## バランスチェック
 
+　バランスチェックの簡単な方法はグループごとに処置前変数（pre-treatment variables）の平均値を比較することである。無作為割当が成功しているのであれば、処置前に測定された変数の平均値は近似するはずである。ここではグループ（`treatment`）ごとに性別、誕生年、世帯規模、2000〜2004年の投票参加の平均値を比較してみる。
+
+```{r}
+df |>
+  group_by(treatment) |>
+  summarise(female    = mean(female, na.rm = TRUE),
+            yob       = mean(yob, na.rm = TRUE),
+            hh_size   = mean(hh_size, na.rm = TRUE),
+            voted2000 = mean(voted2000, na.rm = TRUE),
+            voted2002 = mean(voted2002, na.rm = TRUE),
+            voted2004 = mean(voted2004, na.rm = TRUE))
+```
+
+　それぞれの変数の平均値は非常に似ているため、無作為割当が成功したと考えられる。しかし、変数の単位によって判断が難しいかも知れない。たとえば、2つのグループがあり、年齢の平均値の差は3、世帯規模のそれは2だとする。これを見ると年齢の方がよりバランスが取れていないようにも見えるが、年齢の幅は数十であるに対し、世帯規模はせいぜい5〜6程度であろう。したがって、各変数のばらつきまで考慮した比較が適切であり、その方法の一つが標準化バイアス（=標準化差分）である。
+
+　標準化差分を計算する便利パッケージ、{BalanceR}を使ってみよう。第1引数はデータだから、パイプで渡せば良い。`BalanceR()`内には`group`引数にグループ識別変数を、`cov`には処置前変数のベクトルを入れる。
+
+```{r}
+blc_chk <- df |>
+  BalanceR(group = treatment,
+           cov   = c(female, yob, hh_size, voted2000, voted2002, voted2004))
+
+blc_chk
+```
+
+　ちなみに、`df`内に`female`から`voted2004`は連続している（`names(df)`で確認してみよう）。この場合は以下のように（`female:voted2004`）書き換えることもできる。
+
+```{r}
+#| eval: false
+blc_chk <- df |>
+  BalanceR(group = treatment,
+           cov   = female:voted2004)
+
+blc_chk
+```
+
+　標準化差分（標準化バイアス）を用いたバランスチェックはそれぞれのペアごとに計算を行うため、グループが多い場合は凡例が圧迫される場合が多い。しかし、重要なのは標準化差分の最大値だろう。ペア1、2、3でバランスが取れても、ペア4のバランスが取られていない場合は無意味だからだ。また、標準化差分の場合、符号の意味はなく、絶対値が重要だ。また、バランスチェックにおいてグループごとの平均値や標準偏差は不要である。ここで`summary()`関数を使うと、絶対値が最も大きい標準化差分のみ出力される。
+
+```{r}
+summary(blc_chk)
+```
+
+　`plot()`関数を使えば、これらの結果を可視化することもできる。
+
+```{r fig-blc-1}
+plot(blc_chk)
+```
+
+　先ほど述べたようにバランスチェックで重要なのは絶対値が最も大きい標準化差分である。`plot()`内に`simplify = TRUE`を指定すれば最大値のみ表示され、更に`abs = TRUE`にすると絶対値へ変換される。また、垂直のガイドラインは`vline`引数で変更できる。
+
+```{r fig-blc-2}
+# plot() の第1引数は blc_chk なのでパイプの使える
+blc_chk |>
+  plot(vline = c(5, 10), simplify = TRUE, abs = TRUE)
+```
+
 ## 処置効果の確認
 
 ### グループごとの応答変数の平均値
@@ -498,12 +554,16 @@ fit1_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)
 fit1_coef
 ```
 
+　それでは @fig-intro-pointrange-4 と同じ図を作ってみよう。まず、切片の行を除外するが、ここでは`filter()`を使わず、`slice()`の使った方法を紹介する。`slice()`は`()`内に指定した行を残す関数だ。たとえば、`slice(fit1_coef, 2)`なら`fit1_coef`の2行目のみを残す。`fit1_coef`は`slice()`の第1引数だから、パイプ演算子を使うことも可能で、こちらの方を推奨する。そうすれば`()`内には残す行のみの指定で済む。`slice(2)`のみなら2行目を残し、`slice(1, 3, 5)`なら1、3、5行目を残す。`:`を使うと「〜行目から〜行目まで」の指定ができる。処置効果の係数は`fit1_coef`の2行目から5行目までなので、`2:5`と指定すれば良い。
+
 ```{r}
 fit1_coef <- fit1_coef |>
   slice(2:5)
 
 fit1_coef
 ```
+
+　続いて、`term`変数の値から`"treatment"`の文字を除去し、`fit1_coef`での出力順番で`term`をfactor化する。
 
 ```{r}
 fit1_coef <- fit1_coef |>
@@ -516,6 +576,8 @@ fit1_coef <- fit1_coef |>
 
 fit1_coef
 ```
+
+　最後に @fig-intro-pointrange-4 と同じコードで作図する。
 
 ```{r fig-intro-pointrange-5}
 #| fig-height: 3.5
@@ -531,6 +593,10 @@ fit1_coef |>
 
 ### 統計的推定（重回帰分析）
 
+　今回の例は無作為割当が成功しており、処置前変数の偏りは見られない。しかし、何らかの理由で処置前変数の偏りが生じる場合がある。その「何らかの理由」が応答変数にまで影響を与えるのであれば、それは交絡変数（confounder）となり、バイアスの原因となる。この場合、偏りが生じている処置前変数を統制（control）することによってバイアスを小さくすることができる。今回は不要であるが、性別や誕生年などの共変量を統制した推定をしてみよう。
+
+　やり方は簡単で、`lm()`内の回帰式を`応答変数 ~ 説明変数1 + 説明変数2 + ...`のように説明変数を`+`で足していけば良い。
+
 ```{r}
 fit2 <-lm(voted2006 ~ treatment + female + yob + hh_size +
             voted2000 + voted2002 + voted2004, data = df)
@@ -538,13 +604,19 @@ fit2 <-lm(voted2006 ~ treatment + female + yob + hh_size +
 summary(fit2)
 ```
 
+　{modelsummary}パッケージの`modelsummary()`関数を使えば、推定結果がより見やすくなる。
+
 ```{r}
 modelsummary(fit2)
 ```
 
+　また、複数のモデルを`list()`関数でまとめると、モデル間比較もできる。
+
 ```{r}
 modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2))
 ```
+
+　`modelsummary()`は推定値と標準誤差（カッコ内）が別々の行として出力する。これを一行でまとめるためには、以下のようにコードを修正する。
 
 ```{r}
 modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
@@ -552,10 +624,13 @@ modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
              statistic = NULL)
 ```
 
+　また、`align`で各列を左寄せや右寄せに（文字列は左寄せ、数値は右寄せが一般的）、`coef_rename`引数で表示される変数名を変更することもできる。
+
 ```{r}
 modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
              estimate  = "{estimate} ({std.error})",
              statistic = NULL,
+             align = "lrr", # 1列は左寄せ、2列は右寄せ、3列は右寄せ
              coef_rename = c("treatmentCivic Duty" = "Civic Duty",
                              "treatmentSelf"       = "Self",
                              "treatmentNeighbors"  = "Neighbors",
@@ -568,10 +643,16 @@ modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
                              "voted2004"           = "Voted (2004)"))
 ```
 
+　処置効果に注目すると、共変量の有無が推定結果に影響をほぼ与えないことが分かる。これは無作為割当に成功したことを意味する。
+
 ## 番外編
 
+　`modelsummary()`を使えば、複数のモデルの推定結果を一つの表としてまとめられる。しかし、図の場合はどうだろう。共変量なしモデルとありモデルを @fig-intro-pointrange-5 のように一つにまとめることはできるだろうか。もちろん出来る。
+
+　まず、重回帰分析を行った結果（`fit2`）から処置効果の推定値情報を抽出し、`fit1_coef`と同じ構造のデータとしてまとめる。
+
 ```{r}
-fit2_coef <- tidy(fit1, conf.int = TRUE, conf.level = 0.9875)
+fit2_coef <- tidy(fit2, conf.int = TRUE, conf.level = 0.9875)
 
 fit2_coef <- fit2_coef |>
   slice(2:5) |>
@@ -585,10 +666,7 @@ fit2_coef <- fit2_coef |>
 fit2_coef
 ```
 
-```{r}
-bind_rows(list("Model 1" = fit1_coef, 
-               "Model 2" = fit2_coef))
-```
+　処置効果の推定値や標準誤差などが異なるが、構造としては同じである。続いて、`bind_rows()`を用い、この2つのデータを一つの表として結合する。2つの表は`list()`関数でまとめるが、それぞれ`"モデル名" = データ名`と指定する。最後に、`.id = "Model"`を追加する。
 
 ```{r}
 bind_rows(list("Model 1" = fit1_coef, 
@@ -596,11 +674,15 @@ bind_rows(list("Model 1" = fit1_coef,
           .id = "Model")
 ```
 
+　2つの表が1つとなり、`Model`という列が追加される（これは`.id`で指定した名前）。そして、`fit1_coef`だった行は`"Model 1"`、`fit2_coef`だった行は`"Model 2"`が付く。ただし、これだけだと表が結合されて出力される**だけ**なので、`fit_coef`という名のオブジェクトとして作業環境内に格納しておく。
+
 ```{r}
 fit_coef <- bind_rows(list("Model 1" = fit1_coef, 
                            "Model 2" = fit2_coef),
                       .id = "Model")
 ```
+
+　それでは`fit_coef`を使って、作図をしてみよう。コードは @fig-intro-pointrange-5 と同じであるが、`facet_wrap()`レイヤーを追加する。これはグラフのファセット（facet）分割を意味し、ファセットとは「面」を意味する。`()`内には`~分割の基準となる変数名`を入れる。2つのモデルがあり、`fit_coef`だと`Model`列がどのモデルの推定値かを示している。
 
 ```{r fig-intro-pointrange-6}
 #| fig-height: 3.5
@@ -614,6 +696,8 @@ fit_coef |>
   theme_bw(base_size = 12)
 ```
 
+　今回の結果だとモデル1もモデル2も推定値がほぼ同じである。ファセット分割の場合、小さい差の比較が難しいというデメリットがある。この場合、ファセット分割をせず、一つのファセットにpoint-rangeの色分けした方が読みやすくなる。point-rangeを`Model`の値に応じて色分けする場合、`aes()`内に`color = Model`を追加する。
+
 ```{r fig-intro-pointrange-7}
 #| fig-height: 3.5
 fit_coef |>
@@ -626,6 +710,8 @@ fit_coef |>
   theme_bw(base_size = 12)
 ```
 
+　何かおかしい。point-rangeの横軸上の位置が同じということから重なってしまい、モデル1のpoint-rangeがよく見えない。これをずらすために`aes()`の**外**側に`position = position_dodge2(1/2)`を追加する。
+
 ```{r fig-intro-pointrange-8}
 #| fig-height: 3.5
 fit_coef |>
@@ -633,10 +719,13 @@ fit_coef |>
   geom_hline(yintercept = 0) +
   geom_pointrange(aes(x = term, y = estimate,
                       ymin = conf.low, ymax = conf.high,
-                      color = Model)) +
+                      color = Model),
+                  position = position_dodge2(1/2)) +
   labs(x = "Treatments", y = "Average Treatment Effects") +
   theme_bw(base_size = 12)
 ```
+
+　これで図は完成だが、少し修正してみよう。{ggplot2}の場合、凡例は右側に表示されるが、これを下側へ移動させるためには`theme()`レイヤーを追加し、`legend.position = "bottom"`を指定する。また、モデル1とモデル2が具体的に何を意味するのかを明確に示したい。これは`fit_coef`の`Model`列を修正しても良いが、今回は`scale_color_discrete()`レイヤーで修正する例を紹介する。
 
 ```{r fig-intro-pointrange-9}
 #| fig-height: 3.5
@@ -648,19 +737,8 @@ fit_coef |>
                       color = Model),
                   position = position_dodge2(1/2)) +
   labs(x = "Treatments", y = "Average Treatment Effects") +
-  theme_bw(base_size = 12)
-```
-
-```{r fig-intro-pointrange-10}
-#| fig-height: 3.5
-fit_coef |>
-  ggplot() +
-  geom_hline(yintercept = 0) +
-  geom_pointrange(aes(x = term, y = estimate,
-                      ymin = conf.low, ymax = conf.high,
-                      color = Model),
-                  position = position_dodge2(1/2)) +
-  labs(x = "Treatments", y = "Average Treatment Effects") +
+  scale_color_discrete(labels = c("Model 1" = "w/o Covariates",
+                                  "Model 2" = "w/ Covariates")) +
   theme_bw(base_size = 12) +
   theme(legend.position = "bottom")
 ```
