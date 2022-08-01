@@ -22,3 +22,614 @@ knitr::opts_chunk$set(dev       = "ragg_png",
                       message   = FALSE,
                       warning   = FALSE)
 ```
+
+## セットアップ
+
+　本日の実習で使用するパッケージを読み込む。
+
+```{r}
+pacman::p_load(tidyverse, 
+               broom,
+               MatchIt, 
+               WeightIt, 
+               cobalt, 
+               summarytools,
+               modelsummary,
+               fastDummies)
+pacman::p_load_gh("JaehyunSong/BalanceR")
+```
+
+　マッチングにおける古典的なデータセット、`lalonde`を読み込む。`data(lalonde, package = "cobalt")`を入力するだけで、{cobalt}パッケージ内の`laonde`という名前のデータフレームが作業環境内に`lalonde`という名で格納される[^cobalt-lalonde]。このデータを`la_df`という名のオブジェクトとして改めて保存しておこう。ただし、`lalonde`データセットの形式はdata.frameである。このままでも全く問題ないが、data.frameの拡張版であるtibble形式の方がより読みやすいので、格納する前に`lalonde`のデータ構造をdata.frameからtibbleへ変更しておこう（`as_tibble()`関数を使う）。
+
+[^cobalt-lalonde]: lalondeデータセットを提供するパッケージは複数あり、それぞれデータセットの構成に違いがある。どれを使っても実習には問題ないが、本資料の内容を再現される場合は`data()`内に`package = "cobalt"`を指定しよう。
+
+```{r}
+# cobaltパッケージが提供するデータセットの読み込み
+data("lalonde", package = "cobalt")
+
+la_df <- as_tibble(lalonde)
+```
+
+　それでは、データの中身を確認してみよう。
+
+```{r}
+la_df
+```
+
+　分析に入る前に、名目変数である人種（`race`）をダミー変数に変換する。`race`は3種類の値で構成されているため、生成するダミー変数も3つとなる。ダミー化には{fastDummies}パッケージの`dummy_cols()`関数を使用する。
+
+```{r}
+la_df <- la_df |>
+  dummy_cols(select_columns = "race")
+
+la_df
+```
+
+　このまま記述統計を見たり、分析に入っても良いが、もう少しデータを加工してみよう。まず`race_`で始まる3つのダミー変数の位置を`race`の前へ変更する。また、`race`変数は不要なので、`race`変数を除外する。最後に、`race_`で始まるダミー変数の名前を変更してみよう。変数の位置変更は`relocate()`関数を使用する。
+
+```{r}
+la_df <- la_df |>
+  relocate(starts_with("race_"), .before = race) |>
+  select(-race) |>
+  rename("black"    = "race_black",
+         "hispanic" = "race_hispan",
+         "white"    = "race_white")
+
+la_df
+```
+
+　それでは記述統計量を確認してみよう。
+
+```{r}
+#| eval: false
+descr(la_df,
+      stats = c("mean", "sd", "min", "max"),
+      transpose = TRUE,
+      order = "p")
+```
+
+```{r, results = "asis"}
+#| echo: false
+#| results: "asis"
+descr(la_df,
+      stats = c("mean", "sd", "min", "max"),
+      transpose = TRUE,
+      order = "p",
+      headings = FALSE,
+      style = "rmarkdown")
+```
+
+## 回帰分析
+
+### DiM推定量
+
+　処置効果を確認するために、まずはグループごとの応答変数の差分（Difference-in-Means; DiM）を計算してみよう。処置変数は`treat`であり、職業訓練を受けた回答者は1、受けなかった回答者は0となる。応答変数`re78`は1978年における回答者の収入である。
+
+```{r}
+Diff_Mean_df <- la_df |> 
+    group_by(treat) |>
+    summarise(Outcome = mean(re78),
+              .groups = "drop")
+
+Diff_Mean_df
+```
+
+　この結果を可視化する必要はあまり無いかも知れないが、以下のようなコードで可視化することもできる。
+
+```{r}
+Diff_Mean_df |>
+  ggplot() +
+  geom_bar(aes(x = treat, y = Outcome), 
+           stat = "identity", width = 0.5) +
+  geom_label(aes(x = treat, y = Outcome,
+                 label = round(Outcome, 3))) +
+  labs(x = "Treatment",
+       y = "Outcome (US Dollars)") +
+  # scale_x_continuous()を使って0/1をControl/Treatmentに置換する
+  # 目盛りはX軸上の0と1、各目盛りのラベルはControlとTreatmentに
+  scale_x_continuous(breaks = c(0, 1), labels = c("Control", "Treatment")) +
+  coord_cartesian(xlim = c(-0.5, 1.5))
+```
+
+　`treat == 0`の回答者、つまり職業訓練を受けていない回答者の平均所得は約6984ドル、`treat == 1`の回答者、つまり職業訓練を受けた回答者の平均所得は約6394ドルだ。その差は約-650ドルだが、職業訓練を受けた回答者の方が低所得になっている。これは直感的に納得できる結果ではないだろう。むろん、実際、職業訓練が所得を減らす可能性もあるが、今回の結果はより詳しく分析してみる価値があろう。
+
+　ちなみに、以上の結果は単回帰分析からも確認できる (ただし、統計的に有意ではない)。
+
+```{r}
+DiM_fit <- lm(re78 ~ treat, data = la_df)
+modelsummary(DiM_fit,
+             # 係数の点推定値と95%信頼区間を示す場合
+             estimate   = "{estimate} [{conf.low}, {conf.high}]",
+             statistic  = NULL,
+             conf_level = 0.95,
+             # ケース数、決定係数、調整済み決定係数を出力
+             gof_map    = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　この直感的でない結果は、もしかしたらセレクションバイアスが原因かも知れない。職業訓練の対象が元々非常に所得が低い回答者になっている可能性がある。たとえば、下の図のように職業訓練の有無が教育水準や人種、これまでの所得などと関係しているとしよう。これらの要因は回答者の現在所得にも関係していると考えられる。この場合、処置有無と所得の間には内生性が存在することになる。
+
+```{r}
+#| code-fold: true
+#| code-summary: "作図用のコード"
+#| echo: false
+#| fig-width: 5
+#| fig-height: 3
+pacman::p_load(ggdag)
+dagify(Income ~ Race + Training + Educ,
+       Training ~ Race + Educ,
+       exposure = "Training",
+       outcome  = "Income",
+       coords   = list(
+         x = c(Race = 1.5, Educ = 2.5, Training = 1, Income = 3),
+         y = c(Race = 2,   Educ = 2,   Training = 1, Income = 1)
+       )
+       )|>
+  tidy_dagitty() |>
+  ggdag(confounder_triangle(), node_size = 20) +
+  coord_cartesian(xlim = c(0.8, 3.2), ylim = c(0.8, 2.2)) +
+  theme_dag_blank()
+```
+
+　本当にそうなのかを、共変量のバランスチェックをしてみよう。もし、処置有無によって回答者の社会経済的要因に大きな差があれば、内生性が存在する証拠になろう。ここでは[誰か](https://www.jaysong.net)が作成しました{BalanceR}パッケージを使ってみよう。
+
+```{r}
+blc_chk <- la_df |>
+  BalanceR(group = treat, cov = age:re75)
+```
+
+　{BalanceR}パッケージで共変量を指定する際、`:`演算子が使える。`age:re75`は、データセットの`age`から`re75`変数までをすべて指定することを意味する。`names(la_df)`で変数がどの順番で並んでいるかが分かる。
+
+```{r}
+names(la_df)
+```
+
+　それではバランスチェックの結果を確認してみよう。
+
+```{r}
+blc_chk
+```
+
+　アンバランスと判定する標準化差分（標準化バイアス）の閾値には決まった値が無いが、最も緩い基準でも25程度である（計算時に100を掛けないのであれば0.25）。しかし、いくつか怪しい箇所がある。たとえば、`treat == 0`の回答者において黒人の割合は約20%だが、`treat == 1`のそれは約85%だ。つまり、黒人ほどより職業訓練を受ける傾向があることを意味する。また、人種は所得にも影響を与えると考えられる。これは処置と応答変数の間に交絡要因があることを意味する。実際、標準化バイアスは-167という、非常に大きい数値を示している。この結果を図としてまとめてみましょう。
+
+```{r}
+# 絶対値変換。SB = 25に破線
+plot(blc_chk, abs = TRUE, vline = 25) +
+  # 縦軸目盛りラベルの修正
+  scale_y_discrete(labels = c("age"      = "Age",
+                              "educ"     = "Education",
+                              "black"    = "Race (Black)",
+                              "hispanic" = "Race (Hispanic)",
+                              "white"    = "Race (White)",
+                              "married"  = "Married",
+                              "nodegree" = "No Degree",
+                              "re74"     = "Revenue (1974)",
+                              "re75"     = "Revenue (1975)")) +
+  # 凡例の削除
+  theme(legend.position = "none")
+```
+
+　かなり緩めの基準である25を採用しても、人種、結婚有無、74・75年の所得のバランスが非常に悪く、内生性（=自己選択バイアス）があると判断して良いだろう。以下ではこの内生性に対処する様々な方法を紹介する。
+
+### 重回帰分析
+
+　まずは、重回帰分析からだ。用いる共変量は年齢、教育水準、黒人ダミー、ヒスパニックダミー[^dummy]、既婚ダミー、学位なしダミー、74・75年の所得だ。`lm()`関数で78年の所得をこちらの変数に回帰させてみよう。
+
+[^dummy]: 人種のダミーは3つであるが、全てを投入する場合、多重共線性により、推定ができない（Rだと勝手に一つ落としてくれる）。必ず、一つは抜く必要があり、ここでは白人ダミー（`white`）を除外して。除外された変数をベースカテゴリ、参照カテゴリと呼ぶ。
+
+$$
+\begin{align}
+\widehat{\mbox{re78}} = & \beta_0 + \beta_1 \mbox{treat} + \beta_2 \mbox{age} + \beta_3 \mbox{educ} + \\
+& \beta_4 \mbox{black} + \beta_5 \mbox{hispanic} + \beta_6 \mbox{married} + \beta_7 \mbox{nodegree} + \beta_8 \mbox{re74} + \beta_9 \mbox{re75}.
+\end{align}
+$$
+
+```{r}
+mlm_fit <- lm(re78 ~ treat + age + educ + black + hispanic + married + 
+                   nodegree + re74 + re75, data = la_df)
+
+modelsummary(list("単回帰分析" = DiM_fit, "重回帰分析" = mlm_fit), 
+             estimate  = "{estimate} ({std.error})",
+             statistic = NULL,
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　共変量を統制したら処置変数の係数は約`r round(coef(mlm_fit)[2], 3)`ドルだ。単回帰分析の結果とは違って、統計的に有意な正の効果が確認されている。ますます分からなくなってしまう。
+
+## マッチング
+
+### 最近傍マッチング
+
+　重回帰分析は非常にシンプルで便利な分析方法ですが、いくつかの欠点がある。まず、重回帰分析は変数間の関係（線形結合）および誤差項の分布（平均0の正規分布）などを仮定したパラメトリック分析ということだ。この場合、同じ共変量を持たないケースであっても、勝手に予測を行うこととなる。重回帰分析における処置変数の解釈は「他の共変量がすべて同じ」場合の処置効果である。これは、共変量がすべて同じ場合における（最初に見た）単純差分のようなものである。しかし、「他の共変量がすべて同じ」ケースが存在しない可能性があろう。特に、共変量が多く、連続変数の場合、共変量がすべて同じことは実質あり得ないか、非常に少ないケースに限定されることもある。一方、マッチングを行うと、「他の共変量がすべて同じ」、または「非常に似ている」ケース間で比較を行うことになる。
+
+　本資料では以下の3つのマッチング手法の実装方法について解説する。
+
+1. 最近傍マッチング（マハラノビス距離）
+2. 最近傍マッチング（傾向スコア）
+3. Coarsened Exact Matching (CEM)
+
+　まずは、マハラノビス距離を用いた最近傍マッチングから始めよう。だいたいのマッチング手法は{MatchIt}パッケージで解決できる。マッチングデータセットを作成する関数は`matchit()`関数であり、使い方は以下の通りである。
+
+```{r}
+#| eval: false
+matchit(処置変数 ~ 共変量1 + ... + 共変量k, 
+            data = データフレーム名, estimand = "ATT",
+            method = "nearest", distance = "mahalanobis")
+```
+
+　`method = "nearest"`は最近傍マッチングを、`distance = "mahalanobis"`はマハラノビス距離を意味する。`estimand = "ATT"`はAT**T**を推定することを意味する。{MatchIt}の最近傍マッチングの場合、`"ATT"`、または`"ATC"`のみ指定可能である（後で紹介するCEMでは`"ATE"`も指定可能）。早速やってみよう。
+
+```{r}
+mh_mat1 <- matchit(treat ~ age + educ + black + hispanic + married + 
+                     nodegree + re74 + re75, 
+                   data = la_df, estimand = "ATT",
+                   method = "nearest", distance = "mahalanobis")
+```
+
+　マッチング後のデータでバランスが取れているかを確認するためにはいくつかの方法があるが、ここでは{cobalt}パッケージを使って、標準化差分を確認してみよう。
+
+```{r}
+#| warning: false
+love.plot(mh_mat1, thresholds = 0.25, abs = TRUE)
+```
+
+　`thresholds`引数は垂直線（破線）の位置、`abs`は標準化差分を絶対値で示すことを意味する。マッチング後の標準化差分（Adjusted; 赤い点）が0.25より左側に位置している場合、バランスしていると判断できる[^SB25]。むろん、より厳格な基準として0.03、0.05、0.1を使うこともできる。他にもマッチング後の標準化差分がマッチング前（Unadjusted; 青い点）より改善されるいるか否かも判断できる。今回の例だと、大幅にバランスが改善されている。0.25を基準とした場合、`black`はまだバランスが取れていないが、それでも大幅に改善されていることが分かる。
+
+[^SB25]: ここでは基準としている標準化差分0.25は{BalanceR}の25と同じである。
+
+　それではAT**T**を推定してみよう。推定方法としてはノンパラメトリックな方法とパラメトリック方法があるが、結果は変わらない。ノンパラメトリックな方法はペアごとの差分を計算し、その平均値を求める方法だが、マッチング済みのデータに対し、処置変数を結果変数を回帰させることも、結果的には同じことを行うことになる。したがって、もっと簡単なパラメトリック方法、つまり単回帰分析でAT**T**を推定しよう。
+
+　回帰分析を行うためにはデータが必要だ。つまり、マッチングされないケースをデータから除去する必要がある。ここでは`match.data()`関数を使ったマッチングされたケースのみを抽出してみよう。抽出したデータは`mh_data1`と名付ける。
+
+```{r}
+mh_data1 <- match.data(mh_mat1)
+```
+
+マッチングデータが取れたら、その中身を確認してみましょう。
+
+```{r}
+mh_data1
+```
+
+　データのサイズは370行14列であり、この370行には意味がある。それは処置群の大きさの2倍という点だ。多くの場合、マッチングから計算される処置効果はATEではなく、ATTである。したがって、処置群のデータを100%活用し、共変量（のマハラノビス距離）が最も近いケースを統制群から抽出&マッチングすることになる。だから、マッチング後のサンプルサイズは処置群のサイズの2倍になる。
+
+　それでは職業訓練のAT**T**を推定してみよう。方法は簡単だ。マッチング後のデータ（`mh_data1`）を用い、単回帰分析を行うだけである。
+
+```{r}
+mh_fit1 <- lm(re78 ~ treat, data = mh_data1)
+
+modelsummary(mh_fit1)
+modelsummary(list("単回帰・非復元" = mh_fit1), 
+             estimate  = "{estimate} ({std.error})",
+             statistic = NULL,
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　処置効果は約`r round(coef(mh_fit1)[2], 3)`ドルである。今回の結果は重回帰分析よりも推定値が低めであり、統計的に有意に職業訓練の効果があったとは言えないという結果が得られましたね。また、マッチング後のデータを使って**重**回帰分析を行うこともできる。マッチング後のデータを見ると、黒人ダミーのバランスは大幅に改善されたが、それでもまだアンバランスしていると言える。他にも、74・75年の所得や年齢もそれなりに標準化差分が大きい。このような場合、もう一度共変量を投入して分析を行うこともできる。
+
+```{r}
+mh_fit2 <- lm(re78 ~ treat + age + educ + black + hispanic + married + 
+                   nodegree + re74 + re75, data = mh_data1)
+
+modelsummary(list("単回帰・非復元" = mh_fit1,
+                  "重回帰・非復元" = mh_fit2), 
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　ちなみに、{MatchIt}パッケージを使った最近傍マッチングのの結果は行う度に変化することがある。{MatchIt}パッケージを使った最近傍マッチングの場合、処置群 (統制群)から一つのケースを選択し、最も近い統制群 (処置群)とマッチングする。マッチングされたケースは次のステップからはマッチング対象から除外されることになる[^replace]。また、1:1マッチングの場合[^ratio]、同距離に複数のマッチング対象があると、ランダムに1つのみを選択する。最近傍マッチングを用いる際は、複数推定を行い、推定が安定するかを確認し、不安定な場合は他の手法を使うか、k-最近傍マッチングなどを使ってみよう。
+
+[^replace]: これは`matchit()`内に`replacement = TRUE`を指定することで防ぐことができる。既定値は`FALSE`だが、`TRUE`を指定すれば、マッチングされた統制群ケースを2回以上マッチングすることができる。どちらが正しいということはないが、非復元（`FALSE`）が一般的だという意見もある（Lanza et al. 2013）。
+
+[^ratio]: これは`matchit()`内に`ratio`引数を指定することで防ぐことができる。既定値は1であり、この場合は1:1マッチングを意味する。
+
+　ここでは復元マッチングの例を紹介しよう。やり方は`matchit()`内に`replace = TRUE`を追加するだけだ。
+
+```{r}
+mh_mat2 <- matchit(treat ~ age + educ + black + hispanic + married + 
+                     nodegree + re74 + re75, 
+                   data = la_df, estimand = "ATT", replace = TRUE,
+                   method = "nearest", distance = "mahalanobis")
+mh_data2 <- match.data(mh_mat2)
+```
+
+　マッチング後のデータを確認する前に、バランスチェックをしてみよう。
+
+```{r}
+#| warning: false
+love.plot(mh_mat2, thresholds = 0.25, abs = TRUE)
+```
+
+　復元マッチングのメリットは非復元マッチングに比べ、バランス改善の程度が大きいという点だ。非復元マッチングの場合、マッチングに使われた統制群は二度と使われないため、場合によっては近いマッチングケースがあるにも関わらず、マッチングできないからだ。ただし、復元マッチングにもデメリットはある。たとえば、有効サンプルサイズ（Effective Sample Size; ESS）が小さくなり、精度が悪くなる点、場合によっては特殊な標準誤差[^replace-se]を使う必要があるといった欠点もある。
+
+[^replace-se]: [Austin, Peter C., and Guy Cafri. 2020. "Variance Estimation When Using Propensity-Score Matching with Replacement with Survival or Time-to-Event Outcomes." *Statistics in Medicine,* 39 (11): 1623–40.](https://doi.org/10.1002/sim.8502)
+
+　それではマッチング後のデータを確認してみよう。
+
+```{r}
+mh_data2
+```
+
+　今回は370行ではないことが分かる。なぜなら統制群のケースが複数マッチングされることもあるからだ。処置群は100%使われるので、マッチングに使われた統制群のケースは260-185=75ケースである。この特徴により推定の際は一点、注意が必要である。推定のやり方自体はほぼ同じである。しかし、**非**復元マッチングの場合、統制群からマッチングされたケースは1回のみ使われるため、一つ一つのケースの重みは同じである。`match.data()`から得られーたデータには`weights`列が含まれており、`mh_data1`の`weights`列を見ると全ての重みが1だということが分かる。
+
+```{r}
+mh_data1$weights
+```
+
+　一方、復元マッチングの場合、一つのケースが複数回マッチングされる場合もある。たとえば、191番目のケースは統制群であるが、重みが1.2162162だ。この意味は191番目のケースは計3回（$1.2162162\times\frac{185}{75}$）マッチングに使われたことを意味する。
+
+```{r}
+mh_data2$weights
+```
+
+　したがって、復元マッチングの場合、`lm()`内に`weights`引数を必ず指定する必要がある。
+
+```{r}
+mh_fit3 <- lm(re78 ~ treat, 
+              data = mh_data2, weights = weights)
+mh_fit4 <- lm(re78 ~ treat + age + educ + black + hispanic + married + 
+                   nodegree + re74 + re75, 
+              data = mh_data2, weights = weights)
+
+modelsummary(list("単回帰・非復元" = mh_fit1,
+                  "重回帰・非復元" = mh_fit2,
+                  "単回帰・復元"   = mh_fit3,
+                  "重回帰・復元"   = mh_fit4), 
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　推定の結果は、いずれも正であり、職業訓練は所得に正の影響を与えるという結果が得られている。しかし、いずれも標準誤差が非常に大きく、統計的に有意な結果は得られていない。
+
+### 傾向スコア
+
+　傾向スコアマッチングも、これまでのコードとほぼ同じだ。マハラノビス最近傍マッチングのコマンドから`distance = ...`引数を抜けば、傾向スコアマッチングができる[^PS1]。ここでも`replace = TRUE`を指定し、復元マッチングをやってみよう。
+
+[^PS1]: 実は`nearest = "logit"`が省略されている。つまり、ロジスティック回帰分析から得られた傾向スコアの距離に基づくマッチングを意味する。
+
+```{r}
+ps_mat <- matchit(treat ~ age + educ + black + hispanic + married + 
+                    nodegree + re74 + re75, 
+                  data = la_df, replace = TRUE,
+                  method = "nearest", estimand = "ATT")
+```
+
+　続いて、バランスチェックをしよう。
+
+```{r}
+#| warning: false
+love.plot(ps_mat, thresholds = 0.25, abs = TRUE)
+```
+
+　バランスが大幅に改善されていることが分かる。ちなみに最上段の`distance`は傾向スコアを意味する。
+
+　それでは、ATT推定のためにマッチング後のデータを抽出しよう。
+
+```{r}
+# 傾向スコアマッチング後のデータセットを抽出
+ps_data <- match.data(ps_mat)
+```
+
+　傾向スコアを用いたATTをの推定もこれまでと同様、回帰分析を使用する。ここでも共変量なしの単回帰とありの重回帰を行い、マハラノビス距離最近傍マッチング（復元）と結果を比べてみよう。。
+
+```{r}
+# 処置効果の推定
+ps_fit1 <- lm(re78 ~ treat, 
+             data = ps_data, weights = weights)
+ps_fit2 <- lm(re78 ~ treat + age + educ + black + hispanic + 
+                married + nodegree + re74 + re75, 
+             data = ps_data, weights = weights)
+
+modelsummary(list("MH (単回帰)"   = mh_fit3,
+                  "MH (重回帰)"   = mh_fit4,
+                  "PS (単回帰)"   = ps_fit1,
+                  "PS (重回帰)"   = ps_fit2), 
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　傾向スコアマッチングでも正の処置効果（ATT）が確認され、今回は統計的に有意な結果が得られている。
+
+### CEM
+
+　Coarsened Exact Matching（CEM）はマハラノビス最近傍マッチング同様、`matchit()`関数を使うが、事前に{cem}パッケージをインストールしておく必要がある（`install.pacakges("cem")`）。
+
+　CEMのようなExact Matching類の手法は距離を図る必要がないので、`distance`引数は不要である。マッチング方法を指定する`method`引数はこれまで使ってきた`"nearest"`（最近傍）でなく、`"cem"`に替えよう。推定可能な処置効果はATE（最近傍マッチングでは指定できなかったもの）、ATT、ATCであるが、ここではAT**T**を推定してみよう。
+
+　マッチングをしたら`match.data()`でマッチングされたデータを抽出する。
+
+```{r}
+cem_mat <- matchit(treat ~ age + educ + black + hispanic + married + 
+                     nodegree + re74 + re75, data = la_df,
+                   method = "cem", estimand = "ATT")
+```
+
+　つづいて、{cobalt}の`love.plot()`を使用して、バランスチェックを行う。
+
+```{r}
+#| warning: false
+love.plot(cem_mat, thresholds = 0.25, abs = TRUE)
+```
+
+　CEMの場合、（非復元）最近傍マッチングよりもバランスが大きく改善されることが分かる。その理由は簡単だ。最近傍マッチングの場合、最も近いケースであれば、どれほど離れていてもマッチングされる。一方、CEMは正確マッチングの一種であるため、ある程度離れているケースを捨ててしまうため、結局は共変量が非常に近いケースのみを残すことになります。
+
+　それでは、`match.data()`関数を使ってマッチング後のデータを抽出してみよう。
+
+```{r}
+cem_data <- match.data(cem_mat)
+
+cem_data
+```
+
+　CEMの場合、マッチングされないブロックは捨てられるため、マハラノビス距離最近傍マッチングよりもサンプルサイズが小さくなりやすい。マッチング相手がなければ、たとえ処置群だとしても除外される。また、処置群と統制群のサンプルサイズも不均衡になる。マッチング結果を見ると、処置群からは65ケース、統制群からは75サンプルのみ残っている。
+
+```{r}
+cem_data |>
+  count(treat)
+```
+
+　処置効果はこれまでの復元マッチングと同様、重み付き回帰分析で推定するｙ。ここでも共変量ありとなし、2パターンで推定してみよう。
+
+```{r}
+cem_fit1 <- lm(re78 ~ treat, 
+               data = cem_data, weights = weights)
+cem_fit2 <- lm(re78 ~ treat + age + educ + black + hispanic +
+                 married + nodegree + re74 + re75, 
+               data = cem_data, weights = weights)
+
+modelsummary(list("MH (単回帰)"   = mh_fit3,
+                  "MH (重回帰)"   = mh_fit4,
+                  "PS (単回帰)"   = ps_fit1,
+                  "PS (重回帰)"   = ps_fit2,
+                  "CEM (単回帰)"  = cem_fit1,
+                  "CEM (重回帰)"  = cem_fit2), 
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　推定の結果は、いずれも正であり、職業訓練は所得に正の影響を与えるという結果が得られている。しかし、いずれも標準誤差が非常に大きく、統計的に有意な結果は得られていない。
+
+## IPW
+
+　最後に、{WeightIt}パッケージを使ってIPW推定を行ってみよう。このパッケージはこれまで使ってた{MatchIt}パッケージと非常に似ている。まず、第一引数として処置変数を結果変数、処置有無に影響を与えると考えられる共変量を説明変数とした回帰式を入れる。続いて、データ（`data`）、IPW算出の方法（`method`）、推定の対象（`estimand`）を指定する。データは`data = la_df`とし、傾向スコアからIPWを算出するため`method = "ps"`を指定、最後にATT推定のために`estimand = "ATT"`を指定する。今回はIPW算出のために今回は傾向スコアを使うが、「処置を受ける確率」が計算できるなら何でも良い。たとえば、Imai and Ratkovic (2014)[^imai-ratkovic]が推奨しているCovariate Balancing Propensity Score (CBPS) を使用する場合は`"ps"`の代わりに`"cbps"`を、複数の推定を組み合わせるスーパーラーニングをする場合は`"super"`[^super]などが使える。他にもエントロピーバランシングなど様々なオプションが提供されている。
+
+[^imai-ratkovic]: [Imai, Kosuke and Marc Ratkovic. 2014. "Covariate Balancing Propensity Score." *Journal of the Royal Statistical Society, Series B,* Vol. 76, No. 1, pp. 243-246.](https://imai.fas.harvard.edu/research/CBPS.html)
+
+[^super]: Super Learnerを使った例は「[Cyrus, Samii, Laura Paler, and Sarah Zukerman Daly. 2016. "Retrospective Causal Inference with Machine Learning Ensembles: An Application to Anti-recidivism Policies in Colombia." *Political Analysis,* 22 (4) pp. 434-456]()」を、日本語による解説は[誰か](https://www.jaysong.net)の[報告スライド](https://www.slideshare.net/tintstyle/review-cyrus-samii-laura-paler-and-sarah-zukerman-daly-2016-retrospective-causal-inference-with-machine-learning-ensembles-an-application-to-antirecidivism-policies-in-colombia-political-analysis-22-4-pp-434456)を参照して下さい。
+
+```{r}
+ipw_data <- weightit(treat ~ age + educ + black + hispanic + 
+                       married + nodegree + re74 + re75, 
+                     data = la_df, method = "ps", estimand = "ATT")
+```
+
+　`matchit()`とは違って、別途`match.data()`などの関数は不要である。`weightit()`パッケージを使うと、IPW推定のための重み変数を返してくれる。また、`weightit()`から得られたデータは{cobalt}でバランスチェックもできる。
+
+```{r}
+#| warning: false
+love.plot(ipw_data, thresholds = 0.25, abs = TRUE)
+```
+
+　読み方は最近傍マッチング（傾向スコア）と同じである。ここでもバランスが大幅に改善されていることが分かる。
+
+　それではIPW推定量を計算してみよう。ここで一つ注意が必要だ。それは`data`を`ipw_data`でなく、元のデータである`la_df`を使うという点だ。また、重み変数は`la_df`には含まれていないため、`ipw_data$weights`を使う必要がある。
+
+```{r}
+ipw_fit1 <- lm(re78 ~ treat, 
+               data = la_df, weights = ipw_data$weights)
+ipw_fit2 <- lm(re78 ~ treat + age + educ + black + hispanic + 
+                       married + nodegree + re74 + re75, 
+               data = la_df, weights = ipw_data$weights)
+
+modelsummary(list("MH (単)"   = mh_fit3,
+                  "MH (重)"   = mh_fit4,
+                  "PS (単)"   = ps_fit1,
+                  "PS (重)"   = ps_fit2,
+                  "CEM (単)"  = cem_fit1,
+                  "CEM (重)"  = cem_fit2,
+                  "IPW (単)"  = ipw_fit1,
+                  "IPW (重)"  = ipw_fit2), 
+             gof_map   = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+　IPWの場合、正の処置効果（ATT）が確認され、今回は統計的に有意な結果が得られた。
+
+## バランスチェック
+
+　ここでは標準化差分以外のバランスチェック方法について紹介する。まず、特定の共変量の分布をヒストグラムを用い、マッチング前後で比較する方法だ。これもまた{coblat}パッケージを使用するが、今回は`love.plot()`でなく、`bal.plot()`を使う。
+
+　第1引数は`matchit()`から得られたオブジェクト名、続いて`var.name`にはバランスをチェックする共変量名（傾向スコアの場合は`"distance"`）、他は以下のコードの通りに打てばよい。
+
+```{r}
+bal.plot(ps_mat, var.name = "distance", which = "both",
+         type = "histogram", mirror = TRUE)
+```
+
+　左がマッチング前、右が後である。また、上部の赤いヒストグラムは統制群、下部の青は処置群を意味する。もし、傾向スコアのバランスが取れているならヒストグラムは上下対称となる。マッチング前だと統制群は傾向スコアの値が小さく、処置群のそれは大きい傾向があったが、マッチング後はほぼ上下対称となっていることからバランスが改善されたことが分かる。
+
+　ちなみに、ヒストグラムが作成できないダミー変数の場合、棒グラフが表示される。読み方は同じであるが、今回は上下対称ではなく、赤い棒と青い棒の高さが一致すればバランスが取れていると確認できる。
+
+```{r}
+bal.plot(ps_mat, var.name = "black", which = "both",
+         type = "histogram", mirror = TRUE)
+```
+
+　このようにヒストグラム（棒グラフ）を使うと、一つ一つの変数の図が必要となってくるので、実際の論文には掲載しにくい。それでも分析の段階では一つ一つのバランスを詳細に見ることは重要である。たとえば、傾向スコアマッチングの場合、回答者の年齢（`age`）のバランスは改善されている。本当にそうだろうか。`age`のバランスを確認してみよう。
+
+```{r}
+bal.plot(ps_mat, var.name = "age", which = "both",
+         type = "histogram", mirror = TRUE)
+```
+
+　改善ところか、改悪されているとも読み取れる。標準化差分は平均値と標準誤差のみに依存するため、分布の情報までは分からない。このような場合は、処置効果の推定の際、共変量を投入して更に調整が必要であることを示唆する。
+
+## 推定値の比較
+
+　これまで見てきたように、同じく「マッチング」とは言っても手法によって結果のばらつきが大きいことが分かる。また、同じ手法であっても復元か、非復元か、1:1マッチングか、1:nマッチングか、CEMならレイヤーをどれほど細かくするかなどによっても結果は大きく変わる。
+
+　ここまで得られた多くの結果から自分にとって都合の良い結果のみを報告するのは、あるいみ研究**不正**に近い。なぜなら、これを逆にいうと自分にとって都合の悪い結果を隠蔽しているものだからだ。したがって、実際の論文にはそれぞれの結果を報告・比較し、その結果を慎重に解釈する必要がある。ここではこれまで推定してきたマッチングの結果を一つの図としてまとめてみよう。
+
+　まずは、{broom}パッケージの`tidy()`関数で回帰分析の結果を表でまとめ、`bind_rows()`を使って一つに統合する。`tidy()`内に`conf.int = TRUE`を入れておくと、95%信頼区間も出してくれるので、今の段階で入れておこう。
+
+```{r}
+att_df <- bind_rows(list("単回帰_最近傍（マハラノビス）" = tidy(mh_fit3, conf.int = TRUE),
+                         "重回帰_最近傍（マハラノビス）" = tidy(mh_fit4, conf.int = TRUE),
+                         "単回帰_最近傍（傾向スコア）"   = tidy(ps_fit1, conf.int = TRUE),
+                         "重回帰_最近傍（傾向スコア）"   = tidy(ps_fit2, conf.int = TRUE),
+                         "単回帰_CEM" = tidy(cem_fit1, conf.int = TRUE),
+                         "重回帰_CEM" = tidy(cem_fit2, conf.int = TRUE),
+                         "単回帰_IPW" = tidy(ipw_fit1, conf.int = TRUE),
+                         "重回帰_IPW" = tidy(ipw_fit2, conf.int = TRUE)),
+                    .id = "Model")
+
+att_df
+```
+
+　続いて、処置効果（ATT）を意味する行のみを残す。`term`の値が`"treat"`と一致する行が処置効果である。
+
+```{r}
+att_df <- att_df |>
+  filter(term == "treat")
+
+att_df
+```
+
+　ここでは新しく登場した関数を使用する。`separate()`関数は文字列で構成されている列を、特定の文字を基準に列分割する関数である。`Model`行のそれぞれの値は`回帰モデル_マッチングモデル`で構成され、これを`_`文字を基準に`Regression`と`Method`列に分割する。分割する列名は`col`、分割後の列名は`into`、分割の基準となる文字は`sep`に指定する。
+
+```{r}
+att_df <- att_df |>
+  separate(col  = Model,
+           into = c("Regression", "Method"),
+           sep  = "_")
+
+att_df
+```
+
+　後はこのデータを使って作図するだけである。データを`ggplot()`に渡す前に`Regression`と`Method`列をfactor化しておこう。
+
+```{r}
+att_df |>
+  mutate(Regression = fct_inorder(Regression),
+         Method     = fct_inorder(Method)) |>
+  ggplot() +
+  geom_pointrange(aes(x = estimate, y = Method,
+                      xmin = conf.low, xmax = conf.high,
+                      color = Regression),
+                  position = position_dodge2(1/2)) +
+  labs(x = "処置群における処置効果（ATT）", y = "", color = "モデル",
+       caption = "注: マッチングの場合、復元マッチングを行った。") +
+  theme_bw(base_size = 12)
+```
+
+　もし、縦軸の順番を逆にしたい場合は、`fct_rev()`関数で要素の順番を逆にする。
+
+```{r}
+att_df |>
+  mutate(Regression = fct_inorder(Regression),
+         Method     = fct_inorder(Method),
+         Method     = fct_rev(Method)) |>
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_pointrange(aes(x = estimate, y = Method,
+                      xmin = conf.low, xmax = conf.high,
+                      color = Regression),
+                  position = position_dodge2(1/2)) +
+  labs(x = "処置群における処置効果（ATT）", y = "", color = "モデル",
+       caption = "注: マッチングの場合、復元マッチングを行った。") +
+  theme_bw(base_size = 12)
+```

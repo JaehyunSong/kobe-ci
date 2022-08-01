@@ -18,16 +18,1776 @@ format:
     auto-stretch: false
 ---
 
-# 
+# マッチングの考え方
 
 ```{r}
 #| include: false
-pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons)
-pacman::p_load_gh("JaehyunSong/BalanceR")
+pacman::p_load(tidyverse, gt, broom, modelsummary, 
+               dagitty, ggdag, WeightIt, MatchIt, mvtnorm)
+
 knitr::opts_chunk$set(dev       = "ragg_png",
                       dpi       = 300,
                       fig.align = "center",
                       echo      = FALSE,
                       message   = FALSE,
                       warning   = FALSE)
+
+df1 <- read_csv("data/matching_data1.csv")
+df2 <- read_csv("data/matching_data2.csv")
+df3 <- read_csv("data/matching_data3.csv")
 ```
+
+## 因果推論と内生性
+
+**内生性:** 処置変数と誤差項間の相関関係
+
+* 内生性は因果推論の敵
+* 例
+   * 処置変数 = ソンさんの講義を履修するか否か
+   * 結果変数 = 10年後の年収
+   * もし、やる気のある学生が履修する傾向があるとしたら?
+   * やる気のある学生は履修の有無と関係なく、高所得者になりやすい。
+   * $\rightarrow$ 「やる気」は処置と結果、両方と連関している
+
+<br/><br/><br/>
+
+<center>内生性を除去する最良の手法 $\rightarrow$ **RCT**</center>
+
+## RCTの限界
+
+* **高費用**
+   * 数万〜数億円
+* **倫理的な問題**による実行不可能性
+   * 喫煙と健康
+   * Philip Zimbardo. 2008. *The Lucifer Effect: How Good People Turn Evil.* Rider.
+* **外的妥当性**の問題
+   * Michael G. Findley, Kyosuke Kikuta, and Michael Denly. 2021. "External Validity," *Annual Review of Political Science,* 24:365-393.
+* 回顧的因果推論には不向き
+   * 主に**介入 (intervention)の効果**が推定対象
+
+## 因果推論
+
+The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
+
+* Level1: **Association** 
+* $P(y|x)$
+* Typical Activity: Seeing
+* Typical Question:
+   * What is?
+   * How would seeing $X$ change my belief in $Y$ ?
+* Examples:
+   * What does a symptom tell me about a disease?
+   * What does a survey tell us about the election results?
+
+## 因果推論
+
+The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
+
+* Level2: **Intervention** 
+* $P(y|do(x), z)$
+* Typical Activity: Doing
+* Typical Question:
+   * What if?
+   * What if I do $X$ ?
+* Examples:
+   * What if I take asprin, will my headache be cured?
+   * What if we ban cigarettes?
+
+## 因果推論
+
+The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
+
+* Level3: **Counterfactual**
+* $P(y_x|x^{\prime}, y^{\prime})$
+* Typical Activity: Imagining and Retrospection
+* Typical Question:
+   * Why?
+   * What is $X$ that caused $Y$ ?
+   * What if I had acted differently?
+* Examples:
+   * Was it the asprin that stopped my headache? 
+   * Would Kennedy be alive had Oswald not shot him? 
+   * What if I had not been smoking the past 2 years?
+
+## 観察データを用いた因果推論
+
+もし、$X$をしたら（did）$Y$はどうなった（would）だろうか
+
+* 過去を対象にRCTを行うことは不可能
+* 過去に収集された観察データが使用することに
+* マッチング、回帰不連続デザイン、差分の差分法、操作変数法など
+
+<br/><br/>
+
+**割当メカニズム** (assignment mechanism)
+
+* ユニットが処置を受けるか否かを規定するメカニズム
+* 例) 「やる気」が「履修」を規定
+* 無作為割当なら無作為に処置を受けるか否かが決まるため、考える必要がない。
+
+## 内生性への対処
+
+`matching_data1.csv`の例 (架空データ; 30行 $\times$ 4列)
+
+* 明らかに「やる気」と「履修」は連関
+* 履修有無による平均年収の差は約`r round(mean(df1$Income[df1$Rishu == 1]) - mean(df1$Income[df1$Rishu == 0]), 3)`万円
+
+:::{layout-ncol=3}
+```{r}
+df1[1:10, ]
+```
+
+```{r}
+df1[11:20, ]
+```
+
+```{r}
+df1[21:30, ]
+```
+:::
+
+## 内生性への対処
+
+方法: 処置変数と結果変数に影響を与える要因(交絡要因)を揃える 
+
+* 「やる気」のない学生（`Yaruki == 0`）だけに絞ってみる
+* 履修有無による平均年収の差は209万円
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+#| echo: true
+df1 |>
+  filter(Yaruki == 0) |>
+  group_by(Rishu) |>
+  summarise(Inc = mean(Income)) |>
+  pull(Inc)
+```
+
+```{r}
+#| echo: true
+402.5 - 193.5
+```
+:::
+
+:::{.column width=55%}
+```{r}
+bind_cols(df1 |>
+            mutate(across(where(is.numeric), as.character)) |>
+            filter(Yaruki == 0, Rishu == 1) |>
+            add_row(ID     = c(rep("", 6), "Mean"),
+                    Income = c(rep("", 6), "402.5"),
+                    Yaruki = rep("", 7),
+                    Rishu  = rep("", 7)),
+          tibble(X = rep("", 11)), 
+          df1 |>
+            mutate(across(where(is.numeric), as.character)) |>
+            filter(Yaruki == 0, Rishu == 0) |>
+            add_row(ID = "Mean",
+                    Income = "193.5",
+                    Yaruki = "",
+                    Rishu = "")) |>
+  gt() |>
+  cols_label(ID...1 = "ID", ID...6 = "ID", X = "　", 
+             Income...2 = "所得", Income...7 = "所得",
+             Yaruki...3 = "やる気", Yaruki...8 = "やる気", 
+             Rishu...4 = "履修", Rishu...9 = "履修") |>
+  tab_options(table.font.size = 20)
+```
+:::
+::::
+
+## 内生性への対処
+
+方法: 処置変数と結果変数に影響を与える要因(交絡要因)を揃える 
+
+* 「やる気」のある学生（`Yaruki == 1`）だけに絞ってみる
+* 履修有無による平均年収の差は176.3万円
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+#| echo: true
+df1 |>
+  filter(Yaruki == 1) |>
+  group_by(Rishu) |>
+  summarise(Inc = mean(Income)) |>
+  pull(Inc)
+```
+
+```{r}
+#| echo: true
+570.5455 - 394.2000
+```
+:::
+
+:::{.column width=55%}
+```{r}
+bind_cols(df1 |>
+            mutate(across(where(is.numeric), as.character)) |>
+            filter(Yaruki == 1, Rishu == 1) |>
+            add_row(ID     = "Mean",
+                    Income = "570.5",
+                    Yaruki = "",
+                    Rishu  = ""),
+          tibble(X = rep("", 12)), 
+          df1 |>
+            mutate(across(where(is.numeric), as.character)) |>
+            filter(Yaruki == 1, Rishu == 0) |>
+            add_row(ID = c(rep("", 6), "Mean"),
+                    Income = c(rep("", 6), "394.2"),
+                    Yaruki = rep("", 7),
+                    Rishu = rep("", 7))) |>
+  gt() |>
+  cols_label(ID...1 = "ID", ID...6 = "ID", X = "　", 
+             Income...2 = "所得", Income...7 = "所得",
+             Yaruki...3 = "やる気", Yaruki...8 = "やる気", 
+             Rishu...4 = "履修", Rishu...9 = "履修") |>
+  tab_options(table.font.size = 20)
+```
+:::
+::::
+
+## 内生性への対処
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+tibble(履修 = c(1, 0),
+       平均年収 = c(402.5000, 193.5000)) |>
+  gt() |>
+  cols_label("履修"     = "履修 (T)",
+             "平均年収" = "平均年収 (Y)") |>
+  fmt_markdown(columns = 1, rows = 1) |>
+  tab_options(table.font.size = 24)
+```
+:::
+
+:::{.column width=50%}
+```{r}
+tibble(履修 = c(1, 0),
+       平均年収 = c(570.5455, 394.2000))   |>
+  gt() |>
+  cols_label("履修"     = "履修 (T)",
+             "平均年収" = "平均年収 (Y)") |>
+  fmt_markdown(columns = 1, rows = 1) |>
+  tab_options(table.font.size = 24)
+```
+:::
+::::
+
+<br/><br/>
+
+やる気のある（ない）被験者を一人の被験者として考える場合、差分はITEと解釈可能。
+
+* ITEの加重平均 $\rightarrow$ 講義履修の因果効果 $\rightarrow$ 約**191.6万円**
+
+```{r}
+tibble(ID     = 1:2,
+       N      = c(14, 16),
+       Yaruki = c(0, 1),
+       Y1     = c("402.5000", "570.5455"),
+       Y2     = c("193.5000", "394.2000"),
+       Diff   = c("209.0000", "176.3455")) |>
+  mutate(across(where(is.numeric), as.character)) |>
+  add_row(ID = "**加重平均**", N = "", Yaruki = "", Y1 = "", 
+          Y2 = "", Diff = "**191.5843**") |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Yaruki" = html("やる気 (Z<sub>i</sub>)"), 
+             "Y1" = html("Y<sub>i</sub>(T</sub>i</sub> = 1)"), 
+             "Y2" = html("Y<sub>i</sub>(T</sub>i</sub> = -)"), 
+             "Diff" = html("ITE<sub>i</sub>")) |>
+  fmt_markdown(columns = 1:6) |>
+  tab_options(table.font.size = 24)
+```
+
+## マッチングの考え方
+
+割当メカニズムを想定し、交絡要因が同じユニット同士を比較
+
+* **交絡要因**: 処置変数と結果変数、両方と関係のある変数
+* 以下の条件が満たされる場合、マッチングで因果効果の推定が可能
+* **条件付き独立の仮定** (Conditional Independece Assumption; CIA) 
+   * $\{Y_i(T_i = 1),Y_i(T_i = 0)\} \perp T_i∣X_i$
+   * $T_i$ : 学生 $i$ の履修有無、 $X_i$ : 学生 $i$ のやる気
+   * やる気(=交絡要因)が同じ場合、学生 $i$ がソンさんの講義を履修するか否か(=処置変数)は彼(女)の将来収入(=結果変数)と関係なく決まる
+   * $\rightarrow$ **処置変数を外生変数として扱うことが可能に**
+* CIAが満たされるためには、割当メカニズム上のすべての交絡要因が必要
+
+## 条件付き独立の仮定とは
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+df3 |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>")) |>
+  tab_options(data_row.padding = 3,
+              table.font.size  = 18)
+```
+:::
+
+:::{.column width=5%}
+
+:::
+
+:::{.column width=50%}
+```{r}
+tibble(X = c("T = 0", "T = 1"),
+       Y0 = c("(A) **0.429**", "(C) 0.538"),
+       Y1 = c("(B) 0.429", "(D) **0.538**")) |>
+  gt() |>
+  cols_label("Y0" = html("Y<sub>0</sub>"),
+             "Y1" = html("Y<sub>1</sub>")) |>
+  fmt_markdown(columns = 1:3) |>
+  cols_align(align = "center") |>
+  tab_options(table.font.size = 24)
+```
+
+* 処置効果は0.538 − 0.429 = 0.109
+* もし、統制群と処置群が同質なら
+* A = C、そしてB = Dのはず
+* 処置群がもし統制群になっても、今の統制群と同じ
+* $\Rightarrow$ 交換可能性が成立せず
+
+![](Figs/02/moolook.png){width=100px fig-align="center"}
+
+:::
+::::
+
+## 条件付き独立の仮定とは
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+df3 |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>")) |>
+  tab_options(data_row.padding = 3,
+              table.font.size  = 18) |>
+  tab_style(style = cell_fill(color = "lightgreen"),
+            locations = cells_body(rows = (Z == 0)))
+```
+:::
+
+:::{.column width=5%}
+
+:::
+
+:::{.column width=50%}
+$Z$ で条件づけた場合 ( $Z = 0$ )
+
+```{r}
+tibble(X = c("T = 0", "T = 1"),
+       Y0 = c("(A) **0.250**", "(C) 0.250"),
+       Y1 = c("(B) 0.250", "(D) **0.250**")) |>
+  gt() |>
+  cols_label("Y0" = html("Y<sub>0</sub>"),
+             "Y1" = html("Y<sub>1</sub>")) |>
+  cols_align(align = "center") |>
+  fmt_markdown(columns = 1:3) |>
+  tab_options(table.font.size = 24)
+```
+
+* 処置効果は0.250 − 0.250 = 0.000
+* もし、統制群と処置群が同質なら
+* A = C、そしてB = Dが成立
+* $\Rightarrow$ 交換可能性が成立
+
+![](Figs/02/WaiWai.png){width=100px fig-align="center"}
+
+:::
+::::
+
+## 条件付き独立の仮定とは
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+df3 |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>")) |>
+  tab_options(data_row.padding = 3,
+              table.font.size  = 18) |>
+  tab_style(style = cell_fill(color = "lightgreen"),
+            locations = cells_body(rows = (Z == 1)))
+```
+:::
+
+:::{.column width=5%}
+
+:::
+
+:::{.column width=50%}
+$Z$ で条件づけた場合 ( $Z = 1$ )
+
+```{r}
+tibble(X = c("T = 0", "T = 1"),
+       Y0 = c("(A) **0.667**", "(C) 0.667"),
+       Y1 = c("(B) 0.667", "(D) **0.667**")) |>
+  gt() |>
+  cols_label("Y0" = html("Y<sub>0</sub>"),
+             "Y1" = html("Y<sub>1</sub>")) |>
+  cols_align(align = "center") |>
+  fmt_markdown(columns = 1:3) |>
+  tab_options(table.font.size = 24)
+```
+
+* 処置効果は0.667 − 0.667 = 0.000
+* もし、統制群と処置群が同質なら
+* A = C、そしてB = Dが成立
+* $\Rightarrow$ 交換可能性が成立
+
+![](Figs/02/WaiWai.png){width=100px fig-align="center"}
+
+:::
+::::
+
+## 条件付き独立の仮定とは
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+df3 |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>")) |>
+  tab_options(data_row.padding = 3,
+              table.font.size  = 18)
+```
+:::
+
+:::{.column width=5%}
+
+:::
+
+:::{.column width=50%}
+条件付き独立が成立するということは
+
+* 交換可能性が成立
+* 処置群を統制群に、統制群を処置群にしても同じ結果が得られること
+:::
+::::
+
+## 重回帰分析との比較
+
+重回帰分析における回帰係数の解釈
+
+* **他の変数すべてが同じ場合**、ある変数が1単位変化する時の応答変数の変化量
+* マッチングと同じ?
+
+重回帰分析とマッチングの結果が近似することも $\bigcirc$
+
+* 手計算マッチング: 191.5843
+
+::::{.columns}
+:::{.column width=50%}
+```{r}
+#| echo: true
+# df1 は matching_data1.csv
+# 単回帰分析
+Fit1 <- lm(Income ~ Rishu, data = df1)
+# 重回帰分析
+Fit2 <- lm(Income ~ Rishu + Yaruki, 
+           data = df1)
+```
+:::
+
+:::{.column width=50%}
+```{r}
+modelsummary(list("単回帰分析" = Fit1, "重回帰分析" = Fit2),
+             estimate = "{estimate} ({std.error})",
+             statistic = NULL,
+             gof_map = c("nobs", "r.squared"))
+```
+:::
+::::
+
+## 重回帰分析との比較
+
+実質的にマッチングと回帰分析は同じという見解も (Angrist and Pischke 2009)
+
+* 具体的に言えば、回帰分析はマッチングの特殊な形態
+   * 強い仮定を置いたマッチング
+   * 回帰分析は $Y = \beta_0 + \beta_1 X_1 + ... + \beta_k X_k$ の関数型を仮定 (parametric)
+* 回帰分析において誤差項の平均値は必ず0を仮定 ( $\mathbb{E}(\varepsilon|T, X) = 0$ )
+   * マッチングの場合、( $\mathbb{E}(\varepsilon|T = 0, X) = \mathbb{E}(\varepsilon|T = 1, X)$ )
+* 回帰分析はオーバーラップ条件を無視する
+   * マッチングされないケースでも、線形関数によって予測されてしまう
+   * マッチングはオーバーラップされないケースを分析から除外する
+* 結論: **回帰分析より柔軟、拡張性がある**
+
+## ATE, ATT, ATC
+
+3種類の因果効果
+
+1. **ATE** (Average Treatment Effect): 平均処置効果
+2. **ATT** (ATE for the **T**reated): 処置群における平均処置効果
+   * 潜在結果: 処置群が処置を受けなかった場合の応答変数
+3. **ATC** (ATE for the **C**ontrol): 統制群における平均処置効果
+   * 潜在結果: 統制群が処置を受けた場合の応答変数
+
+<br/>
+
+* 因果効果は一般的に母集団ではなく、**サンプル**から推定されるため、「SATE/SATT/SATC」と呼ばれる場合も
+* 他にもRIE (Retrospective Intervention Effect) なども (Samii et al. 2016)
+
+* RCTでは主にATEが推定対象（マッチングでは区分するケースが多い）
+* 統計ソフトウェアによってはATTを因果効果の推定値として表示する場合もある。
+
+## ATT: 処置群における平均処置効果
+
+* **処置群の潜在的結果を統制群から割り当て**る。
+* 処置群は $Y_i(T_i = 1)$ が観察済みであり、潜在的結果は $Y_i(T_i = 0)$
+* やる気のない学生の $Y_i(T_i = 0)$ は193.5、ある学生は394.2
+
+```{r}
+df1 |>
+  filter(Rishu == 1) |>
+  mutate(Y1  = Income,
+         Y0  = if_else(Yaruki == 1, 394.2, 193.5),
+         ITE = Y1 - Y0) |>
+  select(ID, Yaruki, Y1, Y0, ITE) |>
+  filter(ID <= 7 | ID > 19) |>
+  mutate(across(where(is.numeric), as.character)) |>
+  add_row(ID = "平均", Yaruki = "", Y0 = "", Y1 = "", ITE = "185.1") |>
+  add_row(ID = "...", Yaruki = "...", Y0 = "...", Y1 = "...", ITE = "...",
+          .after = 6) |>
+  gt() |>
+  cols_label("ID"     = "ID (i)",
+             "Yaruki" = html("Yaruki<sub>i</sub>"),
+             "Y1"     = html("Y<sub>i</sub>(T<sub>i</sub> = 1)"), 
+             "Y0"     = html("Y<sub>i</sub>(T<sub>i</sub> = 0)"),
+             "ITE"    = html("ITE<sub>i</sub>"))
+```
+
+## ATC: 統制群における平均処置効果
+
+* **統制群の潜在的結果を処置群から割り当て**る。
+* 統制群は $Y_i(T_i = 0)$ が観察済みであり、潜在的結果は $Y_i(T_i = 1)$
+* やる気のない学生の $Y_i(T_i = 1)$ は402.5、ある学生は570.5
+
+```{r}
+df1 |>
+  filter(Rishu == 0) |>
+  mutate(Y1  = if_else(Yaruki == 1, 570.5, 402.5),
+         Y0  = Income,
+         ITE = Y1 - Y0) |>
+  select(ID, Yaruki, Y1, Y0, ITE) |>
+  filter(ID < 17 | ID > 24) |>
+  mutate(across(where(is.numeric), as.character)) |>
+  add_row(ID = "平均", Yaruki = "", Y0 = "", Y1 = "", ITE = "185.1") |>
+  add_row(ID = "...", Yaruki = "...", Y0 = "...", Y1 = "...", ITE = "...",
+          .after = 6) |>
+  gt() |>
+  cols_label("ID"     = "ID (i)",
+             "Yaruki" = html("Yaruki<sub>i</sub>"),
+             "Y1"     = html("Y<sub>i</sub>(T<sub>i</sub> = 1)"), 
+             "Y0"     = html("Y<sub>i</sub>(T<sub>i</sub> = 0)"),
+             "ITE"    = html("ITE<sub>i</sub>"))
+```
+
+## ATE: 平均処置効果
+
+* ATTとATCの**加重**平均
+* 今回は処置群と統制群が15:15 $\rightarrow$ 単純平均でOK
+   * $\frac{1}{2}(185.1 + 198.1) = 191.6$
+   * 手計算マッチングとと同じ結果
+
+$$\text{ATE} = \frac{N_{\text{treated}}}{N_{\text{all}}} \text{ATT} + \frac{N_{\text{controlled}}}{N_{\text{all}}} \text{ATC}.$$
+
+# 様々なマッチング手法
+
+## マッチングいろいろ
+
+1. Exact Matching
+2. Nearest-neighbor Matching
+   * k-nearest Neighbor Matching
+   * Caliper Matching (Radius Matching)
+3. Coarsened Exact Matching
+4. Propensity Score Matching
+   * Inverse Probability Weighting
+   * Ensemble Matching
+
+## Exact Matching
+
+* 「正確マッチング」、「厳格なマッチング」などで訳される
+* これまで見てきた方法が Exact Matching
+   * データ内の共変量 (交絡要因) が**完全に一致**するケース同士の比較
+* 共変量が少数、かつ、名目or順序変数の場合、使用可 
+* 共変量が多数、または連続変数の場合は実質的に無理
+   * **次元の呪い** or **次元爆発**
+
+![](Figs/02/Muri.png){width=200px fig-align="center"}
+
+## Nearest-neighbor Matching
+
+**Nearest-neighbor Matching**
+
+* 「最近傍マッチング」と訳される。
+* 共変量が連続変数、多次元の場合、「完全に一致」ケースはない場合がほとんど
+   * $\rightarrow$ 「一致」ではなく、「**最も似ている**」ケース同士と比較
+   * 共変量を座標（超）平面に位置づけた場合、最も近いケースをマッチング
+
+<br/><br/>
+
+「近さ」の基準
+
+1. Manhattan Distance
+2. Standardized Euclidean Distance
+3. **Mahalanobis Distance** ($\leftarrow$ 最もよく使われる基準)
+
+## マンハッタン距離（Manhattan Distance; City-block Distance）
+
+$$d(i, j) = |X_i - X_j| + |Y_i - Y_j| \text{ where } i \neq j.$$
+
+::::{.columns}
+:::{.column width=30%}
+![](Figs/02/Manhattan.png){fig-align="center"}
+:::
+
+:::{.column width=70%}
+```{r}
+ggplot() +
+  geom_segment(aes(x = -2, y = -2, xend = 4, yend = -2), size = 2) +
+  geom_segment(aes(x = 4, y = -2, xend = 4, yend = 4), size = 2) +
+  geom_point(aes(x = c(-2, 4), y = c(-2, 4)), size = 2.5, color = "red") +
+  scale_x_continuous(breaks = -5:5, labels = -5:5) +
+  scale_y_continuous(breaks = -5:5, labels = -5:5) +
+  coord_cartesian(xlim = c(-5, 5), ylim = c(-5, 5)) +
+  labs(x = "X", y = "Y") +
+  theme_gray(base_size = 16) +
+  theme(panel.grid.minor = element_blank())
+```
+:::
+::::
+
+## 標準化ユークリッド距離（Standardized Euclidean Distance）
+
+$$d(i, j) = \sqrt{\Bigg(\frac{X_i - X_j}{\sigma_X}\Bigg)^2 + \Bigg(\frac{Y_i - Y_j}{\sigma_Y}\Bigg)^2} \text{ where } i \neq j.$$
+
+::::{.columns}
+:::{.column width=30%}
+![](Figs/02/Euclid.png){width="350px" fig-align="center"}
+:::
+
+:::{.column width=70%}
+```{r}
+ggplot() +
+  geom_segment(aes(x = -2, y = -2, xend = 4, yend = 4), size = 2) +
+  geom_point(aes(x = c(-2, 4), y = c(-2, 4)), size = 2.5, color = "red") +
+  scale_x_continuous(breaks = -5:5, labels = -5:5) +
+  scale_y_continuous(breaks = -5:5, labels = -5:5) +
+  coord_cartesian(xlim = c(-5, 5), ylim = c(-5, 5)) +
+  labs(x = "X", y = "Y") +
+  theme_gray(base_size = 16) +
+  theme(panel.grid.minor = element_blank())
+```
+:::
+::::
+
+## マハラノビス距離（Mahalanobis Distance）
+
+* 共変量間の相関が0（$\rho = 0$）の場合、Standardized Euclidean Distanceと同じ
+
+$$d(i, j) = \sqrt{\frac{1}{1 - \rho^2_{X, Y}} \Bigg[\Bigg(\frac{X_i - X_j}{\sigma_X}\Bigg)^2 + \Bigg(\frac{Y_i - Y_j}{\sigma_Y}\Bigg)^2 - 2\rho_{X,Y}\Bigg(\frac{X_i - X_j}{\sigma_X}\Bigg) \Bigg(\frac{Y_i - Y_j}{\sigma_Y}\Bigg)\Bigg]} \text{ where } i \neq j.$$
+
+::::{.columns}
+:::{.column width=30%}
+![](Figs/02/Mahalanobis.png){fig-align="center"}
+:::
+
+:::{.column width=70%}
+```{r}
+#| fig-width: 6
+#| fig-height: 3
+set.seed(19861008)
+MVX <- rmvnorm(200, mean = c(3, -1), 
+               sigma = matrix(c(1, 0.8, 0.8, 1.5), nrow = 2))
+
+MVX1 <- MVX[, 1]
+MVX2 <- MVX[, 2]
+
+mh_df <- data.frame(X1 = MVX[, 1], X2 = MVX[, 2])
+
+MD1 <- sqrt((1 / (1 - cor(MVX1, MVX2)^2)) * ((MVX1[125] - MVX1[174])^2 + (MVX2[125] - MVX2[174])^2) - ((2 * cor(MVX1, MVX2)) * (MVX1[125] - MVX1[174]) * (MVX2[125] - MVX2[174])))
+ED1 <- sqrt((MVX1[125] - MVX1[174])^2 + (MVX2[125] - MVX2[174])^2)
+
+MD2 <- sqrt((1 / (1 - cor(MVX1, MVX2)^2)) * ((MVX1[125] - MVX1[179])^2 + (MVX2[125] - MVX2[179])^2) - ((2 * cor(MVX1, MVX2)) * (MVX1[125] - MVX1[179]) * (MVX2[125] - MVX2[179])))
+ED2 <- sqrt((MVX1[125] - MVX1[179])^2 + (MVX2[125] - MVX2[179])^2)
+
+mh_df |> ggplot() +
+  geom_point(aes(X1, X2), shape = 1) +
+  geom_segment(aes(x = X1[125], xend = X1[174],
+                   y = X2[125], yend = X2[174]), color = "red") +
+  geom_segment(aes(x = X1[125], xend = X1[179],
+                   y = X2[125], yend = X2[179]), color = "blue") +
+  geom_label(aes(x = mean(c(X1[125], X1[174])) - 0.5,
+                 y = mean(c(X2[125], X2[174])) + 0.1, 
+                 label = paste0("E: ", sprintf("%.3f", ED1), 
+                                "\nM: ", sprintf("%.3f", MD1))),
+             size = 3) +
+  geom_label(aes(x = mean(c(X1[125], X1[179])) + 1,
+                 y = mean(c(X2[125], X2[179])), 
+                 label = paste0("E: ", sprintf("%.3f", ED2), 
+                                "\nM: ", sprintf("%.3f", MD2))),
+             size = 3) +
+  geom_point(aes(X1[125], X2[125]), color = "darkgreen", size = 4) +
+  geom_point(aes(X1[179], X2[179]), color = "blue", size = 4) +
+  geom_point(aes(X1[174], X2[174]), color = "red", size = 4) +
+  coord_cartesian(ylim = c(-4, 2)) +
+  theme_bw(base_size = 16) +
+  labs(x = "X", y = "Y")
+```
+:::
+::::
+
+## マッチング方法
+
+**ATT**の場合、処置群のケースに統制群の中で**最も近いケース1個**を割当
+
+* 近さの測定はマハラノビス距離が一般的
+* 処置群内の1ケースに**複数**の統制群ケースを割り当てる場合も
+   * k-nearest Neighbor Matching
+   * Caliper Matching
+* 復元マッチングと非復元マッチング
+
+## k-nearest Neighbor Matching
+
+k-最近傍マッチング
+
+* 最も近い1個ケースを潜在的結果として使うのではなく、**最も近い $k$ 個のケースの平均値**を潜在的結果として用いる。
+   * $j(m)$ : $i$ から $m$ 番目に近いケース $j$
+
+$$Y_i(T_i = 0) = \begin{cases}Y_i & \text{ if } T_i = 0\\ \frac{1}{K} \sum_{m = 1}^K Y_{j(m)} & \text{ if } T_i = 1\end{cases}$$
+
+* 最適 $k$ を決める理論的基準は無し
+   * $k$ を大きくすると、モデルの分散が小さくなる
+   * ただし、モデルの分散が小さい = バイアスが拡大
+      * **Bias–variance trade-off**
+   * $k$ を変化させることによって結果がどのように変わるか観察
+
+## Caliper Matching
+
+「カリパーマッチング」と訳される（訳されてない...?）
+
+* **半径 $h$ の中にある全てのケースの平均値**を潜在的結果として使用
+
+::::{.columns}
+:::{.column width=45%}
+$$Y_i(T_i = 0) = \begin{cases}Y_i & \text{ if } T_i = 0\\ \frac{\sum_{j=1}^N I(T_j = 0, d(i, j) < h)\cdot Y_i}{\sum_{j=1}^N I(T_j = 0, d(i, j) < h)} & \text{ if } T_i = 1\end{cases}$$
+
+![](Figs/02/Caliper.png){width="300px" fig-align="center"}
+:::
+
+:::{.column width=55%}
+```{r}
+#| fig-width: 5
+#| fig-height: 4
+mh_df |>
+  mutate(C1 = X1[32], C2 = X2[32],
+         ED = sqrt((X1 - C1)^2 + (X2 - C2)^2),
+         InCircle = ED < 0.5) |> ggplot() +
+  geom_point(aes(X1, X2, fill = InCircle), shape = 21, size = 2) +
+  geom_point(aes(X1[32], X2[32]), color = "red", size = 4) +
+  geom_label(aes(x = -Inf, y = Inf, label = "h = 0.5"),
+             vjust = "top", hjust = "left", size = 5, label.size = 0) +
+  labs(x = "X", y = "Y", color = "") +
+  coord_fixed(xlim = c(-1, 6.5), ylim = c(-5, 2.5)) +
+  theme_bw(base_size = 16) +
+  theme(legend.position = "none")
+```
+:::
+::::
+
+## 復元マッチングと非復元マッチング
+
+* 1:1マッチングの場合に生じる問題: マッチング済みの統制群（処置群）をどう扱うか
+   * 他にも近い処置群のケースがあればマッチング $\rightarrow$ 復元マッチング
+   * 他にも近い処置群のケースがあっても使わない $\rightarrow$ 非復元マッチング
+* 復元マッチングの場合、統制群の各ケースに**重み**が付与される。
+   * 加重平均 or 重み付け回帰分析が必要
+* 多くのパッケージは非復元がデフォルトとなっているが、推定ごとに結果が変化することも（図BとC）
+   * 復元マッチングはバランスが改善されやすいが、サンプルサイズが小さくなる。
+* **正しい**方法はなく、分析者の判断が必要。
+
+```{r}
+#| fig-width: 5
+#| fig-height: 2.5
+#| layout-ncol: 3
+#| fig-subcap: 
+#|   - "A) 復元マッチング"
+#|   - "B) 非復元マッチング (1)"
+#|   - "C) 非復元マッチング (2)"
+tibble(x = c(0.9, 1.1, 1, 1.2),
+       y = c(0.9, 1.1, 1.1, 0.6),
+       z = c("処置群", "処置群", "統制群", "統制群")) |>
+  ggplot() +
+  geom_segment(aes(x = 0.9, xend = 1, y = 0.9, yend = 1.1)) +
+  geom_segment(aes(x = 1.1, xend = 1, y = 1.1, yend = 1.1)) +
+  geom_point(aes(x = x, y = y, color = z), size = 7) +
+  coord_cartesian(xlim = c(0.6, 1.3), ylim = c(0.5, 1.2)) +
+  labs(color = "") +
+  theme_bw(base_size = 12) +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        legend.position = "none")
+  
+tibble(x = c(0.9, 1.1, 1, 1.2),
+       y = c(0.9, 1.1, 1.1, 0.6),
+       z = c("処置群", "処置群", "統制群", "統制群")) |>
+  ggplot() +
+  geom_segment(aes(x = 0.9, xend = 1, y = 0.9, yend = 1.1)) +
+  geom_segment(aes(x = 1.1, xend = 1.2, y = 1.1, yend = 0.6)) +
+  geom_point(aes(x = x, y = y, color = z), size = 7) +
+  coord_cartesian(xlim = c(0.6, 1.3), ylim = c(0.5, 1.2)) +
+  labs(color = "") +
+  theme_bw(base_size = 12) +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        legend.position = "none")
+
+tibble(x = c(0.9, 1.1, 1, 1.2),
+       y = c(0.9, 1.1, 1.1, 0.6),
+       z = c("処置群", "処置群", "統制群", "統制群")) |>
+  ggplot() +
+  geom_segment(aes(x = 0.9, xend = 1.2, y = 0.9, yend = 0.6)) +
+  geom_segment(aes(x = 1.1, xend = 1, y = 1.1, yend = 1.1)) +
+  geom_point(aes(x = x, y = y, color = z), size = 7) +
+  coord_cartesian(xlim = c(0.6, 1.3), ylim = c(0.5, 1.2)) +
+  labs(color = "") +
+  theme_bw(base_size = 12)  +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        legend.position = "none")
+```
+
+## Coarsened Exact Matching
+
+Coarsened Exact Matching (Iacus, King, and Porro 2011)
+
+* 定訳はなく、「CEM」で呼ばれる(粗い正確マッチング?)
+* アルゴリズムは簡単
+   1. 共変量をいくつかの層 (strata) へ分割する。
+   2. 各層にそれぞれ該当する処置・統制ユニットを入れる。
+   3. 最低一つ以上の処置・統制ユニットがない層は捨てる。
+   4.  各層の処置・統制ユニットの結果変数の差分を計算し、すべての層に対して加重平均
+* 層を細かくするほどExact Matchingへ近づく
+   * ただし、マッチングされないケースが多くなり、分析に使えるケースが減少
+   * バイアス$\downarrow$; 分散$\uparrow$
+
+## CEMの例
+
+`matching_data2.csv`の例
+
+* 年齢は10歳刻み、学歴は大卒以上・未満に層化
+
+```{r}
+df2_c <- df2 |>
+  mutate(Edu2 = case_when(Edu == 1 ~ "小",
+                          Edu == 2 ~ "中",
+                          Edu == 3 ~ "高",
+                          Edu == 4 ~ "専",
+                          Edu == 5 ~ "大",
+                          TRUE     ~ "院"))
+
+bind_cols(df2_c |> 
+            filter(ID <= 12) |> 
+            select(-Edu) |>
+            relocate(Edu2, .after = Age),
+          tibble(X = rep("", 12)), 
+          df2_c |>
+            filter(ID > 12) |> 
+            select(-Edu) |>
+            relocate(Edu2, .after = Age)) |>
+  gt() |>
+  cols_label(ID...1      = "ID",   ID...7       = "ID", X = "　",
+             Age...2     = "年齢", Age...8      = "年齢",
+             Edu2...3    = "教育", Edu2...9     = "教育",
+             Treat...4   = "処置", Treat...10   = "処置",
+             Outcome...5 = "結果", Outcome...11 = "結果")
+```
+
+## CEMの例
+
+年齢は10歳刻み、学歴は大卒以上・未満に層化
+
+* カテゴリが少なくなり、マッチングしやすくなる
+
+```{r}
+df2_c2 <- df2_c |>
+  mutate(Edu = if_else(Edu >= 5, "H", "L"),
+         Age = case_when(Age < 30 ~ "20代",
+                         Age < 40 ~ "30代",
+                         Age < 50 ~ "40代",
+                         TRUE     ~ "50代"))
+
+bind_cols(df2_c2 |> 
+            filter(ID <= 12) |>
+            select(-Edu2),
+          tibble(X = rep("", 12)), 
+          df2_c2 |>
+            filter(ID > 12) |>
+            select(-Edu2)) |>
+  gt() |>
+  cols_label(ID...1      = "ID",   ID...7       = "ID", X = "　",
+             Age...2     = "年齢", Age...8      = "年齢",
+             Edu...3     = "教育", Edu...9      = "教育",
+             Treat...4   = "処置", Treat...10   = "処置",
+             Outcome...5 = "結果", Outcome...11 = "結果")
+```
+
+## CEMの例
+
+::::{.columns}
+:::{.column width=30%}
+層ごとにケースをマッチング
+
+* ペアが組めない層が存在
+   * 30代 & L
+   * 50代 & H
+:::
+
+:::{.column width=70%}
+```{r}
+tibble(Age  = c(rep("20代", 4),
+                rep("30代", 3),
+                rep("40代", 4),
+                rep("50代", 4)),
+       Edu  = c("H", "H", "L", "L", "H", "H", "L", 
+                "H", "H", "H", "L", "H", "H", "L", "L"),
+       ID1  = c(11, 14, 12, 21, 3, 18, 7, 19, NA, NA, 23, NA, NA, 10, 15),
+       Tr1  = c(rep(1, 8), NA, NA, 1, NA, NA, 1, 1),
+       Out1 = c(5, 5, 6, 8, 7, 4, 8, 9, NA, NA, 6, NA, NA, 8, 9),
+       ID2  = c(1, NA, 17, 20, 4, 24, NA, 2, 16, 22, 8, 5, 6, 9, 13),
+       Tr2  = c(0, NA, 0, 0, 0, 0, NA, rep(0, 8)),
+       Out2 = c(6, NA, 2, 4, 5, 8, NA, 3, 2, 9, 4, 6, 1, 2, 4)) |>
+  mutate(across(where(is.numeric), as.character),
+         across(ID1:Out2, ~ifelse(is.na(.x), "", .x))) |>
+  gt() |>
+  cols_label(Age = "年齢", Edu = "教育", ID1 = "ID", 
+             Tr1 = "処置", Out1 = "結果", ID2 = "ID", 
+             Tr2 = "処置", Out2 = "結果") |>
+  tab_style(style = cell_fill(color = "gray90"),
+            locations = cells_body(rows = (Edu == "H"))) |>
+  tab_spanner(label = "処置群", columns = 3:5) |>
+  tab_spanner(label = "統制群", columns = 6:8)
+```
+:::
+::::
+
+## CEMの例
+
+ペアが組めない層を除外（30代Lと50代H）
+
+```{r}
+tibble(Age  = c(rep("20代", 4),
+                rep("30代", 2),
+                rep("40代", 4),
+                rep("50代", 2)),
+       Edu  = c("H", "H", "L", "L", "H", "H", 
+                "H", "H", "H", "L", "L", "L"),
+       ID1  = c(11, 14, 12, 21, 3, 18, 19, NA, NA, 23, 10, 15),
+       Tr1  = c(rep(1, 7), NA, NA, 1, 1, 1),
+       Out1 = c(5, 5, 6, 8, 7, 4, 9, NA, NA, 6, 8, 9),
+       ID2  = c(1, NA, 17, 20, 4, 24, 2, 16, 22, 8, 9, 13),
+       Tr2  = c(0, NA, 0, 0, rep(0, 8)),
+       Out2 = c(6, NA, 2, 4, 5, 8, 3, 2, 9, 4, 2, 4)) |>
+  mutate(across(where(is.numeric), as.character),
+         across(ID1:Out2, ~ifelse(is.na(.x), "", .x)),
+         grp = paste0(parse_number(Age), Edu)) |>
+  gt()  |>
+  tab_spanner(label = "処置群", columns = 3:5) |>
+  tab_spanner(label = "統制群", columns = 6:8) |>
+  cols_label(Age = "年齢", Edu = "教育", ID1 = "ID", 
+             Tr1 = "処置", Out1 = "結果", ID2 = "ID", 
+             Tr2 = "処置", Out2 = "結果") |>
+  cols_hide(columns = 9) |>
+  tab_style(style = cell_fill(color = "gray90"),
+            locations = cells_body(rows = (grp %in% c("20H", "30H", "40L"))))
+```
+
+## CEMの例
+
+各ユニットの重みを計算
+
+::::{.columns}
+:::{.column width=50%}
+$$w_i = \begin{cases} 1 & \text{ if } T_i = 1, \\ \frac{m_C}{m_T} \cdot \frac{m^s_T}{m^s_C} & \text{ if } T_i = 0.\end{cases}$$
+
+* $m_{C,T}$: 統制・処置ケースの数
+   * ペアを組めなかったケースはカウントしない
+* $m^s_{C,T}$: 層 $s$ 内の統制・処置ケースの数
+:::
+
+:::{.column width=50%}
+```{r}
+tibble(Age  = c(rep("20代", 4),
+                rep("30代", 2),
+                rep("40代", 4),
+                rep("50代", 2)),
+       Edu  = c("H", "H", "L", "L", "H", "H", 
+                "H", "H", "H", "L", "L", "L"),
+       ID1  = c(11, 14, 12, 21, 3, 18, 19, NA, NA, 23, 10, 15),
+       Tr1  = c(rep(1, 7), NA, NA, 1, 1, 1),
+       Out1 = c(5, 5, 6, 8, 7, 4, 9, NA, NA, 6, 8, 9),
+       W1   = c(rep(1, 7), NA, NA, rep(1, 3)),
+       ID2  = c(1, NA, 17, 20, 4, 24, 2, 16, 22, 8, 9, 13),
+       Tr2  = c(0, NA, 0, 0, rep(0, 8)),
+       Out2 = c(6, NA, 2, 4, 5, 8, 3, 2, 9, 4, 2, 4),
+       W2   = c(2.2, NA, 1.1, 1.1, 1.1, 1.1, 
+                0.367, 0.367, 0.367, 1.1, 1.1, 1.1)) |>
+  mutate(across(where(is.numeric), as.character),
+         across(ID1:Out2, ~ifelse(is.na(.x), "", .x)),
+         grp = paste0(parse_number(Age), Edu)) |>
+  gt()  |>
+  tab_spanner(label = "処置群", columns = 3:6) |>
+  tab_spanner(label = "統制群", columns = 7:10) |>
+  cols_label(Age = "年齢", Edu = "教育", 
+             ID1 = "ID", ID2 = "ID",  
+             Tr1 = "処置", Tr2 = "処置",
+             Out1 = "結果", Out2 = "結果",
+             W1 = "重み", W2 = "重み") |>
+  sub_missing(missing_text = "") |>
+  cols_hide(columns = 11) |>
+  tab_style(style = cell_fill(color = "gray90"),
+            locations = cells_body(rows = (grp %in% c("20H", "30H", "40L"))))
+```
+:::
+::::
+
+## CEMの例
+
+重み付け回帰分析
+
+* $W = \{2.200, 0.367, 1.000, 1.100, 0.000, 0.000, ..., 1.100\}^{\top}$
+   * マッチングされないケースの重みは0にするか、分析から除外
+   * $\beta = (X^{\top}WX)^{-1}X^{\top}WY$
+* Rの場合、`lm(formula, data, weight = ...)`で推定可能
+   * {cem} or {MatchIt}パッケージならもっと簡単
+* $\widehat{\text{Outcome}} = 4.567 + 2.033 \cdot \text{Treat}$
+   * 処置群における因果効果 (ATT) = 2.033
+
+# 傾向スコア
+
+## 傾向スコアとは
+
+**Propensity Score**
+
+* 簡単にいうと「あるユニット $i$ が**処置を受ける確率**」
+   * $e_i = Pr(T_i = 1 | X_i)$
+
+<br/><br/><br/><br/>
+
+なぜ傾向スコア?
+
+* マッチングの限界
+   1. 次元の問題 (dimension problem)
+   2. 恣意性
+   3. カテゴリ変数の扱い方
+   4. スケールの問題
+
+## 傾向スコアの計算
+
+処置変数 ( $T_i$ ) を応答変数とし、共変量 ( $X_i$ ) を説明変数とする
+
+* 一般的に、ロジットやプロビット回帰分析で推定する。
+   * 他にも色々ある
+      * Support Vector Machine, Decision Tree, Neural Network, ...
+   * 色んな手法で算出した傾向スコアを重み付けして合成することも可能
+      * Ensemble Method (Samii, Paler, and Zukerman 2016)
+
+<br/><br/>
+
+* 推定された**予測確率** $\rightarrow$ 傾向スコア
+   * Rでは`オブジェクト名$fitted.value`で抽出可
+   * 傾向スコアは**多くの共変量を一つの変数に集約**したもの
+   * $\rightarrow$ 傾向スコアを統制した回帰分析で因果効果を推定
+   * $\rightarrow$ 傾向スコアを用いて最近傍マッチング
+
+## 傾向スコア・マッチングの手順
+
+割り当てメカニズムを仮定
+
+::::{.columns}
+:::{.column width=40%}
+$$Pr(\text{処置}) \propto \beta_0 + \beta_1 \cdot \text{年齢} + \beta_2 \cdot \text{教育}$$
+:::
+
+:::{.column width=60%}
+```{r}
+df2_c3 <- df2 |>
+  mutate(Edu2 = case_when(Edu == 1 ~ "小",
+                          Edu == 2 ~ "中",
+                          Edu == 3 ~ "高",
+                          Edu == 4 ~ "専",
+                          Edu == 5 ~ "大",
+                          TRUE     ~ "院"))
+
+bind_cols(df2_c3 |> 
+            filter(ID <= 12) |> 
+            select(-Edu) |>
+            relocate(Edu2, .after = Age),
+          tibble(X = rep("", 12)), 
+          df2_c3 |>
+            filter(ID > 12) |> 
+            select(-Edu) |>
+            relocate(Edu2, .after = Age)) |>
+  gt() |>
+  cols_label(X = "　",
+             ID...1 = "ID", ID...7 = "ID",
+             Age...2 = "年齢", Age...8 = "年齢",
+             Edu2...3 = "教育", Edu2...9 = "教育",
+             Treat...4 = "処置", Treat...10 = "処置",
+             Outcome...5 = "結果", Outcome...11 = "結果") |>
+  tab_options(table.font.size = 24)
+```
+:::
+::::
+
+## 傾向スコアの算出
+
+傾向スコアの算出
+
+```{r}
+#| echo: true
+#| eval: false
+PS_Fit <- glm(処置 ~ 年齢 + 学歴, data = データ, family = binomial("logit"))
+summary(PS_Fit)
+```
+
+```{r}
+PS_Fit <- glm(Treat ~ Age + Edu, data = df2_c3, family = binomial("logit"))
+modelsummary(PS_Fit,
+             estimate  = "{estimate} ({std.error})",
+             statistic = NULL,
+             align     = "lr",
+             gof_map   = c("nobs", "aic", "F"))
+```
+
+## 傾向スコアの算出
+
+傾向スコアの抽出
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+#| echo: true
+#| eval: false
+データ$PS <- PS_Fit$fitted.value
+```
+:::
+
+:::{.column width=60%}
+```{r}
+df2_c3$PS <- PS_Fit$fitted.value
+
+bind_cols(df2_c3 |> 
+            filter(ID <= 12) |> 
+            select(-Edu) |>
+            relocate(Edu2, .after = Age),
+          tibble(X = rep("", 12)), 
+          df2_c3 |>
+            filter(ID > 12) |> 
+            select(-Edu) |>
+            relocate(Edu2, .after = Age)) |>
+  gt() |>
+  cols_label(X = "　", PS...6 = "PS", PS...13 = "PS",
+             ID...1 = "ID", ID...8 = "ID",
+             Age...2 = "年齢", Age...9 = "年齢",
+             Edu2...3 = "教育", Edu2...10 = "教育",
+             Treat...4 = "処置", Treat...11 = "処置",
+             Outcome...5 = "結果", Outcome...12 = "結果") |>
+  fmt_number(columns = c(6, 13), decimals = 3) |>
+  tab_options(table.font.size = 24) |>
+  tab_style(style = cell_fill(color = "gray90"),
+            locations = cells_body(columns = c(6, 13)))
+```
+:::
+::::
+
+## 傾向スコアの算出
+
+::::{.columns}
+:::{.column width=50%}
+**ATT**: 傾向スコアが最も近い統制群を割り当てる
+
+* 一回マッチングされたケースを除外する vs. しない
+* 傾向スコアが同じケースが複数ある場合の対処
+:::
+
+:::{.column width=50%}
+```{r}
+df2_c3$PS <- PS_Fit$fitted.value
+
+bind_cols(df2_c3[c(3, 7, 10, 11, 12, 14, 15, 18, 19, 21, 23), ] |> 
+            select(ID, Outcome, PS),
+          tibble(X = rep("", 11)), 
+          df2_c3[c(1, 8, 9, 8, 20, 24, 24, 24, 13, 20, 9), ] |> 
+            select(ID, Outcome, PS)) |>
+  mutate(across(where(is.numeric), round, 3),
+         Diff = `Outcome...2` - `Outcome...6`) |>
+  gt() |>
+  cols_label(X = "　", PS...3 = "PS", PS...7 = "PS",
+             ID...1 = "ID", ID...5 = "ID",
+             Outcome...2 = "結果", Outcome...6 = "結果",
+             Diff = "差分") |>
+  fmt_number(columns = c(3, 7), decimals = 3) |>
+  tab_options(table.font.size = 24) |>
+  tab_spanner(label = "処置群", columns = 1:3) |>
+  tab_spanner(label = "統制群", columns = 5:7) |>
+  tab_style(style = cell_fill(color = "gray90"),
+            locations = cells_body(columns = c(3, 7))) |>
+  tab_footnote(footnote = "差分の平均値 (ATT): 1.818")
+```
+:::
+::::
+
+## 傾向スコアの算出
+
+::::{.columns}
+:::{.column width=50%}
+**ATC**: 傾向スコアが最も近い処置群を割り当てる
+:::
+
+:::{.column width=50%}
+```{r}
+df2_c3$PS <- PS_Fit$fitted.value
+
+bind_cols(df2_c3[c(3, 19, 19, 19, 19, 7, 10, 19, 19, 11, 21, 19, 15), ] |> 
+            select(ID, Outcome, PS),
+          tibble(X = rep("", 13)), 
+          df2_c3[c(1, 2, 4, 5, 6, 8, 9, 13, 16, 17, 20, 22, 24), ] |> 
+            select(ID, Outcome, PS)) |>
+  mutate(across(where(is.numeric), round, 3),
+         Diff = `Outcome...2` - `Outcome...6`) |>
+  gt() |>
+  cols_label(X = "　", PS...3 = "PS", PS...7 = "PS",
+             ID...1 = "ID", ID...5 = "ID",
+             Outcome...2 = "結果", Outcome...6 = "結果",
+             Diff = "差分") |>
+  fmt_number(columns = c(3, 7), decimals = 3) |>
+  tab_options(table.font.size = 24,
+              data_row.padding = 3) |>
+  tab_spanner(label = "処置群", columns = 1:3) |>
+  tab_spanner(label = "統制群", columns = 5:7) |>
+  tab_style(style = cell_fill(color = "gray90"),
+            locations = cells_body(columns = c(3, 7))) |>
+  tab_footnote(footnote = "差分の平均値 (ATC): 3.923")
+```
+:::
+::::
+
+## 傾向スコアの算出
+
+**ATE**: ATTとATCの**加重**平均
+
+$$\begin{align}\text{ATE} & = \frac{N_\text{Treat}}{N_\text{All}}\text{ATT} + \frac{N_\text{Control}}{N_\text{All}}\text{ATC} \\ & = \frac{11}{24} 1.818 + \frac{13}{24} 3.923 = 2.958\end{align}$$
+
+```{r}
+#| echo: true
+# 第1引数は平均値を求める値のベクトル、第2引数は重みのベクトル
+# 重みは合計1になるように c(0.4583333, 0.5416667) でもOK
+weighted.mean(c(1.818, 3.923), c(11, 13))
+```
+
+## 処置を受ける確率の計算
+
+処置を受ける確率 = 傾向スコア
+
+* 一般的にはロジスティック/プロビット回帰分析が使われる
+* ただし、確率が予測できるなら他の手法でも良い
+   * Covariate Balancing Propensity Score
+   * Entropy Balancing
+   * Neural Network
+   * Support Vector Machine（SVM）
+   * Random Forest（RF）など
+
+<br/><br/>
+
+* 複数の手法を組み合わせる(= ensemble)することも可能
+   * $\rightarrow$ Super Learner Algorithm
+
+## 傾向スコアのもう一つの使い方
+
+**IPW**: Inverse Probability Weighting (Rubin 1985)
+
+* 「逆確率重み付け」と訳される
+* 実際に処置を受けた( $T_i = 1$ )にもかかわらず、処置を受ける傾向が 小さい場合は分析において大きい重み
+   * 傾向スコアを重み変数として用いる。
+   * $e_i$ が1または0に近い場合、一部のケースに非常に大きい重みを付け
+     ることになるため、注意が必要
+
+$$w_i = \begin{cases}\frac{1}{e_i} & \text{ if } T_i = 1, \\ \frac{1}{1 - e_i} & \text{ if } T_i = 0.\end{cases}$$
+
+* $e_i$ : $i$ の傾向スコア; $T_i$ : $i$ の処置有無 ( $\in \{0, 1\}$ )
+
+## 傾向スコアのもう一つの使い方
+
+**IPW**: **I**nverse **P**robability **W**eighting (Rubin 1985)
+
+* 「逆確率重み付け」と訳される
+* 実際に処置を受けた( $T_i = 1$ )にもかかわらず、処置を受ける傾向が 小さい場合は分析において大きい重み
+   * 傾向スコアを重み変数として用いる。
+   * $e_i$ が1または0に近い場合、一部のケースに非常に大きい重みを付け
+     ることになるため、注意が必要
+
+$$w_i = T_i \frac{1}{e_i} + (1 - T_i) \frac{1}{1 - e_i}.$$
+
+* $e_i$ : $i$ の傾向スコア
+* $T_i$ : $i$ の処置有無 ( $T_i \in \{0, 1\}$ )
+
+## IPW の考え方
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+df3 |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>")) |>
+  tab_options(table.font.size = 18,
+              data_row.padding = 3)
+```
+:::
+
+:::{.column width=60%}
+条件付き独立の例のデータ（`matching_data3.csv`）
+
+* $Pr(Z = 0) = 0.4$ 、 $Pr(Z = 1) = 0.6$
+* $Z = 0$ の場合
+   * $Pr(T = 0) = 0.5$ 、 $Pr(T = 1) = 0.5$
+* $Z = 1$ の場合
+   * $Pr(T = 0) = 0.25$ 、 $Pr(T = 1) = 0.75$
+* 観察されたデータからは約0.1の処置効果が推定されるが、本当の処置効果は0
+:::
+::::
+
+## IPWの考え方
+
+::: {.r-stack}
+![](figs/02/IPW1.png){width=70% fig-align="center"}
+
+![](figs/02/IPW2.png){.fragment width=70% fig-align="center"}
+
+![](figs/02/IPW3.png){.fragment width=70% fig-align="center"}
+
+![](figs/02/IPW4.png){.fragment width=70% fig-align="center"}
+
+![](figs/02/IPW5.png){.fragment width=70% fig-align="center"}
+
+![](figs/02/IPW6.png){.fragment width=70% fig-align="center"}
+:::
+
+## 他の考え方
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+df3 |>
+  mutate(across(everything(), as.character)) |>
+  mutate(Y0 = if_else(T == "0", Y0, "?"),
+         Y1 = if_else(T == "1", Y1, "?"),
+         e  = if_else(Z == "0", "0.50", "0.75"),
+         W  = case_when(Z == "0" & T == "0" ~ "2.00",
+                        Z == "1" & T == "0" ~ "4.00",
+                        TRUE                ~ " ")) |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>"),
+             "e"  = html("e<sub>i</sub>"),
+             "W"  = html("W<sub>i</sub>")) |>
+  tab_options(table.font.size = 18,
+              data_row.padding = 3)
+```
+:::
+
+:::{.column width=60%}
+もし、全ケースが**統制群**なら?
+
+* $Z = 0$ の統制群は4ケース（ID = 1, 2, 3, 4）
+* $Z = 0$ は全部で8ケース（2倍）
+* $\rightarrow$ ケース1〜4の重みを2倍に（$W = 2$）
+
+<br/>
+
+* $Z = 1$ の統制群は3ケース（ID = 9, 10, 11）
+* $Z = 1$ は全部で12ケース（4倍）
+* $\rightarrow$ ケース9〜11の重みを4倍に（$W = 4$）
+:::
+::::
+
+## 他の考え方
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+df3 |>
+  mutate(across(everything(), as.character)) |>
+  mutate(Y0 = if_else(T == "0", Y0, "?"),
+         Y1 = if_else(T == "1", Y1, "?"),
+         e  = if_else(Z == "0", "0.50", "0.75"),
+         W  = case_when(Z == "0" & T == "1" ~ "2.00",
+                        Z == "1" & T == "1" ~ "1.33",
+                        TRUE                ~ " ")) |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>"),
+             "e"  = html("e<sub>i</sub>"),
+             "W"  = html("W<sub>i</sub>")) |>
+  tab_options(table.font.size = 18,
+              data_row.padding = 3)
+```
+:::
+
+:::{.column width=60%}
+もし、全ケースが**処置群**なら?
+
+* $Z = 0$ の処置群は4ケース（ID = 5, 6, 7, 8） 
+* $Z = 0$ は全部で8ケース（2倍）
+* $\rightarrow$ ケース5〜8の重みを2倍に（$W = 2$）
+
+<br/>
+
+* $Z = 1$ の処置群は9ケース（ID = 12, 13, 14, ... 20）
+* $Z = 1$ は全部で12ケース（1.333倍）
+* $\rightarrow$ ケース12〜20の重みを1.333倍に（$W = 1.333$）
+:::
+::::
+
+## 他の考え方
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+df3 |>
+  mutate(across(everything(), as.character)) |>
+  mutate(Y0 = if_else(T == "0", Y0, "?"),
+         Y1 = if_else(T == "1", Y1, "?"),
+         e  = if_else(Z == "0", "0.50", "0.75"),
+         W  = case_when(Z == "0" ~ "2.00",
+                        Z == "1" & T == "0" ~ "4.00",
+                        Z == "1" & T == "1" ~ "1.33")) |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>"),
+             "e"  = html("e<sub>i</sub>"),
+             "W"  = html("W<sub>i</sub>")) |>
+  tab_style(style = cell_fill(color = "cornsilk"),
+            locations = cells_body(rows = (T == 0))) |>
+  tab_style(style = cell_fill(color = "azure"),
+            locations = cells_body(rows = (T == 1))) |>
+  tab_options(table.font.size = 18,
+              data_row.padding = 3)
+```
+:::
+
+:::{.column width=60%}
+* 統制群における`W`の和: 20
+* 処置群における`W`の和: 20
+* $\rightarrow$ 各群における`W`の和はサンプルサイズと一致する
+* $\rightarrow$ 全サンプルが統制/処置群の場合の結果変数の期待値を計算（加重平均）
+:::
+::::
+
+## 他の考え方
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+df3 |>
+  mutate(across(everything(), as.character)) |>
+  mutate(Y0 = if_else(T == "0", Y0, "?"),
+         Y1 = if_else(T == "1", Y1, "?"),
+         e  = if_else(Z == "0", "0.50", "0.75"),
+         W  = case_when(Z == "0" ~ "2.00",
+                        Z == "1" & T == "0" ~ "4.00",
+                        Z == "1" & T == "1" ~ "1.33")) |>
+  gt() |>
+  cols_label("ID" = "ID (i)",
+             "Z"  = html("Z<sub>i</sub>"),
+             "T"  = html("T<sub>i</sub>"),
+             "Y0" = html("Y<sub>0, i</sub>"),
+             "Y1" = html("Y<sub>1, i</sub>"),
+             "e"  = html("e<sub>i</sub>"),
+             "W"  = html("W<sub>i</sub>")) |>
+  tab_style(style = cell_fill(color = "cornsilk"),
+            locations = cells_body(rows = (T == 0))) |>
+  tab_style(style = cell_fill(color = "azure"),
+            locations = cells_body(rows = (T == 1))) |>
+  tab_options(table.font.size = 18,
+              data_row.padding = 3)
+```
+:::
+
+:::{.column width=60%}
+* 統制群の加重平均
+   * $0 \cdot 2 + 1 \cdot 2 + 0 \cdot 2 + 0 \cdot 2 + \dots + 0 \cdot 4$
+   * $\mathbb{E}^w[Y_0] = 10$
+* 処置群の加重平均
+   * $0 \cdot 2 + 0 \cdot 2 + 0 \cdot 2 + 1 \cdot 2 + \dots + 0 \cdot 1.33$
+   * $\mathbb{E}^w[Y_1] = 10$
+
+<br/>
+
+$$\mathbb{E}^w[Y_1] - \mathbb{E}^w[Y_0] = 0$$
+:::
+::::
+
+# 共変量の選択
+
+## 共変量の選択
+
+共変量選択の基準は (星野 2009; Imbens and Rubin 2015など)
+
+1. 処置変数と結果変数、**両方と連関**があること
+   * OVBと関係
+2. 処置**前**変数と処置**後**変数の区別
+   * 処置変数に時間的に先行しているか否か
+3. 処置**前**変数 (**pre**-treatment variable) は必ず投入する
+4. 処置**後**変数 (**post**-treatment variable) は目的による
+   * というものの、基本的に投入しない
+   * 応答変数よりも時間的に後なら絶対に投入しない
+
+## 共変量の選択
+
+VanderWeele (2019) のmodified disjunctive cause criterion
+
+1. 処置変数と応答変数**どちらかの原因**となる変数
+2. 処置変数と応答変数**両方の原因**となる変数
+3. **操作変数**は共変量として投入しない
+4. 上記の基準を満たさない場合でも、観察されていない共変量の**代理変数**は統制しても良い
+   * しかし、慎重に選択しないとバイアスが拡大
+   * 2.の該当する変数の代理変数が望ましい
+
+<br/><br/><br/><br/>
+
+* 詳細は<https://www.slideshare.net/tintstyle/ss-141543274>を参照
+
+## ダイアグラムを使った例
+
+::::{.columns}
+:::{.column width=50%}
+```{r}
+DAG1 <- dagitty(
+  "dag {
+  T -> Y
+  T -> W -> Y
+  T <- Z -> Y
+  A -> T
+  X -> Y
+  T -> V
+  }"
+)
+
+coordinates(DAG1) <- list(
+  x = c(T = 1, Y = 5, Z = 3, W = 3, A = 2, V = 2, X = 4),
+  y = c(T = 2, Y = 2, Z = 3, W = 4, A = 1, V = 4, X = 1)
+)
+ggdag(DAG1, node_size = 16, text_size = 9, stylized = TRUE) +
+  geom_label(aes(x = 3, y = 2, label = "2"), size = 7) +
+  geom_label(aes(x = 2, y = 3, label = "3"), size = 7) +
+  geom_label(aes(x = 4, y = 3, label = "3"), size = 7) +
+  theme_dag_blank()
+```
+:::
+
+:::{.column width=50%}
+* $T \rightarrow Y$の効果は11
+* $Z$: $T$と$Y$の原因 $\leftarrow$ 投入 
+* $A$: 操作変数 $\leftarrow$ 除外
+* $X$: $Y$の原因 $\leftarrow$ 投入
+* $V$: $T$の結果 $\leftarrow$ 除外
+* $W$は...?
+:::
+::::
+
+## ダイアグラムを使った例
+
+::::{.columns}
+:::{.column width=50%}
+```{r}
+DAG2 <- dagitty(
+  "dag {
+  T -> Y
+  T <- Z -> Y
+  X -> Y
+  }"
+)
+
+coordinates(DAG2) <- list(
+  x = c(T = 1, Y = 5, Z = 3, X = 4),
+  y = c(T = 2, Y = 2, Z = 3, X = 1)
+)
+ggdag(DAG2, node_size = 16, text_size = 9, stylized = TRUE) +
+  theme_dag_blank()
+```
+:::
+
+:::{.column width=50%}
+* $T \rightarrow Y$: 直接効果
+* $T \rightarrow W \rightarrow Y$: 間接効果
+   * $W$は中間変数（mediate variable）
+* 因果推論では主に全効果 (total effect) に関心があるため$W$は投入しない
+   * 全効果: 直接効果 + 間接効果
+   * $T$が変動したら$W$も必ず変わるため、$T$のみの効果はあまり意味なし
+   * 直接効果のみ推定する場合、$W$も統制
+* 結論: $Z$と$X$のみ統制
+   * 実は$X$は入れなくてもOK
+:::
+::::
+
+## ダイアグラムのツール
+
+DAGitty — draw and analyze causal diagrams
+
+* ウェーブページ or Rパッケージ{dagitty}
+   * <http://www.dagitty.net/>
+
+::::{.columns}
+:::{.column width=50%}
+```{r}
+#| echo: true
+pacman::p_load(ggdag)
+DAG1 <- dagitty(
+  "dag {
+  T -> Y
+  T -> W -> Y
+  T <- Z -> Y
+  A -> T
+  X -> Y
+  T -> V
+  }"
+)
+```
+:::
+
+:::{.column width=50%}
+```{r}
+#| echo: true
+# Total Effect推定のための共変量
+adjustmentSets(DAG1, 
+               exposure = "T", outcome = "Y",
+               effect = "total")
+# Direct Effect推定のための共変量
+adjustmentSets(DAG1, 
+               exposure = "T", outcome = "Y",
+               effect = "direct")
+```
+:::
+::::
+
+## ダイアグラムのツール
+
+{ggdag}を用いた可視化 
+
+* 詳細は『私たちのR』[第20章](https://www.jaysong.net/RBook/visualization4.html#visual4-dag)を参照
+
+::::{.columns}
+:::{.column width=45%}
+```{r}
+#| echo: true
+#| eval: false
+coordinates(DAG1) <- list(
+  x = c(T = 1, Y = 5, Z = 3, W = 3, 
+        A = 2, V = 2, X = 4),
+  y = c(T = 2, Y = 2, Z = 3, W = 4, 
+        A = 1, V = 4, X = 1)
+)
+ggdag(DAG1, stylized = TRUE) +
+  theme_dag_blank()
+```
+:::
+
+:::{.column width=55%}
+```{r}
+coordinates(DAG1) <- list(
+  x = c(T = 1, Y = 5, Z = 3, W = 3, 
+        A = 2, V = 2, X = 4),
+  y = c(T = 2, Y = 2, Z = 3, W = 4, 
+        A = 1, V = 4, X = 1)
+)
+ggdag(DAG1, 
+      node_size = 16, 
+      text_size = 8,
+      stylized = TRUE) +
+  theme_dag_blank()
+```
+:::
+::::
+
+# 実習
+
+## 実習内容
+
+* マッチングの実装: {MatchIt}、{WeightIt}パッケージ
+   * 線形回帰分析
+   * 最近傍マッチング（Mahalanobis Matching）
+   * CEM
+   * 傾向スコアマッチング
+   * IPW
+* バランスチェック: {cobalt}パッケージ
+   * 標準化差分
+   * ヒストグラム
+   * QQ Plotなど
+* マッチング手法間の比較
+
+## 実習用データ: lalonde（職業訓練と所得）
+
+lalondeは様々なパッケージがサンプルデータとして提供しているが、本講義では{cobalt}のlalondeデータセットを利用
+
+::::{.columns}
+:::{.column width=65%}
+* `data("lalonde", package = "cobalt")`で読み込み
+   * その前に{cobalt}パッケージを読み込む
+
+```{r}
+#| echo: true
+data("lalonde", package = "cobalt")
+la_df <- as_tibble(lalonde)
+la_df
+```
+:::
+
+:::{.column width=35%}
+||変数名|説明|
+|:---:|:---|:---|
+| 1 | `treat` | 職業訓練の履修有無 |
+| 2 | `age` | 年齢 |
+| 3 | `educ` | 教育年数 |
+| 4 | `race` | 人種 |
+| 5 | `married` | 結婚有無 |
+| 6 | `nodegree` | 学位有無 |
+| 7 | `re74` | 1974年の所得 |
+| 8 | `re75` | 1975年の所得 |
+| 9 | `re78` | 1978年の所得 |
+:::
+::::
