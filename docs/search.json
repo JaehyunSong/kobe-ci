@@ -375,14 +375,14 @@
     "href": "slide/intro_rct.html#因果効果の不均一性-1",
     "title": "方法論特殊講義III",
     "section": "因果効果の不均一性",
-    "text": "因果効果の不均一性\n方法1: 男女に分けてATEを推定\n\n\n\n\n統制群\n処置群\nATE\n\\(t\\)\n\\(p\\)\n\n\n\n\n男性のみ\n0.611\n1.561\n0.951\n-7.521\n< 0.001\n\n\n女性のみ\n0.493\n2.480\n1.987\n-15.573\n< 0.001\n\n\n全体\n0.551\n2.057\n1.506\n-15.945\n< 0.001"
+    "text": "因果効果の不均一性\n\nintro_data2.csvの例\n\n方法1: 男女に分けてATEを推定\n\n\n\n\n統制群\n処置群\nATE\n\\(t\\)\n\\(p\\)\n\n\n\n\n男性のみ\n0.611\n1.561\n0.951\n-7.521\n< 0.001\n\n\n女性のみ\n0.493\n2.480\n1.987\n-15.573\n< 0.001\n\n\n全体\n0.551\n2.057\n1.506\n-15.945\n< 0.001"
   },
   {
     "objectID": "slide/intro_rct.html#因果効果の不均一性-2",
     "href": "slide/intro_rct.html#因果効果の不均一性-2",
     "title": "方法論特殊講義III",
     "section": "因果効果の不均一性",
-    "text": "因果効果の不均一性\n方法2: 性別と処置有無の交差項を投入した重回帰分析\n\n\n\n\n\n\n \n  \n      \n    Model 1 \n  \n \n\n  \n    (Intercept) \n    0.611 (0.091) \n  \n  \n    Treatment \n    0.951 (0.131) \n  \n  \n    Female \n    −0.117 (0.127) \n  \n  \n    Treatment × Female \n    1.036 (0.180) \n  \n  \n    Num.Obs. \n    500 \n  \n  \n    R2 \n    0.401 \n  \n  \n    R2 Adj. \n    0.398 \n  \n  \n    AIC \n    1431.3 \n  \n  \n    BIC \n    1452.3 \n  \n  \n    Log.Lik. \n    −710.629 \n  \n  \n    F \n    110.905 \n  \n  \n    RMSE \n    1.00 \n  \n\n\n\n\n\n\n\\[\n\\begin{align}\n\\hat{y} & = \\beta_0 + \\beta_1 \\mbox{Treatment} + \\beta_2 \\mbox{Female} + \\beta_3 \\mbox{Treatment} \\cdot \\mbox{Female} \\\\\n& = \\beta_0 + (\\beta_1 + \\beta_3 \\mbox{Female}) \\mbox{Treatment} + \\beta_2 \\mbox{Female}.\n\\end{align}\n\\]\n\n男性のATE: \\(\\beta_1 + \\beta_3 \\cdot 0 = \\beta_1\\) = 0.951\n女性のATE: \\(\\beta_1 + \\beta_3 \\cdot 1 = \\beta_1 + \\beta_3\\) = 1.987"
+    "text": "因果効果の不均一性\n\nintro_data2.csvの例\n\n方法2: 性別と処置有無の交差項を投入した重回帰分析\n\n\n\n\n\n\n \n  \n      \n    Model 1 \n  \n \n\n  \n    (Intercept) \n    0.611 (0.091) \n  \n  \n    Treatment \n    0.951 (0.131) \n  \n  \n    Female \n    −0.117 (0.127) \n  \n  \n    Treatment × Female \n    1.036 (0.180) \n  \n  \n    Num.Obs. \n    500 \n  \n  \n    R2 \n    0.401 \n  \n  \n    R2 Adj. \n    0.398 \n  \n  \n    AIC \n    1431.3 \n  \n  \n    BIC \n    1452.3 \n  \n  \n    Log.Lik. \n    −710.629 \n  \n  \n    F \n    110.905 \n  \n  \n    RMSE \n    1.00 \n  \n\n\n\n\n\n\n\\[\n\\begin{align}\n\\hat{y} & = \\beta_0 + \\beta_1 \\mbox{Treatment} + \\beta_2 \\mbox{Female} + \\beta_3 \\mbox{Treatment} \\cdot \\mbox{Female} \\\\\n& = \\beta_0 + (\\beta_1 + \\beta_3 \\mbox{Female}) \\mbox{Treatment} + \\beta_2 \\mbox{Female}.\n\\end{align}\n\\]\n\n男性のATE: \\(\\beta_1 + \\beta_3 \\cdot 0 = \\beta_1\\) = 0.951\n女性のATE: \\(\\beta_1 + \\beta_3 \\cdot 1 = \\beta_1 + \\beta_3\\) = 1.987"
   },
   {
     "objectID": "slide/intro_rct.html#因果推論の前提sutva",
@@ -403,7 +403,7 @@
     "href": "slide/intro_rct.html#データ",
     "title": "方法論特殊講義III",
     "section": "データ",
-    "text": "データ\nこれまで紹介した例題\n\n労働市場と人種差別: Day1_Data1.dta\n\nMarianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” American Economic Review. 94(4) pp. 991–1013\n\n処置効果の不均一性: Day1_Data2.csv\n\n架空データ\n\n\nLab Session用のデータ (第2講)\n\n社会的圧力と投票参加: Day1_Data3.csv\n\nAlan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” American Political Science Review. 102(1) pp. 33–48"
+    "text": "データ\nこれまで紹介した例題\n\n労働市場と人種差別: intro_data1.dta\n\nMarianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” American Economic Review. 94(4) pp. 991–1013\n\n処置効果の不均一性: intro_data2.csv\n\n架空データ\n\n\nLab Session用のデータ (第2講)\n\n社会的圧力と投票参加: intro_data3.csv\n\nAlan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” American Political Science Review. 102(1) pp. 33–48"
   },
   {
     "objectID": "slide/intro_rct.html#バランスチェック-1",
@@ -739,7 +739,7 @@
     "href": "data.html",
     "title": "実習用データ集",
     "section": "",
-    "text": "ファイル名\n備考\n\n\n\n\n1\nDay1_Data2.csv\n第1回スライド（pp.00-00）"
+    "text": "ファイル名\n備考\n\n\n\n\n1\nintro_data2.csv\n第1回スライド\n\n\n1\nmatching_data1.csv\n第2回スライド\n\n\n1\nmatching_data2.csv\n第2回スライド\n\n\n1\nmatching_data3.csv\n第2回スライド\n\n\n1\nmatching_data4.csv\n第2回スライド"
   },
   {
     "objectID": "material/matching.html#因果推論と内生性",

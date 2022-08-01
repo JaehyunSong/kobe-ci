@@ -1101,6 +1101,8 @@ Statistical Science,* 23(2): 237-249.
 
 ## 因果効果の不均一性
 
+* `intro_data2.csv`の例
+
 **方法1:** 男女に分けてATEを推定
 
 ||統制群|処置群|ATE| $t$ | $p$ |
@@ -1110,6 +1112,8 @@ Statistical Science,* 23(2): 237-249.
 |全体|0.551|2.057|1.506|-15.945|< 0.001|
 
 ## 因果効果の不均一性
+
+* `intro_data2.csv`の例
 
 **方法2:** 性別と処置有無の交差項を投入した重回帰分析
 
@@ -1201,14 +1205,14 @@ $$
 
 ### これまで紹介した例題
 
-* 労働市場と人種差別: `Day1_Data1.dta`
+* 労働市場と人種差別: `intro_data1.dta`
    * Marianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” *American Economic Review.* 94(4) pp. 991–1013
-* 処置効果の不均一性: `Day1_Data2.csv`
+* 処置効果の不均一性: `intro_data2.csv`
    * 架空データ
 
 ### Lab Session用のデータ (第2講)
 
-* 社会的圧力と投票参加: `Day1_Data3.csv`
+* 社会的圧力と投票参加: `intro_data3.csv`
    * Alan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” *American Political Science Review.* 102(1) pp. 33–48
 
 ## バランスチェック
