@@ -88,7 +88,7 @@ descr(la_df,
       order = "p")
 ```
 
-```{r, results = "asis"}
+```{r}
 #| echo: false
 #| results: "asis"
 descr(la_df,
@@ -151,7 +151,6 @@ modelsummary(DiM_fit,
 ```{r}
 #| code-fold: true
 #| code-summary: "作図用のコード"
-#| echo: false
 #| fig-width: 5
 #| fig-height: 3
 pacman::p_load(ggdag)
