@@ -1,10 +1,360 @@
 [
   {
+    "objectID": "slide/did.html#マッチングの限界",
+    "href": "slide/did.html#マッチングの限界",
+    "title": "方法論特殊講義III",
+    "section": "マッチングの限界",
+    "text": "マッチングの限界\n条件付き独立の仮定 (Conditional Independent Assumption; CIA)\n\n処置変数 (T) と結果変数 (Y) の間に存在する交絡要因 (X) が全て観察されている場合\n\n\\({Y_i (T_i = 1), Y_i (T_i = 0) \\perp T_i | X_i}\\)\n\\(\\rightarrow\\) 交絡変数を共変量として統制する場合、観察データからも因果効果の推定が可能\n\nしかし、全ての交絡要因がデータに含まれる場合もほぼゼロ\n\n\\(\\rightarrow\\) 仮定としては強すぎるため、(回帰分析を含む) マッチングによる厳密な因果推論は困難\nただし、単純に処置変数と結果変数の単回帰分析よりは望ましい。\n\nより緩い仮定の下で可能な因果推論の手法\n\n\\(\\rightarrow\\) 自然実験 (Natural Experiment)"
+  },
+  {
+    "objectID": "slide/did.html#自然実験とは",
+    "href": "slide/did.html#自然実験とは",
+    "title": "方法論特殊講義III",
+    "section": "自然実験とは",
+    "text": "自然実験とは\nRCTの3つの特徴 (Freedman, Pisani, and Purves 2007)\n\nThe response of experimental subjects assigned to receive a treatment is compared to the response of subjects assigned to a control group.\nThe assignment of subjects to treatment and control groups is done at random, through a randomizing device such as a coin flip.\nThe manipulation of the treatment—also known as the intervention—is under the control of an experimental researcher.\n\n\n自然実験は (Dunning 2012)\n\n同じ\n処置の有無は無作為のように決まる (as-if random)。\n処置内容などを研究者が操作することは不可能\n\n2と3は自然、制度などによって影響を受ける"
+  },
+  {
+    "objectID": "slide/did.html#自然実験の例",
+    "href": "slide/did.html#自然実験の例",
+    "title": "方法論特殊講義III",
+    "section": "自然実験の例",
+    "text": "自然実験の例\n処置を受けるか否かが自然、制度、偶然などによって規定される\n\n多数代表制と比例代表制\n\n人口3500未満なら多数代表制、以上なら比例代表制を採用 (フランス 地方選挙)\n\n軍の経験と所得\n\nベトナム戦争時、徴兵対象がくじによって決まる (アメリカ)\n\n最低賃金の効果\n\n隣接するペンシルベニア州とニュージャージー州の最低賃金の格差\n\n現職効果\n\n惜敗・辛勝の場合、候補者間の質には大差ないはず\n\n選挙区定数の効果\n\n人口によって選挙区定数が決まる\n\nその他"
+  },
+  {
+    "objectID": "slide/did.html#自然実験の方法",
+    "href": "slide/did.html#自然実験の方法",
+    "title": "方法論特殊講義III",
+    "section": "自然実験の方法",
+    "text": "自然実験の方法\n本講義では1と2を解説\n\n差分の差分法 (Difference-in-Difference; Diff-in-Diff/DID/DD)\n回帰不連続デザイン (Regression Discontinuity Design; RDD)\n\n中断時系列デザイン (Interrupted Time-series Design; ITS)\n\nRDDの時系列版であるが、自己相関などの対処が必要であるため本講義では省略\n\n\n操作変数 (Instrumental Variable; IV)\n集積分析 (Bunching Analysis)\nその他"
+  },
+  {
+    "objectID": "slide/did.html#保育所の整備と母の就労率-1",
+    "href": "slide/did.html#保育所の整備と母の就労率-1",
+    "title": "方法論特殊講義III",
+    "section": "保育所の整備と母の就労率 (1)",
+    "text": "保育所の整備と母の就労率 (1)\nX軸: \\(\\frac{\\mbox{認可保育所定員}}{\\mbox{5歳以下子供数}}\\) ; Y軸: 女性の就労率（元ネタ: Asai, Kambayashi, and Yamaguchi (2015) / データは宋が収集）"
+  },
+  {
+    "objectID": "slide/did.html#保育所の整備と母の就労率-2",
+    "href": "slide/did.html#保育所の整備と母の就労率-2",
+    "title": "方法論特殊講義III",
+    "section": "保育所の整備と母の就労率 (2)",
+    "text": "保育所の整備と母の就労率 (2)\n保育所が整備されると母は安心して働けるから就労率が上がる\n\n\n\nロジックとして問題はなさそう\n内生性は?\n\n(たとえば、)「県民性」の存在\n母親の就業意識が高く、地域社会もこの意識に好意的なら …\n\\(\\rightarrow\\) 就労率が上がる\n\\(\\rightarrow\\) 政治・行政も支持拡大のために保育所整備に力を入れる"
+  },
+  {
+    "objectID": "slide/did.html#差分の差分法",
+    "href": "slide/did.html#差分の差分法",
+    "title": "方法論特殊講義III",
+    "section": "差分の差分法",
+    "text": "差分の差分法\nDifference in Difference (Diff-in-Diff, DID, DD)\n\n同一対象に対して複数の観測が前提\n\n保育所の整備と母の就労率を47都道府県に対して4回 (2000, 2005, 2010, 2015年) 観察\n「パネルデータ」\n\n個々の有権者を対象にした場合、パネルデータの収集は高費用\n\n日本の政治学だとJESが代表的\n\n国、自治体、選挙区、団体は集計データが整備され、公表されているため利用しやすい"
+  },
+  {
+    "objectID": "slide/did.html#タバコの値段と消費量",
+    "href": "slide/did.html#タバコの値段と消費量",
+    "title": "方法論特殊講義III",
+    "section": "タバコの値段と消費量",
+    "text": "タバコの値段と消費量\n元ネタはカルフォルニア州のProposition99\n\n\\(t+1\\) 期において、A州のみタバコの値上げ\n\\(t\\) 期におけるA州のタバコ消費量(箱/人): 15\n\\(t+1\\) 期におけるA州のタバコ消費量(箱/人): 10\n\n\\(\\rightarrow\\) 値上げ後、タバコの消費量が5箱\\(\\downarrow\\)\n\n\n\n\n実際の分析例は\n\nBreslow, M Johnson. 1993. “California’s Proposition 99 on Tobacco, and its Impact,” Annual Review of Public Health, 14: 585–604.\n他にも Proposition 99 の因果効果に関する研究多数\n\n以下は100%架空データ"
+  },
+  {
+    "objectID": "slide/did.html#タバコの値段と消費量-1",
+    "href": "slide/did.html#タバコの値段と消費量-1",
+    "title": "方法論特殊講義III",
+    "section": "タバコの値段と消費量",
+    "text": "タバコの値段と消費量\nタバコ消費量の変化"
+  },
+  {
+    "objectID": "slide/did.html#タバコの値段と消費量-2",
+    "href": "slide/did.html#タバコの値段と消費量-2",
+    "title": "方法論特殊講義III",
+    "section": "タバコの値段と消費量",
+    "text": "タバコの値段と消費量\n値上げ後、タバコの消費量が5箱減少\n\n「5箱減」は値上げによる効果か\n\nたまたま全国的な禁煙ブームと重なった?\nA州の喫煙量はもともと減少傾向だったかも?\n\n\\(\\rightarrow\\) 比較対象が必要"
+  },
+  {
+    "objectID": "slide/did.html#b州の登場",
+    "href": "slide/did.html#b州の登場",
+    "title": "方法論特殊講義III",
+    "section": "B州の登場",
+    "text": "B州の登場\n値上げを行っていないB州におけるタバコ消費量"
+  },
+  {
+    "objectID": "slide/did.html#潜在的結果枠組みから考える",
+    "href": "slide/did.html#潜在的結果枠組みから考える",
+    "title": "方法論特殊講義III",
+    "section": "潜在的結果枠組みから考える",
+    "text": "潜在的結果枠組みから考える\n因果推論の枠組みから考えると …\n\n処置変数 ( \\(T\\) ): タバコの値上げ\n結果変数 ( \\(Y\\) ): タバコの消費量\n\\(i\\) : 観測単位 (人/自治体/国/企業など)\n\\(t\\) : 観測時期\n\n\n\n\n\n\n\n\n\n\nID ( \\(i\\) )\n\\(\\quad t \\quad\\)\n\\(\\quad T_{it} \\quad\\)\n\\(\\quad Y_{it} \\quad\\)\n\n\n\n\n1\n1\n0\n15\n\n\n1\n2\n1\n10\n\n\n2\n1\n0\n17\n\n\n2\n2\n0\n15"
+  },
+  {
+    "objectID": "slide/did.html#潜在的結果枠組みから考える-1",
+    "href": "slide/did.html#潜在的結果枠組みから考える-1",
+    "title": "方法論特殊講義III",
+    "section": "潜在的結果枠組みから考える",
+    "text": "潜在的結果枠組みから考える\n\n\\(t = 2\\) において処置を受けた場合、 \\(Z = 1\\) とする\n\\(Z = 1\\) であるA州の変化量 ( \\(\\Delta Y_1\\) ): 10 − 15 = −5\n\\(Z = 0\\) であるB州の変化量 ( \\(\\Delta Y_2\\) ): 15 − 17 = −2\n\n\n\n\nID ( \\(i\\) )\n\\(\\quad Z_{i} \\quad\\)\n\\(\\quad \\Delta Y_{i} \\quad\\)\n\n\n\n\n1\n1\n-5\n\n\n2\n0\n-2"
+  },
+  {
+    "objectID": "slide/did.html#潜在的結果枠組みから考える-2",
+    "href": "slide/did.html#潜在的結果枠組みから考える-2",
+    "title": "方法論特殊講義III",
+    "section": "潜在的結果枠組みから考える",
+    "text": "潜在的結果枠組みから考える\n\nA州が処置を受けなかった場合の潜在的結果としてB州のデータを用いる\n因果効果: \\(\\Delta Y(Z = 1) - \\Delta Y(Z = 0)\\)\n\n(−5) − (−2) = −3\n\nタバコ値上げの効果は-3箱\n\n\n\n\n\\(\\quad \\Delta Y(Z = 1) \\quad\\)\n\\(\\quad \\Delta Y(Z = 0) \\quad\\)\n差分\n\n\n\n\n-5\n-2\n-3"
+  },
+  {
+    "objectID": "slide/did.html#潜在的結果枠組みから考える-3",
+    "href": "slide/did.html#潜在的結果枠組みから考える-3",
+    "title": "方法論特殊講義III",
+    "section": "潜在的結果枠組みから考える",
+    "text": "潜在的結果枠組みから考える\n数式で表すと\n\\[\\begin{align}\\Delta = & [\\mathbb{E}(Y_{t+1}(Z = 1)) - \\mathbb{E}(Y_t(Z = 1))] \\\\ & - [\\mathbb{E}(Y_{t+1}(Z = 0)) - \\mathbb{E}(Y_t(Z = 0))]\\end{align}\\]\n\n\\(t + 1\\) 期に処置を受けたら \\(Z = 1\\) 、受けなかったら \\(Z = 0\\)\n\\(t\\) 期は誰も処置を受けていない\n\n初期状態は一緒で、一部のユニットだけ処置を受ける"
+  },
+  {
+    "objectID": "slide/did.html#図ならもっと分かりやすい",
+    "href": "slide/did.html#図ならもっと分かりやすい",
+    "title": "方法論特殊講義III",
+    "section": "図なら、もっと分かりやすい",
+    "text": "図なら、もっと分かりやすい"
+  },
+  {
+    "objectID": "slide/did.html#並行トレンドの仮定",
+    "href": "slide/did.html#並行トレンドの仮定",
+    "title": "方法論特殊講義III",
+    "section": "並行トレンドの仮定",
+    "text": "並行トレンドの仮定\nParallel Trend Assumption\n\n差分の差分法から推定された値が因果効果になるための前提\n\nA州が値上げしなかったらB州並に消費量が減っただろうというのが前提\n\n処置を受けたユニットが、もし処置を受けなかった場合、結果変数の変化は統制群の変化と一致する\n\n処置群の潜在的結果は観測された統制群の動きと並行する\n= A州が値上げしなかったら、B州のように2箱減に留まる"
+  },
+  {
+    "objectID": "slide/did.html#並行トレンドの仮定どう確認するか",
+    "href": "slide/did.html#並行トレンドの仮定どう確認するか",
+    "title": "方法論特殊講義III",
+    "section": "並行トレンドの仮定:どう確認するか",
+    "text": "並行トレンドの仮定:どう確認するか\n一般的に2つの方法\n\n他の処置群や統制群を見つけて追加する\n\n同じく値上げをしていないC州を追加\n\n3期以上のデータを用意する\n\n\\(t − 1\\) 期のデータも投入する\nむろん、 \\(t − 1\\) 期のA州は値上げ前\n\n上記2つの方法を組み合わせる\n\n実質的にはこれがメイン"
+  },
+  {
+    "objectID": "slide/did.html#統制群を増やしてみた",
+    "href": "slide/did.html#統制群を増やしてみた",
+    "title": "方法論特殊講義III",
+    "section": "統制群を増やしてみた",
+    "text": "統制群を増やしてみた\n並行トレンドの仮定が満たされている場合\n\nどの州を潜在的結果として使ってもOK"
+  },
+  {
+    "objectID": "slide/did.html#統制群を増やしてみた-1",
+    "href": "slide/did.html#統制群を増やしてみた-1",
+    "title": "方法論特殊講義III",
+    "section": "統制群を増やしてみた",
+    "text": "統制群を増やしてみた\n並行トレンドの仮定が満たされていない場合\n\nどの州を潜在的結果として用いるか"
+  },
+  {
+    "objectID": "slide/did.html#t1のデータを入れてみた",
+    "href": "slide/did.html#t1のデータを入れてみた",
+    "title": "方法論特殊講義III",
+    "section": "\\(t−1\\)のデータを入れてみた",
+    "text": "\\(t−1\\)のデータを入れてみた\n並行トレンドの仮定が満たされている場合"
+  },
+  {
+    "objectID": "slide/did.html#t1-のデータを入れてみた",
+    "href": "slide/did.html#t1-のデータを入れてみた",
+    "title": "方法論特殊講義III",
+    "section": "\\(t−1\\) のデータを入れてみた",
+    "text": "\\(t−1\\) のデータを入れてみた\n並行トレンドの仮定が満たされていない場合 (1)\n\n潜在的結果は15、または13"
+  },
+  {
+    "objectID": "slide/did.html#t1-のデータを入れてみた-1",
+    "href": "slide/did.html#t1-のデータを入れてみた-1",
+    "title": "方法論特殊講義III",
+    "section": "\\(t−1\\) のデータを入れてみた",
+    "text": "\\(t−1\\) のデータを入れてみた\n並行トレンドの仮定が満たされていない場合 (2)\n\n潜在的結果は10、または13"
+  },
+  {
+    "objectID": "slide/did.html#回帰分析による差分の差分法",
+    "href": "slide/did.html#回帰分析による差分の差分法",
+    "title": "方法論特殊講義III",
+    "section": "回帰分析による差分の差分法",
+    "text": "回帰分析による差分の差分法\nデータが2期のみ \\((t \\in \\{0, 1\\})\\) の場合\n\\[\\hat{Y} = \\beta_0 + \\beta_1 T + \\beta_2 \\mbox{POST} + \\delta T \\cdot \\mbox{Post}\\]\n\nT: 処置群か否か\nPOST: 処置が行われた後か否か\nY: 結果変数\n\n\n\n\nID\nName\nPOST\nT\nY\n\n\n\n\n1\nA州\n0\n1\n15\n\n\n2\nA州\n1\n1\n10\n\n\n3\nB州\n0\n0\n17\n\n\n4\nB州\n1\n0\n15"
+  },
+  {
+    "objectID": "slide/did.html#回帰分析による差分の差分法-1",
+    "href": "slide/did.html#回帰分析による差分の差分法-1",
+    "title": "方法論特殊講義III",
+    "section": "回帰分析による差分の差分法",
+    "text": "回帰分析による差分の差分法\nデータが2期のみ \\((t \\in \\{0, 1\\})\\) の場合\n\\[\\hat{Y} = \\beta_0 + \\beta_1 T + \\beta_2 \\mbox{POST} + \\delta T \\cdot \\mbox{Post}\\]\n\n処置群の差分: \\(\\hat{Y}(T = 1, POST = 1) − \\hat{Y}(T = 1,POST = 0)\\)\n\n\\(\\beta_2 + \\delta = \\underbrace{(\\beta_0 + \\beta_1 + \\beta_2 + \\delta)}_{\\hat{Y}(T = 1, POST = 1)} - \\underbrace{(\\beta_0 + \\beta_1)}_{\\hat{Y}(T = 1,POST = 0)}\\)\n\n統制群の差分: \\(\\hat{Y}(T = 0, POST = 1) − \\hat{Y}(T = 0,POST = 0)\\)\n\n\\(\\beta_2 = \\underbrace{(\\beta_0 + \\beta_2)}_{\\hat{Y}(T = 0, POST = 1)} - \\underbrace{(\\beta_0)}_{\\hat{Y}(T = 0,POST = 0)}\\)\n\n差分の差分: \\(\\delta = (\\beta_2 + \\delta) - \\beta_2\\)\n\n\\(\\delta\\) : 処置効果"
+  },
+  {
+    "objectID": "slide/did.html#一般化された回帰モデル",
+    "href": "slide/did.html#一般化された回帰モデル",
+    "title": "方法論特殊講義III",
+    "section": "一般化された回帰モデル",
+    "text": "一般化された回帰モデル\n先ほどのモデルの限界\n\n期間が2期のみ\n\n実際にはもっとデータがあるはず\n\n観察されたユニットが2個 (A州とB州)のみ\n\n実際にはもっとデータがあるはず\n\n処置変数が {0, 1} のバイナリー変数\n\n保育所整備の例の場合、処置変数は連続変数( \\(T = [0, 1]\\) )\n\n\n\n以下では、保育所整備の例で解説"
+  },
+  {
+    "objectID": "slide/did.html#一般化された回帰モデル-1",
+    "href": "slide/did.html#一般化された回帰モデル-1",
+    "title": "方法論特殊講義III",
+    "section": "一般化された回帰モデル",
+    "text": "一般化された回帰モデル\nより一般化されたモデル\n\\[\\hat{Y}_{pt} = \\beta + \\delta \\mbox{Treat}_{pt} + \\sum_{k = \\mbox{Aomori}}^{\\mbox{Okinawa}}\\gamma_k \\cdot \\mbox{Pref}_{kp} + \\sum_{j = 2005}^{2015} \\psi_j \\cdot \\mbox{Year}_{jt}\\]\n\n\\(Y_{pt}\\) : \\(t\\) 期における \\(p\\) 県の女性就労率 ( \\(= [0, 1]\\) )\n\\(\\mbox{Treat}_{pt}\\) : \\(t\\) 期における \\(p\\) 県の保育所の整備率 ( \\(= [0, 1]\\) )\n\\(\\mbox{Pref}_p\\) : \\(p\\) 県か否かを表す各都道府県ダミー変数 ( \\(\\in \\{0, 1\\}\\) )\n\\(\\mbox{Year}_t\\) : \\(t\\) 期か否かわ表す年ダミー変数 ( \\(\\in \\{0, 1\\}\\) )\n\n\n\n標準誤差はクラスター標準誤差を使用\n\n上記の例だと、都道府県単位でクラスター化"
+  },
+  {
+    "objectID": "slide/did.html#一般化された回帰モデル-2",
+    "href": "slide/did.html#一般化された回帰モデル-2",
+    "title": "方法論特殊講義III",
+    "section": "一般化された回帰モデル",
+    "text": "一般化された回帰モデル\n単回帰分析と差分の差分法推定量の比較 * 保育所の整備率と母の就労率の間に統計的有意な関係が見られない\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n  \n  \n     \n    (0.022) \n    (0.030) \n  \n  \n    Num.Obs. \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n  \n  \n    年ダミー \n    X \n    O"
+  },
+  {
+    "objectID": "slide/did.html#平行トレンドは",
+    "href": "slide/did.html#平行トレンドは",
+    "title": "方法論特殊講義III",
+    "section": "平行トレンドは?",
+    "text": "平行トレンドは?\n回帰モデルでも平行トレンドの仮定は必要\n\n処置変数がバイナリー変数なら平行トレンドの仮定が満たされているか否かを可視化可能\n\n例) 電子投票の導入と投票率 (京都市)"
+  },
+  {
+    "objectID": "slide/did.html#平行トレンドは-1",
+    "href": "slide/did.html#平行トレンドは-1",
+    "title": "方法論特殊講義III",
+    "section": "平行トレンドは?",
+    "text": "平行トレンドは?\n回帰モデルでも平行トレンドの仮定は必要\n\n処置変数が連続変数の場合、平行トレンドの仮定を視覚的に確認することは困難\n都道府県ダミーと年ダミー変数を投入したということは…\n\n都道府県ごとに切片のみが異なる\n各年の就労率の変動は全都道府県で共通\n= 平行トレンド\n\n\n\n\n都道府県ごとに切片だけでなく、異なる傾きまで許容するモデル\n\nトレンド変数の投入\n\n簡単だが、都道府県ごとのトレンド効果が線形という仮定\n\n都道府県レベルの共変量の投入\n\n柔軟だが、適切な共変量の発見が重要"
+  },
+  {
+    "objectID": "slide/did.html#トレンド変数",
+    "href": "slide/did.html#トレンド変数",
+    "title": "方法論特殊講義III",
+    "section": "トレンド変数",
+    "text": "トレンド変数\n処置を受けていない場合も、傾きが都道府県ごとに異なる場合\n\n都道府県ダミーとトレンド変数 (連続変数としての年など) の交差項を投入\n仮定:都道府県間は平行でなくても、都道府県のトレンドは線形\n\n\n\\[\\hat{Y}_{pt} = \\beta + \\delta \\mbox{Treat}_{pt} + \\sum_{k = \\mbox{Aomori}}^{\\mbox{Okinawa}}\\gamma_k \\cdot \\mbox{Pref}_{kp} + \\sum_{j = 2005}^{2015} \\psi_j \\cdot \\mbox{Year}_{jt} + \\sum_{k = \\mbox{Aomori}}^{\\mbox{Okinawa}}\\theta_k (\\mbox{Pref}_{kp} \\cdot t)\\]\n\n\\(t\\) : トレンド変数 (2000 年: t = 1、2005 年: t = 2、…)\n\n\\(\\mbox{Year}_t\\) はダミー変数であるが、トレンド変数は連続変数"
+  },
+  {
+    "objectID": "slide/did.html#トレンド変数-1",
+    "href": "slide/did.html#トレンド変数-1",
+    "title": "方法論特殊講義III",
+    "section": "トレンド変数",
+    "text": "トレンド変数\n結果の比較\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n    Model 3 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n    −0.009 \n  \n  \n     \n    (0.022) \n    (0.030) \n    (0.028) \n  \n  \n    Num.Obs. \n    188 \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n    0.997 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n    −1439.2 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n    −1122.0 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n    0.00 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n    O \n  \n  \n    年ダミー \n    X \n    O \n    O \n  \n  \n    トレンド変数 \n    X \n    X \n    O"
+  },
+  {
+    "objectID": "slide/did.html#共変量の投入",
+    "href": "slide/did.html#共変量の投入",
+    "title": "方法論特殊講義III",
+    "section": "共変量の投入",
+    "text": "共変量の投入\n\n既存のモデルは年度ごとに就労率の伸びは変化するものの、その変化の度合いは全都道府県において共通していると仮定\n景気が良いと母の就労率が上がる\n\nしかし、都道府県ごとに景気変動の度合いは異なることが一般的\n都道府県の失業率など、各都道府県の景気状況を表す変数を投入\n\n\n\\[\\hat{Y}_{pt} = \\beta + \\delta \\mbox{Treat}_{pt} + \\sum_{k = \\mbox{Aomori}}^{\\mbox{Okinawa}}\\gamma_k \\cdot \\mbox{Pref}_{kp} + \\sum_{j = 2005}^{2015} \\psi_j \\cdot \\mbox{Year}_{jt} + \\theta \\mbox{Unemp}_{pt}\\]\n\n\\(\\mbox{Unemp}_{pt}\\) : \\(t\\) 期における \\(p\\) 県の完全失業率\nトレンド変数は、「同じ都道府県なら、傾きは変わらない」と仮定しているが、共変量を統制する場合、このような仮定は必要としない\n\n適切な共変量の選択はトレンド変数よりも有効\n共変量は母の就労率、保育所の整備率、両方と関係のあるもの"
+  },
+  {
+    "objectID": "slide/did.html#共変量の投入-1",
+    "href": "slide/did.html#共変量の投入-1",
+    "title": "方法論特殊講義III",
+    "section": "共変量の投入",
+    "text": "共変量の投入\n結果の比較\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n    Model 3 \n    Model 4 \n    Model 5 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n    −0.009 \n    0.002 \n    0.003 \n  \n  \n     \n    (0.022) \n    (0.030) \n    (0.028) \n    (0.030) \n    (0.024) \n  \n  \n    Num.Obs. \n    188 \n    188 \n    188 \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n    0.997 \n    0.987 \n    0.998 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n    −1439.2 \n    −1222.0 \n    −1443.8 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n    −1122.0 \n    −1050.5 \n    −1123.4 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n    0.00 \n    0.01 \n    0.00 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n    by: Pref_J \n    by: Pref_J \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n    O \n    O \n    O \n  \n  \n    年ダミー \n    X \n    O \n    O \n    O \n    O \n  \n  \n    トレンド変数 \n    X \n    X \n    O \n    X \n    O \n  \n  \n    共変量 \n    X \n    X \n    X \n    O \n    O"
+  },
+  {
+    "objectID": "slide/did.html#結果の比較",
+    "href": "slide/did.html#結果の比較",
+    "title": "方法論特殊講義III",
+    "section": "結果の比較",
+    "text": "結果の比較\n処置効果の点推定値と95%信頼区間\n\n保育所の整備が女性の就労率を上げるとは言えない"
+  },
+  {
+    "objectID": "slide/did.html#並行トレンドのチェック",
+    "href": "slide/did.html#並行トレンドのチェック",
+    "title": "方法論特殊講義III",
+    "section": "並行トレンドのチェック",
+    "text": "並行トレンドのチェック\n並行トレンドをどう確認するか\n\nより多くの時点のデータを収集し、プロット\n\n検定 (test) ではなく、診断 (diagnostics)\n\nプラセボ・テスト\n\n方法1: \\(t=3\\) が処置を受けた時期なら、 \\(t = 3\\) をデータから除外し、 \\(t = 2\\) を処置とコーディングしてDIDを実行 (3期以上のデータが必要)\n方法2: 統制群の一部を処置群とコーディング&処置群をデータから除外してDIDを実行 (3つ以上の対象が必要)\n検定の結果、DID推定量が統計的有意であったら平行トレンドが満たされていないと判断する（並行トレンドの仮定が満たされていることは示せない）"
+  },
+  {
+    "objectID": "slide/did.html#synthetic-control-method-概要",
+    "href": "slide/did.html#synthetic-control-method-概要",
+    "title": "方法論特殊講義III",
+    "section": "Synthetic Control Method: 概要",
+    "text": "Synthetic Control Method: 概要\n並行トレンドを満たすケースを仮想的に作り上げる手法\n\n処置群以外のケースを重み付け&合成\n\n合成に使われるケース: ドナー (Donor)\n\n一つ一つの観察対象が処置群と並行トレンドを満たさない場合でも使用可能\n\n精度を上げるには共変量が必要\nプラセボ・テストも必要\n統制群、処置前のサンプルサイズは大きいほど良い (DIDと同じ)\n\n{Synth}、または{gsynth}パッケージで実装可能\n\nベイジアン・アプローチだと{bpCausal}\n\n\n\n\n参考) Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2015. “Comparative Politics and the Synthetic Control Method,” American Journal of Political Science, 59 (2): 495–510."
+  },
+  {
+    "objectID": "slide/did.html#scmの例-事例",
+    "href": "slide/did.html#scmの例-事例",
+    "title": "方法論特殊講義III",
+    "section": "SCMの例: 事例",
+    "text": "SCMの例: 事例\nドイツ統一 (1990年) がもたらした経済効果は?"
+  },
+  {
+    "objectID": "slide/did.html#scmの例-事例-1",
+    "href": "slide/did.html#scmの例-事例-1",
+    "title": "方法論特殊講義III",
+    "section": "SCMの例: 事例",
+    "text": "SCMの例: 事例\nドイツ統一 (1990年) がもたらした経済効果は?\n\n長期間の場合、並行トレンドが確認されない"
+  },
+  {
+    "objectID": "slide/did.html#scmの例-事例-2",
+    "href": "slide/did.html#scmの例-事例-2",
+    "title": "方法論特殊講義III",
+    "section": "SCMの例: 事例",
+    "text": "SCMの例: 事例\nOECDに加盟している16カ国のトレンドから架空の西ドイツ(潜在的結果)を生成\n\nどうしても使えなさそうな国は合成に使わない or 重み \\(\\downarrow\\)\n西ドイツのトレンドと類似している国は重み \\(\\uparrow\\)"
+  },
+  {
+    "objectID": "slide/did.html#scmの例-結果",
+    "href": "slide/did.html#scmの例-結果",
+    "title": "方法論特殊講義III",
+    "section": "SCMの例: 結果",
+    "text": "SCMの例: 結果\n5カ国のトレンドを合成し、架空の西ドイツのトレンドを生成\n\n合成に使用されない国の重みは0\n\n\n\n\nドナー国\n重み\nドナー国\n重み\n\n\n\n\nアメリカ\n0.216\nノルウェー\n0.000\n\n\nイギリス\n0.000\nスイス\n0.113\n\n\nオーストリア\n0.402\n日本\n0.161\n\n\nベルギー\n0.000\nギリシャ\n0.000\n\n\nデンマーク\n0.000\nポルトガル\n0.000\n\n\nフランス\n0.000\nスペイン\n0.000\n\n\nイタリア\n0.000\nオーストラリア\n0.000\n\n\nオランダ\n0.107\nニュージーランド\n0.000"
+  },
+  {
+    "objectID": "slide/did.html#scmの例-結果-1",
+    "href": "slide/did.html#scmの例-結果-1",
+    "title": "方法論特殊講義III",
+    "section": "SCMの例: 結果",
+    "text": "SCMの例: 結果\nバランスチェックの例\n\n西ドイツと架空の西ドイツ間の共変量比較\n実際の西ドイツと非常に似た架空のケースが生成\n\n\n\n\n\n西ドイツ\n架空の西ドイツ\nドナー国\n\n\n\n\n一人当たりGDP\n15808.9\n15801.4\n13669.4\n\n\n貿易依存度\n56.8\n57.3\n59.8\n\n\nインフレーション率\n2.6\n3.4\n7.6\n\n\n付加価値産業\n34.5\n34.4\n33.8\n\n\n教育水準\n55.5\n54.9\n38.7\n\n\n国内総投資\n27.0\n27.0\n25.9"
+  },
+  {
+    "objectID": "slide/did.html#scmの例-結果-2",
+    "href": "slide/did.html#scmの例-結果-2",
+    "title": "方法論特殊講義III",
+    "section": "SCMの例: 結果",
+    "text": "SCMの例: 結果\n\n左側の図: 西ドイツと架空の西ドイツのGDPトレンド\n右側の図: トレンドの差分"
+  },
+  {
+    "objectID": "slide/did.html#causalimpact-概要",
+    "href": "slide/did.html#causalimpact-概要",
+    "title": "方法論特殊講義III",
+    "section": "CausalImpact: 概要",
+    "text": "CausalImpact: 概要\nデータの制約が非常に少ない差分の差分法の応用\n\nベイジアン状態空間モデルにより、処置後の結果変数を予測\n\n他の観察対象の結果変数でなく、自分自身のデータから予測される結果を潜在的結果として使用\n\n予測値と観測値の差から因果効果を推定\nデータの制約が非常に小さい\n\n共変量なしでもOK (あった方が良い)\n観察対象が1つ (1カ国、1自治体など)\nただし、時間単位の観察数を確保する必要がある\n\n{CausalImpact}パッケージで簡単に実装可能\n参考) Brodersen, Kay H., Fabian Gallusser, Jim Koehler, Nicolas Remy, and Steven L. Scott. 2015. “Inferring Causal Impact using Bayesian Structural Time-series Models,” Annals of Applied Statistics, 9: 247-274."
+  },
+  {
+    "objectID": "slide/did.html#causalimpactの例",
+    "href": "slide/did.html#causalimpactの例",
+    "title": "方法論特殊講義III",
+    "section": "CausalImpactの例",
+    "text": "CausalImpactの例\n2020年8月28日におけるNHK報道が株価に与えた影響\n\n\n\n安倍総理の辞任に関する報道\n日本の株価のみ\n13時〜15時の1分単位の株価 (1∼121)"
+  },
+  {
+    "objectID": "slide/did.html#causalimpactの例-1",
+    "href": "slide/did.html#causalimpactの例-1",
+    "title": "方法論特殊講義III",
+    "section": "CausalImpactの例",
+    "text": "CausalImpactの例\nCausalImpactの可視化\n\nOriginal: 予測値 (+信用区間)と観測値\nPointwise: 予測値と観測値の差分 (+信用区間)\nCumulative: Pointwiseの累積 (+信用区間)"
+  },
+  {
+    "objectID": "slide/did.html#causalimpactの例-2",
+    "href": "slide/did.html#causalimpactの例-2",
+    "title": "方法論特殊講義III",
+    "section": "CausalImpactの例",
+    "text": "CausalImpactの例\nNHK報道の因果効果\n\n日経指数を「平均」426ポイント下げた効果\n「累積」が大事な場合もあり\n\n\n\nPosterior inference {CausalImpact}\n\n                         Average          Cumulative        \nActual                   22881            1235580           \nPrediction (s.d.)        23307 (2.6)      1258599 (142.5)   \n95% CI                   [23302, 23312]   [1258327, 1258868]\n                                                            \nAbsolute effect (s.d.)   -426 (2.6)       -23019 (142.5)    \n95% CI                   [-431, -421]     [-23288, -22747]  \n                                                            \nRelative effect (s.d.)   -1.8% (0.011%)   -1.8% (0.011%)    \n95% CI                   [-1.9%, -1.8%]   [-1.9%, -1.8%]    \n\nPosterior tail-area probability p:   0.00102\nPosterior prob. of a causal effect:  99.89817%\n\nFor more details, type: summary(impact, \"report\")"
+  },
+  {
+    "objectID": "slide/did.html#実習用データ",
+    "href": "slide/did.html#実習用データ",
+    "title": "方法論特殊講義III",
+    "section": "実習用データ",
+    "text": "実習用データ\nスライドで使ったデータ\n\nDay3_Data1.csv: 保育所の整備と母の就労率\nDay3_Data2.csv: 電子投票の導入と投票率\nDay3_Data3.csv: OECD 諸国の経済指標データ\n\nSynthetic Control Method\n\nDay3_Data4.csv: 2020年8月28日の株価\n\nCausalImpact\n\n\n実習用データ\n\nData3_Data5.csv: 地方議会の党派性と補助金\n\nFouirnaies, Alexander, and Hande Mutlu-Eren. 2015. “English Bacon: Copartisan Bias in Intergovernmental Grant Allocation in England,” Journal of Politics, 77 (3) pp. 805–817."
+  },
+  {
+    "objectID": "slide/did.html#データの説明",
+    "href": "slide/did.html#データの説明",
+    "title": "方法論特殊講義III",
+    "section": "データの説明",
+    "text": "データの説明\nFouirnaies and Mutlu-Eren (2015) のモデルを単純化し、分析\n\n\n\n変数名\n説明\n\n\n\n\nTreat\n地方議会の多数派と政府与党の一致有無\n\n\nYear\n年\n\n\nAssembly\n地方議会\n\n\nFG\n定式補助金\n\n\ny_p1\n\\(t + 1\\) 期の特定補助金額\n\n\ny_p2\n\\(t + 2\\) 期の特定補助金額\n\n\ny_p3\n\\(t + 3\\) 期の特定補助金額\n\n\ny_p4\n\\(t + 4\\) 期の特定補助金額\n\n\ny_p5\n\\(t + 5\\) 期の特定補助金額"
+  },
+  {
+    "objectID": "slide/did.html#実習内容",
+    "href": "slide/did.html#実習内容",
+    "title": "方法論特殊講義III",
+    "section": "実習内容",
+    "text": "実習内容\n\n回帰分析による差分の差分法 (lm()関数)\nクラスター標準誤差 ({estimatr}のlm_robust()関数)\n頑健性の確認とモデルの可視化\nSynthetic Control Methodの実装 ({gsynth})\nCausalImpactの実装 ({CausalImpact})\n\n\n\n\nhttps://www.jaysong.net/kobe-ci"
+  },
+  {
     "objectID": "slide/intro_rct.html#講師紹介",
     "href": "slide/intro_rct.html#講師紹介",
     "title": "方法論特殊講義III",
     "section": "講師紹介",
-    "text": "講師紹介\n\n\n\n\n\nLINEスタンプ絶賛販売中!\n\n\n\n\n宋(そん)  財泫(じぇひょん) (SONG JAEHYUN)\n\n関西大学総合情報学部\n博士（政治学）\n政治行動論、政治学方法論\n\nsong@kansai-u.ac.jp\nhttps://www.jaysong.net"
+    "text": "講師紹介\n\n\n\n\n\n\n\n\nLINEスタンプ絶賛販売中!\n\n\n\n\n\n\n宋(そん)  財泫(じぇひょん) (SONG JAEHYUN)\n\n関西大学総合情報学部 准教授\n博士（政治学）\n\n専門は政治行動論、選挙研究、政治学方法論\n趣味はゲームはラーメン屋巡り\n\n好きなラーメンは家系と二郎インスパイア、汁なし全般\n最近やっているゲームはFF XIV\n\n\n\n\n song@kansai-u.ac.jp\n https://www.jaysong.net"
   },
   {
     "objectID": "slide/intro_rct.html#内容",
@@ -18,7 +368,7 @@
     "href": "slide/intro_rct.html#実習",
     "title": "方法論特殊講義III",
     "section": "実習",
-    "text": "実習\n実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。\n\n本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能\nJared P. Lander. 2017. R for Everyone: Advanced Analytics and Graphics (2nd Edition), Addison-Wesley Professional.（和訳有り）\n宋財泫・矢内勇生.『私たちのR: ベストプラクティスの探究』Web-book\n\n無料のR入門書: Rを広く、深く勉強したい人におすすめ\n\n\n\n\n宋のR環境\n\nmacOS 12.4 “Monterey”\nR version 4.2.1 (2022-06-23)\n\nR > 4.1ならOK\n\nRStudio 2022.02.3+492 “Prairie Trillium”\nスライド、サポートページ、実習用資料の執筆環境\n\nQuarto 1.0.36\nR package {quarto} 1.2"
+    "text": "実習\n実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。\n\n本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能\nJared P. Lander. 2017. R for Everyone: Advanced Analytics and Graphics (2nd Edition), Addison-Wesley Professional.（和訳有り）\n宋財泫・矢内勇生.『私たちのR: ベストプラクティスの探究』Web-book\n\n無料のR入門書: Rを広く、深く勉強したい人におすすめ\n\n\n\n\n宋のR環境\n\nmacOS 12.5 “Monterey”\nR version 4.2.1 (2022-06-23)\n\nR > 4.1ならOK\n\nRStudio 2022.07.1+554 “Spotted Wakerobin”\nスライド、サポートページ、実習用資料の執筆環境\n\nQuarto 1.0.36\nR package {quarto} 1.2"
   },
   {
     "objectID": "slide/intro_rct.html#rの学習資料",
@@ -28,32 +378,32 @@
     "text": "Rの学習資料\n計量政治学とR\n\n浅野正彦・矢内勇生. 2019『Rによる計量政治学』オーム社.\n飯田健. 2013.『計量政治分析』共立出版.\nKosuke Imai. 2017. Quantitative Social Science: An Introduction, Princeton University Press. (邦訳あり[上/下])\n\nR全般\n\nWickham, Hadley and Grolemund, Garrett. 2017. R for Data Science: Import, Tidy, Transform, Visualize, and Model Data, O’Reilly. (邦訳あり/原著はインターネットから無料で閲覧可)\n松村優哉 他. 2021. 『改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—』技術評論社.\nWickham, Hadley. 2019. Advanced R (Second Edition), O’Reilly. (邦訳あり/原著はインターネットから無料で閲覧可)"
   },
   {
-    "objectID": "slide/intro_rct.html#slackについて",
-    "href": "slide/intro_rct.html#slackについて",
+    "objectID": "slide/intro_rct.html#discordについて",
+    "href": "slide/intro_rct.html#discordについて",
     "title": "方法論特殊講義III",
-    "section": "Slackについて",
-    "text": "Slackについて\n登録方法\n\nTAの高根さんにE-mail\n\n201j024j@stu.kobe-u.ac.jp\nメールのタイトルは「計量政治学方法論I」、または「ソンさん、かっこいい！」\n空メールでOK\n\n\nSlackの使い方\n\nGoogleで「Slack 使い方」で検索\nSlack上の表示名は実名で"
+    "section": "Discordについて",
+    "text": "Discordについて\n\nDiscordに登録し、Discordを起動する。\n\nアプリ版、Web版がある（どちらでも良い）。\n\n宋をフレンドとして追加\n\n宋のIDとタグはJaehyun#4730 \n\n自分の学籍番号と氏名をDiscordメッセージで伝える。\n宋からの招待が届けば、サーバーに登録する。\n\nDiscord上の表示名（ニックネーム）は宋が実名へ変更する。任意の表示名に変更しないこと。"
   },
   {
     "objectID": "slide/intro_rct.html#評価",
     "href": "slide/intro_rct.html#評価",
     "title": "方法論特殊講義III",
     "section": "評価",
-    "text": "評価\n平常点と期末レポート\n\n平常点: 30%\n\n授業への参加度 (質問/発言)\nSlackでの参加度も含む\n\n期末レポート: 70%\n\n提出方法、期限は講義最終日に告知"
+    "text": "評価\n平常点と期末レポート\n\n平常点: 30%\n\n授業への参加度 (質問/発言)\nDiscordでの参加度も含む\n\n期末レポート: 70%\n\n提出方法、期限は講義最終日に告知"
   },
   {
     "objectID": "slide/intro_rct.html#レポート",
     "href": "slide/intro_rct.html#レポート",
     "title": "方法論特殊講義III",
     "section": "レポート",
-    "text": "レポート\n以下の3つのオプションから選択\n\n研究のプロポーザル\n\n本講義で紹介した手法を用いた分析のプロポーザルを作成\n実現可能性があること\n\n既存研究の再現 (replication)\n\n分析をそのまま再現\n本講義で紹介した手法を用いて再現\n\n本講義で紹介した手法を用いた2次分析"
+    "text": "レポート\n以下の3つのオプションから選択\n\n研究のプロポーザル\n\n本講義で紹介した手法を用いた分析のプロポーザルを作成\n実現可能性（予算、倫理など）があること\n\n既存研究の再現 (replication)\n\n分析をそのまま再現\n本講義で紹介した手法を用いて再現\n\n本講義で紹介した手法を用いた2次分析"
   },
   {
     "objectID": "slide/intro_rct.html#前提知識",
     "href": "slide/intro_rct.html#前提知識",
     "title": "方法論特殊講義III",
     "section": "前提知識",
-    "text": "前提知識\n本講義の前提知識\n\n仮説検定\n統計的有意性検定\n回帰分析\n電卓としてのRの使い方\n\nデータクリーニング、回帰分析、可視化などができるならベスト\n2日目にRの解説は行うが、深入りはしない(できない)\n\nhttps://bit.ly/2VPXL9x \\(\\leftarrow\\) これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説\n\n最低限の使い方（データの読み込みなど）は知っている前提で解説\n『私たちのR』を読もう！"
+    "text": "前提知識\n本講義の前提知識\n\n仮説検定\n統計的有意性検定\n回帰分析\n電卓としてのRの使い方\n\nデータクリーニング、回帰分析、可視化などができるならベスト\n2日目にRの解説は行うが、深入りはしない(できない)\n\nhttps://www.jaysong.net/micro-book/ \\(\\leftarrow\\) これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説\n\n最低限の使い方（データの読み込みなど）は知っている前提で解説\n『私たちのR』を読もう！"
   },
   {
     "objectID": "slide/intro_rct.html#社会科学における因果推論の意味",
@@ -123,21 +473,21 @@
     "href": "slide/intro_rct.html#欠落変数バイアス-1",
     "title": "方法論特殊講義III",
     "section": "欠落変数バイアス",
-    "text": "欠落変数バイアス\nOmitted Variable Bias\n例) 真のモデルが\\(Y = \\beta_0 + \\beta_1 \\cdot X + \\beta_2 \\cdot Z + e\\)の場合\n\n\n\n\n\n\n\n\n\n\n\n\n\nモデルに \\(X2\\) が含まれていない場合、 \\(\\beta_1\\) の推定値にバイアス\n\n\\(X_1\\) と \\(X_2\\) が相関\n\\(\\sigma_{X_1, X_2} \\neq 0\\)\n\n\\(\\beta_1\\)の真の値（=不偏推定量）を推定するためには\\(X\\)と\\(Y\\)両方と相関する変数すべてが必要\n\nそもそも、「真の値」とは？\n\\(X\\)と\\(Y\\)両方と相関するすべての変数は特定可能? 測定可能?\n\n\\(\\rightarrow\\) データ分析から得られた結果はあくまでも「分析モデルが想定している世界」のものに過ぎない\n\n定量的手法は反証可能性を高めやすい手法（=科学的な手法になりやすい）であって、科学そのものを保障するものでもなく、得られた結果が真理であることを保障するものでもない。"
+    "text": "欠落変数バイアス\nOmitted Variable Bias\n例) 真のモデルが\\(Y = \\beta_0 + \\beta_1 \\cdot X + \\beta_2 \\cdot Z + e\\)の場合\n\n\n\n\n\n\n\n\n\n\n\n\n\nモデルに\\(Z\\)が含まれていない場合、\\(\\beta_1\\)の推定値にバイアス\n\n\\(Z \\rightarrow X\\)の関係が存在\n\\(\\sigma_{X, Z} \\neq 0\\)\n\n\\(\\beta_1\\)の真の値（=不偏推定量）を推定するためには\\(X\\)と\\(Y\\)両方と相関する変数すべてが必要\n\nそもそも、「真の値」とは？\n\\(X\\)と\\(Y\\)両方と相関するすべての変数は特定可能? 測定可能?\n\n\\(\\rightarrow\\) データ分析から得られた結果はあくまでも「分析モデルが想定している世界」のものに過ぎない\n\n定量的手法は反証可能性を高めやすい手法（=科学的な手法になりやすい）であって、科学そのものを保障するものでもなく、得られた結果が真理であることを保障するものでもない。"
   },
   {
-    "objectID": "slide/intro_rct.html#セレクションバイアス",
-    "href": "slide/intro_rct.html#セレクションバイアス",
+    "objectID": "slide/intro_rct.html#自己選択バイアス",
+    "href": "slide/intro_rct.html#自己選択バイアス",
     "title": "方法論特殊講義III",
-    "section": "セレクション・バイアス",
-    "text": "セレクション・バイアス\nSelection Bias\n\n例) 職業訓練と期待収入（参考) 心臓移植）\n\n\n\n\n\n\n3年後の収入\n\n\n\n\n職業訓練を\n受けた\n6349ドル\n\n\n\n受けなかった\n6984ドル\n\n\n\n\n職業訓練を受けたら収入が上がる?\nもともと低収入の人が職業訓練を受けようとする?\n参考) 交絡因子の可能性も（就労意欲など）"
+    "section": "自己選択バイアス",
+    "text": "自己選択バイアス\n(Self-)Selection Bias\n\n例1) 職業訓練と期待収入\n\n\n\n\n\n\n3年後の収入\n\n\n\n\n職業訓練を\n受けた\n6349ドル\n\n\n\n受けなかった\n6984ドル\n\n\n\n\n職業訓練を受けたら収入が上がる?\nもともと低収入の人が職業訓練を受けようとする?\n参考) 心臓移植の例も自己選択のバイアスとして解釈可能\n参考) 交絡因子の不在として解釈可能（就労意欲など）"
   },
   {
     "objectID": "slide/intro_rct.html#内生性",
     "href": "slide/intro_rct.html#内生性",
     "title": "方法論特殊講義III",
     "section": "内生性",
-    "text": "内生性\nこれまでの多くの例は内生性（endogeneity）の問題\n\n内生性: 説明変数と誤差項間に相関が存在\n\n誤差項と相関のある説明変数: 内生変数（endogenous variable）\n\n内生性がある場合、推定値は一致推定量でも、不偏推定量でもはない\n\nサンプルサイズ（\\(N\\)）をいくら増やしても無駄\n\n内生性の原因\n\n同時性\n欠落変数バイアス\n測定誤差\nセレクション・バイアスなど\n\n最近の教科書はこれはすべてをセレクション・バイアスや欠落変数バイアスでまとめる傾向"
+    "text": "内生性\nこれまでの多くの例は内生性（endogeneity）の問題\n\n内生性: 説明変数と誤差項間に相関が存在\n\n誤差項と相関のある説明変数: 内生変数（endogenous variable）\n\n内生性がある場合、推定値は一致推定量でも、不偏推定量でもはない\n\nサンプルサイズ（\\(N\\)）をいくら増やしても無駄\n\n内生性の原因\n\n同時性\n欠落変数バイアス\n測定誤差\n自己選択バイアス\n\n最近の教科書はこれはすべてを自己選択バイアスや欠落変数バイアスでまとめる傾向"
   },
   {
     "objectID": "slide/intro_rct.html#相関から因果へ-1",
@@ -235,7 +585,7 @@
     "href": "slide/intro_rct.html#因果推論の根本問題-3",
     "title": "方法論特殊講義III",
     "section": "因果推論の根本問題",
-    "text": "因果推論の根本問題\n\n\\(Y_i(T_i = 1)\\)か\\(Y_i(T_i = 0)\\)、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能\n\nただし、のび太くん、ドラえもん、ジャイアンくんを除く\n因果推論の根本問題 (The Fundamental Problem of Causal Inference)\n\n潜在的結果を直接観察する方法\n\nただし、個々人の潜在的結果ではなく、集団における潜在的結果\n平均処置効果 (ATE; Average Treatment Effect)\n\n平均値の差分から平均的な因果効果を推定\nしかし、…\n\n無作為割当の重要性"
+    "text": "因果推論の根本問題\n\n\\(Y_i(T_i = 1)\\)か\\(Y_i(T_i = 0)\\)、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能\n\nただし、のび太くん、ドラえもん、ジャイアンくんを除く\n因果推論の根本問題 (The Fundamental Problem of Causal Inference)\n\n\n\n\n潜在的結果を直接観察する方法\n\nただし、個々人の潜在的結果ではなく、集団における潜在的結果\n平均処置効果 (ATE; Average Treatment Effect)\n\n平均値の差分から平均的な因果効果を推定\nしかし、…\n\n無作為割当の重要性"
   },
   {
     "objectID": "slide/intro_rct.html#平均取るだけでok",
@@ -249,7 +599,7 @@
     "href": "slide/intro_rct.html#信頼できるateの条件",
     "title": "方法論特殊講義III",
     "section": "信頼できるATEの条件",
-    "text": "信頼できるATEの条件\nATE 推定値の信頼性を損なう敵: 内生性 (しかも、常に存在する)\n例) やる気のある学生だけがソンさんの講義を履修した場合\n\nセレクション・バイアス\n\nソンさんの講義は鬼畜すぎるため、やる気満々の学生には役に立つものの、やる気のない学生にとってはむしろ学習意欲が低下\n\n疑似相関\n\nやる気のある学生はいろんな方面で頑張るから、将来年収が高くなる。\n\n測定誤差\n\n履修者の年収はジンバブエ・ドルで測定されている可能性も（これはないか）\n\n\n\n\n内生性は因果推論の敵! どうすれば…?\n\\(\\downarrow\\)\n無作為割当 (Random Assignment)"
+    "text": "信頼できるATEの条件\nATE 推定値の信頼性を損なう敵: 内生性 (しかも、常に存在する)\n例) やる気のある学生だけがソンさんの講義を履修した場合\n\n自己選択バイアス\n\nソンさんの講義は鬼畜すぎるため、やる気満々の学生には役に立つものの、やる気のない学生にとってはむしろ学習意欲が低下\n\n疑似相関\n\nやる気のある学生はいろんな方面で頑張るから、将来年収が高くなる。\n\n測定誤差\n\n履修者の年収はジンバブエ・ドルで測定されている可能性も（これはないか）\n\n\n\n\n内生性は因果推論の敵! どうすれば…?\n\\(\\downarrow\\)\n無作為割当 (Random Assignment)"
   },
   {
     "objectID": "slide/intro_rct.html#無作為割当とは",
@@ -284,14 +634,14 @@
     "href": "slide/intro_rct.html#無作為割当の力-3",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
-    "text": "無作為割当の力\n集団として処置群と統制群は、母集団とほぼ同質\n\n母集団:女性率が55%、平均年齢が38歳\n統制群:女性率が54.5%、平均年齢が37.2歳\n処置群:女性率が55.6%、平均年齢が39歳\n\\(n \\rightarrow \\infty\\) なら2つのグループはより同質的に（大数の弱法則）\n統制群と処置群、母集団はそれぞれ交換可能 (exchangeable)\n\n処置群に処置を与えること = 母集団全体に処置を与えること\n統制群に処置を与えないこと = 母集団全体に処置を与えないこと\n\n統制群と処置群の比較で集団を一つの単位としたITE (= ATE)が推定可能\n\n処置を与えた母集団 vs. 処置を与えなかった母集団"
+    "text": "無作為割当の力\n集団として処置群と統制群は、母集団とほぼ同質\n\n母集団:女性率が55%、平均年齢が38歳\n統制群:女性率が54.5%、平均年齢が37.2歳\n処置群:女性率が55.6%、平均年齢が39歳\n\\(n \\rightarrow \\infty\\) なら2つのグループはより同質的に（大数の弱法則）\n\n\n\n統制群と処置群、母集団はそれぞれ交換可能 (exchangeable)\n\n処置群に処置を与えること = 母集団全体に処置を与えること\n統制群に処置を与えないこと = 母集団全体に処置を与えないこと\n\n\n\n\n統制群と処置群の比較で集団を一つの単位としたITE (= ATE)が推定可能\n\n処置を与えた母集団 vs. 処置を与えなかった母集団"
   },
   {
     "objectID": "slide/intro_rct.html#無作為割当の力-4",
     "href": "slide/intro_rct.html#無作為割当の力-4",
     "title": "方法論特殊講義III",
     "section": "無作為割当の力",
-    "text": "無作為割当の力\n無作為割当は均質な複数のグループを作る手法\n\n講義履修と年収の例だと、無作為割当をすることによって …\n\n各グループにやる気のある学生とない学生が均等に\n\nセレクション・バイアス、擬似相関の除去\n\nジンバブエ・ドルで測定される学生も均等に（これはないか）\n\n測定誤差の除去\n\n\n内生性:処置変数（講義の履修）と誤差項（やる気など）間の相関\n\nコイン投げの結果は被験者（学生）の性質と無関係に行われるため、誤差項と相関がない。\n外生変数 (Exogenous variable)\n学生の性質 (X) と処置有無 (T) は独立している ⇒ \\(X \\perp T\\)\n\n\n\n\n無作為割当は内生性を除去する最良の手法"
+    "text": "無作為割当の力\n無作為割当は均質な複数のグループを作る手法\n\n講義履修と年収の例だと、無作為割当をすることによって …\n\n各グループにやる気のある学生とない学生が均等に\n\n自己選択バイアス、擬似相関の除去\n\nジンバブエ・ドルで測定される学生も均等に（これはないか）\n\n測定誤差の除去\n\n\n\n\n\n内生性:処置変数（講義の履修）と誤差項（やる気など）間の相関\n\nコイン投げの結果は被験者（学生）の性質と無関係に行われるため、誤差項と相関がない。\n外生変数 (Exogenous variable)\n学生の性質 (X) と処置有無 (T) は独立している ⇒ \\(X \\perp T\\)\n\n\n\n\n無作為割当は内生性を除去する最良の手法"
   },
   {
     "objectID": "slide/intro_rct.html#無作為抽出と無作為割当",
@@ -312,7 +662,7 @@
     "href": "slide/intro_rct.html#データ生成過程への介入",
     "title": "方法論特殊講義III",
     "section": "データ生成過程への介入",
-    "text": "データ生成過程への介入\n以下のデータ生成過程を仮定\n\\[\n\\text{Income} = \\beta_0 + \\beta_1 \\cdot \\text{Quant} + \\varepsilon\n\\]\n\nIncome: 10年後の年収 (\\(\\in [0, \\infty)\\))\nQuant:ソンさんの講義を履修したか否か (\\(\\in \\{0, 1\\})\\) )\n誤差項( \\(\\varepsilon\\) )には「やる気」や「真面目さ」が含まれるため、Quantと相関がある (\\(\\rightarrow\\) 内生性)\n無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (独立) になる\n\n例) 受講有無をコイン投げで決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）\n\\(\\Rightarrow\\) 内生性がなくなる!"
+    "text": "データ生成過程への介入\n以下のデータ生成過程を仮定\n\\[\n\\text{Income} = \\beta_0 + \\beta_1 \\cdot \\text{Quant} + \\varepsilon\n\\]\n\nIncome: 10年後の年収 (\\(\\in [0, \\infty)\\))\nQuant:ソンさんの講義を履修したか否か (\\(\\in \\{0, 1\\})\\) )\n誤差項(\\(\\varepsilon\\))には「やる気」や「真面目さ」が含まれるため、Quantと相関がある (\\(\\rightarrow\\) 内生性)\n無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (独立) になる\n\n例) 受講有無をコイン投げ（W）で決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）\n\\(\\Rightarrow\\) 内生性がなくなる!"
   },
   {
     "objectID": "slide/intro_rct.html#rctの例",
@@ -403,7 +753,7 @@
     "href": "slide/intro_rct.html#データ",
     "title": "方法論特殊講義III",
     "section": "データ",
-    "text": "データ\nこれまで紹介した例題\n\n労働市場と人種差別: intro_data1.dta\n\nMarianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” American Economic Review. 94(4) pp. 991–1013\n\n処置効果の不均一性: intro_data2.csv\n\n架空データ\n\n\nLab Session用のデータ (第2講)\n\n社会的圧力と投票参加: intro_data3.csv\n\nAlan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” American Political Science Review. 102(1) pp. 33–48"
+    "text": "データ\nこれまで紹介した例題\n\n労働市場と人種差別: intro_data1.dta\n\nMarianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination,” American Economic Review, 94(4) pp. 991–1013\n\n処置効果の不均一性: intro_data2.csv\n\n架空データ\n\n\nLab Session用のデータ\n\n社会的圧力と投票参加: intro_data3.csv\n\nAlan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment,” American Political Science Review, 102(1) pp. 33–48"
   },
   {
     "objectID": "slide/intro_rct.html#バランスチェック-1",
@@ -1040,7 +1390,7 @@
     "href": "index.html",
     "title": "Causal Inference@Kobe",
     "section": "",
-    "text": "アイコン説明\n\n\n\n\n：NIIオンライン分析システムの起動\n\n右クリックし、新しいタブ（or ウィンドウ）で開いてください。\n初期設定が必要です。初期設定の方法はRの使い方 > Rの導入を参照してください。\n\n：Rの教科書（『私たちのR』）\n：本ウェブサイト内の検索\n\n\n\n\n\n\n\n\n\nページ情報\n\n\n\n\n最終更新日: 2022年08月01日\n開発環境\n\nmacOS 12.4 “Monterey”\nFirefox 102.0.0\nR version 4.2.1 (2022-06-23)\nRStudio 2022.02.3+492 “Prairie Trillium”\nQuarto 1.0.36\nR package {quarto} 1.2\n\n本サポートページのレポジトリ"
+    "text": "アイコン説明\n\n\n\n\n：NIIオンライン分析システムの起動\n\n右クリックし、新しいタブ（or ウィンドウ）で開いてください。\n初期設定が必要です。初期設定の方法はRの使い方 > Rの導入を参照してください。\n\n：Rの教科書（『私たちのR』）\n：本ウェブサイト内の検索\n\n\n\n\n\n\n\n\n\nページ情報\n\n\n\n\n最終更新日: 2022年08月02日\n開発環境\n\nmacOS 12.5 “Monterey”\nFirefox 103.0.1\nR version 4.2.1 (2022-06-23)\nRStudio 2022.07.1+554 “Spotted Wakerobin”\nQuarto 1.0.36\nR package {quarto} 1.2\n\n本サポートページのレポジトリ"
   },
   {
     "objectID": "syllabus.html",
@@ -1138,7 +1488,7 @@
     "href": "material/intro_rct.html#記述統計量",
     "title": "因果推論の考え方とランダム化比較試験",
     "section": "記述統計量",
-    "text": "記述統計量\n　記述統計量の計算には{summarytools}のdescr()関数が便利だ。descr(データ名)を入力するだけで各変数の記述統計量が出力される。実際にやってみると分かるが、情報量がかなり多い。しかし、実際の論文では各変数の歪度や尖度まで報告することはあまりないだろう。ここではstats引数を追加して、論文などでよく使う平均値（\"mean\"）、標準偏差（\"sd\"）、最小値（\"min\"）、最大値（\"max\"）、有効ケース数（\"n.valid\"）のみ出力する。\n\ndf |>\n  descr(stats = c(\"mean\", \"sd\", \"min\", \"max\", \"n.valid\"))\n\nDescriptive Statistics  \ndf  \nN: 344084  \n\n                   female     hh_size   voted2000   voted2002   voted2004   voted2006         yob\n------------- ----------- ----------- ----------- ----------- ----------- ----------- -----------\n         Mean        0.50        2.18        0.25        0.39        0.40        0.32     1956.21\n      Std.Dev        0.50        0.79        0.43        0.49        0.49        0.46       14.45\n          Min        0.00        1.00        0.00        0.00        0.00        0.00     1900.00\n          Max        1.00        8.00        1.00        1.00        1.00        1.00     1986.00\n      N.Valid   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00\n\n\n　ただし、descr()を使うと数値型（numeric）変数の記述統計量のみ表示される。dfだと、treatment列は文字型（character）であるため、表示されない2。各グループがサンプルの何割かを計算するためには、treatment変数をダミー変数へ変換する必要がある。ダミー変数の作成は面倒な作業であるが、{fastDummies}パッケージのdummy_cols()を使えば簡単にできる。dummy_cols()の中にはselect_columns = \"ダミー化する列名\"を入れれば、当該変数をダミー変数へ変換し、新しい列として追加してくれる。それではtreatment列をダミー化&追加し、その結果をdfに上書きしてみよう。\n\ndf <- df |>\n  dummy_cols(select_columns = \"treatment\")\n\ndf\n\n# A tibble: 344,084 × 13\n   treatm…¹ female   yob hh_size voted…² voted…³ voted…⁴ voted…⁵ treat…⁶ treat…⁷\n   <chr>     <dbl> <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <int>   <int>\n 1 Civic D…      0  1941       2       0       1       0       0       1       0\n 2 Civic D…      1  1947       2       0       1       0       0       1       0\n 3 Hawthor…      0  1951       3       0       1       0       1       0       0\n 4 Hawthor…      1  1950       3       0       1       0       1       0       0\n 5 Hawthor…      1  1982       3       0       1       0       1       0       0\n 6 Control       0  1981       3       0       0       0       0       0       1\n 7 Control       1  1959       3       0       1       0       1       0       1\n 8 Control       0  1956       3       0       1       0       1       0       1\n 9 Control       1  1968       2       0       1       0       0       0       1\n10 Control       0  1967       2       0       1       0       0       0       1\n# … with 344,074 more rows, 3 more variables: treatment_Hawthorne <int>,\n#   treatment_Neighbors <int>, treatment_Self <int>, and abbreviated variable\n#   names ¹​treatment, ²​voted2000, ³​voted2002, ⁴​voted2004, ⁵​voted2006,\n#   ⁶​`treatment_Civic Duty`, ⁷​treatment_Control\n# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names\n\n\n　画面には表示されないが、出力結果の下段を見るとtreatment_で始まるいくつかの変数が追加されたことが分かる。ここでは\"tretmant\"で始まる列のみを抽出つして確認してみよう。\n\ndf |>\n  select(starts_with(\"treatment\"))\n\n# A tibble: 344,084 × 6\n   treatment  `treatment_Civic Duty` treatment_Control treatme…¹ treat…² treat…³\n   <chr>                       <int>             <int>     <int>   <int>   <int>\n 1 Civic Duty                      1                 0         0       0       0\n 2 Civic Duty                      1                 0         0       0       0\n 3 Hawthorne                       0                 0         1       0       0\n 4 Hawthorne                       0                 0         1       0       0\n 5 Hawthorne                       0                 0         1       0       0\n 6 Control                         0                 1         0       0       0\n 7 Control                         0                 1         0       0       0\n 8 Control                         0                 1         0       0       0\n 9 Control                         0                 1         0       0       0\n10 Control                         0                 1         0       0       0\n# … with 344,074 more rows, and abbreviated variable names\n#   ¹​treatment_Hawthorne, ²​treatment_Neighbors, ³​treatment_Self\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　select()関数内には抽出する列名を入力するだけで良い。たとえば、femaleとyob列を抽出するならselect(female, yob)である。また、femaleからvoted2006までの意味でfemale:voted2006のような書き方もできる。他にも上の例のようにstarts_with()やends_with()、contain()を使って特定の文字列で始まる（で終わる、を含む）列を指定することもできる。一部の列を除外する場合は変数名の前に!か-を付ける。\n　とにかく、問題なくダミー化されていることが分かる。もう一度記述統計量を出してみよう。descr()は仕様上、出力される変数の順番はアルファベット順になるが、ここでは元の順番を維持するためにorder = \"p\"を追加する。また、通常の記述統計表が、先ほど見たものとは違って、各行が変数を、列は記述統計量を表す場合が多い。このように行と列を交換するためにはtranspose = TRUEを追加する3。\n\ndf |>\n  descr(stats = c(\"mean\", \"sd\", \"min\", \"max\", \"n.valid\"),\n        order = \"p\", transpose = TRUE, headings = FALSE)\n\n\n\n\nMean\nStd.Dev\nMin\nMax\nN.Valid\n\n\n\n\nfemale\n0.50\n0.50\n0.00\n1.00\n344084.00\n\n\nyob\n1956.21\n14.45\n1900.00\n1986.00\n344084.00\n\n\nhh_size\n2.18\n0.79\n1.00\n8.00\n344084.00\n\n\nvoted2000\n0.25\n0.43\n0.00\n1.00\n344084.00\n\n\nvoted2002\n0.39\n0.49\n0.00\n1.00\n344084.00\n\n\nvoted2004\n0.40\n0.49\n0.00\n1.00\n344084.00\n\n\nvoted2006\n0.32\n0.46\n0.00\n1.00\n344084.00\n\n\ntreatment_Civic Duty\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Control\n0.56\n0.50\n0.00\n1.00\n344084.00\n\n\ntreatment_Hawthorne\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Neighbors\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Self\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\n\n\n　他にも以下のようにdfSummary()関数を使えば、綺麗な表としてまとめてくれる。しかも文字型、factor型変数の場合も度数分布表を作成してくれるので非常に便利だ。これも{summarytools}パッケージに含まれた機能なので、別途、パッケージを読み込む必要はない。\n\ndf |>\n  select(-starts_with(\"treatment_\")) |>\n  dfSummary(headings = FALSE) |> \n  print(method = \"render\", round.digits = 3)\n\n\n\n\n  \n    \n      No\n      Variable\n      Stats / Values\n      Freqs (% of Valid)\n      Graph\n      Valid\n      Missing\n    \n  \n  \n    \n      1\n      treatment\n[character]\n      1. Civic Duty2. Control3. Hawthorne4. Neighbors5. Self\n      38218(11.1%)191243(55.6%)38204(11.1%)38201(11.1%)38218(11.1%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      2\n      female\n[numeric]\n      Min  : 0Mean : 0.5Max  : 1\n      0:172289(50.1%)1:171795(49.9%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      3\n      yob\n[numeric]\n      Mean (sd) : 1956.2 (14.4)min ≤ med ≤ max:1900 ≤ 1956 ≤ 1986IQR (CV) : 18 (0)\n      86 distinct values\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      4\n      hh_size\n[numeric]\n      Mean (sd) : 2.2 (0.8)min ≤ med ≤ max:1 ≤ 2 ≤ 8IQR (CV) : 0 (0.4)\n      1:47834(13.9%)2:214086(62.2%)3:57474(16.7%)4:20916(6.1%)5:3315(1.0%)6:402(0.1%)7:49(0.0%)8:8(0.0%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      5\n      voted2000\n[numeric]\n      Min  : 0Mean : 0.3Max  : 1\n      0:257464(74.8%)1:86620(25.2%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      6\n      voted2002\n[numeric]\n      Min  : 0Mean : 0.4Max  : 1\n      0:209947(61.0%)1:134137(39.0%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      7\n      voted2004\n[numeric]\n      Min  : 0Mean : 0.4Max  : 1\n      0:205934(59.8%)1:138150(40.2%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      8\n      voted2006\n[numeric]\n      Min  : 0Mean : 0.3Max  : 1\n      0:235388(68.4%)1:108696(31.6%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n  \n\nGenerated by summarytools 1.0.1 (R version 4.2.1)2022-08-01"
+    "text": "記述統計量\n　記述統計量の計算には{summarytools}のdescr()関数が便利だ。descr(データ名)を入力するだけで各変数の記述統計量が出力される。実際にやってみると分かるが、情報量がかなり多い。しかし、実際の論文では各変数の歪度や尖度まで報告することはあまりないだろう。ここではstats引数を追加して、論文などでよく使う平均値（\"mean\"）、標準偏差（\"sd\"）、最小値（\"min\"）、最大値（\"max\"）、有効ケース数（\"n.valid\"）のみ出力する。\n\ndf |>\n  descr(stats = c(\"mean\", \"sd\", \"min\", \"max\", \"n.valid\"))\n\nDescriptive Statistics  \ndf  \nN: 344084  \n\n                   female     hh_size   voted2000   voted2002   voted2004   voted2006         yob\n------------- ----------- ----------- ----------- ----------- ----------- ----------- -----------\n         Mean        0.50        2.18        0.25        0.39        0.40        0.32     1956.21\n      Std.Dev        0.50        0.79        0.43        0.49        0.49        0.46       14.45\n          Min        0.00        1.00        0.00        0.00        0.00        0.00     1900.00\n          Max        1.00        8.00        1.00        1.00        1.00        1.00     1986.00\n      N.Valid   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00\n\n\n　ただし、descr()を使うと数値型（numeric）変数の記述統計量のみ表示される。dfだと、treatment列は文字型（character）であるため、表示されない2。各グループがサンプルの何割かを計算するためには、treatment変数をダミー変数へ変換する必要がある。ダミー変数の作成は面倒な作業であるが、{fastDummies}パッケージのdummy_cols()を使えば簡単にできる。dummy_cols()の中にはselect_columns = \"ダミー化する列名\"を入れれば、当該変数をダミー変数へ変換し、新しい列として追加してくれる。それではtreatment列をダミー化&追加し、その結果をdfに上書きしてみよう。\n\ndf <- df |>\n  dummy_cols(select_columns = \"treatment\")\n\ndf\n\n# A tibble: 344,084 × 13\n   treatm…¹ female   yob hh_size voted…² voted…³ voted…⁴ voted…⁵ treat…⁶ treat…⁷\n   <chr>     <dbl> <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <int>   <int>\n 1 Civic D…      0  1941       2       0       1       0       0       1       0\n 2 Civic D…      1  1947       2       0       1       0       0       1       0\n 3 Hawthor…      0  1951       3       0       1       0       1       0       0\n 4 Hawthor…      1  1950       3       0       1       0       1       0       0\n 5 Hawthor…      1  1982       3       0       1       0       1       0       0\n 6 Control       0  1981       3       0       0       0       0       0       1\n 7 Control       1  1959       3       0       1       0       1       0       1\n 8 Control       0  1956       3       0       1       0       1       0       1\n 9 Control       1  1968       2       0       1       0       0       0       1\n10 Control       0  1967       2       0       1       0       0       0       1\n# … with 344,074 more rows, 3 more variables: treatment_Hawthorne <int>,\n#   treatment_Neighbors <int>, treatment_Self <int>, and abbreviated variable\n#   names ¹​treatment, ²​voted2000, ³​voted2002, ⁴​voted2004, ⁵​voted2006,\n#   ⁶​`treatment_Civic Duty`, ⁷​treatment_Control\n# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names\n\n\n　画面には表示されないが、出力結果の下段を見るとtreatment_で始まるいくつかの変数が追加されたことが分かる。ここでは\"tretmant\"で始まる列のみを抽出つして確認してみよう。\n\ndf |>\n  select(starts_with(\"treatment\"))\n\n# A tibble: 344,084 × 6\n   treatment  `treatment_Civic Duty` treatment_Control treatme…¹ treat…² treat…³\n   <chr>                       <int>             <int>     <int>   <int>   <int>\n 1 Civic Duty                      1                 0         0       0       0\n 2 Civic Duty                      1                 0         0       0       0\n 3 Hawthorne                       0                 0         1       0       0\n 4 Hawthorne                       0                 0         1       0       0\n 5 Hawthorne                       0                 0         1       0       0\n 6 Control                         0                 1         0       0       0\n 7 Control                         0                 1         0       0       0\n 8 Control                         0                 1         0       0       0\n 9 Control                         0                 1         0       0       0\n10 Control                         0                 1         0       0       0\n# … with 344,074 more rows, and abbreviated variable names\n#   ¹​treatment_Hawthorne, ²​treatment_Neighbors, ³​treatment_Self\n# ℹ Use `print(n = ...)` to see more rows\n\n\n　select()関数内には抽出する列名を入力するだけで良い。たとえば、femaleとyob列を抽出するならselect(female, yob)である。また、femaleからvoted2006までの意味でfemale:voted2006のような書き方もできる。他にも上の例のようにstarts_with()やends_with()、contain()を使って特定の文字列で始まる（で終わる、を含む）列を指定することもできる。一部の列を除外する場合は変数名の前に!か-を付ける。\n　とにかく、問題なくダミー化されていることが分かる。もう一度記述統計量を出してみよう。descr()は仕様上、出力される変数の順番はアルファベット順になるが、ここでは元の順番を維持するためにorder = \"p\"を追加する。また、通常の記述統計表が、先ほど見たものとは違って、各行が変数を、列は記述統計量を表す場合が多い。このように行と列を交換するためにはtranspose = TRUEを追加する3。\n\ndf |>\n  descr(stats = c(\"mean\", \"sd\", \"min\", \"max\", \"n.valid\"),\n        order = \"p\", transpose = TRUE, headings = FALSE)\n\n\n\n\nMean\nStd.Dev\nMin\nMax\nN.Valid\n\n\n\n\nfemale\n0.50\n0.50\n0.00\n1.00\n344084.00\n\n\nyob\n1956.21\n14.45\n1900.00\n1986.00\n344084.00\n\n\nhh_size\n2.18\n0.79\n1.00\n8.00\n344084.00\n\n\nvoted2000\n0.25\n0.43\n0.00\n1.00\n344084.00\n\n\nvoted2002\n0.39\n0.49\n0.00\n1.00\n344084.00\n\n\nvoted2004\n0.40\n0.49\n0.00\n1.00\n344084.00\n\n\nvoted2006\n0.32\n0.46\n0.00\n1.00\n344084.00\n\n\ntreatment_Civic Duty\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Control\n0.56\n0.50\n0.00\n1.00\n344084.00\n\n\ntreatment_Hawthorne\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Neighbors\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\ntreatment_Self\n0.11\n0.31\n0.00\n1.00\n344084.00\n\n\n\n\n　他にも以下のようにdfSummary()関数を使えば、綺麗な表としてまとめてくれる。しかも文字型、factor型変数の場合も度数分布表を作成してくれるので非常に便利だ。これも{summarytools}パッケージに含まれた機能なので、別途、パッケージを読み込む必要はない。\n\ndf |>\n  select(-starts_with(\"treatment_\")) |>\n  dfSummary(headings = FALSE) |> \n  print(method = \"render\", round.digits = 3)\n\n\n\n\n  \n    \n      No\n      Variable\n      Stats / Values\n      Freqs (% of Valid)\n      Graph\n      Valid\n      Missing\n    \n  \n  \n    \n      1\n      treatment\n[character]\n      1. Civic Duty2. Control3. Hawthorne4. Neighbors5. Self\n      38218(11.1%)191243(55.6%)38204(11.1%)38201(11.1%)38218(11.1%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      2\n      female\n[numeric]\n      Min  : 0Mean : 0.5Max  : 1\n      0:172289(50.1%)1:171795(49.9%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      3\n      yob\n[numeric]\n      Mean (sd) : 1956.2 (14.4)min ≤ med ≤ max:1900 ≤ 1956 ≤ 1986IQR (CV) : 18 (0)\n      86 distinct values\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      4\n      hh_size\n[numeric]\n      Mean (sd) : 2.2 (0.8)min ≤ med ≤ max:1 ≤ 2 ≤ 8IQR (CV) : 0 (0.4)\n      1:47834(13.9%)2:214086(62.2%)3:57474(16.7%)4:20916(6.1%)5:3315(1.0%)6:402(0.1%)7:49(0.0%)8:8(0.0%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      5\n      voted2000\n[numeric]\n      Min  : 0Mean : 0.3Max  : 1\n      0:257464(74.8%)1:86620(25.2%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      6\n      voted2002\n[numeric]\n      Min  : 0Mean : 0.4Max  : 1\n      0:209947(61.0%)1:134137(39.0%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      7\n      voted2004\n[numeric]\n      Min  : 0Mean : 0.4Max  : 1\n      0:205934(59.8%)1:138150(40.2%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n    \n      8\n      voted2006\n[numeric]\n      Min  : 0Mean : 0.3Max  : 1\n      0:235388(68.4%)1:108696(31.6%)\n      \n      344084\n(100.0%)\n      0\n(0.0%)\n    \n  \n\nGenerated by summarytools 1.0.1 (R version 4.2.1)2022-08-02"
   },
   {
     "objectID": "material/intro_rct.html#バランスチェック",

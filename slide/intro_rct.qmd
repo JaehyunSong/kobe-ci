@@ -34,21 +34,33 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 
 ## 講師紹介
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
 ::::{.columns}
 
-:::{.column width=30%}
+:::{.column width=5%}
+:::
+
+:::{.column width=25%}
 ![[LINEスタンプ](https://store.line.me/search/sticker/ja?q=jaehyun%20song)絶賛販売中!](figs/01/Profile.png)
 :::
 
-:::{.column width=70%}
+:::{.column width=10%}
+:::
+
+:::{.column width=60%}
 * <ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby> (SONG JAEHYUN)
-   * 関西大学総合情報学部
+   * [関西大学](https://www.kansai-u.ac.jp/ja/?stt_lang=ja)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/) 准教授
    * 博士（政治学）
-   * 政治行動論、政治学方法論
+* 専門は政治行動論、選挙研究、政治学方法論
+* 趣味はゲームはラーメン屋巡り
+   * 好きなラーメンは家系と二郎インスパイア、汁なし全般
+   * 最近やっているゲームはFF XIV
 
+<br/><br/>
 
-* <song@kansai-u.ac.jp>
-* <https://www.jaysong.net>
+* <i class="bi bi-envelope"></i> <song@kansai-u.ac.jp>
+* <i class="bi bi-house"></i> <https://www.jaysong.net>
 :::
 
 ::::
@@ -84,10 +96,10 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 :::{.column width=70%}
 ### 宋のR環境
 
-* macOS 12.4 "Monterey"
+* macOS 12.5 "Monterey"
 * `r version$version.string`
    * R > 4.1ならOK
-* RStudio 2022.02.3+492 "Prairie Trillium"
+* RStudio 2022.07.1+554 "Spotted Wakerobin"
 * スライド、サポートページ、実習用資料の執筆環境
    * Quarto `r quarto::quarto_inspect()$quarto$version`
    * R package {quarto} `r packageVersion("quarto")`
@@ -113,19 +125,16 @@ R全般
 * 松村優哉 他. 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
 * Wickham, Hadley. 2019. [*Advanced R (Second Edition),*](https://www.amazon.co.jp/dp/0815384572/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/432012393X/)/[原著はインターネットから無料で閲覧可](https://adv-r.hadley.nz/))
 
-## Slackについて
+## Discordについて
 
-### 登録方法
-
-* TAの高根さんにE-mail
-   * 201j024j@stu.kobe-u.ac.jp
-   * メールのタイトルは「計量政治学方法論I」、または「ソンさん、かっこいい！」
-   * 空メールでOK
-
-### Slackの使い方
-
-* Googleで「Slack 使い方」で検索
-* Slack上の表示名は**実名**で
+1. Discordに登録し、Discordを起動する。
+   * アプリ版、Web版がある（どちらでも良い）。
+1. 宋をフレンドとして追加
+   * 宋のIDとタグは**Jaehyun#4730**
+   ![](figs/01/discord.png)
+1. 自分の学籍番号と氏名をDiscordメッセージで伝える。
+1. 宋からの招待が届けば、サーバーに登録する。
+   * Discord上の表示名（ニックネーム）は宋が実名へ変更する。**任意の表示名に変更しない**こと。
 
 ## 評価
 
@@ -133,7 +142,7 @@ R全般
 
 * **平常点**: 30%
    * 授業への参加度 (質問/発言)
-   * [Slack](https://slack.com/intl/ja-jp/)での参加度も含む
+   * Discordでの参加度も含む
 * **期末レポート**: 70%
    * 提出方法、期限は講義最終日に告知
 
@@ -143,7 +152,7 @@ R全般
 
 1. 研究のプロポーザル
    * 本講義で紹介した手法を用いた分析のプロポーザルを作成
-   * 実現可能性があること
+   * 実現可能性（予算、倫理など）があること
 2. 既存研究の再現 (replication)
    1. 分析をそのまま再現
    2. 本講義で紹介した手法を用いて再現
@@ -159,7 +168,7 @@ R全般
 * 電卓としてのRの使い方
    * データクリーニング、回帰分析、可視化などができるならベスト
    * 2日目にRの解説は行うが、深入りはしない(できない)
-      * https://bit.ly/2VPXL9x $\leftarrow$ これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説
+      * <https://www.jaysong.net/micro-book/> $\leftarrow$ これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説
    * 最低限の使い方（データの読み込みなど）は知っている前提で解説
    * 『[私たちのR](https://www.jaysong.net/RBook/)』を読もう！
 
@@ -167,7 +176,7 @@ R全般
 
 ## 社会科学における因果推論の意味
 
-[Morgan and Winship (2014) *Counterfactuals and Causal Inference: Methods And Principles For Social Research.* Cambridge.](https://www.amazon.co.jp/dp/1107694167)
+Morgan and Winship (2014) [*Counterfactuals and Causal Inference: Methods And Principles For Social Research*]((https://www.amazon.co.jp/dp/1107694167)). Cambridge.
 
 > More has been learned about causal inference in the last few decades than sum total of everything that had been learned about it in all prior recorded history. (Gary King)
 
@@ -276,9 +285,9 @@ $\Rightarrow$ 酒がストレスに与える影響は?
    * 例) ゲームをやると身長が伸びる説
 
 ::: {.r-stack}
-![](figs/01/Game_Height1.png){width=50% fig-align="center"}
+![](figs/01/Game_Height1.png){width=60% fig-align="center"}
 
-![](figs/01/Game_Height2.png){.fragment width=50% fig-align="center"}
+![](figs/01/Game_Height2.png){.fragment width=60% fig-align="center"}
 :::
 
 ## 逆の因果
@@ -313,8 +322,8 @@ $\Rightarrow$ 酒がストレスに与える影響は?
 
 :::{.column width=40%}
 ```{r}
-#| fig-width: 5
-#| fig-height: 5
+#| fig-width: 4
+#| fig-height: 4
 dagify(Y ~ X + Z + e,
        exposure = "X",
        outcome  = "Y",
@@ -345,8 +354,8 @@ dagify(Y ~ X + Z + e,
 
 :::{.column width=40%}
 ```{r}
-#| fig-width: 5
-#| fig-height: 5
+#| fig-width: 4
+#| fig-height: 4
 dagify(Y ~ X + Z + e,
        X ~ Z,
        exposure = "X",
@@ -361,9 +370,9 @@ dagify(Y ~ X + Z + e,
 :::
 
 :::{.column width=60%}
-* モデルに $X2$ が含まれていない場合、 $\beta_1$ の推定値にバイアス
-   * $X_1$ と $X_2$ が**相関**
-   * $\sigma_{X_1, X_2} \neq 0$
+* モデルに$Z$が含まれていない場合、$\beta_1$の推定値にバイアス
+   * $Z \rightarrow X$の関係が存在
+   * $\sigma_{X, Z} \neq 0$
 * $\beta_1$の真の値（=不偏推定量）を推定するためには$X$と$Y$両方と相関する変数**すべて**が必要
    * そもそも、「真の値」とは？
    * $X$と$Y$両方と相関する**すべて**の変数は特定可能? 測定可能?
@@ -373,11 +382,11 @@ dagify(Y ~ X + Z + e,
 
 ::::
 
-## セレクション・バイアス
+## 自己選択バイアス
 
-**Selection Bias**
+**(Self-)Selection Bias**
 
-* 例) 職業訓練と期待収入（参考) 心臓移植）
+* 例1) 職業訓練と期待収入
 
 |||3年後の収入|
 |:--|:--|--:|
@@ -386,7 +395,8 @@ dagify(Y ~ X + Z + e,
 
 * 職業訓練を受けたら収入が上がる?
 * もともと低収入の人が職業訓練を受けようとする?
-* 参考) 交絡因子の可能性も（就労意欲など）
+* 参考) 心臓移植の例も自己選択のバイアスとして解釈可能
+* 参考) 交絡因子の不在として解釈可能（就労意欲など）
 
 ## 内生性
 
@@ -400,8 +410,8 @@ dagify(Y ~ X + Z + e,
    1. 同時性
    2. 欠落変数バイアス
    3. 測定誤差
-   4. セレクション・バイアスなど
-* 最近の教科書はこれはすべてを**セレクション・バイアス**や欠落変数バイアスでまとめる傾向
+   4. 自己選択バイアス
+* 最近の教科書はこれはすべてを**自己選択バイアス**や欠落変数バイアスでまとめる傾向
 
 ## 相関から因果へ
 
@@ -632,6 +642,8 @@ ITEの平均値は−4であり、個人差はあるものの、全体的に薬�
    * ただし、のび太くん、ドラえもん、ジャイアンくんを除く
    * **因果推論の根本問題** (The Fundamental Problem of Causal Inference)
 
+<br/>
+
 * 潜在的結果を直接観察する方法
    * ただし、個々人の潜在的結果ではなく、**集団における潜在的結果**
    * **平均処置効果** (ATE; Average Treatment Effect)
@@ -663,7 +675,7 @@ ATE 推定値の信頼性を損なう敵: **内生性** (しかも、常に存�
 
 例) やる気のある学生だけがソンさんの講義を履修した場合
 
-1. セレクション・バイアス
+1. 自己選択バイアス
    * ソンさんの講義は鬼畜すぎるため、やる気満々の学生には役に立つものの、やる気のない学生にとってはむしろ学習意欲が低下
 2. 疑似相関
    * やる気のある学生はいろんな方面で頑張るから、将来年収が高くなる。
@@ -774,9 +786,13 @@ Data %>%
 * 処置群:女性率が55.6%、平均年齢が39歳
 * $n \rightarrow \infty$ なら2つのグループはより同質的に（大数の弱法則）
 
+<br/>
+
 * 統制群と処置群、母集団はそれぞれ**交換可能** (exchangeable)
    * 処置群に処置を与えること = 母集団全体に処置を与えること
    * 統制群に処置を与えないこと = 母集団全体に処置を与えないこと
+
+<br/>
 
 * 統制群と処置群の比較で**集団を一つの単位としたITE (= ATE)**が推定可能
    * 処置を与えた母集団 vs. 処置を与えなかった母集団
@@ -787,10 +803,11 @@ Data %>%
 
 * 講義履修と年収の例だと、無作為割当をすることによって ...
    * 各グループにやる気のある学生とない学生が均等に
-      * セレクション・バイアス、擬似相関の除去
+      * 自己選択バイアス、擬似相関の除去
    * ジンバブエ・ドルで測定される学生も均等に（これはないか）
       * 測定誤差の除去
 
+<br/>
 
 * 内生性:処置変数（講義の履修）と誤差項（やる気など）間の相関
    * コイン投げの結果は被験者（学生）の性質と**無関係**に行われるため、誤差項と相関がない。
@@ -857,35 +874,37 @@ $$
 
 * Income: 10年後の年収 ($\in [0, \infty)$)
 * Quant:ソンさんの講義を履修したか否か ($\in \{0, 1\})$ )
-* 誤差項( $\varepsilon$ )には「やる気」や「真面目さ」が含まれるため、Quantと相関がある ($\rightarrow$ **内生性**)
+* 誤差項($\varepsilon$)には「やる気」や「真面目さ」が含まれるため、Quantと相関がある ($\rightarrow$ **内生性**)
 * 無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (**独立**) になる
-   * 例) 受講有無をコイン投げで決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）
+   * 例) 受講有無をコイン投げ（W）で決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）
    * $\Rightarrow$ 内生性がなくなる!
 
 ```{r}
 #| layout-ncol: 2
-#| fig-width: 9
-#| fig-height: 3
-dagify(Y ~ X + Z + e,
-       X ~ Z,
+#| fig-width: 6
+#| fig-height: 2
+dagify(Y ~ X + e,
+       X ~ e,
        exposure = "X",
        outcome  = "Y",
-       coords   = list(x = c(X = 1, Z = 2, 
-                             Y = 3, e = 3),
-                       y = c(X = 1, Z = 2, 
-                             Y = 1, e = 2))) %>%
+       coords   = list(x = c(X = 1, e = 2, 
+                             Y = 3),
+                       y = c(X = 1, e = 2, 
+                             Y = 1))) %>%
   ggdag(text_size = 7, node_size = 15) +
+  coord_cartesian(ylim = c(0.85, 2.1)) +
   theme_dag_blank()
 
-dagify(Y ~ X + Z + e,
+dagify(Y ~ X + e,
        X ~ W,
        exposure = "X",
        outcome  = "Y",
-       coords   = list(x = c(X = 1, Z = 2, W = 1,
-                             Y = 3, e = 3),
-                       y = c(X = 1, Z = 2, W = 2, 
-                             Y = 1, e = 1.5))) %>%
+       coords   = list(x = c(X = 1, e = 2, W = 1,
+                             Y = 3),
+                       y = c(X = 1, e = 2, W = 2, 
+                             Y = 1))) %>%
   ggdag(text_size = 7, node_size = 15) +
+  coord_cartesian(ylim = c(0.85, 2.1)) +
   theme_dag_blank()
 ```
 
@@ -976,7 +995,7 @@ $\Rightarrow$ ケースによって政策的含意が変わる。
 #| fig-width: 5
 #| fig-height: 4
 #| cahce: true
-df <- read_dta("data/Day1_Data1.dta")
+df <- read_dta("data/intro_data1.dta")
 df %>%
   select(id, sex, race, h, l, 
          education, military, call) %>%
@@ -1062,7 +1081,7 @@ $$
 :::
 </center>
 
-* Freedman, David A. 2008. "Randomization Does Not Justify Logistic Regression," *Statistical Science
+* Freedman, David A. 2008. "[Randomization Does Not Justify Logistic Regression](https://www.jstor.org/stable/27645896)," *Statistical Science
 Statistical Science,* 23(2): 237-249.
    * Logit: 一致推定量$\times$ & 不偏推定量$\times$
    * Linear: 一致推定量$\bigcirc$ & 不偏推定量$\times$
@@ -1097,7 +1116,7 @@ Statistical Science,* 23(2): 237-249.
       * 男女比が1:1なら、ATEは1.5だが...
 * **方法1:** 男女に分けてATEを推定
 * **方法2:** 性別と処置有無の交差項を投入した重回帰分析
-* 参考) Bryan, Christopher J., Elizabeth Tipton and David S. Yeager. 2021. "Behavioural science is unlikely to change the world without a heterogeneity revolution," *Nature Human Behaviour.* 5: 980–989.
+* 参考) Bryan, Christopher J., Elizabeth Tipton and David S. Yeager. 2021. "[Behavioural science is unlikely to change the world without a heterogeneity revolution](https://www.nature.com/articles/s41562-021-01143-3)," *Nature Human Behaviour.* 5: 980–989.
 
 ## 因果効果の不均一性
 
@@ -1121,7 +1140,7 @@ Statistical Science,* 23(2): 237-249.
 
 :::{.column width=30%}
 ```{r}
-read_csv("data/Day1_Data2.csv") |>
+read_csv("data/intro_data2.csv") |>
    rename("Treatment" = "T",
           "Female"    = "F") |>
    lm(Y ~ Treatment * Female, data = _) |>
@@ -1206,14 +1225,14 @@ $$
 ### これまで紹介した例題
 
 * 労働市場と人種差別: `intro_data1.dta`
-   * Marianne Bertrand and Sendhil Mullainathan. 2004. “Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination.” *American Economic Review.* 94(4) pp. 991–1013
+   * Marianne Bertrand and Sendhil Mullainathan. 2004. "[Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination](https://www.jstor.org/stable/3592802)," *American Economic Review,* 94(4) pp. 991–1013
 * 処置効果の不均一性: `intro_data2.csv`
    * 架空データ
 
-### Lab Session用のデータ (第2講)
+### Lab Session用のデータ
 
 * 社会的圧力と投票参加: `intro_data3.csv`
-   * Alan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment.” *American Political Science Review.* 102(1) pp. 33–48
+   * Alan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. "[Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment](https://www.cambridge.org/core/journals/american-political-science-review/article/social-pressure-and-voter-turnout-evidence-from-a-largescale-field-experiment/11E84AF4C0B7FBD1D20C855972C2C3EB/share/35f1ba74f474559d06827d80421d821f7ed57efc)," *American Political Science Review,* 102(1) pp. 33–48
 
 ## バランスチェック
 
@@ -1223,7 +1242,7 @@ $$
 #| cache: true
 #| fig-width: 8
 #| fig-height: 3.5
-gg_df <- read_csv("data/Day1_Data3.csv")
+gg_df <- read_csv("data/intro_data3.csv")
 gg_df <- gg_df %>%
    mutate(Female  = if_else(sex == "female", 1, 0),
           Voted00 = if_else(p2000 == "yes", 1, 0),

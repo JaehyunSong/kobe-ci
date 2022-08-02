@@ -325,6 +325,9 @@
       margin-right: 0; 
     }
   </style>
+  
+  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -338,14 +341,1360 @@
   <p class="date">2022年 8月 17-19、29-30日</p>
 </section>
 
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
+<section>
+<section id="自然実験" class="title-slide slide level1 center">
+<h1>自然実験</h1>
+
+</section>
+<section id="マッチングの限界" class="slide level2">
+<h2>マッチングの限界</h2>
+<p><strong>条件付き独立の仮定</strong> (Conditional Independent Assumption; CIA)</p>
+<ul>
+<li>処置変数 (T) と結果変数 (Y) の間に存在する交絡要因 (X) が全て観察されている場合
+<ul>
+<li><span class="math inline">\({Y_i (T_i = 1), Y_i (T_i = 0) \perp T_i | X_i}\)</span></li>
+<li><span class="math inline">\(\rightarrow\)</span> 交絡変数を共変量として統制する場合、観察データからも因果効果の推定が可能</li>
+</ul></li>
+<li>しかし、<strong>全て</strong>の交絡要因がデータに含まれる場合もほぼゼロ
+<ul>
+<li><span class="math inline">\(\rightarrow\)</span> <strong>仮定としては強すぎる</strong>ため、(回帰分析を含む) マッチングによる<strong>厳密</strong>な因果推論は困難</li>
+<li>ただし、単純に処置変数と結果変数の単回帰分析よりは望ましい。</li>
+</ul></li>
+<li>より緩い仮定の下で可能な因果推論の手法
+<ul>
+<li><span class="math inline">\(\rightarrow\)</span> <strong>自然実験</strong> (Natural Experiment)</li>
+</ul></li>
+</ul>
+</section>
+<section id="自然実験とは" class="slide level2">
+<h2>自然実験とは</h2>
+<p>RCTの3つの特徴 (Freedman, Pisani, and Purves 2007)</p>
+<ol type="1">
+<li>The response of experimental subjects assigned to receive a treatment is compared to the response of subjects assigned to a control group.</li>
+<li>The assignment of subjects to treatment and control groups is done at random, through a randomizing device such as a coin flip.</li>
+<li>The manipulation of the treatment—also known as the intervention—is under the control of an experimental researcher.</li>
+</ol>
+<p><br></p>
+<p>自然実験は (Dunning 2012)</p>
+<ol type="1">
+<li>同じ</li>
+<li>処置の有無は無作為の<strong>ように</strong>決まる (as-if random)。</li>
+<li>処置内容などを研究者が操作することは不可能
+<ul>
+<li>2と3は自然、制度などによって影響を受ける</li>
+</ul></li>
+</ol>
+</section>
+<section id="自然実験の例" class="slide level2">
+<h2>自然実験の例</h2>
+<p>処置を受けるか否かが<strong>自然、制度、偶然など</strong>によって規定される</p>
+<ul>
+<li>多数代表制と比例代表制
+<ul>
+<li>人口3500未満なら多数代表制、以上なら比例代表制を採用 (フランス 地方選挙)</li>
+</ul></li>
+<li>軍の経験と所得
+<ul>
+<li>ベトナム戦争時、徴兵対象がくじによって決まる (アメリカ)</li>
+</ul></li>
+<li>最低賃金の効果
+<ul>
+<li>隣接するペンシルベニア州とニュージャージー州の最低賃金の格差</li>
+</ul></li>
+<li>現職効果
+<ul>
+<li>惜敗・辛勝の場合、候補者間の<strong>質</strong>には大差ないはず</li>
+</ul></li>
+<li>選挙区定数の効果
+<ul>
+<li>人口によって選挙区定数が決まる</li>
+</ul></li>
+<li>その他</li>
+</ul>
+</section>
+<section id="自然実験の方法" class="slide level2">
+<h2>自然実験の方法</h2>
+<p>本講義では1と2を解説</p>
+<ol type="1">
+<li><strong>差分の差分法</strong> (Difference-in-Difference; Diff-in-Diff/DID/DD)</li>
+<li><strong>回帰不連続デザイン</strong> (Regression Discontinuity Design; RDD)
+<ul>
+<li>中断時系列デザイン (Interrupted Time-series Design; ITS)
+<ul>
+<li>RDDの時系列版であるが、自己相関などの対処が必要であるため本講義では省略</li>
+</ul></li>
+</ul></li>
+<li><strong>操作変数</strong> (Instrumental Variable; IV)</li>
+<li><strong>集積分析</strong> (Bunching Analysis)</li>
+<li>その他</li>
+</ol>
+</section></section>
+<section>
+<section id="差分の差分法の考え方" class="title-slide slide level1 center">
+<h1>差分の差分法の考え方</h1>
+
+</section>
+<section id="保育所の整備と母の就労率-1" class="slide level2">
+<h2>保育所の整備と母の就労率 (1)</h2>
+<p>X軸: <span class="math inline">\(\frac{\mbox{認可保育所定員}}{\mbox{5歳以下子供数}}\)</span> ; Y軸: 女性の就労率（元ネタ: <a href="https://www.sciencedirect.com/science/article/pii/S088915831500043X">Asai, Kambayashi, and Yamaguchi (2015)</a> / データは宋が収集）</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-2-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="保育所の整備と母の就労率-2" class="slide level2">
+<h2>保育所の整備と母の就労率 (2)</h2>
+<p>保育所が整備されると母は安心して働けるから就労率が上がる</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>ロジックとして問題はなさそう</li>
+<li>内生性は?
+<ul>
+<li>(たとえば、)「<strong>県民性</strong>」の存在</li>
+<li>母親の就業意識が高く、地域社会もこの意識に好意的なら …</li>
+<li><span class="math inline">\(\rightarrow\)</span> 就労率が上がる</li>
+<li><span class="math inline">\(\rightarrow\)</span> 政治・行政も支持拡大のために保育所整備に力を入れる</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-3-1.png" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="差分の差分法" class="slide level2">
+<h2>差分の差分法</h2>
+<p><strong>Difference in Difference</strong> (Diff-in-Diff, DID, DD)</p>
+<ul>
+<li>同一対象に対して複数の観測が前提
+<ul>
+<li>保育所の整備と母の就労率を47都道府県に対して4回 (2000, 2005, 2010, 2015年) 観察</li>
+<li>「<strong>パネルデータ</strong>」</li>
+</ul></li>
+<li>個々の有権者を対象にした場合、パネルデータの収集は高費用
+<ul>
+<li>日本の政治学だとJESが代表的</li>
+</ul></li>
+<li>国、自治体、選挙区、団体は集計データが整備され、公表されているため利用しやすい</li>
+</ul>
+</section>
+<section id="タバコの値段と消費量" class="slide level2">
+<h2>タバコの値段と消費量</h2>
+<p>元ネタはカルフォルニア州のProposition99</p>
+<ul>
+<li><span class="math inline">\(t+1\)</span> 期において、A州のみタバコの値上げ</li>
+<li><span class="math inline">\(t\)</span> 期におけるA州のタバコ消費量(箱/人): 15</li>
+<li><span class="math inline">\(t+1\)</span> 期におけるA州のタバコ消費量(箱/人): 10
+<ul>
+<li><span class="math inline">\(\rightarrow\)</span> 値上げ後、タバコの消費量が5箱<span class="math inline">\(\downarrow\)</span></li>
+</ul></li>
+</ul>
+<p><br><br></p>
+<ul>
+<li>実際の分析例は
+<ul>
+<li>Breslow, M Johnson. 1993. “<a href="https://www.annualreviews.org/doi/10.1146/annurev.pu.14.050193.003101">California’s Proposition 99 on Tobacco, and its Impact</a>,” <em>Annual Review of Public Health,</em> 14: 585–604.</li>
+<li>他にも Proposition 99 の因果効果に関する研究多数</li>
+</ul></li>
+<li>以下は100%架空データ</li>
+</ul>
+</section>
+<section id="タバコの値段と消費量-1" class="slide level2">
+<h2>タバコの値段と消費量</h2>
+<p>タバコ消費量の変化</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-4-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="タバコの値段と消費量-2" class="slide level2">
+<h2>タバコの値段と消費量</h2>
+<p>値上げ後、タバコの消費量が5箱減少</p>
+<ul>
+<li>「5箱減」は値上げによる効果か
+<ul>
+<li>たまたま全国的な禁煙ブームと重なった?</li>
+<li>A州の喫煙量はもともと減少傾向だったかも?</li>
+</ul></li>
+<li><span class="math inline">\(\rightarrow\)</span> <strong>比較対象</strong>が必要</li>
+</ul>
+</section>
+<section id="b州の登場" class="slide level2">
+<h2>B州の登場</h2>
+<p>値上げを行っていないB州におけるタバコ消費量</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-5-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="潜在的結果枠組みから考える" class="slide level2">
+<h2>潜在的結果枠組みから考える</h2>
+<p>因果推論の枠組みから考えると …</p>
+<ul>
+<li>処置変数 ( <span class="math inline">\(T\)</span> ): タバコの値上げ</li>
+<li>結果変数 ( <span class="math inline">\(Y\)</span> ): タバコの消費量</li>
+<li><span class="math inline">\(i\)</span> : 観測単位 (人/自治体/国/企業など)</li>
+<li><span class="math inline">\(t\)</span> : 観測時期</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">ID ( <span class="math inline">\(i\)</span> )</th>
+<th style="text-align: center;"><span class="math inline">\(\quad t \quad\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\quad T_{it} \quad\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\quad Y_{it} \quad\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">15</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="潜在的結果枠組みから考える-1" class="slide level2">
+<h2>潜在的結果枠組みから考える</h2>
+<ul>
+<li><span class="math inline">\(t = 2\)</span> において処置を受けた場合、 <span class="math inline">\(Z = 1\)</span> とする</li>
+<li><span class="math inline">\(Z = 1\)</span> であるA州の変化量 ( <span class="math inline">\(\Delta Y_1\)</span> ): 10 − 15 = −5</li>
+<li><span class="math inline">\(Z = 0\)</span> であるB州の変化量 ( <span class="math inline">\(\Delta Y_2\)</span> ): 15 − 17 = −2</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">ID ( <span class="math inline">\(i\)</span> )</th>
+<th style="text-align: center;"><span class="math inline">\(\quad Z_{i} \quad\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\quad \Delta Y_{i} \quad\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">-5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-2</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="潜在的結果枠組みから考える-2" class="slide level2">
+<h2>潜在的結果枠組みから考える</h2>
+<ul>
+<li>A州が処置を受けなかった場合の<strong>潜在的結果</strong>としてB州のデータを用いる</li>
+<li>因果効果: <span class="math inline">\(\Delta Y(Z = 1) - \Delta Y(Z = 0)\)</span>
+<ul>
+<li>(−5) − (−2) = −3</li>
+</ul></li>
+<li>タバコ値上げの効果は<strong>-3箱</strong></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(\quad \Delta Y(Z = 1) \quad\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\quad \Delta Y(Z = 0) \quad\)</span></th>
+<th style="text-align: center;">差分</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">-5</td>
+<td style="text-align: center;">-2</td>
+<td style="text-align: center;">-3</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="潜在的結果枠組みから考える-3" class="slide level2">
+<h2>潜在的結果枠組みから考える</h2>
+<p>数式で表すと</p>
+<p><span class="math display">\[\begin{align}\Delta = &amp; [\mathbb{E}(Y_{t+1}(Z = 1)) - \mathbb{E}(Y_t(Z = 1))] \\ &amp; - [\mathbb{E}(Y_{t+1}(Z = 0)) - \mathbb{E}(Y_t(Z = 0))]\end{align}\]</span></p>
+<ul>
+<li><span class="math inline">\(t + 1\)</span> 期に処置を受けたら <span class="math inline">\(Z = 1\)</span> 、受けなかったら <span class="math inline">\(Z = 0\)</span></li>
+<li><span class="math inline">\(t\)</span> 期は誰も処置を受けていない
+<ul>
+<li>初期状態は一緒で、一部のユニットだけ処置を受ける</li>
+</ul></li>
+</ul>
+</section>
+<section id="図ならもっと分かりやすい" class="slide level2">
+<h2>図なら、もっと分かりやすい</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-6-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="並行トレンドの仮定" class="slide level2">
+<h2>並行トレンドの仮定</h2>
+<p><strong>Parallel Trend Assumption</strong></p>
+<ul>
+<li>差分の差分法から推定された値が因果効果になるための前提
+<ul>
+<li>A州が値上げしなかったらB州<strong>並に</strong>消費量が減っただろうというのが前提</li>
+</ul></li>
+<li>処置を受けたユニットが、もし処置を受けなかった場合、結果変数の変化は統制群の変化と一致する
+<ul>
+<li>処置群の潜在的結果は観測された統制群の動きと並行する</li>
+<li>= A州が値上げしなかったら、B州のように2箱減に留まる</li>
+</ul></li>
+</ul>
+</section>
+<section id="並行トレンドの仮定どう確認するか" class="slide level2">
+<h2>並行トレンドの仮定:どう確認するか</h2>
+<p>一般的に2つの方法</p>
+<ol type="1">
+<li>他の処置群や統制群を見つけて追加する
+<ul>
+<li>同じく値上げをしていないC州を追加</li>
+</ul></li>
+<li>3期以上のデータを用意する
+<ul>
+<li><span class="math inline">\(t − 1\)</span> 期のデータも投入する</li>
+<li>むろん、 <span class="math inline">\(t − 1\)</span> 期のA州は値上げ前</li>
+</ul></li>
+<li>上記2つの方法を<strong>組み合わせ</strong>る
+<ul>
+<li>実質的にはこれがメイン</li>
+</ul></li>
+</ol>
+</section>
+<section id="統制群を増やしてみた" class="slide level2">
+<h2>統制群を増やしてみた</h2>
+<p>並行トレンドの仮定が満たされている場合</p>
+<ul>
+<li>どの州を潜在的結果として使ってもOK</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-7-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="統制群を増やしてみた-1" class="slide level2">
+<h2>統制群を増やしてみた</h2>
+<p>並行トレンドの仮定が満たされていない場合</p>
+<ul>
+<li>どの州を潜在的結果として用いるか</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-8-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="t1のデータを入れてみた" class="slide level2">
+<h2><span class="math inline">\(t−1\)</span>のデータを入れてみた</h2>
+<p>並行トレンドの仮定が満たされている場合</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-9-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="t1-のデータを入れてみた" class="slide level2">
+<h2><span class="math inline">\(t−1\)</span> のデータを入れてみた</h2>
+<p>並行トレンドの仮定が満たされていない場合 (1)</p>
+<ul>
+<li>潜在的結果は15、または13</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-10-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="t1-のデータを入れてみた-1" class="slide level2">
+<h2><span class="math inline">\(t−1\)</span> のデータを入れてみた</h2>
+<p>並行トレンドの仮定が満たされていない場合 (2)</p>
+<ul>
+<li>潜在的結果は10、または13</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-11-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="回帰分析を用いた差分の差分法" class="title-slide slide level1 center">
+<h1>回帰分析を用いた差分の差分法</h1>
+
+</section>
+<section id="回帰分析による差分の差分法" class="slide level2">
+<h2>回帰分析による差分の差分法</h2>
+<p>データが2期のみ <span class="math inline">\((t \in \{0, 1\})\)</span> の場合</p>
+<p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 T + \beta_2 \mbox{POST} + \delta T \cdot \mbox{Post}\]</span></p>
+<ul>
+<li>T: 処置群か否か</li>
+<li>POST: 処置が行われた後か否か</li>
+<li>Y: 結果変数</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Name</th>
+<th>POST</th>
+<th>T</th>
+<th>Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>A州</td>
+<td>0</td>
+<td>1</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>A州</td>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>B州</td>
+<td>0</td>
+<td>0</td>
+<td>17</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>B州</td>
+<td>1</td>
+<td>0</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="回帰分析による差分の差分法-1" class="slide level2">
+<h2>回帰分析による差分の差分法</h2>
+<p>データが2期のみ <span class="math inline">\((t \in \{0, 1\})\)</span> の場合</p>
+<p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 T + \beta_2 \mbox{POST} + \delta T \cdot \mbox{Post}\]</span></p>
+<ul>
+<li>処置群の差分: <span class="math inline">\(\hat{Y}(T = 1, POST = 1) − \hat{Y}(T = 1,POST = 0)\)</span>
+<ul>
+<li><span class="math inline">\(\beta_2 + \delta = \underbrace{(\beta_0 + \beta_1 + \beta_2 + \delta)}_{\hat{Y}(T = 1, POST = 1)} - \underbrace{(\beta_0 + \beta_1)}_{\hat{Y}(T = 1,POST = 0)}\)</span></li>
+</ul></li>
+<li>統制群の差分: <span class="math inline">\(\hat{Y}(T = 0, POST = 1) − \hat{Y}(T = 0,POST = 0)\)</span>
+<ul>
+<li><span class="math inline">\(\beta_2 = \underbrace{(\beta_0 + \beta_2)}_{\hat{Y}(T = 0, POST = 1)} - \underbrace{(\beta_0)}_{\hat{Y}(T = 0,POST = 0)}\)</span></li>
+</ul></li>
+<li>差分の差分: <span class="math inline">\(\delta = (\beta_2 + \delta) - \beta_2\)</span>
+<ul>
+<li><span class="math inline">\(\delta\)</span> : <strong>処置効果</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="一般化された回帰モデル" class="slide level2">
+<h2>一般化された回帰モデル</h2>
+<p>先ほどのモデルの限界</p>
+<ol type="1">
+<li>期間が2期のみ
+<ul>
+<li>実際にはもっとデータがあるはず</li>
+</ul></li>
+<li>観察されたユニットが2個 (A州とB州)のみ
+<ul>
+<li>実際にはもっとデータがあるはず</li>
+</ul></li>
+<li>処置変数が {0, 1} のバイナリー変数
+<ul>
+<li>保育所整備の例の場合、処置変数は連続変数( <span class="math inline">\(T = [0, 1]\)</span> )</li>
+</ul></li>
+</ol>
+<p><br><br></p>
+<p>以下では、保育所整備の例で解説</p>
+</section>
+<section id="一般化された回帰モデル-1" class="slide level2">
+<h2>一般化された回帰モデル</h2>
+<p>より一般化されたモデル</p>
+<p><span class="math display">\[\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\mbox{Okinawa}}\gamma_k \cdot \mbox{Pref}_{kp} + \sum_{j = 2005}^{2015} \psi_j \cdot \mbox{Year}_{jt}\]</span></p>
+<ul>
+<li><span class="math inline">\(Y_{pt}\)</span> : <span class="math inline">\(t\)</span> 期における <span class="math inline">\(p\)</span> 県の女性就労率 ( <span class="math inline">\(= [0, 1]\)</span> )</li>
+<li><span class="math inline">\(\mbox{Treat}_{pt}\)</span> : <span class="math inline">\(t\)</span> 期における <span class="math inline">\(p\)</span> 県の保育所の整備率 ( <span class="math inline">\(= [0, 1]\)</span> )</li>
+<li><span class="math inline">\(\mbox{Pref}_p\)</span> : <span class="math inline">\(p\)</span> 県か否かを表す各都道府県ダミー変数 ( <span class="math inline">\(\in \{0, 1\}\)</span> )</li>
+<li><span class="math inline">\(\mbox{Year}_t\)</span> : <span class="math inline">\(t\)</span> 期か否かわ表す年ダミー変数 ( <span class="math inline">\(\in \{0, 1\}\)</span> )</li>
+</ul>
+<p><br></p>
+<ul>
+<li>標準誤差は<strong>クラスター標準誤差</strong>を使用
+<ul>
+<li>上記の例だと、都道府県単位でクラスター化</li>
+</ul></li>
+</ul>
+</section>
+<section id="一般化された回帰モデル-2" class="slide level2">
+<h2>一般化された回帰モデル</h2>
+<p>単回帰分析と差分の差分法推定量の比較 * 保育所の整備率と母の就労率の間に統計的有意な関係が見られない</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> Model 1 </th>
+   <th style="text-align:center;"> Model 2 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 保育所の整備率 </td>
+   <td style="text-align:center;"> 0.358 </td>
+   <td style="text-align:center;"> −0.003 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.022) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.030) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.510 </td>
+   <td style="text-align:center;"> 0.987 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> −640.9 </td>
+   <td style="text-align:center;"> −1222.7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> −631.2 </td>
+   <td style="text-align:center;"> −1054.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.04 </td>
+   <td style="text-align:center;"> 0.01 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Std.Errors </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 都道府県ダミー </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 年ダミー </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="平行トレンドは" class="slide level2">
+<h2>平行トレンドは?</h2>
+<p>回帰モデルでも平行トレンドの仮定は必要</p>
+<ul>
+<li>処置変数がバイナリー変数なら平行トレンドの仮定が満たされているか否かを可視化可能
+<ul>
+<li>例) 電子投票の導入と投票率 (京都市)</li>
+</ul></li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="did_cache/revealjs/unnamed-chunk-13_19931e664e2589ad7bc63226fe8ea116">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-13-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="平行トレンドは-1" class="slide level2">
+<h2>平行トレンドは?</h2>
+<p>回帰モデルでも平行トレンドの仮定は必要</p>
+<ul>
+<li>処置変数が連続変数の場合、平行トレンドの仮定を視覚的に確認することは困難</li>
+<li>都道府県ダミーと年ダミー変数を投入したということは…
+<ul>
+<li>都道府県ごとに<strong>切片のみ</strong>が異なる</li>
+<li>各年の就労率の変動は全都道府県で共通</li>
+<li>= 平行トレンド</li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li>都道府県ごとに切片だけでなく、<strong>異なる傾き</strong>まで許容するモデル
+<ol type="1">
+<li><strong>トレンド変数</strong>の投入
+<ul>
+<li>簡単だが、都道府県ごとのトレンド効果が線形という仮定</li>
+</ul></li>
+<li><strong>都道府県レベルの共変量</strong>の投入
+<ul>
+<li>柔軟だが、適切な共変量の発見が重要</li>
+</ul></li>
+</ol></li>
+</ul>
+</section>
+<section id="トレンド変数" class="slide level2">
+<h2>トレンド変数</h2>
+<p>処置を受けていない場合も、傾きが都道府県ごとに異なる場合</p>
+<ul>
+<li>都道府県ダミーとトレンド変数 (連続変数としての年など) の<strong>交差項</strong>を投入</li>
+<li>仮定:都道府県間は平行でなくても、<strong>都道府県のトレンドは線形</strong></li>
+</ul>
+<p><br></p>
+<p><span class="math display">\[\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\mbox{Okinawa}}\gamma_k \cdot \mbox{Pref}_{kp} + \sum_{j = 2005}^{2015} \psi_j \cdot \mbox{Year}_{jt} + \sum_{k = \mbox{Aomori}}^{\mbox{Okinawa}}\theta_k (\mbox{Pref}_{kp} \cdot t)\]</span></p>
+<ul>
+<li><span class="math inline">\(t\)</span> : トレンド変数 (2000 年: t = 1、2005 年: t = 2、…)
+<ul>
+<li><span class="math inline">\(\mbox{Year}_t\)</span> はダミー変数であるが、トレンド変数は連続変数</li>
+</ul></li>
+</ul>
+</section>
+<section id="トレンド変数-1" class="slide level2">
+<h2>トレンド変数</h2>
+<p>結果の比較</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> Model 1 </th>
+   <th style="text-align:center;"> Model 2 </th>
+   <th style="text-align:center;"> Model 3 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 保育所の整備率 </td>
+   <td style="text-align:center;"> 0.358 </td>
+   <td style="text-align:center;"> −0.003 </td>
+   <td style="text-align:center;"> −0.009 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.022) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.030) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.028) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.510 </td>
+   <td style="text-align:center;"> 0.987 </td>
+   <td style="text-align:center;"> 0.997 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> −640.9 </td>
+   <td style="text-align:center;"> −1222.7 </td>
+   <td style="text-align:center;"> −1439.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> −631.2 </td>
+   <td style="text-align:center;"> −1054.4 </td>
+   <td style="text-align:center;"> −1122.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.04 </td>
+   <td style="text-align:center;"> 0.01 </td>
+   <td style="text-align:center;"> 0.00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Std.Errors </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 都道府県ダミー </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 年ダミー </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> トレンド変数 </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="共変量の投入" class="slide level2">
+<h2>共変量の投入</h2>
+<ul>
+<li>既存のモデルは年度ごとに就労率の伸びは変化するものの、その変化の度合いは全都道府県において共通していると仮定</li>
+<li>景気が良いと母の就労率が上がる
+<ul>
+<li>しかし、都道府県ごとに景気変動の度合いは異なることが一般的</li>
+<li>都道府県の失業率など、各都道府県の景気状況を表す変数を投入</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\mbox{Okinawa}}\gamma_k \cdot \mbox{Pref}_{kp} + \sum_{j = 2005}^{2015} \psi_j \cdot \mbox{Year}_{jt} + \theta \mbox{Unemp}_{pt}\]</span></p>
+<ul>
+<li><span class="math inline">\(\mbox{Unemp}_{pt}\)</span> : <span class="math inline">\(t\)</span> 期における <span class="math inline">\(p\)</span> 県の完全失業率</li>
+<li>トレンド変数は、「同じ都道府県なら、傾きは変わらない」と仮定しているが、共変量を統制する場合、このような仮定は必要としない
+<ul>
+<li>適切な共変量の選択はトレンド変数よりも有効</li>
+<li>共変量は母の就労率、保育所の整備率、<strong>両方</strong>と関係のあるもの</li>
+</ul></li>
+</ul>
+</section>
+<section id="共変量の投入-1" class="slide level2">
+<h2>共変量の投入</h2>
+<p>結果の比較</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> Model 1 </th>
+   <th style="text-align:center;"> Model 2 </th>
+   <th style="text-align:center;"> Model 3 </th>
+   <th style="text-align:center;"> Model 4 </th>
+   <th style="text-align:center;"> Model 5 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 保育所の整備率 </td>
+   <td style="text-align:center;"> 0.358 </td>
+   <td style="text-align:center;"> −0.003 </td>
+   <td style="text-align:center;"> −0.009 </td>
+   <td style="text-align:center;"> 0.002 </td>
+   <td style="text-align:center;"> 0.003 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.022) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.030) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.028) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.030) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.024) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+   <td style="text-align:center;"> 188 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.510 </td>
+   <td style="text-align:center;"> 0.987 </td>
+   <td style="text-align:center;"> 0.997 </td>
+   <td style="text-align:center;"> 0.987 </td>
+   <td style="text-align:center;"> 0.998 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> −640.9 </td>
+   <td style="text-align:center;"> −1222.7 </td>
+   <td style="text-align:center;"> −1439.2 </td>
+   <td style="text-align:center;"> −1222.0 </td>
+   <td style="text-align:center;"> −1443.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> −631.2 </td>
+   <td style="text-align:center;"> −1054.4 </td>
+   <td style="text-align:center;"> −1122.0 </td>
+   <td style="text-align:center;"> −1050.5 </td>
+   <td style="text-align:center;"> −1123.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.04 </td>
+   <td style="text-align:center;"> 0.01 </td>
+   <td style="text-align:center;"> 0.00 </td>
+   <td style="text-align:center;"> 0.01 </td>
+   <td style="text-align:center;"> 0.00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Std.Errors </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+   <td style="text-align:center;"> by: Pref_J </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 都道府県ダミー </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 年ダミー </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> トレンド変数 </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 共変量 </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> X </td>
+   <td style="text-align:center;"> O </td>
+   <td style="text-align:center;"> O </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="結果の比較" class="slide level2">
+<h2>結果の比較</h2>
+<p>処置効果の点推定値と95%信頼区間</p>
+<ul>
+<li>保育所の整備が女性の就労率を上げるとは言えない</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="did_cache/revealjs/unnamed-chunk-16_3110ed58f0f02ee7e279840f8f549f18">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-16-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="並行トレンドのチェック" class="slide level2">
+<h2>並行トレンドのチェック</h2>
+<p>並行トレンドをどう確認するか</p>
+<ol type="1">
+<li>より多くの時点のデータを収集し、プロット
+<ul>
+<li>検定 (test) ではなく、診断 (diagnostics)</li>
+</ul></li>
+<li>プラセボ・テスト
+<ul>
+<li><strong>方法1:</strong> <span class="math inline">\(t=3\)</span> が処置を受けた時期なら、 <span class="math inline">\(t = 3\)</span> をデータから除外し、 <span class="math inline">\(t = 2\)</span> を処置とコーディングしてDIDを実行 (3期以上のデータが必要)</li>
+<li><strong>方法2:</strong> 統制群の一部を処置群とコーディング&amp;処置群をデータから除外してDIDを実行 (3つ以上の対象が必要)</li>
+<li>検定の結果、DID推定量が統計的有意であったら平行トレンドが満たされていないと判断する（並行トレンドの仮定が満たされていることは示せない）</li>
+</ul></li>
+</ol>
+</section></section>
+<section>
+<section id="diff-in-diffの応用" class="title-slide slide level1 center">
+<h1>Diff-in-Diffの応用</h1>
+
+</section>
+<section id="synthetic-control-method-概要" class="slide level2">
+<h2>Synthetic Control Method: 概要</h2>
+<p><strong>並行トレンドを満たすケースを仮想的に作り上げる</strong>手法</p>
+<ul>
+<li>処置群以外のケースを重み付け&amp;合成
+<ul>
+<li>合成に使われるケース: <strong>ドナー</strong> (Donor)</li>
+</ul></li>
+<li>一つ一つの観察対象が処置群と並行トレンドを満たさない場合でも使用可能
+<ul>
+<li>精度を上げるには共変量が必要</li>
+<li>プラセボ・テストも必要</li>
+<li>統制群、処置前のサンプルサイズは大きいほど良い (DIDと同じ)</li>
+</ul></li>
+<li>{Synth}、または{gsynth}パッケージで実装可能
+<ul>
+<li>ベイジアン・アプローチだと{bpCausal}</li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li>参考) Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2015. “<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12116">Comparative Politics and the Synthetic Control Method,</a>” <em>American Journal of Political Science,</em> 59 (2): 495–510.</li>
+</ul>
+</section>
+<section id="scmの例-事例" class="slide level2">
+<h2>SCMの例: 事例</h2>
+<p>ドイツ統一 (1990年) がもたらした経済効果は?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-17-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scmの例-事例-1" class="slide level2">
+<h2>SCMの例: 事例</h2>
+<p>ドイツ統一 (1990年) がもたらした経済効果は?</p>
+<ul>
+<li>長期間の場合、並行トレンドが確認されない</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-18-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scmの例-事例-2" class="slide level2">
+<h2>SCMの例: 事例</h2>
+<p>OECDに加盟している16カ国のトレンドから架空の西ドイツ(潜在的結果)を生成</p>
+<ul>
+<li>どうしても使えなさそうな国は合成に使わない or 重み <span class="math inline">\(\downarrow\)</span></li>
+<li>西ドイツのトレンドと類似している国は重み <span class="math inline">\(\uparrow\)</span></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-19-1.png" width="2400"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scmの例-結果" class="slide level2">
+<h2>SCMの例: 結果</h2>
+<p>5カ国のトレンドを合成し、架空の西ドイツのトレンドを生成</p>
+<ul>
+<li>合成に使用されない国の重みは0</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ドナー国</th>
+<th style="text-align: right;">重み</th>
+<th style="text-align: left;">ドナー国</th>
+<th style="text-align: right;">重み</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>アメリカ</strong></td>
+<td style="text-align: right;"><strong>0.216</strong></td>
+<td style="text-align: left;">ノルウェー</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">イギリス</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;"><strong>スイス</strong></td>
+<td style="text-align: right;"><strong>0.113</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>オーストリア</strong></td>
+<td style="text-align: right;"><strong>0.402</strong></td>
+<td style="text-align: left;"><strong>日本</strong></td>
+<td style="text-align: right;"><strong>0.161</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ベルギー</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">ギリシャ</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">デンマーク</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">ポルトガル</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">フランス</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">スペイン</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">イタリア</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">オーストラリア</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>オランダ</strong></td>
+<td style="text-align: right;"><strong>0.107</strong></td>
+<td style="text-align: left;">ニュージーランド</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scmの例-結果-1" class="slide level2">
+<h2>SCMの例: 結果</h2>
+<p>バランスチェックの例</p>
+<ul>
+<li>西ドイツと架空の西ドイツ間の共変量比較</li>
+<li>実際の西ドイツと非常に似た架空のケースが生成</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">西ドイツ</th>
+<th style="text-align: right;">架空の西ドイツ</th>
+<th style="text-align: right;">ドナー国</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">一人当たりGDP</td>
+<td style="text-align: right;">15808.9</td>
+<td style="text-align: right;">15801.4</td>
+<td style="text-align: right;">13669.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">貿易依存度</td>
+<td style="text-align: right;">56.8</td>
+<td style="text-align: right;">57.3</td>
+<td style="text-align: right;">59.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">インフレーション率</td>
+<td style="text-align: right;">2.6</td>
+<td style="text-align: right;">3.4</td>
+<td style="text-align: right;">7.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">付加価値産業</td>
+<td style="text-align: right;">34.5</td>
+<td style="text-align: right;">34.4</td>
+<td style="text-align: right;">33.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">教育水準</td>
+<td style="text-align: right;">55.5</td>
+<td style="text-align: right;">54.9</td>
+<td style="text-align: right;">38.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">国内総投資</td>
+<td style="text-align: right;">27.0</td>
+<td style="text-align: right;">27.0</td>
+<td style="text-align: right;">25.9</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scmの例-結果-2" class="slide level2">
+<h2>SCMの例: 結果</h2>
+<ul>
+<li>左側の図: 西ドイツと架空の西ドイツのGDPトレンド</li>
+<li>右側の図: トレンドの差分</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-21-1.png" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="causalimpact-概要" class="slide level2">
+<h2>CausalImpact: 概要</h2>
+<p>データの制約が非常に少ない差分の差分法の応用</p>
+<ul>
+<li><p><strong>ベイジアン状態空間モデル</strong>により、処置後の結果変数を予測</p>
+<ul>
+<li>他の観察対象の結果変数でなく、自分自身のデータから予測される結果を潜在的結果として使用</li>
+</ul></li>
+<li><p>予測値と観測値の差から因果効果を推定</p></li>
+<li><p>データの制約が非常に小さい</p>
+<ul>
+<li>共変量なしでもOK (あった方が良い)</li>
+<li>観察対象が1つ (1カ国、1自治体など)</li>
+<li>ただし、時間単位の観察数を確保する必要がある</li>
+</ul></li>
+<li><p>{CausalImpact}パッケージで<strong>簡単</strong>に実装可能</p></li>
+<li><p>参考) Brodersen, Kay H., Fabian Gallusser, Jim Koehler, Nicolas Remy, and Steven L. Scott. 2015. “<a href="https://www.jstor.org/stable/24522418">Inferring Causal Impact using Bayesian Structural Time-series Models,</a>” <em>Annals of Applied Statistics,</em> 9: 247-274.</p></li>
+</ul>
+</section>
+<section id="causalimpactの例" class="slide level2">
+<h2>CausalImpactの例</h2>
+<p>2020年8月28日におけるNHK報道が株価に与えた影響</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li>安倍総理の辞任に関する報道</li>
+<li>日本の株価のみ</li>
+<li>13時〜15時の1分単位の株価 (1∼121)</li>
+</ul>
+</div><div class="column" style="width:70%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-22-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="causalimpactの例-1" class="slide level2">
+<h2>CausalImpactの例</h2>
+<p>CausalImpactの可視化</p>
+<ul>
+<li>Original: 予測値 (+信用区間)と観測値</li>
+<li>Pointwise: 予測値と観測値の差分 (+信用区間)</li>
+<li>Cumulative: Pointwiseの累積 (+信用区間)</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="did_cache/revealjs/unnamed-chunk-24_42d3cde44af5d427747666589dd4ec3d">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="did_files/figure-revealjs/unnamed-chunk-24-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="causalimpactの例-2" class="slide level2">
+<h2>CausalImpactの例</h2>
+<p>NHK報道の因果効果</p>
+<ul>
+<li>日経指数を「平均」426ポイント下げた効果</li>
+<li>「累積」が大事な場合もあり</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>Posterior inference {CausalImpact}
+
+                         Average          Cumulative        
+Actual                   22881            1235580           
+Prediction (s.d.)        23307 (2.6)      1258599 (142.5)   
+95% CI                   [23302, 23312]   [1258327, 1258868]
+                                                            
+Absolute effect (s.d.)   -426 (2.6)       -23019 (142.5)    
+95% CI                   [-431, -421]     [-23288, -22747]  
+                                                            
+Relative effect (s.d.)   -1.8% (0.011%)   -1.8% (0.011%)    
+95% CI                   [-1.9%, -1.8%]   [-1.9%, -1.8%]    
+
+Posterior tail-area probability p:   0.00102
+Posterior prob. of a causal effect:  99.89817%
+
+For more details, type: summary(impact, "report")</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="実習" class="title-slide slide level1 center">
+<h1>実習</h1>
+
+</section>
+<section id="実習用データ" class="slide level2">
+<h2>実習用データ</h2>
+<p>スライドで使ったデータ</p>
+<ul>
+<li><code>Day3_Data1.csv</code>: 保育所の整備と母の就労率</li>
+<li><code>Day3_Data2.csv</code>: 電子投票の導入と投票率</li>
+<li><code>Day3_Data3.csv</code>: OECD 諸国の経済指標データ
+<ul>
+<li>Synthetic Control Method</li>
+</ul></li>
+<li><code>Day3_Data4.csv</code>: 2020年8月28日の株価
+<ul>
+<li>CausalImpact</li>
+</ul></li>
+</ul>
+<p>実習用データ</p>
+<ul>
+<li><code>Data3_Data5.csv</code>: 地方議会の党派性と補助金
+<ul>
+<li>Fouirnaies, Alexander, and Hande Mutlu-Eren. 2015. “English Bacon: Copartisan Bias in Intergovernmental Grant Allocation in England,” <em>Journal of Politics,</em> 77 (3) pp.&nbsp;805–817.</li>
+</ul></li>
+</ul>
+</section>
+<section id="データの説明" class="slide level2">
+<h2>データの説明</h2>
+<p>Fouirnaies and Mutlu-Eren (2015) のモデルを単純化し、分析</p>
+<table>
+<thead>
+<tr class="header">
+<th>変数名</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Treat</code></td>
+<td>地方議会の多数派と政府与党の一致有無</td>
+</tr>
+<tr class="even">
+<td><code>Year</code></td>
+<td>年</td>
+</tr>
+<tr class="odd">
+<td><code>Assembly</code></td>
+<td>地方議会</td>
+</tr>
+<tr class="even">
+<td><code>FG</code></td>
+<td>定式補助金</td>
+</tr>
+<tr class="odd">
+<td><code>y_p1</code></td>
+<td><span class="math inline">\(t + 1\)</span> 期の特定補助金額</td>
+</tr>
+<tr class="even">
+<td><code>y_p2</code></td>
+<td><span class="math inline">\(t + 2\)</span> 期の特定補助金額</td>
+</tr>
+<tr class="odd">
+<td><code>y_p3</code></td>
+<td><span class="math inline">\(t + 3\)</span> 期の特定補助金額</td>
+</tr>
+<tr class="even">
+<td><code>y_p4</code></td>
+<td><span class="math inline">\(t + 4\)</span> 期の特定補助金額</td>
+</tr>
+<tr class="odd">
+<td><code>y_p5</code></td>
+<td><span class="math inline">\(t + 5\)</span> 期の特定補助金額</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="実習内容" class="slide level2">
+<h2>実習内容</h2>
+<ol type="1">
+<li>回帰分析による差分の差分法 (<code>lm()</code>関数)</li>
+<li>クラスター標準誤差 ({estimatr}の<code>lm_robust()</code>関数)</li>
+<li>頑健性の確認とモデルの可視化</li>
+<li>Synthetic Control Methodの実装 ({gsynth})</li>
+<li>CausalImpactの実装 ({CausalImpact})</li>
+</ol>
 
 <p><img src="figs/logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://www.jaysong.net/kobe-ci" class="uri">https://www.jaysong.net/kobe-ci</a></p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
