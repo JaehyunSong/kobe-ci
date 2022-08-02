@@ -39,7 +39,7 @@
     "href": "slide/did.html#保育所の整備と母の就労率-2",
     "title": "方法論特殊講義III",
     "section": "保育所の整備と母の就労率 (2)",
-    "text": "保育所の整備と母の就労率 (2)\n保育所が整備されると母は安心して働けるから就労率が上がる\n\n\n\nロジックとして問題はなさそう\n内生性は?\n\n(たとえば、)「県民性」の存在\n母親の就業意識が高く、地域社会もこの意識に好意的なら …\n\\(\\rightarrow\\) 就労率が上がる\n\\(\\rightarrow\\) 政治・行政も支持拡大のために保育所整備に力を入れる"
+    "text": "保育所の整備と母の就労率 (2)\n保育所が整備されると母は安心して働けるから就労率が上がる\n\n\n\nロジックとして問題はなさそう\n内生性は?\n\n(たとえば、)「県民性」の存在\n母親の就業意識が高く、地域社会もこの意識に好意的なら …\n\n\\(\\rightarrow\\) 就労率が上がる\n\\(\\rightarrow\\) 政治・行政も支持拡大のために保育所整備に力を入れる"
   },
   {
     "objectID": "slide/did.html#差分の差分法",
@@ -130,14 +130,14 @@
     "href": "slide/did.html#統制群を増やしてみた",
     "title": "方法論特殊講義III",
     "section": "統制群を増やしてみた",
-    "text": "統制群を増やしてみた\n並行トレンドの仮定が満たされている場合\n\nどの州を潜在的結果として使ってもOK"
+    "text": "統制群を増やしてみた\n並行トレンドの仮定が満たされている場合 \\(\\rightarrow\\) どの州を潜在的結果として使ってもOK"
   },
   {
     "objectID": "slide/did.html#統制群を増やしてみた-1",
     "href": "slide/did.html#統制群を増やしてみた-1",
     "title": "方法論特殊講義III",
     "section": "統制群を増やしてみた",
-    "text": "統制群を増やしてみた\n並行トレンドの仮定が満たされていない場合\n\nどの州を潜在的結果として用いるか"
+    "text": "統制群を増やしてみた\n並行トレンドの仮定が満たされていない場合 \\(\\rightarrow\\) どの州を潜在的結果として用いるか"
   },
   {
     "objectID": "slide/did.html#t1のデータを入れてみた",
@@ -151,14 +151,14 @@
     "href": "slide/did.html#t1-のデータを入れてみた",
     "title": "方法論特殊講義III",
     "section": "\\(t−1\\) のデータを入れてみた",
-    "text": "\\(t−1\\) のデータを入れてみた\n並行トレンドの仮定が満たされていない場合 (1)\n\n潜在的結果は15、または13"
+    "text": "\\(t−1\\) のデータを入れてみた\n並行トレンドの仮定が満たされていない場合 (1) \\(\\rightarrow\\) 潜在的結果は15、または13"
   },
   {
     "objectID": "slide/did.html#t1-のデータを入れてみた-1",
     "href": "slide/did.html#t1-のデータを入れてみた-1",
     "title": "方法論特殊講義III",
     "section": "\\(t−1\\) のデータを入れてみた",
-    "text": "\\(t−1\\) のデータを入れてみた\n並行トレンドの仮定が満たされていない場合 (2)\n\n潜在的結果は10、または13"
+    "text": "\\(t−1\\) のデータを入れてみた\n並行トレンドの仮定が満たされていない場合 (2) \\(\\rightarrow\\) 潜在的結果は10、または13"
   },
   {
     "objectID": "slide/did.html#回帰分析による差分の差分法",
@@ -193,7 +193,7 @@
     "href": "slide/did.html#一般化された回帰モデル-2",
     "title": "方法論特殊講義III",
     "section": "一般化された回帰モデル",
-    "text": "一般化された回帰モデル\n単回帰分析と差分の差分法推定量の比較 * 保育所の整備率と母の就労率の間に統計的有意な関係が見られない\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n  \n  \n     \n    (0.022) \n    (0.030) \n  \n  \n    Num.Obs. \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n  \n  \n    年ダミー \n    X \n    O"
+    "text": "一般化された回帰モデル\n単回帰分析と差分の差分法推定量の比較\n\n保育所の整備率と母の就労率の間に統計的有意な関係が見られない\n\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n  \n  \n     \n    (0.022) \n    (0.030) \n  \n  \n    Num.Obs. \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n  \n  \n    年ダミー \n    X \n    O"
   },
   {
     "objectID": "slide/did.html#平行トレンドは",
@@ -235,7 +235,7 @@
     "href": "slide/did.html#共変量の投入-1",
     "title": "方法論特殊講義III",
     "section": "共変量の投入",
-    "text": "共変量の投入\n結果の比較\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n    Model 3 \n    Model 4 \n    Model 5 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n    −0.009 \n    0.002 \n    0.003 \n  \n  \n     \n    (0.022) \n    (0.030) \n    (0.028) \n    (0.030) \n    (0.024) \n  \n  \n    Num.Obs. \n    188 \n    188 \n    188 \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n    0.997 \n    0.987 \n    0.998 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n    −1439.2 \n    −1222.0 \n    −1443.8 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n    −1122.0 \n    −1050.5 \n    −1123.4 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n    0.00 \n    0.01 \n    0.00 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n    by: Pref_J \n    by: Pref_J \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n    O \n    O \n    O \n  \n  \n    年ダミー \n    X \n    O \n    O \n    O \n    O \n  \n  \n    トレンド変数 \n    X \n    X \n    O \n    X \n    O \n  \n  \n    共変量 \n    X \n    X \n    X \n    O \n    O"
+    "text": "共変量の投入\n結果の比較\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n    Model 3 \n    Model 4 \n    Model 5 \n  \n \n\n  \n    保育所の整備率 \n    0.358 \n    −0.003 \n    −0.009 \n    0.002 \n    0.003 \n  \n  \n     \n    (0.022) \n    (0.030) \n    (0.028) \n    (0.030) \n    (0.024) \n  \n  \n    Num.Obs. \n    188 \n    188 \n    188 \n    188 \n    188 \n  \n  \n    R2 \n    0.510 \n    0.987 \n    0.997 \n    0.987 \n    0.998 \n  \n  \n    AIC \n    −640.9 \n    −1222.7 \n    −1439.2 \n    −1322.0 \n    −1543.8 \n  \n  \n    BIC \n    −631.2 \n    −1054.4 \n    −1122.0 \n    −1312.3 \n    −1385.2 \n  \n  \n    RMSE \n    0.04 \n    0.01 \n    0.00 \n    0.01 \n    0.00 \n  \n  \n    Std.Errors \n     \n    by: Pref_J \n    by: Pref_J \n    by: Pref_J \n    by: Pref_J \n  \n  \n    都道府県ダミー \n    X \n    O \n    O \n    O \n    O \n  \n  \n    年ダミー \n    X \n    O \n    O \n    O \n    O \n  \n  \n    トレンド変数 \n    X \n    X \n    O \n    X \n    O \n  \n  \n    共変量 \n    X \n    X \n    X \n    O \n    O"
   },
   {
     "objectID": "slide/did.html#結果の比較",
@@ -340,7 +340,7 @@
     "href": "slide/did.html#データの説明",
     "title": "方法論特殊講義III",
     "section": "データの説明",
-    "text": "データの説明\nGarcía-Montoya, Arjona, and Lacombe (2022)のFigure 3&4の一部を再現\n\n\n\n変数名\n説明\n\n\n\n\ncounty\nカウンティー（郡）のID\n\n\nstate\n州ID\n\n\nyear\n年\n\n\nshooting\n\n\n\nfatal_shooting\n\n\n\nnon_fatal_shooting\n\n\n\nturnout\n\n\n\ndemvote\n\n\n\npopulation\n\n\n\nnon_white\n\n\n\nchange_unem_rate"
+    "text": "データの説明\nGarcía-Montoya, Arjona, and Lacombe (2022)のFigure 3&4の一部を再現\n\n銃撃事件は前回の選挙から今回の選挙の間に発生した場合1とし、今後続く。\n銃撃事件の深刻さは死者の有無で判定\n\n\n\n\n変数名\n説明\n\n\n\n\ncounty\nカウンティー（郡）のID\n\n\nstate\n州ID\n\n\nyear\n年\n\n\nshooting\n学校内銃撃事件の発生\n\n\nfatal_shooting\n深刻な学校内銃撃事件の発生\n\n\nnon_fatal_shooting\n軽微な学校内銃撃事件の発生\n\n\nturnout\n大統領選挙の投票率\n\n\ndemvote\n民主党候補者の得票率\n\n\npopulation\n人口（カウンティー）\n\n\nnon_white\n非白人の割合（カウンティー）\n\n\nchange_unem_rate\n失業率の変化（カウンティー）"
   },
   {
     "objectID": "slide/did.html#実習内容",

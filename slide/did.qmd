@@ -127,17 +127,19 @@ hoiku %>%
 * 内生性は?
    * (たとえば、)「**県民性**」の存在
    * 母親の就業意識が高く、地域社会もこの意識に好意的なら ...
-   * $\rightarrow$ 就労率が上がる
-   * $\rightarrow$ 政治・行政も支持拡大のために保育所整備に力を入れる
+      * $\rightarrow$ 就労率が上がる
+      * $\rightarrow$ 政治・行政も支持拡大のために保育所整備に力を入れる
 :::
 
 :::{.column width=50%}
 ```{r}
+#| fig-width: 4
+#| fig-height: 3
 dagify(Y ~ X,
        Y ~ Z,
        X ~ Z,
       coords = list(x = c(X = 1, Y = 3, Z = 2),
-                    y = c(X = 1, Y = 1, Z = 2))) %>%
+                    y = c(X = 1.1, Y = 1.1, Z = 2))) %>%
   node_canonical() %>%
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_edges() +
@@ -332,9 +334,7 @@ tibble(x = c(0, 1, 0, 1, 0, 1),
 
 ## 統制群を増やしてみた
 
-並行トレンドの仮定が満たされている場合
-
-* どの州を潜在的結果として使ってもOK
+並行トレンドの仮定が満たされている場合 $\rightarrow$ どの州を潜在的結果として使ってもOK
 
 ```{r}
 #| fig-width: 8
@@ -357,9 +357,7 @@ tibble(x = c(0, 1, 0, 1, 0, 1),
 
 ## 統制群を増やしてみた
 
-並行トレンドの仮定が満たされていない場合
-
-* どの州を潜在的結果として用いるか
+並行トレンドの仮定が満たされていない場合 $\rightarrow$ どの州を潜在的結果として用いるか
 
 ```{r}
 #| fig-width: 8
@@ -420,9 +418,7 @@ tibble(x = c(-1, 0, 1, -1, 0, 1, -1, 0, 1),
 
 ## $t−1$ のデータを入れてみた
 
-並行トレンドの仮定が満たされていない場合 (1)
-
-* 潜在的結果は15、または13
+並行トレンドの仮定が満たされていない場合 (1) $\rightarrow$ 潜在的結果は15、または13
 
 ```{r}
 #| fig-width: 8
@@ -456,9 +452,7 @@ tibble(x = rep(c(-1, 0, 1), 4),
 
 ## $t−1$ のデータを入れてみた
 
-並行トレンドの仮定が満たされていない場合 (2)
-
-* 潜在的結果は10、または13
+並行トレンドの仮定が満たされていない場合 (2) $\rightarrow$ 潜在的結果は10、または13
 
 ```{r}
 #| fig-width: 8
@@ -556,6 +550,7 @@ $$\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\m
 ## 一般化された回帰モデル
 
 単回帰分析と差分の差分法推定量の比較
+
 * 保育所の整備率と母の就労率の間に統計的有意な関係が見られない
 
 ```{r}
@@ -580,7 +575,9 @@ modelsummary(list("Model 1" = Hoiku_Fit1,
 * 処置変数がバイナリー変数なら平行トレンドの仮定が満たされているか否かを可視化可能
    * 例) 電子投票の導入と投票率 (京都市)
 
-```{r, echo = FALSE, fig.width = 6, fig.height = 2.65, dpi = 300, cache = TRUE, message = FALSE}
+```{r}
+#| fig-width: 8
+#| fig-height: 3
 evote %>%
   mutate(Higashiyama = if_else(Ward_J == "東山区",
                                "東山区 (2004年電子投票導入)",
@@ -675,16 +672,15 @@ $$\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\m
 
 ```{r}
 Hoiku_Fit4 <- hoiku %>%
-  lm_robust(FemOccupRate ~ Ninka_Rate + 
-              factor(Year) + factor(Pref_J) +
-              UnOccup, 
+  lm_robust(FemOccupRate ~ Ninka_Rate + UnOccup, 
+            fixed_effects = ~ Year + Pref_J,
             data = ., clusters = Pref_J)
 
 Hoiku_Fit5 <- hoiku %>%
   mutate(Trend = (Year - 2000) / 5 + 1) %>%
   lm_robust(FemOccupRate ~ Ninka_Rate + 
-              factor(Year) + factor(Pref_J) +
               factor(Pref_J) * Trend + UnOccup, 
+            fixed_effects = ~ Year + Pref_J,
             data = ., clusters = Pref_J)
 
 modelsummary(list("Model 1" = Hoiku_Fit1, 
@@ -708,7 +704,9 @@ modelsummary(list("Model 1" = Hoiku_Fit1,
 
 * 保育所の整備が女性の就労率を上げるとは言えない
 
-```{r, echo = FALSE, fig.width = 6, fig.height = 3, dpi = 300, cache = TRUE, message = FALSE}
+```{r}
+#| fig-width: 8
+#| fig-height: 3
 bind_rows(list("Model 1" = tidy(Hoiku_Fit1),
                "Model 2" = tidy(Hoiku_Fit2),
                "Model 3" = tidy(Hoiku_Fit3),
@@ -725,8 +723,7 @@ bind_rows(list("Model 1" = tidy(Hoiku_Fit1),
   guides(color = "none") +
   scale_color_manual(values = c("Sig" = "black", "Insig" = "gray70")) +
   labs(x = "モデル", y = "処置効果") +
-  theme_minimal(base_family = "HiraKakuProN-W3",
-                base_size   = 12) +
+  theme_bw(base_size   = 12) +
   theme(legend.position = "bottom",
         panel.grid.minor.x = element_blank())
 ```
@@ -992,7 +989,7 @@ ggpubr::ggarrange(Path_Plot, Gaps_Plot)
 :::{.column width=70%}
 ```{r}
 #| fig-width: 6
-#| fig-height: 4
+#| fig-height: 3.5
 stock_df %>%
   ggplot() +
   geom_vline(xintercept = 67, linetype = 2) +
@@ -1022,12 +1019,13 @@ CI <- stock_df %>%
                post.period = c(68, 121))
 ```
 
-```{r, echo = FALSE, fig.width = 7, fig.height = 3, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
-CI_Plot1 <- plot(CI, "original") + facet_wrap(~"Original")
-CI_Plot2 <- plot(CI, "pointwise") + facet_wrap(~"Pointwise")
-CI_Plot3 <- plot(CI, "cumulative") + facet_wrap(~"Cumulative")
-
-ggpubr::ggarrange(CI_Plot1, CI_Plot2, CI_Plot3, nrow = 1)
+```{r}
+#| layout-ncol: 3
+#| fig-width: 4
+#| fig-height: 3.5
+plot(CI, "original") + facet_wrap(~"Original")
+plot(CI, "pointwise") + facet_wrap(~"Pointwise")
+plot(CI, "cumulative") + facet_wrap(~"Cumulative")
 ```
 
 ## CausalImpactの例
@@ -1062,19 +1060,22 @@ summary(CI)
 
 García-Montoya, Arjona, and Lacombe (2022)のFigure 3&4の一部を再現
 
+* 銃撃事件は前回の選挙から今回の選挙の間に発生した場合1とし、今後続く。
+* 銃撃事件の深刻さは死者の有無で判定
+
 | 変数名             | 説明 |
 | :----------------- | :--- |
 |`county`            | カウンティー（郡）のID |
 |`state`             | 州ID |
 |`year`              | 年 |
-|`shooting`          | |
-|`fatal_shooting`    | |
-|`non_fatal_shooting`| |
-|`turnout`           | |
-|`demvote`           | |
-|`population`        | |
-|`non_white`         | |
-|`change_unem_rate`  | |
+|`shooting`          | 学校内銃撃事件の発生 |
+|`fatal_shooting`    | 深刻な学校内銃撃事件の発生 |
+|`non_fatal_shooting`| 軽微な学校内銃撃事件の発生 |
+|`turnout`           | 大統領選挙の投票率 |
+|`demvote`           | 民主党候補者の得票率 |
+|`population`        | 人口（カウンティー） |
+|`non_white`         | 非白人の割合（カウンティー） |
+|`change_unem_rate`  | 失業率の変化（カウンティー） |
 
 ## 実習内容
 
