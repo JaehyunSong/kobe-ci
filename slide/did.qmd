@@ -1047,38 +1047,38 @@ summary(CI)
 
 スライドで使ったデータ
 
-* `Day3_Data1.csv`: 保育所の整備と母の就労率
-* `Day3_Data2.csv`: 電子投票の導入と投票率
-* `Day3_Data3.csv`: OECD 諸国の経済指標データ
-   * Synthetic Control Method
-* `Day3_Data4.csv`: 2020年8月28日の株価
-   * CausalImpact
+* `did_data1.csv`: 保育所の整備と母の就労率
+* `did_data2.csv`: 電子投票の導入と投票率
+* `did_data3.csv`: OECD 諸国の経済指標データ
 
 実習用データ
 
-* `Data3_Data5.csv`: 地方議会の党派性と補助金
-   * Fouirnaies, Alexander, and Hande Mutlu-Eren. 2015. "English Bacon: Copartisan Bias in Intergovernmental Grant Allocation in England," *Journal of Politics,* 77 (3) pp. 805–817.
+* `did_data4.csv`: 2020年8月28日の株価
+* `did_data5.csv`: 学校内銃撃事件と政治参加
+   * Laura García-Montoya, Ana Arjona, and Matthew Lacombe. 2022. "[Violence and Voting in the United States: How School Shootings Affect Elections](https://www.cambridge.org/core/journals/american-political-science-review/article/violence-and-voting-in-the-united-states-how-school-shootings-affect-elections/48D77237C8B89BCA106ED7BAC20CE2E4)," *American Political Science Review,* 116 (3): 807-826.
+* `did_data6.csv`: 参院選投票率（都道府県）
 
 ## データの説明
 
-Fouirnaies and Mutlu-Eren (2015) のモデルを単純化し、分析
+García-Montoya, Arjona, and Lacombe (2022)のFigure 3&4の一部を再現
 
-|変数名|説明|
-|---|---|
-|`Treat`| 地方議会の多数派と政府与党の一致有無|
-|`Year`| 年|
-|`Assembly`| 地方議会|
-|`FG`| 定式補助金|
-|`y_p1`| $t + 1$ 期の特定補助金額|
-|`y_p2`| $t + 2$ 期の特定補助金額|
-|`y_p3`| $t + 3$ 期の特定補助金額|
-|`y_p4`| $t + 4$ 期の特定補助金額|
-|`y_p5`| $t + 5$ 期の特定補助金額|
+| 変数名             | 説明 |
+| :----------------- | :--- |
+|`county`            | カウンティー（郡）のID |
+|`state`             | 州ID |
+|`year`              | 年 |
+|`shooting`          | |
+|`fatal_shooting`    | |
+|`non_fatal_shooting`| |
+|`turnout`           | |
+|`demvote`           | |
+|`population`        | |
+|`non_white`         | |
+|`change_unem_rate`  | |
 
 ## 実習内容
 
-1. 回帰分析による差分の差分法 (`lm()`関数)
-2. クラスター標準誤差 ({estimatr}の`lm_robust()`関数)
-3. 頑健性の確認とモデルの可視化
-4. Synthetic Control Methodの実装 ({gsynth})
-5. CausalImpactの実装 ({CausalImpact})
+1. {estimatr}パッケージ（`lm_robust()`関数）の使い方
+1. 推定結果の可視化
+1. Synthetic Control Methodの実装 ({gsynth})
+1. CausalImpactの実装 ({CausalImpact})

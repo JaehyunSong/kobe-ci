@@ -22,3 +22,354 @@ knitr::opts_chunk$set(dev       = "ragg_png",
                       message   = FALSE,
                       warning   = FALSE)
 ```
+
+## セットアップ
+
+```{r}
+pacman::p_load(tidyverse, haven, gt, 
+               summarytools, modelsummary, 
+               estimatr, Synth, CausalImpact)
+
+df <- read_csv("data/did_data5.csv")
+
+df
+```
+
+```{r}
+df <- df |>
+  mutate(county_f = factor(county),
+         state_f  = factor(state),
+         year_f   = factor(year))
+```
+
+```{r}
+df |>
+  dplyr::select(-c(county:year), ends_with("_f")) |>
+  descr(stats = c("mean", "sd", "min", "max", "n.valid"),
+        transpose = TRUE, order = "p")
+```
+
+## Diff-in-Diff
+
+推定式（García-Montoya, Arjona, and Lacombe, 2022, p. 814）
+
+$$
+\mbox{Turnout}_{i, t} = \beta_0 + \beta_1 \mbox{Shooting}_{i, t} + \sum_k \delta_{k, i, t} \mbox{Controls}_{k, i, t} + \lambda_{t} + \omega_{i} + \varepsilon_{i, t}
+$$
+
+$$
+\mbox{DemVoteShare}_{i, t} = \beta_0 + \beta_1 \mbox{Shooting}_{i, t} + \sum_k \delta_{k, i, t} \mbox{Controls}_{k, i, t} + \lambda_{t} + \omega_{i} + \varepsilon_{i, t}
+$$
+
+* $\mbox{Turnout}$: 投票率（大統領選挙）
+* $\mbox{DemVoteShare}$: 民主党得票率
+* $\mbox{Shooting}$: 銃撃事件の発生有無
+   * $\mbox{Shooting}$:
+   * $\mbox{FatalShooting}$:
+   * $\mbox{NonfatalShooting}$:
+* $\mbox{Controls}$: カウンティーの人口、非白人の割合、失業率の草原
+* $\lambda$: 年固定効果
+* $\omega$: カウンティー固定効果
+
+```{r}
+did_fit1 <- lm_robust(turnout ~ shooting, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+summary(did_fit1)
+```
+
+```{r}
+did_fit2 <- lm_robust(turnout ~ shooting + 
+                        population + non_white + change_unem_rate, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+summary(did_fit2)
+```
+
+```{r}
+did_fit3 <- lm_robust(turnout ~ fatal_shooting, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+did_fit4 <- lm_robust(turnout ~ fatal_shooting + 
+                        population + non_white + change_unem_rate, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+did_fit5 <- lm_robust(turnout ~ non_fatal_shooting, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+did_fit6 <- lm_robust(turnout ~ non_fatal_shooting + 
+                        population + non_white + change_unem_rate, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+```
+
+```{r}
+modelsummary(list(did_fit1, did_fit2, did_fit3, 
+                  did_fit4, did_fit5, did_fit6))
+```
+
+```{r}
+tidy_fit1 <- tidy(did_fit1)
+tidy_fit2 <- tidy(did_fit2)
+tidy_fit3 <- tidy(did_fit3)
+tidy_fit4 <- tidy(did_fit4)
+tidy_fit5 <- tidy(did_fit5)
+tidy_fit6 <- tidy(did_fit6)
+
+did_est1 <- bind_rows(list("M1_Tr1" = tidy_fit1,
+                           "M2_Tr1" = tidy_fit2,
+                           "M1_Tr2" = tidy_fit3,
+                           "M2_Tr2" = tidy_fit4,
+                           "M1_Tr3" = tidy_fit5,
+                           "M2_Tr3" = tidy_fit6),
+                      .id = "Model")
+
+did_est1
+```
+
+```{r}
+did_est1 <- did_est1 |>
+  filter(grepl("shooting", term))
+
+did_est1
+```
+
+```{r}
+did_est1 <- did_est1 |>
+  separate(col  = Model,
+           into = c("Model", "Treat"),
+           sep  = "_")
+
+did_est1
+```
+
+```{r}
+did_est1 <- did_est1 |>
+  mutate(Model = if_else(Model == "M1",
+                           "County-Year FE", 
+                           "County-Year FE + Covariates"),
+         Treat = recode(Treat,
+                        "Tr1" = "Any Shooting (t-1)",
+                        "Tr2" = "Fatal Shooting (t-1)",
+                        "Tr3" = "Nonfatal Shooting (t-1)"),
+         Model = fct_rev(fct_inorder(Model)),
+         Treat = fct_rev(fct_inorder(Treat)))
+
+did_est1
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+did_est1 |>
+  ggplot() +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_pointrange(aes(x = estimate, xmin = conf.low, xmax = conf.high,
+                      y = Treat, color = Model),
+                  position = position_dodge2(1/2)) +
+  labs(x = "Change in Turnout (%p)", y = "", color = "") +
+  scale_color_manual(values = c("County-Year FE" = "black", 
+                                "County-Year FE + Covariates" = "gray50")) +
+  coord_cartesian(xlim = c(-10, 10)) +
+  theme_bw() +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+did_est1 |>
+  ggplot() +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_pointrange(aes(x = estimate, xmin = conf.low, xmax = conf.high,
+                      y = Treat, color = Model),
+                  position = position_dodge2(1/2)) +
+  geom_text(aes(x = estimate, y = Treat, color = Model, 
+                label = sprintf("%.3f", estimate)),
+            position = position_dodge2(1/2),
+            vjust = -0.75) +
+  labs(x = "Change in Turnout (%p)", y = "", color = "") +
+  scale_color_manual(values = c("County-Year FE" = "black", 
+                                "County-Year FE + Covariates" = "gray50")) +
+  coord_cartesian(xlim = c(-10, 10)) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+did_fit7 <- lm_robust(demvote ~ shooting, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+did_fit8 <- lm_robust(demvote ~ shooting + 
+                        population + non_white + change_unem_rate, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+did_fit9 <- lm_robust(demvote ~ fatal_shooting, 
+                      data          = df, 
+                      fixed_effects = ~year_f + county_f,
+                      clusters      = state_f,
+                      se_type       = "stata")
+
+did_fit10 <- lm_robust(demvote ~ fatal_shooting + 
+                         population + non_white + change_unem_rate, 
+                       data          = df, 
+                       fixed_effects = ~year_f + county_f,
+                       clusters      = state_f,
+                       se_type       = "stata")
+
+did_fit11 <- lm_robust(demvote ~ non_fatal_shooting, 
+                       data          = df, 
+                       fixed_effects = ~year_f + county_f,
+                       clusters      = state_f,
+                       se_type       = "stata")
+
+did_fit12 <- lm_robust(demvote ~ non_fatal_shooting + 
+                         population + non_white + change_unem_rate, 
+                       data          = df, 
+                       fixed_effects = ~year_f + county_f,
+                       clusters      = state_f,
+                       se_type       = "stata")
+```
+
+```{r}
+modelsummary(list(did_fit7, did_fit8, did_fit9, 
+                  did_fit10, did_fit11, did_fit12))
+```
+
+```{r}
+tidy_fit7  <- tidy(did_fit7)
+tidy_fit8  <- tidy(did_fit8)
+tidy_fit9  <- tidy(did_fit9)
+tidy_fit10 <- tidy(did_fit10)
+tidy_fit11 <- tidy(did_fit11)
+tidy_fit12 <- tidy(did_fit12)
+
+did_est2 <- bind_rows(list("M1_Tr1" = tidy_fit7,
+                           "M2_Tr1" = tidy_fit8,
+                           "M1_Tr2" = tidy_fit9,
+                           "M2_Tr2" = tidy_fit10,
+                           "M1_Tr3" = tidy_fit11,
+                           "M2_Tr3" = tidy_fit12),
+                      .id = "Model")
+
+did_est2
+```
+
+```{r}
+did_est2 <- did_est2 |>
+  filter(grepl("shooting", term))
+
+did_est2
+```
+
+```{r}
+did_est2 <- did_est2 |>
+  separate(col  = Model,
+           into = c("Model", "Treat"),
+           sep  = "_")
+
+did_est2
+```
+
+```{r}
+did_est2 <- did_est2 |>
+  mutate(Model = if_else(Model == "M1",
+                           "County-Year FE", 
+                           "County-Year FE + Covariates"),
+         Treat = recode(Treat,
+                        "Tr1" = "Any Shooting (t-1)",
+                        "Tr2" = "Fatal Shooting (t-1)",
+                        "Tr3" = "Nonfatal Shooting (t-1)"),
+         Model = fct_rev(fct_inorder(Model)),
+         Treat = fct_rev(fct_inorder(Treat)))
+
+did_est2
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+did_est2 |>
+  ggplot() +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_pointrange(aes(x = estimate, xmin = conf.low, xmax = conf.high,
+                      y = Treat, color = Model),
+                  position = position_dodge2(1/2)) +
+  geom_text(aes(x = estimate, y = Treat, color = Model, 
+                label = sprintf("%.3f", estimate)),
+            position = position_dodge2(1/2),
+            vjust = -0.75) +
+  labs(x = "Change in Democratic Vote Share (%p)", y = "", color = "") +
+  scale_color_manual(values = c("County-Year FE" = "black", 
+                                "County-Year FE + Covariates" = "gray50")) +
+  coord_cartesian(xlim = c(-10, 10)) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+did_est <- bind_rows(list("Out1" = did_est1,
+                          "Out2" = did_est2),
+                     .id = "Outcome")
+
+did_est
+```
+
+```{r}
+did_est <- did_est |>
+  mutate(Outcome = if_else(Outcome == "Out1",
+                           "Change in Turnout (%p)",
+                           "Change in Democratic Vote Share (%p)"),
+         Outcome = fct_inorder(Outcome))
+
+did_est
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+did_est |>
+  ggplot() +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_pointrange(aes(x = estimate, xmin = conf.low, xmax = conf.high,
+                      y = Treat, color = Model),
+                  position = position_dodge2(1/2)) +
+  geom_text(aes(x = estimate, y = Treat, color = Model, 
+                label = sprintf("%.3f", estimate)),
+            position = position_dodge2(1/2),
+            vjust = -0.75) +
+  labs(x = "Treatment Effects", y = "", color = "") +
+  scale_color_manual(values = c("County-Year FE" = "black", 
+                                "County-Year FE + Covariates" = "gray50")) +
+  coord_cartesian(xlim = c(-10, 10)) +
+  facet_wrap(~Outcome, ncol = 2) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## SCM
+
+## CausalImpact

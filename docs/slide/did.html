@@ -1611,71 +1611,74 @@ For more details, type: summary(impact, "report")</code></pre>
 <h2>実習用データ</h2>
 <p>スライドで使ったデータ</p>
 <ul>
-<li><code>Day3_Data1.csv</code>: 保育所の整備と母の就労率</li>
-<li><code>Day3_Data2.csv</code>: 電子投票の導入と投票率</li>
-<li><code>Day3_Data3.csv</code>: OECD 諸国の経済指標データ
-<ul>
-<li>Synthetic Control Method</li>
-</ul></li>
-<li><code>Day3_Data4.csv</code>: 2020年8月28日の株価
-<ul>
-<li>CausalImpact</li>
-</ul></li>
+<li><code>did_data1.csv</code>: 保育所の整備と母の就労率</li>
+<li><code>did_data2.csv</code>: 電子投票の導入と投票率</li>
+<li><code>did_data3.csv</code>: OECD 諸国の経済指標データ</li>
 </ul>
 <p>実習用データ</p>
 <ul>
-<li><code>Data3_Data5.csv</code>: 地方議会の党派性と補助金
+<li><code>did_data4.csv</code>: 2020年8月28日の株価</li>
+<li><code>did_data5.csv</code>: 学校内銃撃事件と政治参加
 <ul>
-<li>Fouirnaies, Alexander, and Hande Mutlu-Eren. 2015. “English Bacon: Copartisan Bias in Intergovernmental Grant Allocation in England,” <em>Journal of Politics,</em> 77 (3) pp.&nbsp;805–817.</li>
+<li>Laura García-Montoya, Ana Arjona, and Matthew Lacombe. 2022. “<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/violence-and-voting-in-the-united-states-how-school-shootings-affect-elections/48D77237C8B89BCA106ED7BAC20CE2E4">Violence and Voting in the United States: How School Shootings Affect Elections</a>,” <em>American Political Science Review,</em> 116 (3): 807-826.</li>
 </ul></li>
+<li><code>did_data6.csv</code>: 参院選投票率（都道府県）</li>
 </ul>
 </section>
 <section id="データの説明" class="slide level2">
 <h2>データの説明</h2>
-<p>Fouirnaies and Mutlu-Eren (2015) のモデルを単純化し、分析</p>
+<p>García-Montoya, Arjona, and Lacombe (2022)のFigure 3&amp;4の一部を再現</p>
 <table>
 <thead>
 <tr class="header">
-<th>変数名</th>
-<th>説明</th>
+<th style="text-align: left;">変数名</th>
+<th style="text-align: left;">説明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>Treat</code></td>
-<td>地方議会の多数派と政府与党の一致有無</td>
+<td style="text-align: left;"><code>county</code></td>
+<td style="text-align: left;">カウンティー（郡）のID</td>
 </tr>
 <tr class="even">
-<td><code>Year</code></td>
-<td>年</td>
+<td style="text-align: left;"><code>state</code></td>
+<td style="text-align: left;">州ID</td>
 </tr>
 <tr class="odd">
-<td><code>Assembly</code></td>
-<td>地方議会</td>
+<td style="text-align: left;"><code>year</code></td>
+<td style="text-align: left;">年</td>
 </tr>
 <tr class="even">
-<td><code>FG</code></td>
-<td>定式補助金</td>
+<td style="text-align: left;"><code>shooting</code></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td><code>y_p1</code></td>
-<td><span class="math inline">\(t + 1\)</span> 期の特定補助金額</td>
+<td style="text-align: left;"><code>fatal_shooting</code></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td><code>y_p2</code></td>
-<td><span class="math inline">\(t + 2\)</span> 期の特定補助金額</td>
+<td style="text-align: left;"><code>non_fatal_shooting</code></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td><code>y_p3</code></td>
-<td><span class="math inline">\(t + 3\)</span> 期の特定補助金額</td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td><code>y_p4</code></td>
-<td><span class="math inline">\(t + 4\)</span> 期の特定補助金額</td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td><code>y_p5</code></td>
-<td><span class="math inline">\(t + 5\)</span> 期の特定補助金額</td>
+<td style="text-align: left;"><code>population</code></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>non_white</code></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>change_unem_rate</code></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
@@ -1683,9 +1686,8 @@ For more details, type: summary(impact, "report")</code></pre>
 <section id="実習内容" class="slide level2">
 <h2>実習内容</h2>
 <ol type="1">
-<li>回帰分析による差分の差分法 (<code>lm()</code>関数)</li>
-<li>クラスター標準誤差 ({estimatr}の<code>lm_robust()</code>関数)</li>
-<li>頑健性の確認とモデルの可視化</li>
+<li>{estimatr}パッケージ（<code>lm_robust()</code>関数）の使い方</li>
+<li>推定結果の可視化</li>
 <li>Synthetic Control Methodの実装 ({gsynth})</li>
 <li>CausalImpactの実装 ({CausalImpact})</li>
 </ol>
