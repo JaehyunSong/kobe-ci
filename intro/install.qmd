@@ -28,9 +28,9 @@ knitr::opts_chunk$set(echo      = FALSE,
    * https://meatwiki.nii.ac.jp/confluence/pages/viewpage.action?pageId=67620540
 * 登録するメールアドレスは**必ずac.jp、go.jpで終わる大学アドレス**を使うこと。
 
-**手順2:** 以下のアドレスにアクセスする。
+**手順2:** 以下のアドレスにアクセスする（1〜2分所要）。
 
-* <a href="https://binder.cs.rcos.nii.ac.jp/v2/gh/JaehyunSong/Binder_R/HEAD" target="_blank">https://binder.cs.rcos.nii.ac.jp/v2/gh/JaehyunSong/Binder_R/HEAD</a>
+* <a href="https://binder.cs.rcos.nii.ac.jp/v2/gh/JaehyunSong/binder-kobe/HEAD" target="_blank">https://binder.cs.rcos.nii.ac.jp/v2/gh/JaehyunSong/binder-kobe/HEAD</a>
 
 **手順2:** 所属機関に「OpenIdP」を入力・選択し、「選択」をクリックする。
 

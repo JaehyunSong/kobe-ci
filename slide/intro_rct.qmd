@@ -105,11 +105,24 @@ knitr::opts_chunk$set(dev       = "ragg_png",
    * R package {quarto} `r packageVersion("quarto")`
 :::
 
-:::{.column width=30%}
+:::{.column width=20%}
+![](figs/01/R.png)
+:::
+:::{.column width=10%}
 ![](figs/01/R.png)
 :::
 
 ::::
+
+## 実習の日程について
+
+8月19〜23日はNIIオンライン分析システムの大規模メンテナンス&法定停電により使用不可
+
+* 19日は本講義の3日目
+   * 多分、マッチングの回
+* 19日の実施形態
+   * **案1）**19日は3回目と4回目の理論編、29日に3回目と4回目の実習
+   * **案2）**19日の実習は宋がやり方を見せるだけとする。
 
 ## Rの学習資料
 
@@ -160,16 +173,19 @@ R全般
 
 ## 前提知識
 
-本講義の前提知識
+#### 統計学
+
+自分で計算できなくても、結果の読み方が分かるレベル
 
 * 仮説検定
 * 統計的有意性検定
 * 回帰分析
-* 電卓としてのRの使い方
-   * データクリーニング、回帰分析、可視化などができるならベスト
-   * 2日目にRの解説は行うが、深入りはしない(できない)
-      * <https://www.jaysong.net/micro-book/> $\leftarrow$ これくらいは知っておけば2日目の内容を省略し、5日目に操作変数法について解説
-   * 最低限の使い方（データの読み込みなど）は知っている前提で解説
+
+#### R
+
+* データクリーニング、回帰分析、可視化などができるならベスト
+* 2日目にRの解説は行うが、深入りはしない（できない）
+   * <https://www.jaysong.net/micro-book/> $\leftarrow$ **全員**がこの資料レベルの内容を知っていれば2日目の内容を省略し、代わりに操作変数法について解説
    * 『[私たちのR](https://www.jaysong.net/RBook/)』を読もう！
 
 # 因果推論とその敵
@@ -285,9 +301,9 @@ $\Rightarrow$ 酒がストレスに与える影響は?
    * 例) ゲームをやると身長が伸びる説
 
 ::: {.r-stack}
-![](figs/01/Game_Height1.png){width=60% fig-align="center"}
+![](figs/01/Game_Height1.png){width=50% fig-align="center"}
 
-![](figs/01/Game_Height2.png){.fragment width=60% fig-align="center"}
+![](figs/01/Game_Height2.png){.fragment width=50% fig-align="center"}
 :::
 
 ## 逆の因果

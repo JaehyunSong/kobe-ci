@@ -311,14 +311,18 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </section>
 <section id="セットアップ" class="level2">
 <h2 class="anchored" data-anchor-id="セットアップ">セットアップ</h2>
+<p>　本日の実習に必要なパッケージとデータを読み込む。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, haven, gt, </span>
-<span id="cb1-2"><a href="#cb1-2"></a>               summarytools, modelsummary, </span>
-<span id="cb1-3"><a href="#cb1-3"></a>               estimatr, Synth, CausalImpact)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data5.csv"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a>df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,     <span class="co"># Rの必須パッケージ</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>               summarytools,  <span class="co"># 記述統計</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>               modelsummary,  <span class="co"># 推定結果の要約</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>               estimatr,      <span class="co"># ロバストな回帰分析</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>               gsynth,        <span class="co"># 一般化SCM</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>               CausalImpact)  <span class="co"># CausalImpactの実装</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>did_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data5.csv"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>did_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18,749 × 14
    county state  year shooting fatal_s…¹ non_f…² turnout demvote popul…³ non_w…⁴
@@ -339,17 +343,40 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
 </div>
 </div>
+<p>　データの詳細はスライドを参照すること。DID推定には時間（年）とカウンティー（郡）の固定効果を投入し、州レベルでクラスタリングした標準誤差を使う予定である。これらの変数を予めfactor化しておこう。factor化した変数は変数名の後ろに<code>_f</code>を付けて、新しい列として追加しておく。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>did_df <span class="ot">&lt;-</span> did_df <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">mutate</span>(<span class="at">county_f =</span> <span class="fu">factor</span>(county),</span>
 <span id="cb3-3"><a href="#cb3-3"></a>         <span class="at">state_f  =</span> <span class="fu">factor</span>(state),</span>
-<span id="cb3-4"><a href="#cb3-4"></a>         <span class="at">year_f   =</span> <span class="fu">factor</span>(year))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a>         <span class="at">year_f   =</span> <span class="fu">factor</span>(year))</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>did_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18,749 × 14
+   county state  year shooting fatal_s…¹ non_f…² turnout demvote popul…³ non_w…⁴
+    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1   1001 01     1996        0         0       0    56.1    32.5   40207   0.190
+ 2   1001 01     2000        0         0       0    56.8    28.7   44021   0.189
+ 3   1001 01     2004        0         0       0    60.2    23.7   48366   0.196
+ 4   1001 01     2008        0         0       0    64.1    25.8   53277   0.205
+ 5   1001 01     2012        0         0       0    61.0    26.5   55027   0.212
+ 6   1001 01     2016        0         0       0    60.7    24.0   55416   0.228
+ 7   1003 01     1996        0         0       0    51.8    27.1  125412   0.123
+ 8   1003 01     2000        0         0       0    54.6    24.8  141342   0.122
+ 9   1003 01     2004        0         0       0    59.8    22.5  156266   0.122
+10   1003 01     2008        0         0       0    62.4    23.8  175827   0.122
+# … with 18,739 more rows, 4 more variables: change_unem_rate &lt;dbl&gt;,
+#   county_f &lt;fct&gt;, state_f &lt;fct&gt;, year_f &lt;fct&gt;, and abbreviated variable names
+#   ¹​fatal_shooting, ²​non_fatal_shooting, ³​population, ⁴​non_white
+# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
 </div>
+</div>
+<p>　連続変数（<code>shooting</code>から<code>change_unem_rate</code>まで）の記述統計量を出力する。ここで一つ注意が必要だ。それは<code>select()</code>関数の使い方である。具体的に言えば、使い方そのものは変わらない。問題は、現在、<code>select()</code>関数が2つ以上存在するという点だ。最初に読み込んだ{gsynth}パッケージは{MASS}パッケージにも依存しているため、自動的に{MASS}も読み込まれる。この{MASS}にも<code>select()</code>関数が存在する。しかも、{gsynth}は{tidyverse}よりも先に読み込まれているので、<code>select()</code>のみ書くと、{MASS}の<code>select()</code>関数として認識する。したがって、「どのパッケージの<code>select()</code>関数か」を具体的に書く必要がある。書き方は<code>パッケージ名::関数名()</code>だ。{tidyverse}内には{dplyr}というパッケージがあり、列の抽出に使う<code>select()</code>関数はこの{dplyr}が提供しているため、<code>dplyr::select()</code>と書く必要がある。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(county<span class="sc">:</span>year), <span class="fu">ends_with</span>(<span class="st">"_f"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">descr</span>(<span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n.valid"</span>),</span>
-<span id="cb4-4"><a href="#cb4-4"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>did_df <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(shooting<span class="sc">:</span>change_unem_rate) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">descr</span>(<span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n.valid"</span>),</span>
+<span id="cb5-4"><a href="#cb5-4"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error : Can't find dplyr</code></pre>
 </div>
@@ -371,38 +398,143 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </section>
 <section id="diff-in-diff" class="level2">
 <h2 class="anchored" data-anchor-id="diff-in-diff">Diff-in-Diff</h2>
-<p>推定式（García-Montoya, Arjona, and Lacombe, 2022, p.&nbsp;814）</p>
+<p>　それでは差分の差分法の実装について紹介する。推定式は以下の通りである。</p>
 <p><span class="math display">\[
-\mbox{Turnout}_{i, t} = \beta_0 + \beta_1 \mbox{Shooting}_{i, t} + \sum_k \delta_{k, i, t} \mbox{Controls}_{k, i, t} + \lambda_{t} + \omega_{i} + \varepsilon_{i, t}
-\]</span></p>
-<p><span class="math display">\[
-\mbox{DemVoteShare}_{i, t} = \beta_0 + \beta_1 \mbox{Shooting}_{i, t} + \sum_k \delta_{k, i, t} \mbox{Controls}_{k, i, t} + \lambda_{t} + \omega_{i} + \varepsilon_{i, t}
+\mbox{Outcome}_{i, t} = \beta_0 + \beta_1 \mbox{Shooting}_{i, t} + \sum_k \delta_{k, i, t} \mbox{Controls}_{k, i, t} + \lambda_{t} + \omega_{i} + \varepsilon_{i, t}
 \]</span></p>
 <ul>
-<li><span class="math inline">\(\mbox{Turnout}\)</span>: 投票率（大統領選挙）</li>
-<li><span class="math inline">\(\mbox{DemVoteShare}\)</span>: 民主党得票率</li>
-<li><span class="math inline">\(\mbox{Shooting}\)</span>: 銃撃事件の発生有無
+<li><span class="math inline">\(\mbox{Otucome}\)</span>: 応答変数
 <ul>
-<li><span class="math inline">\(\mbox{Shooting}\)</span>:</li>
-<li><span class="math inline">\(\mbox{FatalShooting}\)</span>:</li>
-<li><span class="math inline">\(\mbox{NonfatalShooting}\)</span>:</li>
+<li><code>turnout</code>: 投票率（大統領選挙）</li>
+<li><code>demvote</code>: 民主党候補者の得票率</li>
 </ul></li>
-<li><span class="math inline">\(\mbox{Controls}\)</span>: カウンティーの人口、非白人の割合、失業率の草原</li>
+<li><span class="math inline">\(\mbox{Shooting}\)</span>: 処置変数
+<ul>
+<li><code>shooting</code>: 銃撃事件の発生有無</li>
+<li><code>fatal_shooting</code>: 死者を伴う銃撃事件の発生有無</li>
+<li><code>non_fatal_shooting</code>: 死者を伴わない銃撃事件の発生有無</li>
+</ul></li>
+<li><span class="math inline">\(\mbox{Controls}\)</span>: 統制変数
+<ul>
+<li><code>population</code>: カウンティーの人口</li>
+<li><code>non_white</code>: 非白人の割合</li>
+<li><code>change_unem_rate</code>: 失業率の変化</li>
+<li>統制変数あり/なしのモデルを個別に推定</li>
+</ul></li>
 <li><span class="math inline">\(\lambda\)</span>: 年固定効果</li>
 <li><span class="math inline">\(\omega\)</span>: カウンティー固定効果</li>
 </ul>
+<p>応答変数が2種類、処置変数が3種類、共変量の有無でモデルを分けるので、推定するモデルは計12個である。</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">モデル</th>
+<th style="text-align: left;">オブジェクト名</th>
+<th style="text-align: left;">応答変数</th>
+<th style="text-align: left;">処置変数</th>
+<th style="text-align: left;">統制変数</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">モデル1</td>
+<td style="text-align: left;"><code>did_fit1</code></td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"><code>shooting</code></td>
+<td style="text-align: left;">なし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">モデル2</td>
+<td style="text-align: left;"><code>did_fit2</code></td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"><code>shooting</code></td>
+<td style="text-align: left;">あり</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">モデル3</td>
+<td style="text-align: left;"><code>did_fit3</code></td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"><code>fatal_shooting</code></td>
+<td style="text-align: left;">なし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">モデル4</td>
+<td style="text-align: left;"><code>did_fit4</code></td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"><code>fatal_shooting</code></td>
+<td style="text-align: left;">あり</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">モデル5</td>
+<td style="text-align: left;"><code>did_fit5</code></td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"><code>non_fatal_shooting</code></td>
+<td style="text-align: left;">なし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">モデル6</td>
+<td style="text-align: left;"><code>did_fit6</code></td>
+<td style="text-align: left;"><code>turnout</code></td>
+<td style="text-align: left;"><code>non_fatal_shooting</code></td>
+<td style="text-align: left;">あり</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">モデル7</td>
+<td style="text-align: left;"><code>did_fit7</code></td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"><code>shooting</code></td>
+<td style="text-align: left;">なし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">モデル8</td>
+<td style="text-align: left;"><code>did_fit8</code></td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"><code>shooting</code></td>
+<td style="text-align: left;">あり</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">モデル9</td>
+<td style="text-align: left;"><code>did_fit9</code></td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"><code>fatal_shooting</code></td>
+<td style="text-align: left;">なし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">モデル10</td>
+<td style="text-align: left;"><code>did_fit10</code></td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"><code>fatal_shooting</code></td>
+<td style="text-align: left;">あり</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">モデル11</td>
+<td style="text-align: left;"><code>did_fit11</code></td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"><code>non_fatal_shooting</code></td>
+<td style="text-align: left;">なし</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">モデル12</td>
+<td style="text-align: left;"><code>did_fit12</code></td>
+<td style="text-align: left;"><code>demvote</code></td>
+<td style="text-align: left;"><code>non_fatal_shooting</code></td>
+<td style="text-align: left;">あり</td>
+</tr>
+</tbody>
+</table>
+<p>　まずはモデル1を推定し、<code>did_fit1</code>という名のオブジェクトとして格納する。基本的には線形回帰分析であるため、<code>lm()</code>でも推定はできる。しかし、差分の差分法の場合、通常、クラスター化した頑健な標準誤差（cluster robust standard error）を使う。<code>lm()</code>単体ではこれが計算できないため、今回は{estimatr}パッケージが提供する<code>lm_robust()</code>関数を使用する。使い方は<code>lm()</code>同様、まず回帰式と使用するデータ名を指定する。続いて、固定効果を<code>fixed_effects</code>引数で指定する<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。書き方は<code>~固定効果変数1 + 固定効果変数2 + ...</code>である。回帰式と違って、<code>~</code>の左側には変数がないことに注意すること。続いて、<code>clusters</code>引数でクラスタリングする変数を指定する。今回は州レベルでクラスタリングするので、<code>state_f</code>で良い。最後に標準誤差のタイプを指定するが、デフォルトは<code>"CR2"</code>となっている。今回のデータはそれなりの大きさのデータであり、<code>"CR2"</code>だと推定時間が非常に長くなる。ここでは推定時間が比較的早い<code>"stata"</code>とする。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>did_fit1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> shooting, </span>
-<span id="cb7-2"><a href="#cb7-2"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb7-3"><a href="#cb7-3"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb7-5"><a href="#cb7-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">summary</span>(did_fit1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>did_fit1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> shooting, </span>
+<span id="cb8-2"><a href="#cb8-2"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb8-3"><a href="#cb8-3"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="fu">summary</span>(did_fit1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm_robust(formula = turnout ~ shooting, data = df, clusters = state_f, 
+lm_robust(formula = turnout ~ shooting, data = did_df, clusters = state_f, 
     fixed_effects = ~year_f + county_f, se_type = "stata")
 
 Standard error type:  stata 
@@ -416,20 +548,22 @@ Multiple R-squared (proj. model):  6.907e-05 ,  Adjusted R-squared (proj. model)
 F-statistic (proj. model): 0.6513 on 1 and 49 DF,  p-value: 0.4235</code></pre>
 </div>
 </div>
+<p>　処置効果の推定値は-0.521である。これは学校内銃撃事件が発生したカウンティーの場合、大統領選挙において投票率が約-0.521%p低下することを意味する。しかし、標準誤差がかなり大きく、統計的有意な結果ではない。つまり、「学校内銃撃事件が投票率を上げる（or 下げる）とは言えない」と解釈できる。決して「学校内銃撃事件が投票率を上げない（or 下げない）」と解釈しないこと。</p>
+<p>　共変量を投入してみたらどうだろうか。たとえば、人口は自治体の都市化程度を表すこともあるので、都市化程度と投票率には関係があると考えられる。また、人口が多いと自然に事件が発生する確率もあがるので、交絡要因として考えられる。人種や失業率も同様であろう。ここではカウンティーの人口（<code>population</code>）、非白人の割合（<code>non_white</code>）、失業率の変化（<code>change_unem_rate</code>）を統制変数として投入し、<code>did_fit2</code>という名で格納する。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>did_fit2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> shooting <span class="sc">+</span> </span>
-<span id="cb9-2"><a href="#cb9-2"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
-<span id="cb9-3"><a href="#cb9-3"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb9-4"><a href="#cb9-4"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb9-5"><a href="#cb9-5"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb9-6"><a href="#cb9-6"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="fu">summary</span>(did_fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>did_fit2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> shooting <span class="sc">+</span> </span>
+<span id="cb10-2"><a href="#cb10-2"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
+<span id="cb10-3"><a href="#cb10-3"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb10-4"><a href="#cb10-4"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb10-6"><a href="#cb10-6"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="fu">summary</span>(did_fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
 lm_robust(formula = turnout ~ shooting + population + non_white + 
-    change_unem_rate, data = df, clusters = state_f, fixed_effects = ~year_f + 
+    change_unem_rate, data = did_df, clusters = state_f, fixed_effects = ~year_f + 
     county_f, se_type = "stata")
 
 Standard error type:  stata 
@@ -451,36 +585,39 @@ Multiple R-squared (proj. model):  0.01669 ,    Adjusted R-squared (proj. model)
 F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
+<p>　処置効果の推定値は-0.710である。これは他の条件が同じ場合、学校内銃撃事件が発生したカウンティーは大統領選挙において投票率が約-0.710%p低下することを意味する。ちなみに、<code>e-01</code>は<span class="math inline">\(\times 10^{-1}\)</span>を、<code>e-06</code>は<span class="math inline">\(\times 10^{-6}\)</span>を、<code>e+01</code>は<span class="math inline">\(\times 10^{1}\)</span>意味する。今回も統計的に非有意な結果が得られている。</p>
+<p>　これまでの処置変数は死者の有無と関係なく、学校内銃撃事件が発生したか否かだった。もしかしたら、死者を伴う銃撃事件が発生した場合、その効果が大きいかも知れない。したがって、これからは処置変数を死者を伴う学校内銃撃事件の発生有無（<code>fatal_shooting</code>）、死者を伴わない学校内銃撃事件の発生有無（<code>non_fatal_shooting</code>）に変えてもう一度推定してみよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>did_fit3 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> fatal_shooting, </span>
-<span id="cb11-2"><a href="#cb11-2"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb11-3"><a href="#cb11-3"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb11-4"><a href="#cb11-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb11-5"><a href="#cb11-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb11-6"><a href="#cb11-6"></a></span>
-<span id="cb11-7"><a href="#cb11-7"></a>did_fit4 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> fatal_shooting <span class="sc">+</span> </span>
-<span id="cb11-8"><a href="#cb11-8"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
-<span id="cb11-9"><a href="#cb11-9"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb11-10"><a href="#cb11-10"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb11-11"><a href="#cb11-11"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb11-12"><a href="#cb11-12"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb11-13"><a href="#cb11-13"></a></span>
-<span id="cb11-14"><a href="#cb11-14"></a>did_fit5 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> non_fatal_shooting, </span>
-<span id="cb11-15"><a href="#cb11-15"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb11-16"><a href="#cb11-16"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb11-17"><a href="#cb11-17"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb11-18"><a href="#cb11-18"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb11-19"><a href="#cb11-19"></a></span>
-<span id="cb11-20"><a href="#cb11-20"></a>did_fit6 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> non_fatal_shooting <span class="sc">+</span> </span>
-<span id="cb11-21"><a href="#cb11-21"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
-<span id="cb11-22"><a href="#cb11-22"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb11-23"><a href="#cb11-23"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb11-24"><a href="#cb11-24"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb11-25"><a href="#cb11-25"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>did_fit3 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> fatal_shooting, </span>
+<span id="cb12-2"><a href="#cb12-2"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb12-3"><a href="#cb12-3"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb12-5"><a href="#cb12-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a>did_fit4 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> fatal_shooting <span class="sc">+</span> </span>
+<span id="cb12-8"><a href="#cb12-8"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
+<span id="cb12-9"><a href="#cb12-9"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb12-10"><a href="#cb12-10"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb12-11"><a href="#cb12-11"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb12-12"><a href="#cb12-12"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13"></a></span>
+<span id="cb12-14"><a href="#cb12-14"></a>did_fit5 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> non_fatal_shooting, </span>
+<span id="cb12-15"><a href="#cb12-15"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb12-16"><a href="#cb12-16"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb12-17"><a href="#cb12-17"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb12-18"><a href="#cb12-18"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19"></a></span>
+<span id="cb12-20"><a href="#cb12-20"></a>did_fit6 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(turnout <span class="sc">~</span> non_fatal_shooting <span class="sc">+</span> </span>
+<span id="cb12-21"><a href="#cb12-21"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
+<span id="cb12-22"><a href="#cb12-22"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb12-23"><a href="#cb12-23"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb12-24"><a href="#cb12-24"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb12-25"><a href="#cb12-25"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>　これまで推定してきた6つのモデルを比較してみよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(did_fit1, did_fit2, did_fit3, </span>
-<span id="cb12-2"><a href="#cb12-2"></a>                  did_fit4, did_fit5, did_fit6))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(did_fit1, did_fit2, did_fit3, </span>
+<span id="cb13-2"><a href="#cb13-2"></a>                  did_fit4, did_fit5, did_fit6))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -663,23 +800,37 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 
 </div>
 </div>
+<p>　いずれのモデルも統計的に有意な処置効果は確認されていない。これらの結果を表として報告するには紙がもったいない気もする。これらの結果はOnline Appendixに回し、本文中には処置効果の点推定値と95%信頼区間を示せば良いだろう。</p>
+<p>　{broom}の<code>tidy()</code>関数で推定結果のみを抽出し、それぞれオブジェクトとして格納しておこう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>tidy_fit1 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit1)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>tidy_fit2 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit2)</span>
-<span id="cb13-3"><a href="#cb13-3"></a>tidy_fit3 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit3)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>tidy_fit4 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit4)</span>
-<span id="cb13-5"><a href="#cb13-5"></a>tidy_fit5 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit5)</span>
-<span id="cb13-6"><a href="#cb13-6"></a>tidy_fit6 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit6)</span>
-<span id="cb13-7"><a href="#cb13-7"></a></span>
-<span id="cb13-8"><a href="#cb13-8"></a>did_est1 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"M1_Tr1"</span> <span class="ot">=</span> tidy_fit1,</span>
-<span id="cb13-9"><a href="#cb13-9"></a>                           <span class="st">"M2_Tr1"</span> <span class="ot">=</span> tidy_fit2,</span>
-<span id="cb13-10"><a href="#cb13-10"></a>                           <span class="st">"M1_Tr2"</span> <span class="ot">=</span> tidy_fit3,</span>
-<span id="cb13-11"><a href="#cb13-11"></a>                           <span class="st">"M2_Tr2"</span> <span class="ot">=</span> tidy_fit4,</span>
-<span id="cb13-12"><a href="#cb13-12"></a>                           <span class="st">"M1_Tr3"</span> <span class="ot">=</span> tidy_fit5,</span>
-<span id="cb13-13"><a href="#cb13-13"></a>                           <span class="st">"M2_Tr3"</span> <span class="ot">=</span> tidy_fit6),</span>
-<span id="cb13-14"><a href="#cb13-14"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span>
-<span id="cb13-15"><a href="#cb13-15"></a></span>
-<span id="cb13-16"><a href="#cb13-16"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>tidy_fit1 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit1, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>tidy_fit2 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit2, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>tidy_fit3 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>tidy_fit4 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>tidy_fit5 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-6"><a href="#cb14-6"></a>tidy_fit6 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>　全て確認する必要はないので、<code>tidy_fit1</code>のみを確認してみる。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>tidy_fit1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      term   estimate std.error  statistic   p.value conf.low conf.high df
+1 shooting -0.5210841 0.6456718 -0.8070417 0.4235426 -1.81861  0.776442 49
+  outcome
+1 turnout</code></pre>
+</div>
+</div>
+<p>　以上の6つの表形式オブジェクトを一つの表としてまとめる。それぞれのオブジェクトには<code>共変量の有無_処置変数の種類</code>の名前を付けよう。共変量なしのモデルは<code>M1</code>、ありのモデルは<code>M2</code>とする。処置変数は<code>shooting</code>の場合は<code>Tr1</code>、<code>fatal_shooting</code>は<code>Tr2</code>、<code>non_fatal_shooting</code>は<code>Tr3</code>とする。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>did_est1 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"M1_Tr1"</span> <span class="ot">=</span> tidy_fit1,</span>
+<span id="cb17-2"><a href="#cb17-2"></a>                           <span class="st">"M2_Tr1"</span> <span class="ot">=</span> tidy_fit2,</span>
+<span id="cb17-3"><a href="#cb17-3"></a>                           <span class="st">"M1_Tr2"</span> <span class="ot">=</span> tidy_fit3,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>                           <span class="st">"M2_Tr2"</span> <span class="ot">=</span> tidy_fit4,</span>
+<span id="cb17-5"><a href="#cb17-5"></a>                           <span class="st">"M1_Tr3"</span> <span class="ot">=</span> tidy_fit5,</span>
+<span id="cb17-6"><a href="#cb17-6"></a>                           <span class="st">"M2_Tr3"</span> <span class="ot">=</span> tidy_fit6),</span>
+<span id="cb17-7"><a href="#cb17-7"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8"></a></span>
+<span id="cb17-9"><a href="#cb17-9"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Model               term      estimate    std.error  statistic    p.value
 1  M1_Tr1           shooting -5.210841e-01 6.456718e-01 -0.8070417 0.42354260
@@ -715,11 +866,12 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 15  2.710152e-02  2.919704e-01 49 turnout</code></pre>
 </div>
 </div>
+<p>　続いて、処置効果のみを抽出する。処置効果は<code>term</code>列の値が<code>"shooting"</code>、<code>"fatal_shooting"</code>、<code>"non_fatal_shooting"</code>のいずれかと一致する行であるため、<code>filter()</code>関数を使用する。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">filter</span>(term <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"shooting"</span>, <span class="st">"fatal_shooting"</span>, <span class="st">"non_fatal_shooting"</span>))</span>
+<span id="cb19-3"><a href="#cb19-3"></a></span>
+<span id="cb19-4"><a href="#cb19-4"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Model               term   estimate std.error  statistic   p.value  conf.low
 1 M1_Tr1           shooting -0.5210841 0.6456718 -0.8070417 0.4235426 -1.818610
@@ -737,13 +889,19 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 6 1.9745977 49 turnout</code></pre>
 </div>
 </div>
+<p>　ちなみに<code>grepl()</code>関数を使うと、<code>"shooting"</code>が含まれる行を抽出することもできる。以下のコードは上記のコードと同じ機能をする。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">separate</span>(<span class="at">col  =</span> Model,</span>
-<span id="cb17-3"><a href="#cb17-3"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Treat"</span>),</span>
-<span id="cb17-4"><a href="#cb17-4"></a>           <span class="at">sep  =</span> <span class="st">"_"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5"></a></span>
-<span id="cb17-6"><a href="#cb17-6"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>　つづいて、<code>Model</code>列を<code>Model</code>と<code>Treat</code>列へ分割する。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">separate</span>(<span class="at">col  =</span> Model,</span>
+<span id="cb22-3"><a href="#cb22-3"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Treat"</span>),</span>
+<span id="cb22-4"><a href="#cb22-4"></a>           <span class="at">sep  =</span> <span class="st">"_"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5"></a></span>
+<span id="cb22-6"><a href="#cb22-6"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Model Treat               term   estimate std.error  statistic   p.value
 1    M1   Tr1           shooting -0.5210841 0.6456718 -0.8070417 0.4235426
@@ -761,19 +919,20 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 6 -2.628546 1.9745977 49 turnout</code></pre>
 </div>
 </div>
+<p>　可視化に入る前に<code>Model</code>列と<code>Treat</code>列の値を修正する。<code>Model</code>列の値が<code>"M1"</code>なら<code>"County-Year FE"</code>に、それ以外なら<code>"County-Year FE + Covariates"</code>とリコーディングする。戻り値が2種類だから<code>if_else()</code>を使う。<code>Treat</code>列の場合、戻り値が3つなので、<code>recode()</code>か<code>case_when()</code>を使う。ここでは<code>recode()</code>を使ってリコーディングする。最後に<code>Model</code>と<code>Treat</code>を表示順番でfactor化し（<code>fct_inorder()</code>）、更に順番を逆転する（<code>fct_rev()</code>）。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="fu">if_else</span>(Model <span class="sc">==</span> <span class="st">"M1"</span>,</span>
-<span id="cb19-3"><a href="#cb19-3"></a>                           <span class="st">"County-Year FE"</span>, </span>
-<span id="cb19-4"><a href="#cb19-4"></a>                           <span class="st">"County-Year FE + Covariates"</span>),</span>
-<span id="cb19-5"><a href="#cb19-5"></a>         <span class="at">Treat =</span> <span class="fu">recode</span>(Treat,</span>
-<span id="cb19-6"><a href="#cb19-6"></a>                        <span class="st">"Tr1"</span> <span class="ot">=</span> <span class="st">"Any Shooting (t-1)"</span>,</span>
-<span id="cb19-7"><a href="#cb19-7"></a>                        <span class="st">"Tr2"</span> <span class="ot">=</span> <span class="st">"Fatal Shooting (t-1)"</span>,</span>
-<span id="cb19-8"><a href="#cb19-8"></a>                        <span class="st">"Tr3"</span> <span class="ot">=</span> <span class="st">"Nonfatal Shooting (t-1)"</span>),</span>
-<span id="cb19-9"><a href="#cb19-9"></a>         <span class="at">Model =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Model)),</span>
-<span id="cb19-10"><a href="#cb19-10"></a>         <span class="at">Treat =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Treat)))</span>
-<span id="cb19-11"><a href="#cb19-11"></a></span>
-<span id="cb19-12"><a href="#cb19-12"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="fu">if_else</span>(Model <span class="sc">==</span> <span class="st">"M1"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3"></a>                           <span class="st">"County-Year FE"</span>, </span>
+<span id="cb24-4"><a href="#cb24-4"></a>                           <span class="st">"County-Year FE + Covariates"</span>),</span>
+<span id="cb24-5"><a href="#cb24-5"></a>         <span class="at">Treat =</span> <span class="fu">recode</span>(Treat,</span>
+<span id="cb24-6"><a href="#cb24-6"></a>                        <span class="st">"Tr1"</span> <span class="ot">=</span> <span class="st">"Any Shooting (t-1)"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7"></a>                        <span class="st">"Tr2"</span> <span class="ot">=</span> <span class="st">"Fatal Shooting (t-1)"</span>,</span>
+<span id="cb24-8"><a href="#cb24-8"></a>                        <span class="st">"Tr3"</span> <span class="ot">=</span> <span class="st">"Nonfatal Shooting (t-1)"</span>),</span>
+<span id="cb24-9"><a href="#cb24-9"></a>         <span class="at">Model =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Model)),</span>
+<span id="cb24-10"><a href="#cb24-10"></a>         <span class="at">Treat =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Treat)))</span>
+<span id="cb24-11"><a href="#cb24-11"></a></span>
+<span id="cb24-12"><a href="#cb24-12"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        Model                   Treat               term
 1              County-Year FE      Any Shooting (t-1)           shooting
@@ -791,95 +950,119 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 6 -0.3269742 1.1453027 -0.2854915 0.7764710 -2.628546 1.9745977 49 turnout</code></pre>
 </div>
 </div>
+<p>　それでは{ggplot2}を使ってpoint-rangeプロットを作成してみよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>did_est1 <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
-<span id="cb21-5"><a href="#cb21-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
-<span id="cb21-6"><a href="#cb21-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Turnout (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
-<span id="cb21-9"><a href="#cb21-9"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
-<span id="cb21-10"><a href="#cb21-10"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="co"># x = 0の箇所に垂直線を引く。垂直線は破線（linetype = 2）とする。</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
+<span id="cb26-6"><a href="#cb26-6"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
+<span id="cb26-7"><a href="#cb26-7"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Turnout (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="co"># 色を指定する。</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="co"># Modelの値が County-Year FE なら黒、</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="co"># County-Year FE + Covariates ならグレー、</span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
+<span id="cb26-13"><a href="#cb26-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
+<span id="cb26-14"><a href="#cb26-14"></a>  <span class="co"># 横軸の下限と上限を-10〜10とする。</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb26-17"><a href="#cb26-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2700"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2700"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>　元の論文を見ると、点の上に点推定値が書かれているが、私たちもこれを真似してみよう。文字列をプロットするレイヤーは<code>geom_text()</code>と<code>geom_label()</code>、<code>annotate()</code>があるが、ここでは<code>geom_text()</code>を使用する。文字列が表示される横軸上の位置（<code>x</code>）と縦軸上の位置（<code>y</code>）、そして出力する文字列（<code>label</code>）をマッピングする。点推定値は3桁まで出力したいので、<code>sprintf()</code>を使って、3桁に丸める。ただし、これだけだと点と文字が重なってしまう。<code>vjust</code>を<code>-0.75</code>にすることで、出力する文字列を点の位置を上の方向へ若干ずらすことができる。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>did_est1 <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
-<span id="cb22-5"><a href="#cb22-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
-<span id="cb22-6"><a href="#cb22-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model, </span>
-<span id="cb22-8"><a href="#cb22-8"></a>                <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
-<span id="cb22-9"><a href="#cb22-9"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb22-10"><a href="#cb22-10"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Turnout (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb22-12"><a href="#cb22-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
-<span id="cb22-13"><a href="#cb22-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb22-15"><a href="#cb22-15"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
+<span id="cb27-5"><a href="#cb27-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
+<span id="cb27-6"><a href="#cb27-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model, </span>
+<span id="cb27-8"><a href="#cb27-8"></a>                <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
+<span id="cb27-9"><a href="#cb27-9"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb27-10"><a href="#cb27-10"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Turnout (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
+<span id="cb27-13"><a href="#cb27-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb27-15"><a href="#cb27-15"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb27-16"><a href="#cb27-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2700"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="2700"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>　ちなみにこのコードを見ると、<code>geom_pointrange()</code>と<code>geom_text()</code>は<code>x</code>、<code>y</code>、<code>color</code>を共有しているので、<code>ggplot()</code>内でマッピングすることもできる。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>did_fit7 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> shooting, </span>
-<span id="cb23-2"><a href="#cb23-2"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb23-3"><a href="#cb23-3"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb23-4"><a href="#cb23-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb23-5"><a href="#cb23-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb23-6"><a href="#cb23-6"></a></span>
-<span id="cb23-7"><a href="#cb23-7"></a>did_fit8 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> shooting <span class="sc">+</span> </span>
-<span id="cb23-8"><a href="#cb23-8"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
-<span id="cb23-9"><a href="#cb23-9"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb23-10"><a href="#cb23-10"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb23-11"><a href="#cb23-11"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb23-12"><a href="#cb23-12"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb23-13"><a href="#cb23-13"></a></span>
-<span id="cb23-14"><a href="#cb23-14"></a>did_fit9 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> fatal_shooting, </span>
-<span id="cb23-15"><a href="#cb23-15"></a>                      <span class="at">data          =</span> df, </span>
-<span id="cb23-16"><a href="#cb23-16"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb23-17"><a href="#cb23-17"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb23-18"><a href="#cb23-18"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb23-19"><a href="#cb23-19"></a></span>
-<span id="cb23-20"><a href="#cb23-20"></a>did_fit10 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> fatal_shooting <span class="sc">+</span> </span>
-<span id="cb23-21"><a href="#cb23-21"></a>                         population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
-<span id="cb23-22"><a href="#cb23-22"></a>                       <span class="at">data          =</span> df, </span>
-<span id="cb23-23"><a href="#cb23-23"></a>                       <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb23-24"><a href="#cb23-24"></a>                       <span class="at">clusters      =</span> state_f,</span>
-<span id="cb23-25"><a href="#cb23-25"></a>                       <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb23-26"><a href="#cb23-26"></a></span>
-<span id="cb23-27"><a href="#cb23-27"></a>did_fit11 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> non_fatal_shooting, </span>
-<span id="cb23-28"><a href="#cb23-28"></a>                       <span class="at">data          =</span> df, </span>
-<span id="cb23-29"><a href="#cb23-29"></a>                       <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb23-30"><a href="#cb23-30"></a>                       <span class="at">clusters      =</span> state_f,</span>
-<span id="cb23-31"><a href="#cb23-31"></a>                       <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
-<span id="cb23-32"><a href="#cb23-32"></a></span>
-<span id="cb23-33"><a href="#cb23-33"></a>did_fit12 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> non_fatal_shooting <span class="sc">+</span> </span>
-<span id="cb23-34"><a href="#cb23-34"></a>                         population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
-<span id="cb23-35"><a href="#cb23-35"></a>                       <span class="at">data          =</span> df, </span>
-<span id="cb23-36"><a href="#cb23-36"></a>                       <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
-<span id="cb23-37"><a href="#cb23-37"></a>                       <span class="at">clusters      =</span> state_f,</span>
-<span id="cb23-38"><a href="#cb23-38"></a>                       <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>did_est1 <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model)) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high),</span>
+<span id="cb28-5"><a href="#cb28-5"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
+<span id="cb28-7"><a href="#cb28-7"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb28-8"><a href="#cb28-8"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Turnout (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb28-10"><a href="#cb28-10"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
+<span id="cb28-11"><a href="#cb28-11"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(did_fit7, did_fit8, did_fit9, </span>
-<span id="cb24-2"><a href="#cb24-2"></a>                  did_fit10, did_fit11, did_fit12))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>did_fit7 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> shooting, </span>
+<span id="cb29-2"><a href="#cb29-2"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb29-3"><a href="#cb29-3"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb29-4"><a href="#cb29-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb29-5"><a href="#cb29-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6"></a></span>
+<span id="cb29-7"><a href="#cb29-7"></a>did_fit8 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> shooting <span class="sc">+</span> </span>
+<span id="cb29-8"><a href="#cb29-8"></a>                        population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
+<span id="cb29-9"><a href="#cb29-9"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb29-10"><a href="#cb29-10"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb29-11"><a href="#cb29-11"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb29-12"><a href="#cb29-12"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb29-13"><a href="#cb29-13"></a></span>
+<span id="cb29-14"><a href="#cb29-14"></a>did_fit9 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> fatal_shooting, </span>
+<span id="cb29-15"><a href="#cb29-15"></a>                      <span class="at">data          =</span> did_df, </span>
+<span id="cb29-16"><a href="#cb29-16"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb29-17"><a href="#cb29-17"></a>                      <span class="at">clusters      =</span> state_f,</span>
+<span id="cb29-18"><a href="#cb29-18"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb29-19"><a href="#cb29-19"></a></span>
+<span id="cb29-20"><a href="#cb29-20"></a>did_fit10 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> fatal_shooting <span class="sc">+</span> </span>
+<span id="cb29-21"><a href="#cb29-21"></a>                         population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
+<span id="cb29-22"><a href="#cb29-22"></a>                       <span class="at">data          =</span> did_df, </span>
+<span id="cb29-23"><a href="#cb29-23"></a>                       <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb29-24"><a href="#cb29-24"></a>                       <span class="at">clusters      =</span> state_f,</span>
+<span id="cb29-25"><a href="#cb29-25"></a>                       <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb29-26"><a href="#cb29-26"></a></span>
+<span id="cb29-27"><a href="#cb29-27"></a>did_fit11 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> non_fatal_shooting, </span>
+<span id="cb29-28"><a href="#cb29-28"></a>                       <span class="at">data          =</span> did_df, </span>
+<span id="cb29-29"><a href="#cb29-29"></a>                       <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb29-30"><a href="#cb29-30"></a>                       <span class="at">clusters      =</span> state_f,</span>
+<span id="cb29-31"><a href="#cb29-31"></a>                       <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
+<span id="cb29-32"><a href="#cb29-32"></a></span>
+<span id="cb29-33"><a href="#cb29-33"></a>did_fit12 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(demvote <span class="sc">~</span> non_fatal_shooting <span class="sc">+</span> </span>
+<span id="cb29-34"><a href="#cb29-34"></a>                         population <span class="sc">+</span> non_white <span class="sc">+</span> change_unem_rate, </span>
+<span id="cb29-35"><a href="#cb29-35"></a>                       <span class="at">data          =</span> did_df, </span>
+<span id="cb29-36"><a href="#cb29-36"></a>                       <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
+<span id="cb29-37"><a href="#cb29-37"></a>                       <span class="at">clusters      =</span> state_f,</span>
+<span id="cb29-38"><a href="#cb29-38"></a>                       <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(did_fit7, did_fit8, did_fit9, </span>
+<span id="cb30-2"><a href="#cb30-2"></a>                  did_fit10, did_fit11, did_fit12))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1063,22 +1246,22 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>tidy_fit7  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit7)</span>
-<span id="cb25-2"><a href="#cb25-2"></a>tidy_fit8  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit8)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>tidy_fit9  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit9)</span>
-<span id="cb25-4"><a href="#cb25-4"></a>tidy_fit10 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit10)</span>
-<span id="cb25-5"><a href="#cb25-5"></a>tidy_fit11 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit11)</span>
-<span id="cb25-6"><a href="#cb25-6"></a>tidy_fit12 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit12)</span>
-<span id="cb25-7"><a href="#cb25-7"></a></span>
-<span id="cb25-8"><a href="#cb25-8"></a>did_est2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"M1_Tr1"</span> <span class="ot">=</span> tidy_fit7,</span>
-<span id="cb25-9"><a href="#cb25-9"></a>                           <span class="st">"M2_Tr1"</span> <span class="ot">=</span> tidy_fit8,</span>
-<span id="cb25-10"><a href="#cb25-10"></a>                           <span class="st">"M1_Tr2"</span> <span class="ot">=</span> tidy_fit9,</span>
-<span id="cb25-11"><a href="#cb25-11"></a>                           <span class="st">"M2_Tr2"</span> <span class="ot">=</span> tidy_fit10,</span>
-<span id="cb25-12"><a href="#cb25-12"></a>                           <span class="st">"M1_Tr3"</span> <span class="ot">=</span> tidy_fit11,</span>
-<span id="cb25-13"><a href="#cb25-13"></a>                           <span class="st">"M2_Tr3"</span> <span class="ot">=</span> tidy_fit12),</span>
-<span id="cb25-14"><a href="#cb25-14"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span>
-<span id="cb25-15"><a href="#cb25-15"></a></span>
-<span id="cb25-16"><a href="#cb25-16"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>tidy_fit7  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit7)</span>
+<span id="cb31-2"><a href="#cb31-2"></a>tidy_fit8  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit8)</span>
+<span id="cb31-3"><a href="#cb31-3"></a>tidy_fit9  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit9)</span>
+<span id="cb31-4"><a href="#cb31-4"></a>tidy_fit10 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit10)</span>
+<span id="cb31-5"><a href="#cb31-5"></a>tidy_fit11 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit11)</span>
+<span id="cb31-6"><a href="#cb31-6"></a>tidy_fit12 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit12)</span>
+<span id="cb31-7"><a href="#cb31-7"></a></span>
+<span id="cb31-8"><a href="#cb31-8"></a>did_est2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"M1_Tr1"</span> <span class="ot">=</span> tidy_fit7,</span>
+<span id="cb31-9"><a href="#cb31-9"></a>                           <span class="st">"M2_Tr1"</span> <span class="ot">=</span> tidy_fit8,</span>
+<span id="cb31-10"><a href="#cb31-10"></a>                           <span class="st">"M1_Tr2"</span> <span class="ot">=</span> tidy_fit9,</span>
+<span id="cb31-11"><a href="#cb31-11"></a>                           <span class="st">"M2_Tr2"</span> <span class="ot">=</span> tidy_fit10,</span>
+<span id="cb31-12"><a href="#cb31-12"></a>                           <span class="st">"M1_Tr3"</span> <span class="ot">=</span> tidy_fit11,</span>
+<span id="cb31-13"><a href="#cb31-13"></a>                           <span class="st">"M2_Tr3"</span> <span class="ot">=</span> tidy_fit12),</span>
+<span id="cb31-14"><a href="#cb31-14"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span>
+<span id="cb31-15"><a href="#cb31-15"></a></span>
+<span id="cb31-16"><a href="#cb31-16"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Model               term      estimate    std.error statistic      p.value
 1  M1_Tr1           shooting  4.513237e+00 8.752702e-01  5.156393 4.514820e-06
@@ -1115,10 +1298,10 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span>
-<span id="cb27-3"><a href="#cb27-3"></a></span>
-<span id="cb27-4"><a href="#cb27-4"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span>
+<span id="cb33-3"><a href="#cb33-3"></a></span>
+<span id="cb33-4"><a href="#cb33-4"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Model               term estimate std.error statistic      p.value  conf.low
 1 M1_Tr1           shooting 4.513237 0.8752702  5.156393 4.514820e-06 2.7543158
@@ -1137,12 +1320,12 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">separate</span>(<span class="at">col  =</span> Model,</span>
-<span id="cb29-3"><a href="#cb29-3"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Treat"</span>),</span>
-<span id="cb29-4"><a href="#cb29-4"></a>           <span class="at">sep  =</span> <span class="st">"_"</span>)</span>
-<span id="cb29-5"><a href="#cb29-5"></a></span>
-<span id="cb29-6"><a href="#cb29-6"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">separate</span>(<span class="at">col  =</span> Model,</span>
+<span id="cb35-3"><a href="#cb35-3"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Treat"</span>),</span>
+<span id="cb35-4"><a href="#cb35-4"></a>           <span class="at">sep  =</span> <span class="st">"_"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5"></a></span>
+<span id="cb35-6"><a href="#cb35-6"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Model Treat               term estimate std.error statistic      p.value
 1    M1   Tr1           shooting 4.513237 0.8752702  5.156393 4.514820e-06
@@ -1161,18 +1344,18 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="fu">if_else</span>(Model <span class="sc">==</span> <span class="st">"M1"</span>,</span>
-<span id="cb31-3"><a href="#cb31-3"></a>                           <span class="st">"County-Year FE"</span>, </span>
-<span id="cb31-4"><a href="#cb31-4"></a>                           <span class="st">"County-Year FE + Covariates"</span>),</span>
-<span id="cb31-5"><a href="#cb31-5"></a>         <span class="at">Treat =</span> <span class="fu">recode</span>(Treat,</span>
-<span id="cb31-6"><a href="#cb31-6"></a>                        <span class="st">"Tr1"</span> <span class="ot">=</span> <span class="st">"Any Shooting (t-1)"</span>,</span>
-<span id="cb31-7"><a href="#cb31-7"></a>                        <span class="st">"Tr2"</span> <span class="ot">=</span> <span class="st">"Fatal Shooting (t-1)"</span>,</span>
-<span id="cb31-8"><a href="#cb31-8"></a>                        <span class="st">"Tr3"</span> <span class="ot">=</span> <span class="st">"Nonfatal Shooting (t-1)"</span>),</span>
-<span id="cb31-9"><a href="#cb31-9"></a>         <span class="at">Model =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Model)),</span>
-<span id="cb31-10"><a href="#cb31-10"></a>         <span class="at">Treat =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Treat)))</span>
-<span id="cb31-11"><a href="#cb31-11"></a></span>
-<span id="cb31-12"><a href="#cb31-12"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">mutate</span>(<span class="at">Model =</span> <span class="fu">if_else</span>(Model <span class="sc">==</span> <span class="st">"M1"</span>,</span>
+<span id="cb37-3"><a href="#cb37-3"></a>                           <span class="st">"County-Year FE"</span>, </span>
+<span id="cb37-4"><a href="#cb37-4"></a>                           <span class="st">"County-Year FE + Covariates"</span>),</span>
+<span id="cb37-5"><a href="#cb37-5"></a>         <span class="at">Treat =</span> <span class="fu">recode</span>(Treat,</span>
+<span id="cb37-6"><a href="#cb37-6"></a>                        <span class="st">"Tr1"</span> <span class="ot">=</span> <span class="st">"Any Shooting (t-1)"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7"></a>                        <span class="st">"Tr2"</span> <span class="ot">=</span> <span class="st">"Fatal Shooting (t-1)"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8"></a>                        <span class="st">"Tr3"</span> <span class="ot">=</span> <span class="st">"Nonfatal Shooting (t-1)"</span>),</span>
+<span id="cb37-9"><a href="#cb37-9"></a>         <span class="at">Model =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Model)),</span>
+<span id="cb37-10"><a href="#cb37-10"></a>         <span class="at">Treat =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Treat)))</span>
+<span id="cb37-11"><a href="#cb37-11"></a></span>
+<span id="cb37-12"><a href="#cb37-12"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        Model                   Treat               term
 1              County-Year FE      Any Shooting (t-1)           shooting
@@ -1191,36 +1374,36 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>did_est2 <span class="sc">|&gt;</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
-<span id="cb33-5"><a href="#cb33-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
-<span id="cb33-6"><a href="#cb33-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb33-7"><a href="#cb33-7"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model, </span>
-<span id="cb33-8"><a href="#cb33-8"></a>                <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
-<span id="cb33-9"><a href="#cb33-9"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb33-10"><a href="#cb33-10"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb33-11"><a href="#cb33-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Democratic Vote Share (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb33-12"><a href="#cb33-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
-<span id="cb33-13"><a href="#cb33-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
-<span id="cb33-14"><a href="#cb33-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb33-15"><a href="#cb33-15"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb33-16"><a href="#cb33-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>did_est2 <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
+<span id="cb39-5"><a href="#cb39-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
+<span id="cb39-6"><a href="#cb39-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model, </span>
+<span id="cb39-8"><a href="#cb39-8"></a>                <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
+<span id="cb39-9"><a href="#cb39-9"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb39-10"><a href="#cb39-10"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb39-11"><a href="#cb39-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Change in Democratic Vote Share (%p)"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb39-12"><a href="#cb39-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
+<span id="cb39-13"><a href="#cb39-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
+<span id="cb39-14"><a href="#cb39-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb39-15"><a href="#cb39-15"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb39-16"><a href="#cb39-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="2700"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="2700"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>did_est <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"Out1"</span> <span class="ot">=</span> did_est1,</span>
-<span id="cb34-2"><a href="#cb34-2"></a>                          <span class="st">"Out2"</span> <span class="ot">=</span> did_est2),</span>
-<span id="cb34-3"><a href="#cb34-3"></a>                     <span class="at">.id =</span> <span class="st">"Outcome"</span>)</span>
-<span id="cb34-4"><a href="#cb34-4"></a></span>
-<span id="cb34-5"><a href="#cb34-5"></a>did_est</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>did_est <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"Out1"</span> <span class="ot">=</span> did_est1,</span>
+<span id="cb40-2"><a href="#cb40-2"></a>                          <span class="st">"Out2"</span> <span class="ot">=</span> did_est2),</span>
+<span id="cb40-3"><a href="#cb40-3"></a>                     <span class="at">.id =</span> <span class="st">"Outcome"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4"></a></span>
+<span id="cb40-5"><a href="#cb40-5"></a>did_est</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Outcome                       Model                   Treat
 1     Out1              County-Year FE      Any Shooting (t-1)
@@ -1264,13 +1447,13 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>did_est <span class="ot">&lt;-</span> did_est <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a>  <span class="fu">mutate</span>(<span class="at">Outcome =</span> <span class="fu">if_else</span>(Outcome <span class="sc">==</span> <span class="st">"Out1"</span>,</span>
-<span id="cb36-3"><a href="#cb36-3"></a>                           <span class="st">"Change in Turnout (%p)"</span>,</span>
-<span id="cb36-4"><a href="#cb36-4"></a>                           <span class="st">"Change in Democratic Vote Share (%p)"</span>),</span>
-<span id="cb36-5"><a href="#cb36-5"></a>         <span class="at">Outcome =</span> <span class="fu">fct_inorder</span>(Outcome))</span>
-<span id="cb36-6"><a href="#cb36-6"></a></span>
-<span id="cb36-7"><a href="#cb36-7"></a>did_est</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>did_est <span class="ot">&lt;-</span> did_est <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a>  <span class="fu">mutate</span>(<span class="at">Outcome =</span> <span class="fu">if_else</span>(Outcome <span class="sc">==</span> <span class="st">"Out1"</span>,</span>
+<span id="cb42-3"><a href="#cb42-3"></a>                           <span class="st">"Change in Turnout (%p)"</span>,</span>
+<span id="cb42-4"><a href="#cb42-4"></a>                           <span class="st">"Change in Democratic Vote Share (%p)"</span>),</span>
+<span id="cb42-5"><a href="#cb42-5"></a>         <span class="at">Outcome =</span> <span class="fu">fct_inorder</span>(Outcome))</span>
+<span id="cb42-6"><a href="#cb42-6"></a></span>
+<span id="cb42-7"><a href="#cb42-7"></a>did_est</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                Outcome                       Model
 1                Change in Turnout (%p)              County-Year FE
@@ -1314,27 +1497,27 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>did_est <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
-<span id="cb38-5"><a href="#cb38-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
-<span id="cb38-6"><a href="#cb38-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb38-7"><a href="#cb38-7"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model, </span>
-<span id="cb38-8"><a href="#cb38-8"></a>                <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
-<span id="cb38-9"><a href="#cb38-9"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb38-10"><a href="#cb38-10"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb38-11"><a href="#cb38-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatment Effects"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb38-12"><a href="#cb38-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
-<span id="cb38-13"><a href="#cb38-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
-<span id="cb38-14"><a href="#cb38-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb38-15"><a href="#cb38-15"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Outcome, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb38-16"><a href="#cb38-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb38-17"><a href="#cb38-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>did_est <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb44-3"><a href="#cb44-3"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high,</span>
+<span id="cb44-5"><a href="#cb44-5"></a>                      <span class="at">y =</span> Treat, <span class="at">color =</span> Model),</span>
+<span id="cb44-6"><a href="#cb44-6"></a>                  <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb44-7"><a href="#cb44-7"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> Treat, <span class="at">color =</span> Model, </span>
+<span id="cb44-8"><a href="#cb44-8"></a>                <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
+<span id="cb44-9"><a href="#cb44-9"></a>            <span class="at">position =</span> <span class="fu">position_dodge2</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb44-10"><a href="#cb44-10"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb44-11"><a href="#cb44-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treatment Effects"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb44-12"><a href="#cb44-12"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"County-Year FE"</span> <span class="ot">=</span> <span class="st">"black"</span>, </span>
+<span id="cb44-13"><a href="#cb44-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
+<span id="cb44-14"><a href="#cb44-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb44-15"><a href="#cb44-15"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Outcome, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb44-16"><a href="#cb44-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb44-17"><a href="#cb44-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="2700"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="2700"></p>
 </figure>
 </div>
 </div>
@@ -1342,6 +1525,54 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 </section>
 <section id="scm" class="level2">
 <h2 class="anchored" data-anchor-id="scm">SCM</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>scm_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data6.csv"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2"></a></span>
+<span id="cb45-3"><a href="#cb45-3"></a>scm_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 891 × 9
+   Election PrefCode PrefName_E PrefNam…¹ Eligi…² Voters EffVote Magni…³ Candi…⁴
+      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1        7        1 Hokkaido   北海道    2903802 1.83e6 1683764       4       7
+ 2        7        2 Aomori     青森県     823336 5.09e5  478380       1       5
+ 3        7        3 Iwate      岩手県     849109 6.20e5  591977       1       3
+ 4        7        4 Miyagi     宮城県    1049109 6.95e5  666205       1       4
+ 5        7        5 Akita      秋田県     771983 5.91e5  558603       1       3
+ 6        7        6 Yamagata   山形県     784438 6.37e5  615414       1       3
+ 7        7        7 Fukushima  福島県    1123975 8.93e5  855609       2       5
+ 8        7        8 Ibaraki    茨城県    1246254 7.85e5  750181       2       4
+ 9        7        9 Tochigi    栃木県     909245 6.38e5  614249       2       6
+10        7       10 Gunma      群馬県     990083 7.20e5  690448       2       6
+# … with 881 more rows, and abbreviated variable names ¹​PrefName_J, ²​Eligible,
+#   ³​Magnitude, ⁴​Candidates
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>scm_df <span class="ot">&lt;-</span> scm_df <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>  <span class="fu">mutate</span>(<span class="at">Election   =</span> <span class="fu">factor</span>(Election),</span>
+<span id="cb47-3"><a href="#cb47-3"></a>         <span class="at">PrefCode   =</span> <span class="fu">factor</span>(PrefCode),</span>
+<span id="cb47-4"><a href="#cb47-4"></a>         <span class="at">PrefName_E =</span> <span class="fu">fct_inorder</span>(PrefName_E),</span>
+<span id="cb47-5"><a href="#cb47-5"></a>         <span class="at">PrefName_J =</span> <span class="fu">fct_inorder</span>(PrefName_J))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>scm_df <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a>  <span class="fu">descr</span>(<span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n.valid"</span>),</span>
+<span id="cb48-3"><a href="#cb48-3"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Descriptive Statistics  
+scm_df  
+N: 891  
+
+                         Mean      Std.Dev         Min           Max   N.Valid
+---------------- ------------ ------------ ----------- ------------- ---------
+        Eligible   1917557.40   1842564.09   364184.00   11396789.00    891.00
+          Voters   1138294.35   1016940.45   237073.00    6415327.00    891.00
+         EffVote   1095111.30    985815.30   228792.00    6223547.00    891.00
+       Magnitude         1.60         0.85        1.00          6.00    891.00
+      Candidates         5.35         5.38        2.00         72.00    891.00</code></pre>
+</div>
+</div>
 </section>
 <section id="causalimpact" class="level2">
 <h2 class="anchored" data-anchor-id="causalimpact">CausalImpact</h2>
@@ -1349,7 +1580,13 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">注</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p><code>fixed_effects</code>引数でなく、回帰式に説明変数として指定しても結果は同じである。しかし、回帰式に書く場合、固定効果の推定値も全て出力され、推定結果が非常に長くなる。しかし、固定効果の推定値は論文内で報告することもない。<code>fixed_effects</code>で指定すると、それらの結果は省略される。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
