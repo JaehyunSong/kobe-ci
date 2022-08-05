@@ -33,6 +33,7 @@ pacman::p_load(tidyverse,     # Rの必須パッケージ
                modelsummary,  # 推定結果の要約
                estimatr,      # ロバストな回帰分析
                gsynth,        # 一般化SCM
+               panelView,     # パネルデータのチェック
                CausalImpact)  # CausalImpactの実装
 
 did_df <- read_csv("data/did_data5.csv")
@@ -313,6 +314,8 @@ did_est1 |>
   theme(legend.position = "bottom")
 ```
 
+　続いて、民主党候補者の得票率（`demvote`）を応答変数として6つのモデルを推定し、同じ作業を繰り返す。
+
 ```{r}
 did_fit7 <- lm_robust(demvote ~ shooting, 
                       data          = did_df, 
@@ -352,12 +355,15 @@ did_fit12 <- lm_robust(demvote ~ non_fatal_shooting +
                        fixed_effects = ~year_f + county_f,
                        clusters      = state_f,
                        se_type       = "stata")
+
+modelsummary(list("Model 7"  = did_fit7,  "Model 8"  = did_fit8, 
+                  "Model 9"  = did_fit9,  "Model 10" = did_fit10, 
+                  "Model 11" = did_fit11, "Model 12" = did_fit12))
 ```
 
-```{r}
-modelsummary(list(did_fit7, did_fit8, did_fit9, 
-                  did_fit10, did_fit11, did_fit12))
-```
+　今回はいずれも統計的に有意な結果が得られている。例えば、モデル7（`did_fit7`）の場合、処置効果の推定値は`r sprintf("%.3f", coef(did_fit7)[1])`である。これは学校内銃撃事件が発生したカウンティーの場合、大統領選挙において民主党候補者の得票率が約`r sprintf("%.3f", coef(did_fit7)[1])`%p増加することを意味する。
+
+　以上の結果を図としてまとめてみよう。
 
 ```{r}
 tidy_fit7  <- tidy(did_fit7)
@@ -430,6 +436,8 @@ did_est2 |>
   theme(legend.position = "bottom")
 ```
 
+　最後に、これまで作成した2つの図を一つにまとめてみよう。`bind_rows()`関数を使い、それぞれの表に識別子（`Outcome`）を与える。
+
 ```{r}
 did_est <- bind_rows(list("Out1" = did_est1,
                           "Out2" = did_est2),
@@ -437,6 +445,8 @@ did_est <- bind_rows(list("Out1" = did_est1,
 
 did_est
 ```
+
+　`Outcome`列のリコーディングし、factor化する。
 
 ```{r}
 did_est <- did_est |>
@@ -447,6 +457,8 @@ did_est <- did_est |>
 
 did_est
 ```
+
+　図の作り方はこれまでと変わらないが、ファセット分割を行うため、`facet_wrap()`レイヤーを追加する。
 
 ```{r}
 #| fig-width: 9
@@ -470,7 +482,17 @@ did_est |>
   theme(legend.position = "bottom")
 ```
 
+　以上の結果から「学校内銃撃事件の発生は投票参加を促すとは言えないものの、民主党候補者の得票率を上げる」ということが言えよう。
+
 ## SCM
+
+　ここでは、差分の差分法の応用としてSynthetic Control Method（SCM）を{gsynth}パッケージの使い方に重点を起きながら説明する。Synthetic Control MethodをRに実装したパッケージは{Synth}、{gsynth}、{bpCausal}などがある。SCMの代表的な論文の一つであるAbadie et al.（2015）は{Synth}パッケージを使っているが、使い方はかなり複雑である。したがって、ここでは使い方が最も簡単な{gsynth}パッケージについて説明する[^gscm]。
+
+[^gscm]: {gsynth}は通常のSCMでなく、一般化SCMを実装したパッケージである。通常のSCMは処置群は1つのみに使えるが、一般化SCMは処置群が複数あっても使える。一般化SCMについてはYiqing Xu. 2017. "[Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models](https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3#article)," *Political Analysis,* 25 (1): 57-76.を参照されたい。
+
+　ここで使用するのは歴代参院選（第7回以降）における都道府県の投票率である[^scm-data]。処置変数は第24回参院選から導入された「合区」だ。具体的には鳥取選挙区と島根選挙区が「鳥取・島根選挙区」に、徳島選挙区と高知選挙区が「徳島・高知選挙区」として合区されたか否かである。合区によって自分の1票の価値がほぼ半分に下がり、投票参加を妨げたのではないかという議論もあるが、本当だろうか。
+
+[^scm-data]: 第7〜23回参院選のデータは[参議院議員通常選挙データベース](http://db.cps.kutc.kansai-u.ac.jp/)からダウンロードしたものを架空したものであり、第24〜26回データは宋が手入力したものである。
 
 ```{r}
 scm_df <- read_csv("data/did_data6.csv")
@@ -479,18 +501,364 @@ scm_df
 ```
 
 ```{r}
-scm_df <- scm_df |>
-  mutate(Election   = factor(Election),
-         PrefCode   = factor(PrefCode),
-         PrefName_E = fct_inorder(PrefName_E),
-         PrefName_J = fct_inorder(PrefName_J))
-```
-
-```{r}
 scm_df |>
+  dplyr::select(Eligible:Candidates) |>
   descr(stats = c("mean", "sd", "min", "max", "n.valid"),
         transpose = TRUE, order = "p")
 ```
 
+|変数名|説明|備考|
+|---|---|---|
+|`Election`|選挙|第**XX**回参議院議員通常選挙|
+|`PrefCode`|都道府県|JIS規格コード|
+|`PrefName_E`|都道府県|英語|
+|`PrefName_J`|都道府県|日本語|
+|`Eligible`|有権者数||
+|`Voters`|投票者数||
+|`EffVote`|有効投票数||
+|`Magnitude`|定数||
+|`Candidates`|候補者数||
+
+　合区された選挙区における定数および候補者数の扱いについてだが、たとえば島根選挙区の場合、合区前の定数は1である。合区後の鳥取・島根選挙区も定数1だ。この場合、合区後の島根「県」の定数を1にするか0.5にするか、そして候補者数も合区における候補者数にすべきか、2に割るかが問題となるが、ここでは定数を1とし、候補者数も合区における候補者数とした。このようなコーディングが実証上、正しいかどうかは分からないが、実習の段階では問題ないだろう。
+
+　それでは、データを以下のように加工する。
+
+1. `Treat`という変数を作成する。`PrefName`が「鳥取県」、「島根県」、「徳島県」、「高知県」であり、`Election`が24以上なら1、それ以外のケースは0とする。
+2. `Turnout`という変数を作成する。投票者数（`Voters`）を有権者数（`Eligible`）で割り、100を掛ける。
+3. `Spoilt`という変数を作成する。有効投票数（`EffVote`）を有権者数（`Eligible`）で割った値を1から引き、100を掛ける。
+4. 都道府県名（`PrefName_E`）をfactor変数に変換し、`PrefName_F`という列として追加します。水準（levels）の順番はデータの出現順とする。
+5. 都道府県名（`PrefName_J`）をfactor化し、要素の順番は`scm_df`内における表示順番とする。
+
+```{r}
+scm_df <- scm_df |>
+  mutate(Treat      = if_else(PrefName_E %in% c("Tottori", "Shimane",
+                                                "Tokushima","Kochi") &
+                                Election >= 24, 1, 0),
+         Turnout    = Voters / Eligible * 100,
+         Spoilt     = (1 - (EffVote / Voters)) * 100,
+         PrefName_J = fct_inorder(PrefName_J))
+```
+
+　本格的な分析に入る前に、各ケースの処置有無を可視化してみよう。パネルデータの確認には{panelView}パッケージの`panelview()`関数を使う。第一引数は`応答変数 ~ 処置変数`であり、`data`引数にデータフレームのオブジェクト名を指定する。また、`index`にはユニットと時間を表す変数名を長さ2のcharacter型ベクトルとして指定します。ここでは`"PrefName_J"`と`"Election"`である。最後に、`pre.post = TRUE`を指定すると、処置前後を色分けしてくれるので、見やすくなる。
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+panelview(Turnout ~ Treat, data = scm_df, 
+          index = c("PrefName_J", "Election"), pre.post = TRUE,
+          xlab = "参院選", ylab = "都道府県")
+```
+
+　これを見ると処置を受けるケースが4県であり、どれも第24回参院選から処置を受けることが分かる。また、沖縄県の場合、第7・8回参院選のデータが欠損していることが分かる。
+
+　次は投票率の変化を時系列的に示してみよう。使い方は先ほどとほぼ同じだが、`panelView()`内に`type = "outcome"`引数を追加する。
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5
+panelview(Turnout ~ Treat, data = scm_df, 
+          index = c("PrefName_J", "Election"), 
+          type  = "outcome",
+          main  = "投票率の推移",
+          xlab  = "参院選",
+          ylab  = "投票率 (%)")
+```
+
+　これを見ると、都道府県内における投票率の変化にはバラツキがあるが、傾向としてはかなり似通っていることが分かる。また、処置後の変化（濃い青の線）を見ると、他の都道府県よりかなり落ちているようにも見える。これは合区によって何かの変化が生じた可能性があることを示唆している。
+
+　それではSCMをやってみよう。基本的な使い方は`lm()`関数に近いが、それでも必要な引数がそれなりにある。ここではその一部を紹介する。
+
+* 第1引数は`応答変数 ~ 処置変数 + 統制変数1 + 統制変数2 + ...`であり、統制変数は必須ではない。ここでは統制変数として定数（`Magnitude`）と候補者数（`Candidates`）を使用する。
+* `data`にはデータフレームのオブジェクト名を指定する。
+* `index`は`panelview()`と同じだが、**一つ注意が必要**です。それは、ユニットを表す変数をこれまではfactor化された`"PrefName_J"`を使ってきたが、factor化されて**いない**`"PrefName_E"`にすることだ。まだ開発途上のパッケージということもあり、ユニット変数がfactor型だと、正しく推定できない。`PrefName_E`はfactor型でなくcharacter型ですので、問題ない（あえて`PrefName_E`をfactor化しなかったのはこのためである）。また、numeric型である`PrefCode`を指定すれば良い。。
+* `force`は固定効果をユニットレベルにするか、時間レベルにするか、両方にするか、あるいはなしにするかを意味する。既定値はユニットレベル（`"unit"`）だが、ここでは両方（`"two-way"`）にする。
+* `se`は標準誤差を計算するか否かであり、既定値は`FALSE`である。ここでは標準誤差も計算するために`TRUE`に指定する。標準誤差を計算しない場合、計算が早く終わる。
+* `inference`は推定方法を意味し、既定値はノンパラメトリック推定（`"nonparametric"`）です。ただし、処置ケースが少ない場合、パラメトリック推定が推奨されているため、ここでは`"parametric"`を指定する。
+* `nboots`は標準誤差を計算する際に使用されるブートストラッピングの回数である。既定値は200ですが、ここでは500回にする。
+* `parallel`は並列計算の有無を意味する。既定値は`TRUE`で、このままでも通常は問題ない。ただし、R Markdown上で{gsynth}を使用する場合は並列計算ができないため、`FALSE`にしておく（処理時間が倍以上になる）。
+
+```{r}
+#| include: false
+#| cache: true
+scm_fit <- gsynth(Turnout ~ Treat + Magnitude + Candidates, 
+                  data = scm_df, index = c("PrefName_E", "Election"), 
+                  force = "two-way", se = TRUE, inference = "parametric",
+                  nboots = 500, parallel = FALSE)
+```
+
+```{r}
+#| eval: false
+scm_fit <- gsynth(Turnout ~ Treat + Magnitude + Candidates, 
+                  data = scm_df, index = c("PrefName_E", "Election"), 
+                  force = "two-way", se = TRUE, inference = "parametric",
+                  nboots = 500, parallel = TRUE)
+```
+
+```{r}
+print(scm_fit)
+```
+
+　平均値な処置効果（AT**T**）は`r sprintf("%.3f", scm_fit$att.avg)`であり、統計的にも有意な結果が得られた。これは合区が行われた選挙区は、もし合区しなかった場合の投票率に比べ、約`r sprintf("%.3f", scm_fit$att.avg)`%p低いことを意味します。また、`~ by Period`以下の欄では各選挙ごとのAT**T**が表示されます。1以降が合区以降の時期であり、それぞれ約`r sprintf("%.3f", scm_fit$att["24"])`%p、`r sprintf("%.3f", scm_fit$att["25"])`%p、`r sprintf("%.3f", scm_fit$att["26"])`%pである。上記の`r sprintf("%.3f", scm_fit$att.avg)`はこの3つの数値の平均値である。ちなみに処置群の県が4つにも関わらず、AT**T**が一つだけ表示されるのは、4つの平均値を出しているからだ。それぞれの県ごとに効果を確認する方法は後ほど解説する。とりあえず、この結果から合区は投票率を下げたという解釈ができよう。
+
+　以上の結果を可視化するためには`plot()`関数を使う。タイトル、横軸、縦軸のラベルは`main`、`xlab`、`ylab`で指定できる。
+
+```{r}
+plot(scm_fit, 
+     main = "Estimated ATT", 
+     xlab = "Election (0 = 2013 Election)", 
+     ylab = "ATT (%p)")
+```
+
+　処置を受ける**前**は架空の4県とその実際の4県の間に投票率の差はあまりなかったが、処置を受けてから差が広がることが分かる。差分でなく、合成された架空の4県と実際の4県のトレンドを見るためには`type = "counterfactual"`、もしくは`type = "ct"`を指定します。
+
+```{r}
+plot(scm_fit, 
+     type = "counterfactual", 
+     main = "",
+     xlab = "Election", 
+     ylab = "Turnout (%)")
+```
+
+　処置を受けたのは4県であるが、線が1本になっている。ここからも処置前は架空の4県と実際の4県はほぼ同じトレンドを示していますが、処置後は傾向が変わったことが確認できる。
+
+　もし、4つの都道府県を個別に示したい場合はどうすれば良いだろうか。この場合、`plot()`内に`id`引数を使えば良い。たとえば、鳥取県の処置効果（ATT）を確認するためには`id = "Tottori"`と指定する。
+
+```{r}
+plot(scm_fit, id = "Tottori")
+```
+
+```{r}
+plot(scm_fit, id = "Tottori", type = "ct")
+```
+
+　4つの都道府県のデータを個別のファセットで全て出すためにはゼロベースで作図した方が効率的かも知れない。また、この場合は図のカスタマイズの幅も広がる。{gsynth}から得られたオブジェクトには架空の鳥取、島根、徳島、高知のデータが個別に格納されているため、それを抽出すれば個別の図を作成することもできる。たとえば、処置群（4県）の観察済みのデータは`オブジェクト名$Y.tr`で抽出できる。
+
+```{r}
+scm_fit$Y.tr
+```
+
+　このデータは行列構造となっているため、`as_tibble()`で表形式へ変更し、`treat_df`という名で格納する。
+
+```{r}
+treat_df <- as_tibble(scm_fit$Y.tr)
+
+treat_df
+```
+
+　この`treat_df`だけは各投票率がいつの投票率かが分からない。`Election`列を`Kochi`列前に追加し（`mutate()`内の最後に`.before = Kochi`を指定すると、`mutate()`で生成・修正された列が`Kochi`列の前へ移動する）、7から26までを入れる。
+
+```{r}
+treat_df <- treat_df |>
+  mutate(Election = 7:26, .before = Kochi)
+
+treat_df
+```
+
+　続いて、{tidyr}の`pivot_longer()`関数を使って`treat_df`をlong型データへ変換する。`pivot_*()`関数の使い方については『私たちのR』[第15章「整然データ構造」](https://www.jaysong.net/RBook/tidydata.html)を参照されたい。
+
+```{r}
+treat_df <- treat_df |>
+  pivot_longer(cols      = Kochi:Tottori,
+               names_to  = "Pref",
+               values_to = "Turnout")
+
+treat_df
+```
+
+　同じ作業を架空の処置群についても行う。架空の処置群は`オブジェクト名$Y.ct`で抽出できる。今回は全ての作業をパイプ演算子で繋ぎ、コードを効率化する。
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+counter_df <- scm_fit$Y.ct |>
+  as_tibble() |>
+  mutate(Election = 7:26, .before = Kochi) |>
+  pivot_longer(cols      = Kochi:Tottori,
+               names_to  = "Pref",
+               values_to = "Turnout")
+
+counter_df
+```
+
+　最後に`treat_df`と`counter_df`を結合する。`treat_df`の行なら`"観測値"`の値が、`counter_df`の行なら`"反実仮想"`の値が付けられた`Type`という列を追加し、この`Type`列をfactor化する。要素の順番は`"反実仮想"`、`"観測値"`の順とする。
+
+```{r}
+tr_ct_df <- bind_rows(list("観測値"   = treat_df, 
+                           "反実仮想" = counter_df),
+                      .id = "Type") |>
+  mutate(Type = factor(Type, levels = c("反実仮想", "観測値")))
+```
+
+　データが揃ったので{ggplot2}を使って折れ線グラフを作ってみよう。
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+tr_ct_df |>
+  # Pref列をリコーディング & factor化
+  mutate(Pref = recode(Pref,
+                       "Tottori"   = "鳥取",
+                       "Shimane"   = "島根",
+                       "Tokushima" = "徳島",
+                       "Kochi"     = "高知"),
+         Pref = factor(Pref, levels = c("鳥取", "島根", "徳島", "高知"))) |>
+  ggplot() +
+  # x = 23の箇所に垂直線の破線を引く
+  geom_vline(xintercept = 23, linetype = 2) +
+  geom_line(aes(x = Election, y = Turnout, linetype = Type, color = Type),
+            size = 1) +
+  # 線の色
+  scale_color_manual(values = c("観測値"   = "black", 
+                                "反実仮想" = "orange")) +
+  # 線のタイプ（1 = 実線; 2 = 破線）
+  scale_linetype_manual(values = c("観測値"   = 1, 
+                                   "反実仮想" = 2)) +
+  # colorの凡例は残し、linetypeの凡例は無くす
+  guides(linetype = "none") +
+  labs(x = "選挙", y = "投票率 (%)", color = "") +
+  # 都道府県ごとにファセット分割
+  facet_wrap(~Pref, ncol = 2) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+　ただし、この図だけだと処置効果（ATT）が分かりにくい。処置効果は観測値（=処置群）と反実仮想（=架空の統制群）の差分である。`tr_ct_df`からもATTの計算はできるが、ATTの不確実性（標準誤差や信頼区間など）までは分からない。処置効果（ATT）を抽出は`オブジェクト名$est.ind`で出来るが、3次元配列（array構造）になっているため、`オブジェクト名$est.ind[, , "処置群名"]`で抽出する必要がある。処置群名は今回の場合だと`PrefName_E`上の名前である。たとえば、鳥取における処置効果は以下のように抽出する。これらもまた表形式でなく、行列構造であるので、`as_tibble()`を使って表形式にしよう。
+
+```{r}
+as_tibble(scm_fit$est.ind[, , "Tottori"])
+```
+
+　ここで`Eff`列が架空の鳥取と実際の鳥取の差、つまり処置効果である。そして、`CI.lower`と`CI.upper`がそれぞれ95%信頼区間の下限と上限だ。これら4つの県のデータを結合し、`Election`変数を追加、都道府県をfactor化したものを`att_df`という名で格納する。
+
+```{r}
+att_df <- bind_rows(list("鳥取" = as_tibble(scm_fit$est.ind[, , "Tottori"]),
+                         "島根" = as_tibble(scm_fit$est.ind[, , "Shimane"]),
+                         "徳島" = as_tibble(scm_fit$est.ind[, , "Tokushima"]),
+                         "高知" = as_tibble(scm_fit$est.ind[, , "Kochi"])),
+                    .id = "Pref") |>
+  mutate(Election = rep(7:26, 4), # 7~26を4回繰り返し
+         .before = Pref) |>       # Election列をPref列の前に
+  mutate(Pref = fct_inorder(Pref))
+
+att_df
+```
+
+　それでは折れ線グラフを作ってみよう。ただし、今回は点推定値（折れ線グラフ）だけでなく、信頼区間も示す必要があるので`geom_ribbon()`レイヤーを追加する。
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+att_df |>
+  ggplot() +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_vline(xintercept = 23, linetype = 2) +
+  # 信頼区間
+  geom_ribbon(aes(x = Election, ymin = CI.lower, ymax = CI.upper),
+              alpha = 0.25) +
+  geom_line(aes(x = Election, y = Eff)) +
+  # 以下のgeom_point()なあってもなくても良い
+  geom_point(aes(x = Election, y = Eff), 
+             size = 3, shape = 21, fill = "black", color = "white") +
+  labs(x = "Election", y = "Gap (%p)") +
+  facet_wrap(~Pref, ncol = 2) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+　個別に見ると、合区直後、合区によって投票率を下がったのは鳥取、徳島、高知である。しかし、合区から3回目の選挙となる2022年（第26回）では鳥取のみとなる。
+
+　SCMは統制群から合成された架空の鳥取、島根、徳島、高知を作成し、こちらを実際の統制群として用いる手法である。その際に43都道府県を重み付け合成されるが、それぞれの重みはいくつだろうか。`gsynth()`から得られたオブジェクトから`wgt.implied`を抽出すればその重みが分かる。通常のSCMの場合、重みは正の値であるが、一般化SCMの場合は負も正もあり得る。
+
+```{r}
+#| eval: false
+scm_fit$wgt.implied
+```
+
+```{r}
+#| echo: false
+scm_fit$wgt.implied |>
+  as_tibble() |>
+  mutate(Pref = rownames(scm_fit$wgt.implied), 
+         .before = Kochi) |>
+  gt::gt(rowname_col = "Pref") |>
+  gt::fmt_number(columns = 2:5, decimals = 3)
+```
+
 ## CausalImpact
 
+```{r}
+ci_df <- scm_df |>
+  # 第7・8回参院選の場合、沖縄県が欠損しているため、除外
+  filter(Election >= 9) |>
+  dplyr::select(Election, PrefName_E, Turnout)
+
+ci_df
+```
+
+```{r}
+ci_df <- ci_df |> 
+  pivot_wider(names_from  = PrefName_E,
+              values_from = Turnout)
+
+ci_df
+```
+
+```{r}
+ci_df <- ci_df |> 
+  # Tottori列を最先端へ（= Election列より前）
+  relocate(Tottori, .before = Election) |>
+  # その他の処置群とElection列を除外
+  dplyr::select(-c(Election, Shimane, Tokushima, Kochi))
+```
+
+```{r}
+ci_fit <- ci_df |>
+  CausalImpact(pre.period = c(1, 15), post.period = c(16, 18))
+
+ci_fit
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 12
+plot(ci_fit)
+```
+
+```{r}
+#| include: false
+ci_plot1 <- plot(ci_fit, "original") +
+  coord_cartesian(ylim = c(50, 95)) +
+  labs(x = "") +
+  theme_bw(base_size = 14)
+
+scm_plot1 <- plot(scm_fit, type = "ct", id = "Tottori", main = "") +
+  coord_cartesian(xlim = c(9, 26), ylim = c(50, 95)) +
+  labs(x = "", y = "") +
+  theme_bw(base_size = 14) +
+  theme(legend.position = "none")
+
+ci_plot2 <- plot(ci_fit, "pointwise") +
+  labs(x = "") +
+  theme_bw(base_size = 14)
+
+scm_plot2 <- plot(scm_fit, type = "gap", id = "Tottori", main = "") +
+  labs(x = "", y = "") +
+  theme_bw(base_size = 14) +
+  theme(legend.position = "none")
+```
+
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 4
+ggpubr::ggarrange(ci_plot1, scm_plot1)
+```
+
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 4
+ggpubr::ggarrange(ci_plot2, scm_plot2)
+```
+
+宋はCausalImpactの便利さ（=統制群すら必要としない点、{CausalImpact}パッケージの使いやすさ）は認めるものの、まだまだ改善の余地があると考えているので、ここまでに紹介させて頂きたい。詳細な紹介についてはill-identifiedさんの[記事](https://ill-identified.hatenablog.com/entry/2019/10/09/120000)と[コード](https://github.com/Gedevan-Aleksizde/20190728_DID)が詳しい。
