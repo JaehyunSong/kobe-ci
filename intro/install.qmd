@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo      = FALSE,
 
 ## 初期設定
 
-　本講義の実習は**NIIオンライン分析システムの使用を推奨**する。自分のPCにインストールしたR + RStudio、[RStuio.cloud](https://rstudio.cloud/)、大学PCにインストールされているR + RStudioなどの使用を妨げないが、本ページの資料と同じ結果が得られることは保証しない。また、実習・分析中に起きた不具合についても授業中には対応しない。
+　本講義の実習は**NIIオンライン分析システムの使用を推奨**する。（自分 or 大学の）PCにインストールしたR + RStudio、[RStuio.cloud](https://rstudio.cloud/)、[Google Colaboratory](https://colab.research.google.com/?hl=ja)などの使用を妨げないが、本ページの資料と同じ結果が得られることは保証しない。また、この場合、実習・分析中に起きた不具合についても授業中には対応しない。
 
 　以下ではNIIオンライン分析システムを用いたRおよびRStudioの導入方法について解説する。
 

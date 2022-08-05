@@ -786,6 +786,14 @@ scm_fit$wgt.implied |>
 
 ## CausalImpact
 
+　最後にCausalImpactをRで実装した{CausalImpact}パッケージを使ってSCMの例を再現してみよう。この{CausalImpact}パッケージの場合、いくつかデータの制約がある。
+
+* 処置群の値は1列目 & 2列目以降は統制群の値
+* 処置群は1つのみ
+* 欠損値があってはならない。
+
+　以上の2点である。`scm_df`の場合、沖縄県に2つの欠損値（第7・8回参院選）が存在するため、第9回以降のデータのみを使用する。また、共変量などは使わないので選挙（`Election`）、都道府県名（`PrefName_E`）、投票率（`Turnout`）のみを残し、`ci_df`という名で格納する。
+
 ```{r}
 ci_df <- scm_df |>
   # 第7・8回参院選の場合、沖縄県が欠損しているため、除外
@@ -795,6 +803,8 @@ ci_df <- scm_df |>
 ci_df
 ```
 
+　続いて、{tidyr}の`pivot_wider()`関数を使って`ci_df`をwide型データへ変換する。`pivot_*()`関数の使い方については『私たちのR』[第15章「整然データ構造」](https://www.jaysong.net/RBook/tidydata.html)を参照されたい。
+
 ```{r}
 ci_df <- ci_df |> 
   pivot_wider(names_from  = PrefName_E,
@@ -802,6 +812,8 @@ ci_df <- ci_df |>
 
 ci_df
 ```
+
+　{CausalImpact}の場合、処置群は1つのみとなる。`ci_df`には4県の処置群があるが、ここでは鳥取（`PrefName_E == "Tottori"`）におけるATTを推定してみよう。`relocate()`関数を使って、`Tottori`列を`Election`列より前へ移動させる。続いて、不要になった`Election`関数とその他の統制群列を除外する。
 
 ```{r}
 ci_df <- ci_df |> 
@@ -811,6 +823,8 @@ ci_df <- ci_df |>
   dplyr::select(-c(Election, Shimane, Tokushima, Kochi))
 ```
 
+　それでは実装してみよう。使う関数は`CausalImpact()`関数だ。第1引数はデータである。他に必要な引数としては`pre.period`と`post.period`があり、それぞれ統制の時期と初期が行われた時期を意味する。処置前の時期というのは`ci_df`でいうと、第9回から第23回参院選までだ。`ci_df`の1行目が第9回参院選、15行目は第23回参院選である。16行目から18行目は処置が行われてからの時期だ。それぞれ`pre.period`と`post.period`で指定する。
+
 ```{r}
 ci_fit <- ci_df |>
   CausalImpact(pre.period = c(1, 15), post.period = c(16, 18))
@@ -818,11 +832,30 @@ ci_fit <- ci_df |>
 ci_fit
 ```
 
+　推定されたATTはAbsolute effect行のAverageから確認できる。これは鳥取県の場合、合区によって投票率が約`r sprintf("%.3f", ci_fit$summary$AbsEffect[1])`%p低下したことを意味する。ちなみにSCMで指定した鳥取県のATTはいくらだろうか。
+
+```{r}
+tottori_att <- scm_fit |>
+  cumuEff(cumu   = FALSE,     # TRUEの場合、累積ATT
+          id     = "Tottori", # PrefName_E上の名前
+          period = c(1, 3))   # 処置が行われた時期を1する。
+
+tottori_att
+```
+
+　SCMから得られた結果、第24回におけるATTは`r sprintf("%.3f", tottori_att$catt[1])`、第25回は`r sprintf("%.3f", tottori_att$catt[2])`、第26回は`r sprintf("%.3f", tottori_att$catt[3])`であり、平均値は`r sprintf("%.3f", mean(tottori_att$catt))`である。`r sprintf("%.3f", abs(ci_fit$summary$AbsEffect[1] - mean(tottori_att$catt)))`%pの差はあるが、それなりに近い結果が得られている。
+
+　分析の手法はことなるものの、SCMもCausalImpactも、架空の統制群を作るという点では共通している。したがって、SCMで示したような図も作成できよう。{CausalImpact}も`plot()`関数で作図ができる。
+
 ```{r}
 #| fig-width: 8
 #| fig-height: 12
 plot(ci_fit)
 ```
+
+　上の図が架空の鳥取県と実際の鳥取県を示したもの、真ん中の図はその2つの差分であり、ATTを意味する。下の図はATTの累積である。
+
+　それでは既に作成したSCMの図と比較してみよう。
 
 ```{r}
 #| include: false
@@ -861,4 +894,4 @@ ggpubr::ggarrange(ci_plot1, scm_plot1)
 ggpubr::ggarrange(ci_plot2, scm_plot2)
 ```
 
-宋はCausalImpactの便利さ（=統制群すら必要としない点、{CausalImpact}パッケージの使いやすさ）は認めるものの、まだまだ改善の余地があると考えているので、ここまでに紹介させて頂きたい。詳細な紹介についてはill-identifiedさんの[記事](https://ill-identified.hatenablog.com/entry/2019/10/09/120000)と[コード](https://github.com/Gedevan-Aleksizde/20190728_DID)が詳しい。
+　CausalImpactの方が信頼区間が広いものの、傾向としてはほとんど同じである。今回は{CausalImpact}の基本的な使い方のみを紹介したが、{bsts}パッケージの使用経験がある場合、ある程度のモデリングもできるため、より精度の良い推定ができるかも知れない。宋はCausalImpactの便利さ（=統制群すら必要としない点、{CausalImpact}パッケージの使いやすさ）は認めるものの、まだまだ改善の余地があると考えているので、ここまでに紹介させて頂きたい。詳細な紹介についてはill-identifiedさんの[記事](https://ill-identified.hatenablog.com/entry/2019/10/09/120000)と[コード](https://github.com/Gedevan-Aleksizde/20190728_DID)が詳しい。
