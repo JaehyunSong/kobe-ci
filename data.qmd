@@ -7,11 +7,15 @@ toc: false
 
 ||ファイル名|備考|
 |:---:|:---|:---|
-|1|<a href = "data/intro_data2.csv" download>`intro_data2.csv`</a>|第1回スライド|
-|1|<a href = "data/matching_data1.csv" download>`matching_data1.csv`</a>|第2回スライド|
-|1|<a href = "data/matching_data2.csv" download>`matching_data2.csv`</a>|第2回スライド|
-|1|<a href = "data/matching_data3.csv" download>`matching_data3.csv`</a>|第2回スライド|
-|1|<a href = "data/matching_data4.csv" download>`matching_data4.csv`</a>|第2回スライド|
+|1|<a href = "data/intro_data2.csv" download>`intro_data2.csv`</a>|因果推論の考え方とRCT|
+|2|<a href = "data/matching_data1.csv" download>`matching_data1.csv`</a>|マッチング|
+|3|<a href = "data/matching_data2.csv" download>`matching_data2.csv`</a>|マッチング|
+|4|<a href = "data/matching_data3.csv" download>`matching_data3.csv`</a>|マッチング|
+|5|<a href = "data/matching_data4.csv" download>`matching_data4.csv`</a>|マッチング|
+|6|<a href = "data/did_data1.csv" download>`did_data1.csv`</a>|差分の差分法|
+|7|<a href = "data/did_data2.csv" download>`did_data2.csv`</a>|差分の差分法|
+|8|<a href = "data/did_data4.csv" download>`did_data4.csv`</a>|差分の差分法|
+|9|<a href = "data/did_data6.csv" download>`did_data6.csv`</a>|差分の差分法|
 
 : {tbl-colwidths="[10,30,60]"}
 

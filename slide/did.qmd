@@ -107,7 +107,7 @@ X軸: $\frac{\mbox{認可保育所定員}}{\mbox{5歳以下子供数}}$ ; Y軸: 
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
-hoiku %>% 
+hoiku |> 
   ggplot(aes(x = Ninka_Rate, y = FemOccupRate)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
@@ -139,8 +139,8 @@ dagify(Y ~ X,
        Y ~ Z,
        X ~ Z,
       coords = list(x = c(X = 1, Y = 3, Z = 2),
-                    y = c(X = 1.1, Y = 1.1, Z = 2))) %>%
-  node_canonical() %>%
+                    y = c(X = 1.1, Y = 1.1, Z = 2))) |>
+  node_canonical() |>
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_edges() +
   annotate("text",x = 3, y = 1.1, label = "女性の\n就労率", 
@@ -189,7 +189,7 @@ dagify(Y ~ X,
 #| fig-width: 8
 #| fig-height: 3.5
 tibble(x = c(0, 1),
-       y = c(15, 10)) %>%
+       y = c(15, 10)) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(size = 1) +
   geom_point(size = 3, pch = 21, color = "white", fill = "black") +
@@ -219,7 +219,7 @@ tibble(x = c(0, 1),
 #| fig-height: 3.5
 tibble(x = c(0, 1, 0, 1),
        y = c(15, 10, 17, 15),
-       z = c(rep("A州", 2), rep("B州", 2))) %>%
+       z = c(rep("A州", 2), rep("B州", 2))) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z), size = 1) +
   geom_point(aes(fill = z),
@@ -290,7 +290,7 @@ tibble(x = c(0, 1, 0, 1, 0, 1),
        y = c(15, 10, 15, 13, 17, 15),
        z = c(rep("A州", 4), rep("B州", 2)),
        p = c(rep("観察済み", 2), rep("潜在的結果", 2),
-             rep("観察済み", 2))) %>%
+             rep("観察済み", 2))) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z, linetype = p), size = 1) +
   geom_point(aes(fill = z),
@@ -341,7 +341,7 @@ tibble(x = c(0, 1, 0, 1, 0, 1),
 #| fig-height: 3.5
 tibble(x = c(0, 1, 0, 1, 0, 1),
        y = c(15, 10, 17, 15, 16, 14),
-       z = c(rep("A州", 2), rep("B州", 2), rep("C州", 2))) %>%
+       z = c(rep("A州", 2), rep("B州", 2), rep("C州", 2))) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z), size = 1) +
   geom_point(aes(fill = z),
@@ -367,7 +367,7 @@ tibble(x = c(0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
        z = c(rep("A州", 6), rep("B州", 2), rep("C州", 2)),
        p = c(rep("観察済み", 2), rep("潜在的結果", 4),
              rep("観察済み", 2), rep("観察済み", 2)),
-       g = rep(1:5, each = 2)) %>%
+       g = rep(1:5, each = 2)) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z, linetype = p, group = g), size = 1) +
   geom_point(aes(fill = z),
@@ -397,7 +397,7 @@ tibble(x = c(-1, 0, 1, -1, 0, 1, -1, 0, 1),
        z = c(rep("A州", 6), rep("B州", 3)),
        p = c(rep("観察済み", 3), rep("潜在的結果", 3),
              rep("観察済み", 3)),
-       g = rep(1:3, each = 3)) %>%
+       g = rep(1:3, each = 3)) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z, linetype = p, group = g), size = 1) +
   geom_point(aes(fill = z),
@@ -431,7 +431,7 @@ tibble(x = rep(c(-1, 0, 1), 4),
        z = c(rep("A州", 9), rep("B州", 3)),
        p = c(rep("観察済み", 3), rep("潜在的結果", 6),
              rep("観察済み", 3)),
-       g = rep(1:4, each = 3)) %>%
+       g = rep(1:4, each = 3)) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z, linetype = p, group = g), size = 1) +
   geom_point(aes(fill = z),
@@ -465,7 +465,7 @@ tibble(x = rep(c(-1, 0, 1), 4),
        z = c(rep("A州", 9), rep("B州", 3)),
        p = c(rep("観察済み", 3), rep("潜在的結果", 6),
              rep("観察済み", 3)),
-       g = rep(1:4, each = 3)) %>%
+       g = rep(1:4, each = 3)) |>
   ggplot(aes(x = x, y = y)) +
   geom_line(aes(color = z, linetype = p, group = g), size = 1) +
   geom_point(aes(fill = z),
@@ -578,11 +578,11 @@ modelsummary(list("Model 1" = Hoiku_Fit1,
 ```{r}
 #| fig-width: 8
 #| fig-height: 3
-evote %>%
+evote |>
   mutate(Higashiyama = if_else(Ward_J == "東山区",
                                "東山区 (2004年電子投票導入)",
-                               "その他の区")) %>%
-  filter(year <= 2012) %>%
+                               "その他の区")) |>
+  filter(year <= 2012) |>
   ggplot() +
   geom_line(aes(x = year, y = turnout * 100, group = Ward_J, 
                 color = Higashiyama),
@@ -634,8 +634,8 @@ $$\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\m
 結果の比較
 
 ```{r}
-Hoiku_Fit3 <- hoiku %>%
-  mutate(Trend = (Year - 2000) / 5 + 1) %>%
+Hoiku_Fit3 <- hoiku |>
+  mutate(Trend = (Year - 2000) / 5 + 1) |>
   lm_robust(FemOccupRate ~ Ninka_Rate + 
               factor(Year) + factor(Pref_J) +
               factor(Pref_J) * Trend, 
@@ -671,13 +671,13 @@ $$\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\m
 結果の比較
 
 ```{r}
-Hoiku_Fit4 <- hoiku %>%
+Hoiku_Fit4 <- hoiku |>
   lm_robust(FemOccupRate ~ Ninka_Rate + UnOccup, 
             fixed_effects = ~ Year + Pref_J,
             data = ., clusters = Pref_J)
 
-Hoiku_Fit5 <- hoiku %>%
-  mutate(Trend = (Year - 2000) / 5 + 1) %>%
+Hoiku_Fit5 <- hoiku |>
+  mutate(Trend = (Year - 2000) / 5 + 1) |>
   lm_robust(FemOccupRate ~ Ninka_Rate + 
               factor(Pref_J) * Trend + UnOccup, 
             fixed_effects = ~ Year + Pref_J,
@@ -712,9 +712,9 @@ bind_rows(list("Model 1" = tidy(Hoiku_Fit1),
                "Model 3" = tidy(Hoiku_Fit3),
                "Model 4" = tidy(Hoiku_Fit4),
                "Model 5" = tidy(Hoiku_Fit5)),
-          .id = "Model") %>%
-  filter(term == "Ninka_Rate") %>%
-  mutate(Sig = if_else(p.value < 0.05, "Sig", "Insig")) %>%
+          .id = "Model") |>
+  filter(term == "Ninka_Rate") |>
+  mutate(Sig = if_else(p.value < 0.05, "Sig", "Insig")) |>
   ggplot() +
   geom_hline(yintercept = 0) +
   geom_pointrange(aes(x = Model, y = estimate, 
@@ -765,12 +765,12 @@ bind_rows(list("Model 1" = tidy(Hoiku_Fit1),
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
-synth_df %>%
-  filter(year >= 1980) %>%
+synth_df |>
+  filter(year >= 1980) |>
   mutate(WG = if_else(country == "West Germany", 
-                      "西ドイツ", "西ドイツ以外のOECD加盟国")) %>%
-  group_by(WG, year) %>%
-  summarise(GDP = mean(gdp)) %>%
+                      "西ドイツ", "西ドイツ以外のOECD加盟国")) |>
+  group_by(WG, year) |>
+  summarise(GDP = mean(gdp)) |>
   ggplot() +
   geom_vline(xintercept = 1990, linetype = 2) +
   geom_line(aes(x = year, y = GDP, color = WG), size = 1) +
@@ -791,11 +791,11 @@ synth_df %>%
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
-synth_df %>%
+synth_df |>
   mutate(WG = if_else(country == "West Germany", 
-                      "西ドイツ", "西ドイツ以外のOECD加盟国")) %>%
-  group_by(WG, year) %>%
-  summarise(GDP = mean(gdp)) %>%
+                      "西ドイツ", "西ドイツ以外のOECD加盟国")) |>
+  group_by(WG, year) |>
+  summarise(GDP = mean(gdp)) |>
   ggplot() +
   geom_vline(xintercept = 1990, linetype = 2) +
   geom_line(aes(x = year, y = GDP, color = WG), size = 1) +
@@ -817,9 +817,9 @@ OECDに加盟している16カ国のトレンドから架空の西ドイツ(潜�
 ```{r}
 #| fig-width: 8
 #| fig-height: 3.5
-synth_df %>%
+synth_df |>
   mutate(WG = if_else(country == "West Germany", 
-                      "西ドイツ", "西ドイツ以外のOECD加盟国")) %>%
+                      "西ドイツ", "西ドイツ以外のOECD加盟国")) |>
   ggplot() +
   geom_vline(xintercept = 1990, linetype = 2) +
   geom_line(aes(x = year, y = gdp, color = WG, group = country), size = 1) +
@@ -922,7 +922,7 @@ Synth_Result <- data.frame(
   C_WG = (Main_Data$Y0 %*% Main_Fit$solution.w)[, 1]
   )
 
-Path_Plot <- Synth_Result %>%
+Path_Plot <- Synth_Result |>
   ggplot(aes(x = Year)) +
   geom_vline(xintercept = 1990, linetype = 2) +
   geom_line(aes(y = WG, color = "西ドイツ"), size = 1) +
@@ -938,8 +938,8 @@ Path_Plot <- Synth_Result %>%
   theme(legend.position = "bottom",
         text = element_text(size = 12))
 
-Gaps_Plot <- Synth_Result %>%
-  mutate(Gap = WG - C_WG) %>%
+Gaps_Plot <- Synth_Result |>
+  mutate(Gap = WG - C_WG) |>
   ggplot(aes(x = Year, y = Gap)) +
   geom_vline(xintercept = 1990, linetype = 2) +
   geom_hline(yintercept = 0,    linetype = 2) +
@@ -990,7 +990,7 @@ ggpubr::ggarrange(Path_Plot, Gaps_Plot)
 ```{r}
 #| fig-width: 6
 #| fig-height: 3.5
-stock_df %>%
+stock_df |>
   ggplot() +
   geom_vline(xintercept = 67, linetype = 2) +
   geom_line(aes(x = Trend, y = Stock_J), size = 1) +
@@ -1012,9 +1012,11 @@ CausalImpactの可視化
 * Pointwise: 予測値と観測値の差分 (+信用区間)
 * Cumulative: Pointwiseの累積 (+信用区間)
 
-```{r, include = FALSE, cache = TRUE}
-CI <- stock_df %>%
-  dplyr::select(Stock_J) %>%
+```{r}
+#| include: false
+#| cache: true
+CI <- stock_df |>
+  dplyr::select(Stock_J) |>
   CausalImpact(pre.period  = c(1, 67), 
                post.period = c(68, 121))
 ```
@@ -1035,7 +1037,8 @@ NHK報道の因果効果
 * 日経指数を「平均」426ポイント下げた効果 
 * 「累積」が大事な場合もあり
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 summary(CI)
 ```
 
@@ -1047,7 +1050,7 @@ summary(CI)
 
 * `did_data1.csv`: 保育所の整備と母の就労率
 * `did_data2.csv`: 電子投票の導入と投票率
-* `did_data3.csv`: OECD 諸国の経済指標データ
+* OECD諸国の経済指標データ: <https://doi.org/10.7910/DVN/24714>
 
 実習用データ
 
