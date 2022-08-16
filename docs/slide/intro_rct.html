@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.0.36">
+  <meta name="generator" content="quarto-1.0.38">
 
   <meta name="author" content="宋(そん)&nbsp;&nbsp;財泫(じぇひょん)">
   <title>Causal Inference@Kobe - 方法論特殊講義III</title>
@@ -480,7 +480,7 @@
 <p>実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。</p>
 <ul>
 <li>本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能</li>
-<li>Jared P. Lander. 2017. <a href="https://www.amazon.co.jp/dp/013454692X/"><em>R for Everyone: Advanced Analytics and Graphics (2nd Edition),</em></a> Addison-Wesley Professional.（<a href="https://www.amazon.co.jp/dp/4839962154/">和訳有り</a>）</li>
+<li>Jared P. Lander. 2017. <a href="https://www.amazon.co.jp/dp/013454692X/"><em>R for Everyone: Advanced Analytics and Graphics (2nd Edition),</em></a> Addison-Wesley Professional.（<a href="https://www.amazon.co.jp/dp/4839962154/">邦訳有り</a>）</li>
 <li>宋財泫・矢内勇生.『<a href="https://www.jaysong.net/RBook">私たちのR: ベストプラクティスの探究</a>』Web-book
 <ul>
 <li>無料のR入門書: Rを<strong>広く、深く</strong>勉強したい人におすすめ</li>
@@ -495,17 +495,17 @@
 <ul>
 <li>R &gt; 4.1ならOK</li>
 </ul></li>
-<li>RStudio 2022.07.1+554 “Spotted Wakerobin”</li>
+<li>RStudio 2022.11.0+105 “Elsbeth Geranium”</li>
 <li>スライド、サポートページ、実習用資料の執筆環境
 <ul>
-<li>Quarto 1.0.36</li>
+<li>Quarto 1.0.38</li>
 <li>R package {quarto} 1.2</li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:20%;">
 <p><img data-src="figs/01/R.png"></p>
 </div><div class="column" style="width:10%;">
-<p><img data-src="figs/01/R.png"></p>
+
 </div>
 </div>
 </section>
@@ -580,25 +580,30 @@
 <ul>
 <li>本講義で紹介した手法を用いた分析のプロポーザルを作成</li>
 <li>実現可能性（予算、倫理など）があること</li>
+<li>提出期限は<strong>9月2日13時</strong>（締切厳守!）</li>
+<li>分量の制限（下限/上限）なし</li>
 </ul></li>
-<li>既存研究の再現 (replication)
+<li><del>既存研究の再現 (replication)</del>
 <ol type="1">
-<li>分析をそのまま再現</li>
-<li>本講義で紹介した手法を用いて再現</li>
+<li><del>分析をそのまま再現</del></li>
+<li>本講義で紹介した手法を用いて再現~~</li>
 </ol></li>
-<li>本講義で紹介した手法を用いた2次分析</li>
+<li><del>本講義で紹介した手法を用いた2次分析</del></li>
 </ol>
 </section>
 <section id="前提知識" class="slide level2">
 <h2>前提知識</h2>
-<h4 id="統計学">統計学</h4>
+<div class="columns">
+<div class="column" style="width:47%;">
+<h3 id="統計学">統計学</h3>
 <p>自分で計算できなくても、結果の読み方が分かるレベル</p>
 <ul>
 <li>仮説検定</li>
 <li>統計的有意性検定</li>
 <li>回帰分析</li>
 </ul>
-<h4 id="r">R</h4>
+</div><div class="column" style="width:53%;">
+<h3 id="r">R</h3>
 <ul>
 <li>データクリーニング、回帰分析、可視化などができるならベスト</li>
 <li>2日目にRの解説は行うが、深入りはしない（できない）
@@ -607,6 +612,8 @@
 <li>『<a href="https://www.jaysong.net/RBook/">私たちのR</a>』を読もう！</li>
 </ul></li>
 </ul>
+</div>
+</div>
 </section></section>
 <section>
 <section id="因果推論とその敵" class="title-slide slide level1 center">
@@ -947,7 +954,7 @@
 <ul>
 <li>藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
 <ul>
-<li>ソンさんの授業のおかげで富裕層になった.font50[(次は社交界進出)]</li>
+<li>ソンさんの授業のおかげで富裕層になった（次は社交界進出）</li>
 <li>友達に教えてあげよう</li>
 </ul></li>
 </ul>
@@ -1599,7 +1606,7 @@
 <ul>
 <li><span class="math inline">\(Y_i(T_i = 1)\)</span>か<span class="math inline">\(Y_i(T_i = 0)\)</span>、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能
 <ul>
-<li>ただし、のび太くん、ドラえもん、ジャイアンくんを除く</li>
+<li>ただし、ドラえもんが存在する世界線を除く</li>
 <li><strong>因果推論の根本問題</strong> (The Fundamental Problem of Causal Inference)</li>
 </ul></li>
 </ul>
@@ -2555,7 +2562,51 @@
 <ul>
 <li><code>intro_data2.csv</code>の例</li>
 </ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/intro_data2.csv"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>data2 <span class="ot">&lt;-</span> data2 <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">rename</span>(<span class="at">Treatment =</span> T, <span class="at">Female =</span> F)</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a>data2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 500 × 4
+      ID      Y Treatment Female
+   &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+ 1     1 1.09           0      1
+ 2     2 0.0281         0      1
+ 3     3 1.65           0      0
+ 4     4 3.83           1      1
+ 5     5 2.65           1      1
+ 6     6 1.24           1      1
+ 7     7 0.136          1      0
+ 8     8 0.507          0      1
+ 9     9 2.99           1      1
+10    10 4.34           1      1
+11    11 0.436          0      0
+12    12 0.696          1      0
+13    13 0.855          0      0
+14    14 0.616          1      0
+15    15 0.420          0      1
+# … with 485 more rows
+# ℹ Use `print(n = ...)` to see more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="因果効果の不均一性-2" class="slide level2">
+<h2>因果効果の不均一性</h2>
 <p><strong>方法1:</strong> 男女に分けてATEを推定</p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">比較</a></li><li><a href="#tabset-1-2">コード1</a></li><li><a href="#tabset-1-3">コード2</a></li><li><a href="#tabset-1-4">コード3</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
 <table>
 <thead>
 <tr class="header">
@@ -2594,15 +2645,81 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div id="tabset-1-2">
+<p>男性のみ</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data2 <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">filter</span>(Female <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Y by Treatment
+t = -7.5211, df = 235.95, p-value = 1.132e-12
+alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+95 percent confidence interval:
+ -1.1996845 -0.7016501
+sample estimates:
+mean in group 0 mean in group 1 
+      0.6105137       1.5611810 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3">
+<p>女性のみ</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data2 <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">filter</span>(Female <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Y by Treatment
+t = -15.573, df = 259.72, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+95 percent confidence interval:
+ -2.238053 -1.735599
+sample estimates:
+mean in group 0 mean in group 1 
+      0.4931905       2.4800169 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-4">
+<p>全体</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>data2 <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Y by Treatment
+t = -15.945, df = 494.24, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+95 percent confidence interval:
+ -1.692061 -1.320817
+sample estimates:
+mean in group 0 mean in group 1 
+      0.5509135       2.0573524 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="因果効果の不均一性-2" class="slide level2">
+<section id="因果効果の不均一性-3" class="slide level2">
 <h2>因果効果の不均一性</h2>
-<ul>
-<li><code>intro_data2.csv</code>の例</li>
-</ul>
 <p><strong>方法2:</strong> 性別と処置有無の交差項を投入した重回帰分析</p>
 <div class="columns">
-<div class="column" style="width:30%;">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> Treatment <span class="sc">*</span> Female, <span class="at">data =</span> data2) <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>   <span class="fu">summary</span>()</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 
@@ -2610,64 +2727,44 @@
  <thead>
   <tr>
    <th style="text-align:left;">   </th>
-   <th style="text-align:center;"> Model 1 </th>
+   <th style="text-align:right;"> Model 1 </th>
   </tr>
  </thead>
 <tbody>
   <tr>
    <td style="text-align:left;"> (Intercept) </td>
-   <td style="text-align:center;"> 0.611 (0.091) </td>
+   <td style="text-align:right;"> 0.611 (0.091) </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Treatment </td>
-   <td style="text-align:center;"> 0.951 (0.131) </td>
+   <td style="text-align:right;"> 0.951 (0.131) </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Female </td>
-   <td style="text-align:center;"> −0.117 (0.127) </td>
+   <td style="text-align:right;"> −0.117 (0.127) </td>
   </tr>
   <tr>
    <td style="text-align:left;box-shadow: 0px 1px"> Treatment × Female </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> 1.036 (0.180) </td>
+   <td style="text-align:right;box-shadow: 0px 1px"> 1.036 (0.180) </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Num.Obs. </td>
-   <td style="text-align:center;"> 500 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 </td>
-   <td style="text-align:center;"> 0.401 </td>
+   <td style="text-align:right;"> 500 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> R2 Adj. </td>
-   <td style="text-align:center;"> 0.398 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> AIC </td>
-   <td style="text-align:center;"> 1431.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> BIC </td>
-   <td style="text-align:center;"> 1452.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Log.Lik. </td>
-   <td style="text-align:center;"> −710.629 </td>
+   <td style="text-align:right;"> 0.398 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> F </td>
-   <td style="text-align:center;"> 110.905 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> RMSE </td>
-   <td style="text-align:center;"> 1.00 </td>
+   <td style="text-align:right;"> 110.905 </td>
   </tr>
 </tbody>
 </table>
 
 </div>
 </div>
-</div><div class="column" style="width:70%;">
+</div><div class="column" style="width:50%;">
 <p><span class="math display">\[
 \begin{align}
 \hat{y} &amp; = \beta_0 + \beta_1 \mbox{Treatment} + \beta_2 \mbox{Female} + \beta_3 \mbox{Treatment} \cdot \mbox{Female} \\
@@ -2675,6 +2772,11 @@
 \end{align}
 \]</span></p>
 <ul>
+<li>処置効果はTreatmentの係数
+<ul>
+<li><span class="math inline">\(\beta_1 + \beta_3 \mbox{Female}\)</span></li>
+<li><span class="math inline">\(\Rightarrow\)</span> 処置効果がFemaleの値にも依存</li>
+</ul></li>
 <li>男性のATE: <span class="math inline">\(\beta_1 + \beta_3 \cdot 0 = \beta_1\)</span> = 0.951</li>
 <li>女性のATE: <span class="math inline">\(\beta_1 + \beta_3 \cdot 1 = \beta_1 + \beta_3\)</span> = 1.987</li>
 </ul>
@@ -2685,9 +2787,9 @@
 <h2>因果推論の前提:SUTVA</h2>
 <p><strong>Stable Unit Treatment Value Assumption</strong></p>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">非干渉性</a></li><li><a href="#tabset-1-2">処置の無分散性</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">非干渉性</a></li><li><a href="#tabset-2-2">処置の無分散性</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1">
+<div id="tabset-2-1">
 <p><strong>非干渉性:</strong> 他人の処置・統制有無が処置効果に影響を与えないこと</p>
 <ul>
 <li>例) AさんITEは
@@ -2751,7 +2853,7 @@
 </div>
 </center>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-2-2">
 <p><strong>処置の無分散性:</strong> 同じグループに属する対象は同じ処置を受けること</p>
 <ul>
 <li>手術の場合: 医者、設備、手順、環境など</li>
@@ -2808,11 +2910,11 @@
 <section id="バランスチェック-1" class="slide level2">
 <h2>バランスチェック</h2>
 <p>処置が複数の場合、組み合わせごとに標準化差分を計算</p>
-<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-14_d49e98466a8ffea1008dcfd38ac74a34">
+<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-20_ef5a6ff747876ff2cf57f9448faf1da2">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-14-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-20-1.png" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -2820,11 +2922,11 @@
 </section>
 <section id="処置効果の可視化" class="slide level2">
 <h2>処置効果の可視化</h2>
-<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-15_7b9f244fb1286b6dbac7680e6e8bc637">
+<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-21_c67dc1ae2a76e0d0cd06abf70c523a54">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-15-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-21-1.png" width="2400"></p>
 </figure>
 </div>
 </div>

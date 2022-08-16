@@ -639,7 +639,7 @@ Hoiku_Fit3 <- hoiku |>
   lm_robust(FemOccupRate ~ Ninka_Rate + 
               factor(Year) + factor(Pref_J) +
               factor(Pref_J) * Trend, 
-            data = ., clusters = Pref_J)
+            data = _, clusters = Pref_J)
 
 modelsummary(list("Model 1" = Hoiku_Fit1, 
                   "Model 2" = Hoiku_Fit2,
@@ -674,14 +674,14 @@ $$\hat{Y}_{pt} = \beta + \delta \mbox{Treat}_{pt} + \sum_{k = \mbox{Aomori}}^{\m
 Hoiku_Fit4 <- hoiku |>
   lm_robust(FemOccupRate ~ Ninka_Rate + UnOccup, 
             fixed_effects = ~ Year + Pref_J,
-            data = ., clusters = Pref_J)
+            data = _, clusters = Pref_J)
 
 Hoiku_Fit5 <- hoiku |>
   mutate(Trend = (Year - 2000) / 5 + 1) |>
   lm_robust(FemOccupRate ~ Ninka_Rate + 
               factor(Pref_J) * Trend + UnOccup, 
             fixed_effects = ~ Year + Pref_J,
-            data = ., clusters = Pref_J)
+            data = _, clusters = Pref_J)
 
 modelsummary(list("Model 1" = Hoiku_Fit1, 
                   "Model 2" = Hoiku_Fit2,

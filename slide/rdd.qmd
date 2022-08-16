@@ -22,7 +22,8 @@ format:
 
 ```{r}
 #| include: false
-pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons)
+pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons,
+               rdd, rdrobust, rddensity)
 pacman::p_load_gh("JaehyunSong/BalanceR")
 knitr::opts_chunk$set(dev       = "ragg_png",
                       dpi       = 300,

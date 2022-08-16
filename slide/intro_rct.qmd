@@ -87,7 +87,7 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。
 
 * 本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能
-* Jared P. Lander. 2017. [*R for Everyone: Advanced Analytics and Graphics (2nd Edition),*](https://www.amazon.co.jp/dp/013454692X/) Addison-Wesley Professional.（[和訳有り](https://www.amazon.co.jp/dp/4839962154/)）
+* Jared P. Lander. 2017. [*R for Everyone: Advanced Analytics and Graphics (2nd Edition),*](https://www.amazon.co.jp/dp/013454692X/) Addison-Wesley Professional.（[邦訳有り](https://www.amazon.co.jp/dp/4839962154/)）
 * 宋財泫・矢内勇生.『[私たちのR: ベストプラクティスの探究](https://www.jaysong.net/RBook)』Web-book
    * 無料のR入門書: Rを**広く、深く**勉強したい人におすすめ
 
@@ -99,7 +99,7 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 * macOS 12.5 "Monterey"
 * `r version$version.string`
    * R > 4.1ならOK
-* RStudio 2022.07.1+554 "Spotted Wakerobin"
+* RStudio 2022.11.0+105 "Elsbeth Geranium"
 * スライド、サポートページ、実習用資料の執筆環境
    * Quarto `r quarto::quarto_inspect()$quarto$version`
    * R package {quarto} `r packageVersion("quarto")`
@@ -109,7 +109,6 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 ![](figs/01/R.png)
 :::
 :::{.column width=10%}
-![](figs/01/R.png)
 :::
 
 ::::
@@ -166,27 +165,35 @@ R全般
 1. 研究のプロポーザル
    * 本講義で紹介した手法を用いた分析のプロポーザルを作成
    * 実現可能性（予算、倫理など）があること
-2. 既存研究の再現 (replication)
-   1. 分析をそのまま再現
-   2. 本講義で紹介した手法を用いて再現
-3. 本講義で紹介した手法を用いた2次分析
+   * 提出期限は**9月2日13時**（締切厳守!）
+   * 分量の制限（下限/上限）なし
+2. ~~既存研究の再現 (replication)~~
+   1. ~~分析をそのまま再現~~
+   2. 本講義で紹介した手法を用いて再現~~
+3. ~~本講義で紹介した手法を用いた2次分析~~
 
 ## 前提知識
 
-#### 統計学
+::::{.columns}
+:::{.column width=47%}
+### 統計学
 
 自分で計算できなくても、結果の読み方が分かるレベル
 
 * 仮説検定
 * 統計的有意性検定
 * 回帰分析
+:::
 
-#### R
+:::{.column width=53%}
+### R
 
 * データクリーニング、回帰分析、可視化などができるならベスト
 * 2日目にRの解説は行うが、深入りはしない（できない）
    * <https://www.jaysong.net/micro-book/> $\leftarrow$ **全員**がこの資料レベルの内容を知っていれば2日目の内容を省略し、代わりに操作変数法について解説
    * 『[私たちのR](https://www.jaysong.net/RBook/)』を読もう！
+:::
+::::
 
 # 因果推論とその敵
 
@@ -446,7 +453,7 @@ dagify(Y ~ X + Z + e,
 ソンさんの講義を履修することで期待年収が上がるか
 
 * 藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
-   * ソンさんの授業のおかげで富裕層になった.font50[(次は社交界進出)]
+   * ソンさんの授業のおかげで富裕層になった（次は社交界進出）
    * 友達に教えてあげよう
 
 講義履修の効果
@@ -521,9 +528,9 @@ dagify(Y ~ X + Z + e,
    * 個人（藤村君）における処置効果を推定する際にはこれが不可欠
 
 ||履修しなかった場合の年収(A)|履修した場合の年収(B)|効果(B-A)|
-|---|---:|---:|---:|
-|ケース1|5000万|5000万|**0万**|
-|ケース2|1000万|5000万|**4000万**|
+|-------|-----:|-----:|----------:|
+|ケース1|5000万|5000万|**0万**    |
+|ケース2|1000万|5000万|**4000万** |
 |ケース3|8000万|5000万|**-3000万**|
 
 ## 潜在的結果枠組み
@@ -655,7 +662,7 @@ ITEの平均値は−4であり、個人差はあるものの、全体的に薬�
 ## 因果推論の根本問題
 
 * $Y_i(T_i = 1)$か$Y_i(T_i = 0)$、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能
-   * ただし、のび太くん、ドラえもん、ジャイアンくんを除く
+   * ただし、ドラえもんが存在する世界線を除く
    * **因果推論の根本問題** (The Fundamental Problem of Causal Inference)
 
 <br/>
@@ -1138,7 +1145,41 @@ Statistical Science,* 23(2): 237-249.
 
 * `intro_data2.csv`の例
 
+::::{.columns}
+:::{.column width=50%}
+```{r}
+#| eval: false
+#| echo: true
+data2 <- read_csv("data/intro_data2.csv")
+
+data2 <- data2 |>
+  rename(Treatment = T, Female = F)
+
+data2
+```
+:::
+
+:::{.column width=50%}
+```{r}
+#| echo: false
+#| message: false
+data2 <- read_csv("data/intro_data2.csv")
+
+data2 <- data2 |>
+  rename(Treatment = T, Female = F)
+
+data2 |>
+  print(n = 15)
+```
+:::
+::::
+
+## 因果効果の不均一性
+
 **方法1:** 男女に分けてATEを推定
+
+:::{.panel-tabset}
+### 比較
 
 ||統制群|処置群|ATE| $t$ | $p$ |
 |:---|---:|---:|---:|---:|---:|
@@ -1146,26 +1187,64 @@ Statistical Science,* 23(2): 237-249.
 |女性のみ|0.493|2.480|1.987|-15.573|< 0.001|
 |全体|0.551|2.057|1.506|-15.945|< 0.001|
 
-## 因果効果の不均一性
+### コード1
 
-* `intro_data2.csv`の例
+男性のみ
+
+```{r}
+#| echo: true
+data2 |> 
+  filter(Female == 0) |>
+  t.test(Y ~ Treatment, data = _)
+```
+
+### コード2
+
+女性のみ
+
+```{r}
+#| echo: true
+data2 |>
+  filter(Female == 1) |>
+  t.test(Y ~ Treatment, data = _)
+```
+
+### コード3
+
+全体
+
+```{r}
+#| echo: true
+data2 |> 
+  t.test(Y ~ Treatment, data = _)
+```
+:::
+
+## 因果効果の不均一性
 
 **方法2:** 性別と処置有無の交差項を投入した重回帰分析
 
 ::::{.columns}
 
-:::{.column width=30%}
+:::{.column width=50%}
 ```{r}
-read_csv("data/intro_data2.csv") |>
-   rename("Treatment" = "T",
-          "Female"    = "F") |>
+#| echo: true
+#| eval: false
+lm(Y ~ Treatment * Female, data = data2) |>
+   summary()
+```
+
+```{r}
+data2 |>
    lm(Y ~ Treatment * Female, data = _) |>
-   modelsummary(estimate = "{estimate} ({std.error})",
-                statistic = NULL)
+   modelsummary(estimate  = "{estimate} ({std.error})",
+                statistic = NULL,
+                gof_map   = c("nobs", "adj.r.squared", "F"),
+                align     = c("lr"))
 ```
 :::
 
-:::{.column width=70%}
+:::{.column width=50%}
 $$
 \begin{align}
 \hat{y} & = \beta_0 + \beta_1 \mbox{Treatment} + \beta_2 \mbox{Female} + \beta_3 \mbox{Treatment} \cdot \mbox{Female} \\
@@ -1173,6 +1252,9 @@ $$
 \end{align}
 $$
 
+* 処置効果はTreatmentの係数
+   * $\beta_1 + \beta_3 \mbox{Female}$
+   * $\Rightarrow$ 処置効果がFemaleの値にも依存
 * 男性のATE: $\beta_1 + \beta_3 \cdot 0 = \beta_1$ = 0.951
 * 女性のATE: $\beta_1 + \beta_3 \cdot 1 = \beta_1 + \beta_3$ = 1.987
 :::
