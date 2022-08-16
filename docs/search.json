@@ -1404,7 +1404,7 @@
     "href": "index.html",
     "title": "Causal Inference@Kobe",
     "section": "",
-    "text": "アイコン説明\n\n\n\n\n：NIIオンライン分析システムの起動\n\n右クリックし、新しいタブ（or ウィンドウ）で開いてください。\n初期設定が必要です。初期設定の方法はRの使い方 > Rの導入を参照してください。\n\n：Rの教科書（『私たちのR』）\n：本ウェブサイト内の検索\n\n\n\n\n\n\n\n\n\nページ情報\n\n\n\n\n最終更新日: 2022年08月16日\n開発環境\n\nmacOS 12.5 “Monterey”\nFirefox 103.0.1\nR version 4.2.1 (2022-06-23)\nRStudio 2022.07.1+554 “Spotted Wakerobin”\nQuarto 1.0.38\nR package {quarto} 1.2\n\n本サポートページのレポジトリ"
+    "text": "アイコン説明\n\n\n\n\n：NIIオンライン分析システムの起動\n\n右クリックし、新しいタブ（or ウィンドウ）で開いてください。\n初期設定が必要です。初期設定の方法はRの使い方 > Rの導入を参照してください。\n\n：Rの教科書（『私たちのR』）\n：本ウェブサイト内の検索\n\n\n\n\n\n\n\n\n\nページ情報\n\n\n\n\n最終更新日: 2022年08月16日\n開発環境\n\nmacOS 12.5 “Monterey”\nFirefox 103.0.2\nR version 4.2.1 (2022-06-23)\nRStudio 2022.11.0+105 “Elsbeth Geranium”\nQuarto 1.0.38\nR package {quarto} 1.2\n\n本サポートページのレポジトリ"
   },
   {
     "objectID": "syllabus.html",

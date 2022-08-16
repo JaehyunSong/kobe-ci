@@ -25,9 +25,9 @@ system("curl -s http://support-sp.apple.com/sp/product?edid=$(sw_vers -productVe
 * 最終更新日: `r format(Sys.Date(), "%Y年%m月%d日")`
 * 開発環境
    * macOS 12.5 "Monterey"
-   * Firefox 103.0.1
+   * Firefox 103.0.2
    * `r version$version.string`
-   * RStudio 2022.07.1+554 "Spotted Wakerobin"
+   * RStudio 2022.11.0+105 "Elsbeth Geranium"
    * Quarto `r quarto::quarto_inspect()$quarto$version`
    * R package {quarto} `r packageVersion("quarto")`
 * 本サポートページのレポジトリ<a href="https://github.com/JaehyunSong/kobe-ci" target="_blank"><i class="bi bi-github"></i></a>
