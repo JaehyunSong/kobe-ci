@@ -488,7 +488,7 @@ did_est |>
 
 　ここでは、差分の差分法の応用としてSynthetic Control Method（SCM）を{gsynth}パッケージの使い方に重点を起きながら説明する。Synthetic Control MethodをRに実装したパッケージは{Synth}、{gsynth}、{bpCausal}などがある。SCMの代表的な論文の一つであるAbadie et al.（2015）は{Synth}パッケージを使っているが、使い方はかなり複雑である。したがって、ここでは使い方が最も簡単な{gsynth}パッケージについて説明する[^gscm]。
 
-[^gscm]: {gsynth}は通常のSCMでなく、一般化SCMを実装したパッケージである。通常のSCMは処置群は1つのみに使えるが、一般化SCMは処置群が複数あっても使える。一般化SCMについてはYiqing Xu. 2017. "[Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models](https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3#article)," *Political Analysis,* 25 (1): 57-76.を参照されたい。
+[^gscm]: {gsynth}は通常のSCMでなく、一般化SCM（Generalized Synthetic Control Method）を実装したパッケージである。通常のSCMは処置群は1つのみに使えるが、一般化SCMは処置群が複数あっても使える。一般化SCMについてはYiqing Xu. 2017. "[Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models](https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3#article)," *Political Analysis,* 25 (1): 57-76.を参照されたい。
 
 　ここで使用するのは歴代参院選（第7回以降）における都道府県の投票率である[^scm-data]。処置変数は第24回参院選から導入された「合区」だ。具体的には鳥取選挙区と島根選挙区が「鳥取・島根選挙区」に、徳島選挙区と高知選挙区が「徳島・高知選挙区」として合区されたか否かである。合区によって自分の1票の価値がほぼ半分に下がり、投票参加を妨げたのではないかという議論もあるが、本当だろうか。
 
