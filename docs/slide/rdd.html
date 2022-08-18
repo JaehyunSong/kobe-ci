@@ -1079,7 +1079,7 @@
 <section id="局所平均-rdd_data2.csv" class="slide level2">
 <h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
 <p><span class="math inline">\(h = 5\)</span> の場合</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-25_074734be01c5c7a458d6dc80670fa3c3">
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-25_f5dffd68c940f472eee5cfd5756ee20e">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1155,7 +1155,7 @@
 </ul></li>
 <li>平均値を用いることは、バンド幅内のデータにおいて<strong>強制変数の傾きが0</strong>という非常に強い仮定を置く。
 <ul>
-<li><code>Day4_Data2.csv</code>のように <span class="math inline">\(c\)</span> 周辺で変化が大きい場合、局所平均は向いていない</li>
+<li><code>rdd_data2.csv</code>のように <span class="math inline">\(c\)</span> 周辺で変化が大きい場合、局所平均は向いていない</li>
 </ul></li>
 </ul>
 <p><br></p>
@@ -1459,7 +1459,15 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <li>Kenichi Ariga, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. “No Sorting, No Advantage: Regression Discontinuity Estimates of Incumbency Advantage in Japan,” <em>Electoral Studies,</em> 43: 21–31.</li>
 </ul>
 <p><br></p>
-<p>変数の説明 * <code>vm1</code>: <span class="math inline">\(t\)</span> 期選挙における自民党候補者の vote margin * vote margin: 自分の得票率 - 非自民候補の最高得票率 * <code>F_ldpv_smd</code>: <span class="math inline">\(t + 1\)</span> 期選挙における自民党候補者の得票率 * <code>ldp_LCF</code>: <span class="math inline">\(t − 1\)</span> から <span class="math inline">\(t + 1\)</span> 期まで選挙区割が変化せず、自民党候補者がいる選挙区ダミー</p>
+<p>変数の説明</p>
+<ul>
+<li><code>vm1</code>: <span class="math inline">\(t\)</span> 期選挙における自民党候補者のvote margin
+<ul>
+<li>vote margin: 自分の得票率 - 非自民候補の最高得票率</li>
+</ul></li>
+<li><code>F_ldpv_smd</code>: <span class="math inline">\(t+1\)</span> 期選挙における自民党候補者の得票率</li>
+<li><code>ldp_LCF</code>: <span class="math inline">\(t-1\)</span>から<span class="math inline">\(t+1\)</span>期まで選挙区割が変化せず、自民党候補者がいる選挙区ダミー</li>
+</ul>
 </section>
 <section id="散布図" class="slide level2">
 <h2>散布図</h2>

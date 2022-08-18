@@ -162,7 +162,7 @@ dagify(Income ~ Race + Training + Educ,
          x = c(Race = 1.5, Educ = 2.5, Training = 1, Income = 3),
          y = c(Race = 2,   Educ = 2,   Training = 1, Income = 1)
        )
-       )|>
+       ) |>
   tidy_dagitty() |>
   ggdag(confounder_triangle(), node_size = 20) +
   coord_cartesian(xlim = c(0.8, 3.2), ylim = c(0.8, 2.2)) +

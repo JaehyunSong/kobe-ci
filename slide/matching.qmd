@@ -114,7 +114,7 @@ The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
 もし、$X$をしたら（did）$Y$はどうなった（would）だろうか
 
 * 過去を対象にRCTを行うことは不可能
-* 過去に収集された観察データが使用することに
+* 過去に収集された観察データを使用した因果推論が必要
 * マッチング、回帰不連続デザイン、差分の差分法、操作変数法など
 
 <br/><br/>
@@ -295,8 +295,8 @@ tibble(ID     = 1:2,
   gt() |>
   cols_label("ID" = "ID (i)",
              "Yaruki" = html("やる気 (Z<sub>i</sub>)"), 
-             "Y1" = html("Y<sub>i</sub>(T</sub>i</sub> = 1)"), 
-             "Y2" = html("Y<sub>i</sub>(T</sub>i</sub> = -)"), 
+             "Y1" = html("Y<sub>i</sub>(T<sub>i</sub> = 1)"), 
+             "Y2" = html("Y<sub>i</sub>(T<sub>i</sub> = 0)"), 
              "Diff" = html("ITE<sub>i</sub>")) |>
   fmt_markdown(columns = 1:6) |>
   tab_options(table.font.size = 24)
@@ -355,7 +355,7 @@ tibble(X = c("T = 0", "T = 1"),
 * 処置群がもし統制群になっても、今の統制群と同じ
 * $\Rightarrow$ 交換可能性が成立せず
 
-![](Figs/02/moolook.png){width=100px fig-align="center"}
+![](figs/02/moolook.png){width=100px fig-align="center"}
 
 :::
 ::::
@@ -403,7 +403,7 @@ tibble(X = c("T = 0", "T = 1"),
 * A = C、そしてB = Dが成立
 * $\Rightarrow$ 交換可能性が成立
 
-![](Figs/02/WaiWai.png){width=100px fig-align="center"}
+![](figs/02/WaiWai.png){width=100px fig-align="center"}
 
 :::
 ::::
@@ -451,7 +451,7 @@ tibble(X = c("T = 0", "T = 1"),
 * A = C、そしてB = Dが成立
 * $\Rightarrow$ 交換可能性が成立
 
-![](Figs/02/WaiWai.png){width=100px fig-align="center"}
+![](figs/02/WaiWai.png){width=100px fig-align="center"}
 
 :::
 ::::
@@ -634,7 +634,7 @@ $$\text{ATE} = \frac{N_{\text{treated}}}{N_{\text{all}}} \text{ATT} + \frac{N_{\
 * 共変量が多数、または連続変数の場合は実質的に無理
    * **次元の呪い** or **次元爆発**
 
-![](Figs/02/Muri.png){width=200px fig-align="center"}
+![](figs/02/Muri.png){width=200px fig-align="center"}
 
 ## Nearest-neighbor Matching
 
@@ -659,7 +659,7 @@ $$d(i, j) = |X_i - X_j| + |Y_i - Y_j| \text{ where } i \neq j.$$
 
 ::::{.columns}
 :::{.column width=30%}
-![](Figs/02/Manhattan.png){fig-align="center"}
+![](figs/02/Manhattan.png){fig-align="center"}
 :::
 
 :::{.column width=70%}
@@ -684,7 +684,7 @@ $$d(i, j) = \sqrt{\Bigg(\frac{X_i - X_j}{\sigma_X}\Bigg)^2 + \Bigg(\frac{Y_i - Y
 
 ::::{.columns}
 :::{.column width=30%}
-![](Figs/02/Euclid.png){width="350px" fig-align="center"}
+![](figs/02/Euclid.png){width="350px" fig-align="center"}
 :::
 
 :::{.column width=70%}
@@ -710,7 +710,7 @@ $$d(i, j) = \sqrt{\frac{1}{1 - \rho^2_{X, Y}} \Bigg[\Bigg(\frac{X_i - X_j}{\sigm
 
 ::::{.columns}
 :::{.column width=30%}
-![](Figs/02/Mahalanobis.png){fig-align="center"}
+![](figs/02/Mahalanobis.png){fig-align="center"}
 :::
 
 :::{.column width=70%}
@@ -793,7 +793,7 @@ $$Y_i(T_i = 0) = \begin{cases}Y_i & \text{ if } T_i = 0\\ \frac{1}{K} \sum_{m = 
 :::{.column width=45%}
 $$Y_i(T_i = 0) = \begin{cases}Y_i & \text{ if } T_i = 0\\ \frac{\sum_{j=1}^N I(T_j = 0, d(i, j) < h)\cdot Y_i}{\sum_{j=1}^N I(T_j = 0, d(i, j) < h)} & \text{ if } T_i = 1\end{cases}$$
 
-![](Figs/02/Caliper.png){width="300px" fig-align="center"}
+![](figs/02/Caliper.png){width="300px" fig-align="center"}
 :::
 
 :::{.column width=55%}
@@ -1667,7 +1667,7 @@ ggdag(DAG2, node_size = 16, text_size = 9, stylized = TRUE) +
 
 ## ダイアグラムのツール
 
-DAGitty — draw and analyze causal diagrams
+DAGitty --- draw and analyze causal diagrams
 
 * ウェーブページ or Rパッケージ{dagitty}
    * <http://www.dagitty.net/>

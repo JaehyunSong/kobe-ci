@@ -902,10 +902,13 @@ poly_df |>
   geom_vline(xintercept = 0) +
   geom_vline(xintercept = -5, linetype = 2) +
   geom_vline(xintercept = 5,  linetype = 2) +
-  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
-  geom_segment(aes(x = -5, xend = 0, y = 142.6386, yend = 142.6386),
+  geom_point(aes(x = x, y = y, color = Treat, 
+                 alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -5, xend = 0, 
+                   y = 142.6386, yend = 142.6386),
                size = 2, color = "#00BFC4") +
-  geom_segment(aes(x = 0, xend = 5, y = 116.9308, yend = 116.9308),
+  geom_segment(aes(x = 0, xend = 5, 
+                   y = 116.9308, yend = 116.9308),
                size = 2, color = "#F8766D") +
   scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
   scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
@@ -1057,7 +1060,7 @@ tibble(h = seq(300, 2000, 100)) |>
    * 少数のケースによって平均値の変動が大きい (モデルの分散が大きい)
    * バンド幅内に十分に大きいサンプルサイズが確保されている必要
 * 平均値を用いることは、バンド幅内のデータにおいて**強制変数の傾きが0**という非常に強い仮定を置く。
-   * `Day4_Data2.csv`のように $c$ 周辺で変化が大きい場合、局所平均は向いていない
+   * `rdd_data2.csv`のように $c$ 周辺で変化が大きい場合、局所平均は向いていない
 
 <br/>
 
