@@ -18,7 +18,7 @@ format:
     auto-stretch: false
 ---
 
-# 
+# 回帰不連続デザイン
 
 ```{r}
 #| include: false
@@ -31,4 +31,1554 @@ knitr::opts_chunk$set(dev       = "ragg_png",
                       echo      = FALSE,
                       message   = FALSE,
                       warning   = FALSE)
+
+french_df <- read_csv("data/rdd_data1.csv")
+poly_df   <- read_csv("data/rdd_data2.csv")
+inter_df  <- read_csv("data/rdd_data3.csv")
+ariga_df  <- read_dta("data/rdd_data4.dta")
 ```
+
+## 回帰不連続デザイン
+
+Regression Discontinuity Design
+
+* Thistlewaite and Campbell (1960) で紹介 
+* 「**RDD**」と呼ばれる場合が多い
+   * 「かいきふれんぞくでざいん」は長すぎる
+* ある点 (閾値)を超えることで処置を受けるか否かが決まる
+   * **例)** 人口によって選挙制度が決まる場合 (0 = 多数代表制; 1 = 比例代表制)
+
+$$T_i = \begin{cases} 0 & \text{ if } \text{Population} < 3500, \\ 1 & \text{ if } \text{Population} \geq 3500. \end{cases}$$
+
+## RDDの考え方
+
+比例代表制と多数代表制の投票率の比較
+
+* 選挙制度は国レベルで異なるため国家間比較になる
+* 国固有の文脈により単純比較は困難
+* フランスの場合、同一国家、レベルの選挙内で制度が異なる
+   * 国固有の政治的文脈はコントロールされる
+* しかし、人口が多いところは都市部が多いし、投票率の低い都市部の特徴により、比例代表制の投票率は過小評価される可能性
+   * 「都市化度」という交絡要因が残存している
+* 人口が3450人と村と3550人の村なら「都市化度」はほぼ同じなのでは ...?
+   * **ほぼ**同条件で選挙制度だけが異なる状況
+   * $\rightarrow$ 交絡要因が除去されているため、因果推論が可能に
+
+## RDDの考え方
+
+比例代表制と多数代表制の投票率の比較 (架空データ)
+
+* 人口が多くなるにつれ、投票率が減少傾向
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+#| cache: true
+french_df |>
+  ggplot(aes(x = Pop, y = Turnout)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "人口 (人)", y = "投票率 (%)") +
+  theme_bw(base_size = 12)
+```
+
+## RDDの考え方
+
+比例代表制と多数代表制の投票率の比較
+
+* 比例代表制は投票率を低下する制度だと解釈されてしまう
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+#| cache: true
+french_df |>
+  group_by(System = Over3500F) |>
+  summarise(Turnout = mean(Turnout)) |>
+  mutate(System = if_else(System == "PR", "比例代表制", "小選挙区制")) |>
+  ggplot(aes(x = System, y = Turnout)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  geom_label(aes(label = round(Turnout, 3))) +
+  labs(x = "選挙制度", y = "投票率の平均値 (%)") +
+  theme_bw(base_size = 12)
+```
+
+## RDDの考え方
+
+比例代表制と多数代表制の投票率の比較 (架空データ)
+
+* 人口3500で分けてみると...
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+#| cache: true
+french_df |>
+  mutate(System = if_else(Over3500F == "PR", 
+                          "比例代表制", "小選挙区制")) |>
+  ggplot(aes(x = Pop, y = Turnout, group = System)) +
+  geom_point(aes(color = System)) +
+  geom_smooth(method = "lm") +
+  labs(x = "人口 (人)", y = "投票率 (%)", color = "選挙制度") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## RDDの考え方
+
+比例代表制と多数代表制の投票率の比較 (架空データ)
+
+* 人口3500で分けてみると...
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3
+#| cache: true
+french_fit1 <- lm(Turnout ~ Pop, data = french_df)
+french_fit2 <- lm(Turnout ~ Pop + Over3500F, data = french_df)
+
+modelsummary(list(french_fit1, french_fit2),
+             coef_rename = c("(Intercept)" = "切片",
+                             "Pop"         = "人口",
+                             "Over3500FPR" = "人口3500以上ダミー"),
+             gof_omit = c("F|AIC|BIC|Log"))
+
+```
+
+## 2つのRDD
+
+異なる割当メカニズムを想定した2つのRDD
+
+* 本講義で解説するのはSRDのみ
+
+<br/>
+
+1. **Sharp Regression Discontinuity** (SRD)
+   * 強制変数 (running variable) が閾値 (cut point) を超えると**必ず**処置を受ける。
+   * もっとも単純明快な RDD。実際、多く使われている。
+   * 例) 人口と選挙制度
+2. **Fuzzy Regression Discontinuity** (FRD)
+   * 強制変数が閾値を超えると、処置を受ける**確率**が高まる。
+   * 操作変数法の理解が必要 (実例もあまり見ないような . . . )
+   * 例) 入試 (一定点数を超えると合格する可能性がある)
+
+## 割当メカニズムの比較
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+tibble(type  = c(rep("SRD", 4),
+                 rep("FRD (例1)", 4),
+                 rep("FRD (例2)", 22)),
+       treat = c("統制", "統制", "処置", "処置",
+                 "統制", "統制", "処置", "処置",
+                 rep("統制", 11), rep("処置", 11)),
+       x     = c(-10, 0, 0, 10,
+                 -10, 0, 0, 10,
+                 -10:0,
+                 0:10),
+       y     = c(0, 0, 1, 1,
+                 0, 0, 0.75, 1,
+                 rev((-10:0)^2)/100/4,
+                 log(1:11) / log(11) / 4 + 0.75)) |>
+  mutate(type = fct_inorder(type)) |>
+  ggplot() +
+  geom_line(aes(x = x, y = y, color = treat), size = 2) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  guides(color = "none") +
+  scale_x_continuous(breaks = 0, labels = "閾値 (c)") +
+  labs(x = "強制変数 (割当変数)", y = "処置を受ける確率") +
+  facet_wrap(~type) +
+  theme_bw(base_size = 14)
+```
+
+## RDDの仮定
+
+Moscoe and Barninnghausen (2015)
+
+1. 閾値周辺において交絡要因が変化しないこと
+   * 飲酒年齢の事故の例: 20歳になった瞬間、アルコールを分解する酵素が劇的に増加するような悲しい現象は起きない
+2. 閾値のルールが明確であり、既知であること
+   * SRDの場合、閾値は制度に起因するものが多いため、問題になるケースは少ない
+3. 強制変数が閾値周辺において連続であること
+   * 閾値周辺において強制変数の操作が行われていない
+   * 密度検定 (density test)で検定可能
+4. 潜在的結果が閾値周辺において連続であること
+
+# RDDによる因果効果の推定
+
+## パラメトリック推定方法
+
+(非) 線形回帰分析による推定
+
+* フランス地方議会選挙の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \beta_1 \mbox{Population} + \rho \mathbf{I}(\mbox{Population} \geq 3500)$$
+
+* 推定されるパラメータは $\beta_0, \beta_1, \rho$ (+ 誤差項 ( $\varepsilon$ )の分散)
+   * $\mathbf{I}(\cdot)$ は指示関数 (indicator function)
+   * カッコ内の条件が満たされたら1、それ以外の場合は0を返す関数
+   * $1(\cdot)$ と表現する場合もあり
+* 要は、処置変数 (=ダミー変数) を投入し、強制変数を統制した線形回帰モデル
+
+## パラメトリック推定の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \beta_1 \mbox{Population} + \rho \mathbf{I}(\mbox{Population} \geq 3500)$$
+
+* $\rho$ = 制度が投票率に与える効果 (因果効果)
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+french_df |>
+  mutate(System = if_else(Over3500F == "PR", 
+                          "比例代表制", "小選挙区制")) |>
+  ggplot(aes(x = Pop, y = Turnout, group = System)) +
+  geom_point(aes(color = System)) +
+  geom_smooth(method = "lm") +
+  geom_segment(aes(x = 3500, xend = 3500, y = 52.2213, yend = 58.78273),
+               arrow = arrow(ends = "both", 
+                             length = unit(0.03, "npc")),
+               color = "orange", size = 1) +
+  labs(x = "人口 (人)", y = "投票率 (%)", color = "選挙制度") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形の場合
+
+* 強制変数の二乗、三乗、... を投入
+   * どこまで多項式にするかはモデル比較などを通じて分析者が決める
+   * R<sup>2</sup>、 $F$ 統計量、AIC、BIC、WAIC、LOOなど
+* モデルにおけるバイアス—分散のトレードオフ関係
+   * High-order: バイアス $\downarrow$ & 分散 $\uparrow$
+* High-orderは直感に反する推定値が得られる場合も(Gelman and
+Imbens 2019)
+   * noisy estimates
+   * sensitivity to the degree of the polynomial
+   * poor coverage of confidence intervals
+
+## 非線形回帰の例  (`rdd_data2.csv`)
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 \mbox{X}$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_df <- poly_df |>
+  mutate(Treat = if_else(x >= 0, "Treat", "Control"))
+
+poly_fit1 <- lm(y ~ x + Treat, data = poly_df)
+poly_pred1 <- predict(poly_fit1, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit1)["TreatTreat"] = -40.4273
+# summary(poly_fit1)$adj.r.squared = 0.04620482
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred1, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred1, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = -40.427; ", R^2, "= 0.046"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit2 <- lm(y ~ poly(x, 2) + Treat, data = poly_df)
+poly_pred2 <- predict(poly_fit2, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit2)["TreatTreat"] = -37.39542
+# summary(poly_fit2)$adj.r.squared = 0.08232421
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred2, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred2, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = -37.395; ", R^2, "= 0.082"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \beta_3 X^3$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit3 <- lm(y ~ poly(x, 3) + Treat, data = poly_df)
+poly_pred3 <- predict(poly_fit3, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit3)["TreatTreat"] = 20.04849
+# summary(poly_fit3)$adj.r.squared = 0.201539
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred3, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred3, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 20.048; ", R^2, "= 0.202"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \beta_4 X^4$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit4 <- lm(y ~ poly(x, 4) + Treat, data = poly_df)
+poly_pred4 <- predict(poly_fit4, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit4)["TreatTreat"] = 12.06039
+# summary(poly_fit4)$adj.r.squared = 0.7153442
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred4, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred4, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 12.060; ", R^2, "= 0.715"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_5 X^5$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit5 <- lm(y ~ poly(x, 5) + Treat, data = poly_df)
+poly_pred5 <- predict(poly_fit5, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit5)["TreatTreat"] = 21.17794
+# summary(poly_fit5)$adj.r.squared = 0.7177662
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred5, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred5, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 21.178; ", R^2, "= 0.718"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_6 X^6$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit6 <- lm(y ~ poly(x, 6) + Treat, data = poly_df)
+poly_pred6 <- predict(poly_fit6, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit6)["TreatTreat"] = 18.6157 
+# summary(poly_fit6)$adj.r.squared = 0.8176784
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred6, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred6, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 18.616; ", R^2, "= 0.818"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_7 X^7$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit7 <- lm(y ~ poly(x, 7) + Treat, data = poly_df)
+poly_pred7 <- predict(poly_fit7, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit7)["TreatTreat"] = 26.69527
+# summary(poly_fit7)$adj.r.squared = 0.8200056
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred7, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred7, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 26.695; ", R^2, "= 0.820"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_8 X^8$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit8 <- lm(y ~ poly(x, 8) + Treat, data = poly_df)
+poly_pred8 <- predict(poly_fit8, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit8)["TreatTreat"] = 26.69527
+# summary(poly_fit8)$adj.r.squared = 0.8200056
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred8, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred8, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 26.123; ", R^2, "= 0.859"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_9 X^9$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit9 <- lm(y ~ poly(x, 9) + Treat, data = poly_df)
+poly_pred9 <- predict(poly_fit9, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit9)["TreatTreat"] = 25.52664
+# summary(poly_fit9)$adj.r.squared = 0.8588833
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred9, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred9, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 25.527; ", R^2, "= 0.859"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 非線形回帰の例
+
+$$\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_{10} X^{10}$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+poly_fit10 <- lm(y ~ poly(x, 10) + Treat, data = poly_df)
+poly_pred10 <- predict(poly_fit10, 
+                      newdata = tibble(
+                        x = c(seq(-10, 0, length.out = 50),
+                              seq(0, 10, length.out = 50)),
+                        Treat = c(rep("Control", 50),
+                                  rep("Treat", 50)))) |>
+  as_tibble() |>
+  mutate(x = c(seq(-10, 0, length.out = 50),
+               seq(0, 10, length.out = 50)),
+         Treat = c(rep("Control", 50),
+                   rep("Treat", 50)))
+# coef(poly_fit10)["TreatTreat"] = 25.85609 
+# summary(poly_fit10)$adj.r.squared = 0.8705483
+poly_df |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = Treat)) +
+  geom_line(data = filter(poly_pred10, Treat == "Control"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  geom_line(data = filter(poly_pred10, Treat == "Treat"),
+            aes(x = x, y = value), color = "blue", size = 1) +
+  ggtitle(expression(paste({rho}, " = 25.856; ", R^2, "= 0.871"))) +
+  labs(x = "強制変数", y = "応答変数", color = "処置有無") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 推定値の変化
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+bind_rows(list(tidy(poly_fit1, conf.int = TRUE),
+               tidy(poly_fit2, conf.int = TRUE),
+               tidy(poly_fit3, conf.int = TRUE),
+               tidy(poly_fit4, conf.int = TRUE),
+               tidy(poly_fit5, conf.int = TRUE),
+               tidy(poly_fit6, conf.int = TRUE),
+               tidy(poly_fit7, conf.int = TRUE),
+               tidy(poly_fit8, conf.int = TRUE),
+               tidy(poly_fit9, conf.int = TRUE),
+               tidy(poly_fit10, conf.int = TRUE)),
+          .id = "Model") |>
+  filter(term == "TreatTreat") |>
+  mutate(Model = paste0("X^",Model),
+         Model = fct_inorder(Model)) |>
+  ggplot(aes(x = Model, y = estimate, group = 1)) +
+  geom_line(size = 1) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high),
+                  size = 1) +
+  labs(x = "モデル", y = expression(paste({rho}, "の推定値"))) +
+  theme_bw(base_size = 12)
+```
+
+## 調整済み決定係数の変化
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
+bind_rows(list(glance(poly_fit1),
+               glance(poly_fit2),
+               glance(poly_fit3),
+               glance(poly_fit4),
+               glance(poly_fit5),
+               glance(poly_fit6),
+               glance(poly_fit7),
+               glance(poly_fit8),
+               glance(poly_fit9),
+               glance(poly_fit10)),
+          .id = "Model") |>
+  mutate(Model = paste0("X^",Model),
+         Model = fct_inorder(Model)) |>
+  ggplot(aes(x = Model, y = adj.r.squared, group = 1)) +
+  geom_line(size = 1) +
+  geom_point(size = 4, shape = 21, color = "white", fill = "black") +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "モデル", y = expression(paste("Adj.", R^2))) +
+  theme_bw(base_size = 12)
+```
+
+## 閾値周辺で傾きが変化する場合
+
+* 単純に$\mathbf{I}(X > c)$のみを回帰式に投入することは**連続**した回帰直線において**切片のみ**が変化するという前提
+* 回帰直線が連続し、切片のみ変化 (jump) しているため、バイアスが生じうる
+* $\rightarrow$ **交差項を投入**することで解決
+
+<br/>
+
+$$\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).$$
+
+* $\beta_0 = 3, \beta_1 = 1, \rho = 1.5, \gamma = 2$ の場合
+   * 因果効果は $X = 3$ の場合に生じるため、 $1.5 \cdot \mathbf{I}(X \geq 3) + 2 \cdot 3 \cdot \mathbf{I}(X \geq 3) = 7.5 \cdot \mathbf{I}(X \geq 3)$
+   * $\rightarrow$ 因果効果は 7.5
+
+## 交互作用の例 (`rdd_data3.csv`)
+
+* 交差項なしの処置効果: 11.730
+* 交差項ありの処置効果: 7.173
+
+```{r}
+inter_fit1 <- lm(Y ~ X + I(X >= 3), data = inter_df)
+inter_fit2 <- lm(Y ~ X * I(X >= 3), data = inter_df)
+modelsummary(list("交差項なし" = inter_fit1, "交差項あり" = inter_fit2),
+             gof_map     = c("nobs", "adj.r.squared", "F", "rmse"),
+             coef_rename = c("(Intercept)" = "\\(\\beta_0\\)",
+                             "X" = "\\(\\beta_1\\)",
+                             "I(X >= 3)TRUE" = "\\(\\rho\\)",
+                             "X:I(X >= 3)TRUE" = "\\(\\gamma\\)"))
+```
+
+## 交互作用の例 (`rdd_data3.csv`)
+
+* 交差項なしの処置効果: 11.730
+* 交差項ありの処置効果: 7.173
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+inter_pred <- tibble(X = c(-10, 2.999, 3, 10))
+
+# predict(inter_fit1, newdata = inter_df)
+# -8.752707  7.799922 19.531658 28.445298 
+# predict(inter_fit2, newdata = inter_df)
+# -7.26124  6.11320 13.28614 35.59251 
+
+inter_df |>
+  mutate(Treat = if_else(X >= 3, "処置群", "統制群")) |>
+  ggplot() +
+  geom_vline(xintercept = 3) +
+  geom_point(aes(x = X, y = Y, color = Treat)) +
+  geom_segment(aes(x = -10, xend = 2.999, y = -8.752707, yend = 7.799922,
+                   linetype = "交差項なし"),
+               size = 1) +
+  geom_segment(aes(x = 3, xend = 10, y = 19.531658, yend = 28.445298,
+                   linetype = "交差項なし"),
+               size = 1) +
+  geom_segment(aes(x = -10, xend = 2.999, y = -7.26124, yend = 6.11320,
+                   linetype = "交差項あり"),
+               size = 1) +
+  geom_segment(aes(x = 3, xend = 10, y = 13.28614, yend = 35.59251,
+                   linetype = "交差項あり"),
+               size = 1) +
+  labs(color = "", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 解釈をより分かりやすくするためには
+
+強制変数を閾値で中心化 (centering) する
+
+$$\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).$$
+
+* 交差項がない場合、因果効果は $\rho$
+* 交差項が含まれている場合、因果効果は $\rho + \gamma \cdot c$
+   * $c$ は閾値 (cut point)
+* 強制変数 (X) を $c$ で中心化すると ...
+
+## 解釈をより分かりやすくするためには
+
+強制変数を閾値で中心化 (centering) する
+
+$$\begin{align}\hat{Y} & = \beta_0 + \beta_1 X^c + \rho \mathbf{I}(X^c \geq 0) + \gamma X \cdot \mathbf{I}(X^c \geq 0), \\ X^c & = X - c.\end{align}$$
+
+* 閾値が0になるため、閾値での因果効果は
+   * $\rho + \gamma \cdot 0 = \rho$
+* $\rho$ を因果効果として解釈することが可能に
+* 交差項が含まれていないモデルの場合、閾値で中心化してもしなくても $\rho$ は同じ
+   * $\rightarrow$ とりあえず、入れてみる
+* パッケージで分析する際、中心化は気にしなくても良いが、パッケージを使う前に自分で探索的に分析をしてみよう
+
+## 中心化前の $\rho$
+
+$$\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+inter_pred <- tibble(X = c(-10, 2.999, 3, 10))
+
+# ((35.59251 - 13.28614) / 7) * 13
+# 41.42612
+
+inter_df |>
+  mutate(Treat = if_else(X >= 3, "処置群", "統制群")) |>
+  ggplot() +
+  geom_vline(xintercept = 3) +
+  geom_point(aes(x = X, y = Y, color = Treat)) +
+  geom_segment(aes(x = -10, xend = 2.999, y = -7.26124, yend = 6.11320),
+               size = 1) +
+  geom_segment(aes(x = 3, xend = 10, y = 13.28614, yend = 35.59251),
+               size = 1) +
+  geom_segment(aes(x = -10, xend = 3, y = 13.28614 - 41.42612, yend = 13.28614),
+               size = 1, linetype = 2) +
+  geom_segment(aes(x = -10, xend = -10, y = 13.28614 - 41.42612, yend = -7.26124),
+               arrow = arrow(ends = "both", 
+                             length = unit(0.03, "npc")),
+               color = "orange", size = 1) +
+  labs(color = "", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 中心化後の $\rho$
+
+$$\hat{Y} = \beta_0 + \beta_1 X^c + \rho \mathbf{I}(X^c \geq 0) + \gamma X \cdot \mathbf{I}(X^c \geq 0).$$
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+inter_df |>
+  mutate(Treat = if_else(X >= 3, "処置群", "統制群")) |>
+  ggplot() +
+  geom_vline(xintercept = 3) +
+  geom_point(aes(x = X, y = Y, color = Treat)) +
+  geom_segment(aes(x = -10, xend = 2.999, y = -7.26124, yend = 6.11320),
+               size = 1) +
+  geom_segment(aes(x = 3, xend = 10, y = 13.28614, yend = 35.59251),
+               size = 1) +
+  geom_segment(aes(x = 3, xend = 3, y = 6.11320, yend = 13.28614),
+               arrow = arrow(ends = "both", 
+                             length = unit(0.03, "npc")),
+               color = "orange", size = 1) +
+  labs(color = "", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+# ノンパラメトリック推定法
+
+## パラメトリック推定の問題点
+
+強制変数と応答変数間の関数 (functional form) が正しく設定できるか
+
+* 閾値は制度などによって決まることが多いため、明確な場合が多い
+* モデルが既知ならこれまでのようにパラメトリックな推定が効率的
+   * しかし、**強制変数と応答変数間の関数**は、ほとんどの場合において**未知**
+   * モデルの誤設定 (misspecification) はバイアスの原因になりうる
+   * 例) 多項式モデルの1〜2次項モデルの場合、因果効果が逆転
+
+<br/>
+
+**ノンパラメトリック**/**セミパラメトリック推定**
+
+* モデルと全く無関係ではないが、より柔軟な推定方法
+   * ノンパラメトリックはモデルを使用しない
+* モデルの特定が多少間違っても、そこまで大きく問題にならない推定法
+
+## ノンパラメトリック推定法
+
+閾値 ( $c$ ) から $h$ 以上離れているケースは分析から除外
+
+* 分析対象は $c - h \leq X \leq c + h$ のみ
+   * 閾値を中心に中心化済みなら $−h \leq X^c \leq h$
+* $h$ は「**バンド幅** (bandwidth)」と呼ばれる
+   * バンド幅内のデータのみが対象となるため、局所ATE (**LATE**; Local ATE)が推定対象
+
+<br/>
+
+推定方法
+
+* **ノン**パラメトリック: **局所平均** (Local Average)
+   * $\mathbb{E}[Y|0 \leq X^c \leq h] - \mathbb{E}[Y|-h \leq X^c < 0]$
+* **セミ**パラメトリック: **局所回帰分析** (Local Linear Regression)
+   * $−h \leq X^c \leq h$ の範囲内で交差項を含むカーネル回帰分析
+   * 定番のカーネル関数は三角 (triangular)
+* カーネル関数が一様 (uniform, rectangular) なら線形回帰分析
+
+## ノン/セミパラメトリック推定法
+
+$−h \leq X^c \leq h$ 範囲内のデータのみ使用
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 3 | x < - 3, "Out", "In")) |>
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -3, linetype = 2) +
+  geom_vline(xintercept = 3,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  scale_x_continuous(breaks = c(-3, 0, 3), labels = c("c - h", "c", "c + h")) +
+  labs(x = "強制変数", y = "応答変数") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+## 局所平均 (`rdd_data2.csv`)
+
+$h = 5$ の場合
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 5 | x < -5, "Out", "In")) |>
+  #filter(Out == "In") |>
+  #group_by(Treat) |>
+  #summarise(Outcome = mean(y)) |> as.data.frame() 
+  # 116.9308 - 142.6386
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -5, linetype = 2) +
+  geom_vline(xintercept = 5,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -5, xend = 0, y = 142.6386, yend = 142.6386),
+               size = 2, color = "#00BFC4") +
+  geom_segment(aes(x = 0, xend = 5, y = 116.9308, yend = 116.9308),
+               size = 2, color = "#F8766D") +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  labs(x = "強制変数", y = "応答変数") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+## 局所平均 (`rdd_data2.csv`)
+
+$h = 3$ の場合
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 3 | x < -3, "Out", "In")) |>
+  #filter(Out == "In") |>
+  #group_by(Treat) |>
+  #summarise(Outcome = mean(y)) |> as.data.frame() 
+  # 98.26742 - 112.25510
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -3, linetype = 2) +
+  geom_vline(xintercept = 3,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -3, xend = 0, y = 112.25510, yend = 112.25510),
+               size = 2, color = "#00BFC4") +
+  geom_segment(aes(x = 0, xend = 3, y = 98.26742, yend = 98.26742),
+               size = 2, color = "#F8766D") +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  labs(x = "強制変数", y = "応答変数") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+## 局所平均 (`rdd_data2.csv`)
+
+$h = 1$ の場合
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 1 | x < -1, "Out", "In")) |>
+  #filter(Out == "In") |>
+  #group_by(Treat) |>
+  #summarise(Outcome = mean(y)) |> as.data.frame() 
+  # 68.64350 - 52.96245
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -1, linetype = 2) +
+  geom_vline(xintercept = 1,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -1, xend = 0, y = 52.96245, yend = 52.96245),
+               size = 2, color = "#00BFC4") +
+  geom_segment(aes(x = 0, xend = 1, y = 68.64350, yend = 68.64350),
+               size = 2, color = "#F8766D") +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  labs(x = "強制変数", y = "応答変数") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+## 局所平均 (`rdd_data2.csv`)
+
+バンド幅の調整による因果効果の推定値の変化
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df <- poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"))
+
+local_avg <- function(data) {
+  data |>
+    group_by(Treat) |>
+    summarise(Outcome = mean(y)) |>
+    pull(Outcome) |>
+    diff() * -1
+}
+
+tibble(h = 1:10) |>
+  mutate(Data = map(h, ~filter(poly_df, x < .x & x > - .x)),
+         LATE = map(Data, local_avg)) |>
+  unnest(LATE) |>
+  ggplot(aes(x = h, y = LATE)) +
+  geom_line(size = 1, color = "royalblue") +
+  geom_point(shape = 21, color = "white", fill = "royalblue", size = 4) +
+  scale_x_continuous(breaks = 1:10, labels = 1:10) +
+  labs(x = "バンド幅", y = "局所平均の差分 (処置群 - 統制群)") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "none",
+        panel.grid.minor.x = element_blank()) 
+```
+
+## 局所平均 (`rdd_data1.csv`)
+
+参考) 選挙制度と投票率の例 (真の因果効果は 5)
+
+* 傾きが緩やかな場合、バイアス小
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+french_df <- french_df |>
+  mutate(Pop_c = Pop - 3500,
+         Treat = if_else(Pop_c >= 0, "処置群", "統制群"))
+
+local_avg <- function(data) {
+  Est <- t.test(Turnout ~ Treat, data = data)$estimate |> diff() * -1
+  CI  <- t.test(Turnout ~ Treat, data = data)$conf.int
+  tibble(Est = Est, conf.low = CI[2], conf.high = CI[1])
+}
+
+
+tibble(h = seq(300, 2000, 100)) |>
+  mutate(Data = map(h, ~filter(french_df, Pop_c < .x & Pop_c > - .x)),
+         LATE = map(Data, local_avg)) |>
+  select(-Data) |>
+  unnest(LATE) |>
+  ggplot(aes(x = h, y = Est)) +
+  geom_hline(yintercept = 5, linetype = 2) +
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high),
+                  color = "royalblue", size = 1) +
+  geom_line(size = 1, color = "royalblue") +
+  coord_cartesian(xlim = c(300, 2000), y = c(-5, 10)) +
+  scale_x_continuous(breaks = c(300, 500, 1000, 1500, 2000), 
+                     labels = c(300, 500, 1000, 1500, 2000)) +
+  labs(x = "バンド幅", y = "局所平均の差分 (処置群 - 統制群)") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "none",
+        panel.grid.minor.x = element_blank()) 
+```
+
+## 限界
+
+パラメトリック推定に比べてバイアスが大きい場合も
+
+* バンド幅内のデータのみが分析対象になるため、必然的に**サンプル・サイズが小さくなる**
+   * 少数のケースによって平均値の変動が大きい (モデルの分散が大きい)
+   * バンド幅内に十分に大きいサンプルサイズが確保されている必要
+* 平均値を用いることは、バンド幅内のデータにおいて**強制変数の傾きが0**という非常に強い仮定を置く。
+   * `Day4_Data2.csv`のように $c$ 周辺で変化が大きい場合、局所平均は向いていない
+
+<br/>
+
+より前提を緩めた推定法
+
+* **局所回帰分析** (local regression)
+
+## 局所平均 vs. 局所回帰 (`rdd_data2.csv`)
+
+$h = 3$ の場合
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df_3 <- poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 3 | x < -3, "Out", "In")) 
+
+poly_fit_3 <- lm(y ~ x * Treat, data = filter(poly_df_3, Out == "In"))
+
+# predict(poly_fit_3, 
+        #newdata = tibble(x = c(-3, 0, 0, 3),
+                         #Treat = c("統制群", "統制群",
+                                   #"処置群", "処置群")))
+#        1         2         3         4 
+#182.33793  34.85634  59.32253 138.19027 
+
+poly_df_3 |>
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -3, linetype = 2) +
+  geom_vline(xintercept = 3,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -3, xend = 0, y = 112.25510, yend = 112.25510,
+                   linetype = "局所平均"), size = 1) +
+  geom_segment(aes(x = 0, xend = 3, y = 98.26742, yend = 98.26742,
+                   linetype = "局所平均"), size = 1) +
+  geom_segment(aes(x = -3, xend = 0, y = 182.33793, yend = 34.85634,
+                   linetype = "局所回帰"), size = 1) +
+  geom_segment(aes(x = 0, xend = 3, y = 59.32253, yend = 138.19027,
+                   linetype = "局所回帰"), size = 1) +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  guides(shape = "none", color = "none", alpha = "none") +
+  labs(x = "強制変数", y = "応答変数", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 局所回帰分析
+
+バンド幅内データを対象にした線形回帰分析 (Hahn et al. 2001, Poter 2003, Imbens and Lemieux 2008) 
+
+* パラメトリック推定と同様、**交差項**や**多項式**も投入可能
+   * Rの{rdd}パッケージの場合、交差項 $\bigcirc$ & 多項式 $\times$
+
+<br/>
+
+* 閾値 (c) に近いほど、ケースに**重み**を付ける
+   * 重み関数はカーネル関数を用いる
+   * Imbens and Lemieux (2008) は一様 (uniform; rectangular) カーネル関数を用いたが、この場合、重みを付けない普通の回帰分析と一致
+      * バンド幅内の全てのケースに同じ重みを付ける
+   * 三角形 (triangular) カーネル関数が統計学的観点からは最適 (optimal) とも (Fan and Gijbels 1996)
+      * ほとんどのパッケージは三角形カーネル関数がデフォルト
+
+## 様々なカーネル関数
+
+![](figs/rdd/Kernels.png){width=900px fig-align="center"}
+
+## 局所回帰 & 一様カーネル
+
+$h = 5$ の場合
+
+```{r}
+#| include: false
+poly_df_5 <- poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 5 | x < -5, "Out", "In")) 
+
+poly_fit_5 <- lm(y ~ x * Treat, data = filter(poly_df_5, Out == "In"))
+
+predict(poly_fit_5, 
+        newdata = tibble(x = c(-5, 0, 0, 5),
+                         Treat = c("統制群", "統制群",
+                                   "処置群", "処置群")))
+#        1         2         3         4 
+#231.57189  53.87726  68.32546 160.77427
+```
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df_5 |>
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -5, linetype = 2) +
+  geom_vline(xintercept = 5,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -5, xend = 0, y = 231.57189, yend = 53.87726), 
+               size = 1) +
+  geom_segment(aes(x = 0, xend = 5, y = 68.32546, yend = 160.77427), 
+               size = 1) +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  guides(shape = "none", color = "none", alpha = "none") +
+  labs(x = "強制変数", y = "応答変数", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 局所回帰 & 一様カーネル
+
+$h = 3$ の場合
+
+```{r}
+#| include: false
+poly_df_3 <- poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 3 | x < -3, "Out", "In")) 
+
+poly_fit_3 <- lm(y ~ x * Treat, data = filter(poly_df_3, Out == "In"))
+
+predict(poly_fit_3, 
+        newdata = tibble(x = c(-3, 0, 0, 3),
+                         Treat = c("統制群", "統制群",
+                                   "処置群", "処置群")))
+#        1         2         3         4 
+#182.33793  34.85634  59.32253 138.19027
+```
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df_3 |>
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -3, linetype = 2) +
+  geom_vline(xintercept = 3,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -3, xend = 0, y = 182.33793, yend = 34.85634), 
+               size = 1) +
+  geom_segment(aes(x = 0, xend = 3, y = 59.32253, yend = 138.19027), 
+               size = 1) +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  guides(shape = "none", color = "none", alpha = "none") +
+  labs(x = "強制変数", y = "応答変数", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 局所回帰 & 一様カーネル
+
+$h = 1$ の場合
+
+```{r}
+#| include: false
+poly_df_1 <- poly_df |>
+  mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
+         Out   = if_else(x > 1 | x < -1, "Out", "In")) 
+
+poly_fit_1 <- lm(y ~ x * Treat, data = filter(poly_df_1, Out == "In"))
+
+predict(poly_fit_1, 
+        newdata = tibble(x = c(-1, 0, 0, 1),
+                         Treat = c("統制群", "統制群",
+                                   "処置群", "処置群")))
+#        1         2         3         4 
+#88.96839 21.49575 53.18205 90.75511
+```
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df_1 |>
+  ggplot() +
+  geom_vline(xintercept = 0) +
+  geom_vline(xintercept = -1, linetype = 2) +
+  geom_vline(xintercept = 1,  linetype = 2) +
+  geom_point(aes(x = x, y = y, color = Treat, alpha = Out, shape = Out)) +
+  geom_segment(aes(x = -1, xend = 0, y = 88.963899, yend = 21.49575), 
+               size = 1) +
+  geom_segment(aes(x = 0, xend = 1, y = 53.18205, yend = 90.75511), 
+               size = 1) +
+  scale_alpha_manual(values = c("Out" = 0.3, "In" = 1)) +
+  scale_shape_manual(values = c("Out" = 1, "In" = 19)) +
+  guides(shape = "none", color = "none", alpha = "none") +
+  labs(x = "強制変数", y = "応答変数", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## バント幅とLATE
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+poly_df <- poly_df |>
+  mutate(Treat = factor(Treat, levels = c("統制群", "処置群")))
+tibble(h = 1:10) |>
+  mutate(Data = map(h, ~filter(poly_df, x <= .x, x >= -.x)),
+         Fit  = map(Data, ~lm(y ~ x * Treat, data = .x)),
+         Est  = map(Fit, tidy, conf.int = TRUE)) |>
+  unnest(Est) |>
+  filter(term == "Treat処置群") |>
+  select(h, estimate, conf.low, conf.high) |>
+  ggplot() +
+  geom_pointrange(aes(x = h, y = estimate, ymin = conf.low, ymax = conf.high),
+                  size = 1) +
+  geom_line(aes(x = h, y = estimate), size = 1) +
+  scale_x_continuous(breaks = 1:10, labels = 1:10) +
+  guides(shape = "none", color = "none", alpha = "none") +
+  labs(x = "ハンド幅", y = "LATE", linetype = "") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom",
+        panel.grid.minor.x = element_blank())
+```
+
+## バンド幅の話
+
+ノンパラメトリック推定の場合、バンド幅の設定が大事
+
+* 一般的に、 $h$ が大きいほどバイアスが大きい
+   * データによっては逆の傾向や凹関数の形をしている場合もある
+   * 分散とバイアスのトレード・オフ関係
+      * 理想としては分散とバイアスの最小化が望ましい
+
+<br/>
+
+* **最適バンド幅** (optimal bandwidth)
+   * 残念ながら、**バンド幅を決めるルールは存在しない**
+   * バンド幅を決めるのは分析者の仕事
+   * いろいろと $h$ を変えながら分析を繰り返す
+   * 多く使われているバンド幅の決め方
+   * `r fontawesome("arrow-right")` **Imbens-Kalyanaraman Optimal Bandwidth**
+
+## IK Optimal Bandwidth
+
+**簡単**に計算可能な最適バンド幅の一つ (Imbens and Kalyanaraman 2009)
+
+* 他に CCT バンド幅 (Calonico, Cattaneo, and Titiunik 2014)、CV バンド幅 (Ludwig, and Mill 2007) など
+
+. . .
+
+$$h_{\text{opt}} = C_K \cdot \Bigg(\frac{2 \hat{\sigma}^2(c) / \hat{f}(c)}{\big(m_{+}^{(2)}(c) - m_{-}^{(2)}(c)\big)^2 + (\hat{r}_{+} + \hat{r}_{-})}\Bigg)^{\frac{1}{5}} \cdot N^{-\frac{1}{5}}$$
+
+<center>非常に簡単!</center>
+
+![](figs/rdd/WaiWai.png){width=150px fig-align="center"}
+
+. . .
+
+<center>パソコンが勝手に計算してくれるので安心して良い</center>
+
+## カーネルとの関係
+
+カーネル選択は推定値に大きな影響を与えない (Lee and Lemieux 2010)
+
+```{r}
+tibble(kernel = c("triangular", "rectangular", "epanechnikov","quartic", 
+                  "triweight", "tricube", "gaussian", "cosine")) |>
+  mutate(Fit = map(kernel, ~RDestimate(y ~ x, data = poly_df, kernel = .x)),
+         BW  = map_dbl(map(Fit, `$`, bw), `[`, 1),
+         Est = map(Fit, `$`, est)) |>
+  unnest(Est) |>
+  mutate(ATE = rep(c("LATE", "Half BW", "Double BW"), 8)) |>
+  select(-Fit) |>
+  pivot_wider(names_from = "ATE", values_from = "Est") |>
+  mutate(across(where(is.numeric), round, 3)) |>
+  kableExtra::kbl(col.names = c("カーネル", "\\(h_{opt}\\)",
+                    "LATE", "Half BW", "Double BW")) |>
+  kableExtra::add_header_above(c(" " = 2, "処置効果" = 3))
+```
+
+# 実習
+
+## 実習用データ
+
+講師が作成した架空データ
+* `rdd_data1.csv`: スライド5ページ
+   * 真の因果効果: 約5
+* `rdd_data2.csv`: スライド15ページ
+   * 真の因果効果: 約25
+* `rdd_data3.csv`: スライド29ページ
+   * 真の因果効果: 約7.5
+
+<br/>
+
+実習用データ
+
+* `rdd_data4.dta`
+
+## アメリカにおける現職効果 (1)
+
+```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+data("rdrobust_RDsenate")
+
+Senate <- rdrobust_RDsenate
+
+Senate |> 
+  ggplot(aes(x = margin, y = vote, color = (margin > 0), group = (margin > 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "blue", size = 1, se = FALSE) +
+  labs(x = "Vote Margin in t-1 (%p)", y = "Vote Share in t (%)",
+       color = "Is vote margin larger than 0?") +
+  ggtitle("The U.S. Senate Election 1914-2010") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## アメリカにおける現職効果 (2)
+
+```{r}
+data("rdrobust_RDsenate")
+Senate_Fit <- RDestimate(vote ~ margin, data = rdrobust_RDsenate)
+summary(Senate_Fit)
+```
+
+## Ariga et al. データについて
+
+詳細は以下の論文を参照
+
+* Kenichi Ariga, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. "No Sorting, No Advantage: Regression Discontinuity Estimates of Incumbency Advantage in Japan," *Electoral Studies,* 43: 21–31.
+
+<br/>
+
+変数の説明
+
+* `vm1`: $t$ 期選挙における自民党候補者のvote margin
+   * vote margin: 自分の得票率 - 非自民候補の最高得票率
+* `F_ldpv_smd`: $t+1$ 期選挙における自民党候補者の得票率
+* `ldp_LCF`: $t-1$から$t+1$期まで選挙区割が変化せず、自民党候補者がいる選挙区ダミー
+
+## 散布図
+
+全ケースの散布図
+
+```{r, include = FALSE}
+ariga_df  <- ariga_df |> filter(ldp_LCF == 1)
+ariga_fit <- lm(F_ldpv_smd ~ vm1 * I(vm1 > 0), data = ariga_df)
+predict(ariga_fit, newdata = tibble(vm1 = c(min(ariga_df$vm1),
+                                            -0.000000001, 0.000000001, 
+                                            max(ariga_df$vm1))))
+```
+
+```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+ariga_df |> 
+  ggplot(aes(x = vm1, y = F_ldpv_smd, color = (vm1 > 0)), group = (vm1 > 0)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_point() +
+  geom_segment(aes(x = min(vm1), xend = 0,
+                   y = 31.44618, yend = 44.13791), 
+               size = 1, color = "blue") +
+  geom_segment(aes(x = 0, xend = max(vm1),
+                   y = 42.13791, yend = 73.49504), 
+               size = 1, color = "blue") +
+  labs(x = "Vote Margin in Election t",
+       y = "Vote Share in Election t+1",
+       color = "Is vote margin lager than 0?") +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 散布図
+
+区間ごとの平均値の散布図 (点が多い時に便利)
+
+```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+ariga_df2 <- ariga_df |>
+  filter(vm1 >= -15, vm1 <= 15)
+
+ariga_df2$cut <- cut(ariga_df2$vm1, breaks = seq(-15, 15, 0.5))
+ariga_df2$cut2 <- as.numeric(ariga_df2$cut)
+ariga_df2$cut2 <- (ariga_df2$cut2 - 30.5)
+ariga_df2$cut2 <- ariga_df2$cut2 / 2
+
+ariga_df2 |> 
+  group_by(cut2) |>
+  summarise(Vote = mean(F_ldpv_smd, na.rm = TRUE)) |>
+  ggplot() +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_point(aes(x = cut2, y = Vote)) +
+  scale_y_continuous(breaks = seq(30, 60, 5),
+                     labels = seq(30, 60, 5)) +
+  coord_cartesian(ylim = c(30, 60)) +
+  theme_bw(base_size = 12) +
+  labs(x = "Vote Margin in Election t",
+       y = "Vote Share in Election t+1")
+```
+
+## 処置効果
+
+現職効果は見られない
+
+```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+ariga_fit <- RDestimate(F_ldpv_smd ~ vm1, data = ariga_df)
+
+ariga_fig1 <- tibble(bw_type = c("Optimal", "Half", "Double"),
+                     bw      = ariga_fit$bw,
+                     late    = ariga_fit$est,
+                     se      = ariga_fit$se)
+
+ariga_fig1 |>
+  mutate(bw_type  = paste0(bw_type, "\n(=", round(bw, 3), ")"),
+         conf_lwr = late + qnorm(0.025) * se,
+         conf_upr = late + qnorm(0.975) * se,
+         bw_type  = fct_inorder(bw_type)) |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = bw_type, y = late, 
+                      ymin = conf_lwr, ymax = conf_upr),
+                  size = 1) +
+  labs(x = "Bandwidth", y = "LATE") +
+  theme_bw(base_size = 12)
+```
+
+## 頑健性チェック (1)
+
+バンド幅を動かしても推定値は大きく変化しない
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+tibble(h = c(3:15, 7.423955)) |>
+  mutate(Fit = map(h, ~RDestimate(F_ldpv_smd ~ vm1, data = ariga_df, 
+                                  bw = .x)),
+         Est = map_dbl(map(Fit, `$`, est), `[`, 1),
+         SE  = map_dbl(map(Fit, `$`, se), `[`, 1)) |>
+  select(-Fit) |>
+  arrange(h) |>
+  mutate(conf_lwr = Est + qnorm(0.025) * SE,
+         conf_upr = Est + qnorm(0.975) * SE) |>
+  ggplot() +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_line(aes(x = h, y = Est)) +
+  geom_line(aes(x = h, y = conf_lwr), linetype = 2) +
+  geom_line(aes(x = h, y = conf_upr), linetype = 2) +
+  geom_pointrange(aes(x = 7.32, y = 0.628, ymin = -2.64, ymax = 3.90,
+                      size = "Optimal Bandwidth")) +
+  scale_size_manual(values = c("Optimal Bandwidth" = 1)) +
+  scale_x_continuous(breaks = seq(3, 15, 3), labels = seq(3, 15, 3)) +
+  labs(x = "Bandwidth", y = "LATE", size = "") +
+  coord_cartesian(ylim = c(-15, 15)) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 頑健性チェック (2)
+
+多項式回帰でも推定値は大きく変化しない (バンド幅は固定)
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
+tibble(p = 1:4) |>
+  mutate(Fit = map(p, ~rdrobust(y = ariga_df$F_ldpv_smd,
+                                x = ariga_df$vm1, 
+                                p = .x,
+                                h = 7.424)),
+         Est = map_dbl(map(Fit, `$`, coef), `[`, 1),
+         SE  = map_dbl(map(Fit, `$`, se), `[`, 1))  |>
+  select(-Fit) |>
+  mutate(conf_lwr = Est + qnorm(0.025) * SE,
+         conf_upr = Est + qnorm(0.975) * SE) |>
+  ggplot() +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_pointrange(aes(x = p, y = Est, ymin = conf_lwr, ymax = conf_upr)) +
+  scale_x_continuous(breaks = 1:4, labels = 1:4) +
+  scale_y_continuous(breaks = seq(-15, 15, 5), labels = seq(-15, 15, 5)) +
+  labs(x = "Order of Local Polynomial Regression", y = "LATE", size = "") +
+  coord_cartesian(ylim = c(-15, 15)) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+## 仮定の確認
+
+強制変数の密度が閾値周辺において連続しているか否かを確認
+
+* 出力される*p*値が0.05を下回る場合、閾値周辺において操作が行われている可能性を示唆
+* {rdd}の`DCdensity()`、または{rddensity}の`rddensity()`で検定可能
+
+::::{.columns}
+:::{.column width=40%}
+```{r}
+#| echo: true
+DCdensity(ariga_df$vm1, plot = FALSE)
+```
+:::
+
+:::{.column width=40%}
+```{r}
+#| eval: false
+rddensity(X = ariga_df$vm1) |>
+  rdplotdensity(X = ariga_df$vm1)
+```
+
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| fig-align: "center"
+Test <- rddensity(X = ariga_df$vm1)
+Fig  <- rdplotdensity(Test, X = ariga_df$vm1)
+```
+:::
+::::
+
+:::{.notes}
+
+{rddensity}の場合、デフォルトはjacknifeで分散共分散行列を算出
+
+jacknife: ケースを1個ずつ抜いたデータセットをN個作成する(LOOに似ている)。常に同じ結果が得られる
+
+bootstrap: ランダムにサンプルを作成する。パソコンのPowerが必要
+:::

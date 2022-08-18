@@ -1615,5 +1615,425 @@
     "title": "実習用データ集",
     "section": "",
     "text": "ファイル名\n備考\n\n\n\n\n1\nintro_data2.csv\n因果推論の考え方とRCT\n\n\n2\nmatching_data1.csv\nマッチング\n\n\n3\nmatching_data2.csv\nマッチング\n\n\n4\nmatching_data3.csv\nマッチング\n\n\n5\nmatching_data4.csv\nマッチング\n\n\n6\ndid_data1.csv\n差分の差分法\n\n\n7\ndid_data2.csv\n差分の差分法\n\n\n8\ndid_data4.csv\n差分の差分法\n\n\n9\ndid_data6.csv\n差分の差分法"
+  },
+  {
+    "objectID": "slide/rdd.html#回帰不連続デザイン-1",
+    "href": "slide/rdd.html#回帰不連続デザイン-1",
+    "title": "方法論特殊講義III",
+    "section": "回帰不連続デザイン",
+    "text": "回帰不連続デザイン\nRegression Discontinuity Design\n\nThistlewaite and Campbell (1960) で紹介\n「RDD」と呼ばれる場合が多い\n\n「かいきふれんぞくでざいん」は長すぎる\n\nある点 (閾値)を超えることで処置を受けるか否かが決まる\n\n例) 人口によって選挙制度が決まる場合 (0 = 多数代表制; 1 = 比例代表制)\n\n\n\\[T_i = \\begin{cases} 0 & \\text{ if } \\text{Population} < 3500, \\\\ 1 & \\text{ if } \\text{Population} \\geq 3500. \\end{cases}\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#rddの考え方",
+    "href": "slide/rdd.html#rddの考え方",
+    "title": "方法論特殊講義III",
+    "section": "RDDの考え方",
+    "text": "RDDの考え方\n比例代表制と多数代表制の投票率の比較\n\n選挙制度は国レベルで異なるため国家間比較になる\n国固有の文脈により単純比較は困難\nフランスの場合、同一国家、レベルの選挙内で制度が異なる\n\n国固有の政治的文脈はコントロールされる\n\nしかし、人口が多いところは都市部が多いし、投票率の低い都市部の特徴により、比例代表制の投票率は過小評価される可能性\n\n「都市化度」という交絡要因が残存している\n\n人口が3450人と村と3550人の村なら「都市化度」はほぼ同じなのでは …?\n\nほぼ同条件で選挙制度だけが異なる状況\n\\(\\rightarrow\\) 交絡要因が除去されているため、因果推論が可能に"
+  },
+  {
+    "objectID": "slide/rdd.html#rddの考え方-1",
+    "href": "slide/rdd.html#rddの考え方-1",
+    "title": "方法論特殊講義III",
+    "section": "RDDの考え方",
+    "text": "RDDの考え方\n比例代表制と多数代表制の投票率の比較 (架空データ)\n\n人口が多くなるにつれ、投票率が減少傾向"
+  },
+  {
+    "objectID": "slide/rdd.html#rddの考え方-2",
+    "href": "slide/rdd.html#rddの考え方-2",
+    "title": "方法論特殊講義III",
+    "section": "RDDの考え方",
+    "text": "RDDの考え方\n比例代表制と多数代表制の投票率の比較\n\n比例代表制は投票率を低下する制度だと解釈されてしまう"
+  },
+  {
+    "objectID": "slide/rdd.html#rddの考え方-4",
+    "href": "slide/rdd.html#rddの考え方-4",
+    "title": "方法論特殊講義III",
+    "section": "RDDの考え方",
+    "text": "RDDの考え方\n比例代表制と多数代表制の投票率の比較 (架空データ)\n\n人口3500で分けてみると…\n\n\n\n\n\n \n  \n      \n    Model 1 \n    Model 2 \n  \n \n\n  \n    切片 \n    59.650 \n    59.939 \n  \n  \n     \n    (0.478) \n    (0.453) \n  \n  \n    人口 \n    −0.001 \n    −0.002 \n  \n  \n     \n    (0.000) \n    (0.000) \n  \n  \n    人口3500以上ダミー \n     \n    6.561 \n  \n  \n     \n     \n    (0.831) \n  \n  \n    Num.Obs. \n    500 \n    500 \n  \n  \n    R2 \n    0.338 \n    0.411 \n  \n  \n    R2 Adj. \n    0.336 \n    0.409 \n  \n  \n    RMSE \n    5.27 \n    4.97"
+  },
+  {
+    "objectID": "slide/rdd.html#つのrdd",
+    "href": "slide/rdd.html#つのrdd",
+    "title": "方法論特殊講義III",
+    "section": "2つのRDD",
+    "text": "2つのRDD\n異なる割当メカニズムを想定した2つのRDD\n\n本講義で解説するのはSRDのみ\n\n\n\nSharp Regression Discontinuity (SRD)\n\n強制変数 (running variable) が閾値 (cut point) を超えると必ず処置を受ける。\nもっとも単純明快な RDD。実際、多く使われている。\n例) 人口と選挙制度\n\nFuzzy Regression Discontinuity (FRD)\n\n強制変数が閾値を超えると、処置を受ける確率が高まる。\n操作変数法の理解が必要 (実例もあまり見ないような . . . )\n例) 入試 (一定点数を超えると合格する可能性がある)"
+  },
+  {
+    "objectID": "slide/rdd.html#rddの考え方-3",
+    "href": "slide/rdd.html#rddの考え方-3",
+    "title": "方法論特殊講義III",
+    "section": "RDDの考え方",
+    "text": "RDDの考え方\n比例代表制と多数代表制の投票率の比較 (架空データ)\n\n人口3500で分けてみると…"
+  },
+  {
+    "objectID": "slide/rdd.html#割当メカニズムの比較",
+    "href": "slide/rdd.html#割当メカニズムの比較",
+    "title": "方法論特殊講義III",
+    "section": "割当メカニズムの比較",
+    "text": "割当メカニズムの比較"
+  },
+  {
+    "objectID": "slide/rdd.html#rddの仮定",
+    "href": "slide/rdd.html#rddの仮定",
+    "title": "方法論特殊講義III",
+    "section": "RDDの仮定",
+    "text": "RDDの仮定\nMoscoe and Barninnghausen (2015)\n\n閾値周辺において交絡要因が変化しないこと\n\n飲酒年齢の事故の例: 20歳になった瞬間、アルコールを分解する酵素が劇的に増加するような悲しい現象は起きない\n\n閾値のルールが明確であり、既知であること\n\nSRDの場合、閾値は制度に起因するものが多いため、問題になるケースは少ない\n\n強制変数が閾値周辺において連続であること\n\n閾値周辺において強制変数の操作が行われていない\n密度検定 (density test)で検定可能\n\n潜在的結果が閾値周辺において連続であること"
+  },
+  {
+    "objectID": "slide/rdd.html#パラメトリック推定方法",
+    "href": "slide/rdd.html#パラメトリック推定方法",
+    "title": "方法論特殊講義III",
+    "section": "パラメトリック推定方法",
+    "text": "パラメトリック推定方法\n(非) 線形回帰分析による推定\n\nフランス地方議会選挙の例\n\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\beta_1 \\mbox{Population} + \\rho \\mathbf{I}(\\mbox{Population} \\geq 3500)\\]\n\n推定されるパラメータは \\(\\beta_0, \\beta_1, \\rho\\) (+ 誤差項 ( \\(\\varepsilon\\) )の分散)\n\n\\(\\mathbf{I}(\\cdot)\\) は指示関数 (indicator function)\nカッコ内の条件が満たされたら1、それ以外の場合は0を返す関数\n\\(1(\\cdot)\\) と表現する場合もあり\n\n要は、処置変数 (=ダミー変数) を投入し、強制変数を統制した線形回帰モデル"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形の場合",
+    "href": "slide/rdd.html#非線形の場合",
+    "title": "方法論特殊講義III",
+    "section": "非線形の場合",
+    "text": "非線形の場合\n\n強制変数の二乗、三乗、… を投入\n\nどこまで多項式にするかはモデル比較などを通じて分析者が決める\nR2、 \\(F\\) 統計量、AIC、BIC、WAIC、LOOなど\n\nモデルにおけるバイアス—分散のトレードオフ関係\n\nHigh-order: バイアス \\(\\downarrow\\) & 分散 \\(\\uparrow\\)\n\nHigh-orderは直感に反する推定値が得られる場合も(Gelman and Imbens 2019)\n\nnoisy estimates\nsensitivity to the degree of the polynomial\npoor coverage of confidence intervals"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-rdd_data2.csv",
+    "href": "slide/rdd.html#非線形回帰の例-rdd_data2.csv",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例 (rdd_data2.csv)",
+    "text": "非線形回帰の例 (rdd_data2.csv)\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 \\mbox{X}\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#パラメトリック推定の例",
+    "href": "slide/rdd.html#パラメトリック推定の例",
+    "title": "方法論特殊講義III",
+    "section": "パラメトリック推定の例",
+    "text": "パラメトリック推定の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\beta_1 \\mbox{Population} + \\rho \\mathbf{I}(\\mbox{Population} \\geq 3500)\\]\n\n\\(\\rho\\) = 制度が投票率に与える効果 (因果効果)"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例",
+    "href": "slide/rdd.html#非線形回帰の例",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-1",
+    "href": "slide/rdd.html#非線形回帰の例-1",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\beta_3 X^3\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-2",
+    "href": "slide/rdd.html#非線形回帰の例-2",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\beta_3 X^3 + \\beta_4 X^4\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-3",
+    "href": "slide/rdd.html#非線形回帰の例-3",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\dots + \\beta_5 X^5\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-4",
+    "href": "slide/rdd.html#非線形回帰の例-4",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\dots + \\beta_6 X^6\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-5",
+    "href": "slide/rdd.html#非線形回帰の例-5",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\dots + \\beta_7 X^7\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-6",
+    "href": "slide/rdd.html#非線形回帰の例-6",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\dots + \\beta_8 X^8\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-7",
+    "href": "slide/rdd.html#非線形回帰の例-7",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\dots + \\beta_9 X^9\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#非線形回帰の例-8",
+    "href": "slide/rdd.html#非線形回帰の例-8",
+    "title": "方法論特殊講義III",
+    "section": "非線形回帰の例",
+    "text": "非線形回帰の例\n\\[\\widehat{\\mbox{Turnout}} = \\beta_0 + \\rho \\mathbf{I}(\\mbox{X} \\geq 0) + \\beta_1 X + \\beta_2 X^2 + \\dots + \\beta_{10} X^{10}\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#推定値の変化",
+    "href": "slide/rdd.html#推定値の変化",
+    "title": "方法論特殊講義III",
+    "section": "推定値の変化",
+    "text": "推定値の変化"
+  },
+  {
+    "objectID": "slide/rdd.html#調整済み決定係数の変化",
+    "href": "slide/rdd.html#調整済み決定係数の変化",
+    "title": "方法論特殊講義III",
+    "section": "調整済み決定係数の変化",
+    "text": "調整済み決定係数の変化"
+  },
+  {
+    "objectID": "slide/rdd.html#閾値周辺で傾きが変化する場合",
+    "href": "slide/rdd.html#閾値周辺で傾きが変化する場合",
+    "title": "方法論特殊講義III",
+    "section": "閾値周辺で傾きが変化する場合",
+    "text": "閾値周辺で傾きが変化する場合\n\n単純に\\(\\mathbf{I}(X > c)\\)のみを回帰式に投入することは連続した回帰直線において切片のみが変化するという前提\n回帰直線が連続し、切片のみ変化 (jump) しているため、バイアスが生じうる\n\\(\\rightarrow\\) 交差項を投入することで解決\n\n\n\\[\\hat{Y} = \\beta_0 + \\beta_1 X + \\rho \\mathbf{I}(X \\geq 3) + \\gamma X \\cdot \\mathbf{I}(X \\geq 3).\\]\n\n\\(\\beta_0 = 3, \\beta_1 = 1, \\rho = 1.5, \\gamma = 2\\) の場合\n\n因果効果は \\(X = 3\\) の場合に生じるため、 \\(1.5 \\cdot \\mathbf{I}(X \\geq 3) + 2 \\cdot 3 \\cdot \\mathbf{I}(X \\geq 3) = 7.5 \\cdot \\mathbf{I}(X \\geq 3)\\)\n\\(\\rightarrow\\) 因果効果は 7.5"
+  },
+  {
+    "objectID": "slide/rdd.html#交互作用の例-rdd_data3.csv",
+    "href": "slide/rdd.html#交互作用の例-rdd_data3.csv",
+    "title": "方法論特殊講義III",
+    "section": "交互作用の例 (rdd_data3.csv)",
+    "text": "交互作用の例 (rdd_data3.csv)\n\n交差項なしの処置効果: 11.730\n交差項ありの処置効果: 7.173\n\n\n\n\n\n \n  \n      \n    交差項なし \n    交差項あり \n  \n \n\n  \n    \\(\\beta_0\\) \n    3.981 \n    3.028 \n  \n  \n     \n    (0.701) \n    (0.665) \n  \n  \n    \\(\\beta_1\\) \n    1.273 \n    1.029 \n  \n  \n     \n    (0.123) \n    (0.121) \n  \n  \n    \\(\\rho\\) \n    11.730 \n    0.699 \n  \n  \n     \n    (1.519) \n    (2.305) \n  \n  \n    \\(\\gamma\\) \n     \n    2.158 \n  \n  \n     \n     \n    (0.358) \n  \n  \n    Num.Obs. \n    200 \n    200 \n  \n  \n    R2 Adj. \n    0.824 \n    0.851 \n  \n  \n    F \n    467.822 \n    379.750 \n  \n  \n    RMSE \n    5.76 \n    5.29"
+  },
+  {
+    "objectID": "slide/rdd.html#交互作用の例-rdd_data3.csv-1",
+    "href": "slide/rdd.html#交互作用の例-rdd_data3.csv-1",
+    "title": "方法論特殊講義III",
+    "section": "交互作用の例 (rdd_data3.csv)",
+    "text": "交互作用の例 (rdd_data3.csv)\n\n交差項なしの処置効果: 11.730\n交差項ありの処置効果: 7.173"
+  },
+  {
+    "objectID": "slide/rdd.html#解釈をより分かりやすくするためには",
+    "href": "slide/rdd.html#解釈をより分かりやすくするためには",
+    "title": "方法論特殊講義III",
+    "section": "解釈をより分かりやすくするためには",
+    "text": "解釈をより分かりやすくするためには\n強制変数を閾値で中心化 (centering) する\n\\[\\hat{Y} = \\beta_0 + \\beta_1 X + \\rho \\mathbf{I}(X \\geq 3) + \\gamma X \\cdot \\mathbf{I}(X \\geq 3).\\]\n\n交差項がない場合、因果効果は \\(\\rho\\)\n交差項が含まれている場合、因果効果は \\(\\rho + \\gamma \\cdot c\\)\n\n\\(c\\) は閾値 (cut point)\n\n強制変数 (X) を \\(c\\) で中心化すると …"
+  },
+  {
+    "objectID": "slide/rdd.html#解釈をより分かりやすくするためには-1",
+    "href": "slide/rdd.html#解釈をより分かりやすくするためには-1",
+    "title": "方法論特殊講義III",
+    "section": "解釈をより分かりやすくするためには",
+    "text": "解釈をより分かりやすくするためには\n強制変数を閾値で中心化 (centering) する\n\\[\\begin{align}\\hat{Y} & = \\beta_0 + \\beta_1 X^c + \\rho \\mathbf{I}(X^c \\geq 0) + \\gamma X \\cdot \\mathbf{I}(X^c \\geq 0), \\\\ X^c & = X - c.\\end{align}\\]\n\n閾値が0になるため、閾値での因果効果は\n\n\\(\\rho + \\gamma \\cdot 0 = \\rho\\)\n\n\\(\\rho\\) を因果効果として解釈することが可能に\n交差項が含まれていないモデルの場合、閾値で中心化してもしなくても \\(\\rho\\) は同じ\n\n\\(\\rightarrow\\) とりあえず、入れてみる\n\nパッケージで分析する際、中心化は気にしなくても良いが、パッケージを使う前に自分で探索的に分析をしてみよう"
+  },
+  {
+    "objectID": "slide/rdd.html#中心化前の-rho",
+    "href": "slide/rdd.html#中心化前の-rho",
+    "title": "方法論特殊講義III",
+    "section": "中心化前の \\(\\rho\\)",
+    "text": "中心化前の \\(\\rho\\)\n\\[\\hat{Y} = \\beta_0 + \\beta_1 X + \\rho \\mathbf{I}(X \\geq 3) + \\gamma X \\cdot \\mathbf{I}(X \\geq 3).\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#中心化後の-rho",
+    "href": "slide/rdd.html#中心化後の-rho",
+    "title": "方法論特殊講義III",
+    "section": "中心化後の \\(\\rho\\)",
+    "text": "中心化後の \\(\\rho\\)\n\\[\\hat{Y} = \\beta_0 + \\beta_1 X^c + \\rho \\mathbf{I}(X^c \\geq 0) + \\gamma X \\cdot \\mathbf{I}(X^c \\geq 0).\\]"
+  },
+  {
+    "objectID": "slide/rdd.html#パラメトリック推定の問題点",
+    "href": "slide/rdd.html#パラメトリック推定の問題点",
+    "title": "方法論特殊講義III",
+    "section": "パラメトリック推定の問題点",
+    "text": "パラメトリック推定の問題点\n強制変数と応答変数間の関数 (functional form) が正しく設定できるか\n\n閾値は制度などによって決まることが多いため、明確な場合が多い\nモデルが既知ならこれまでのようにパラメトリックな推定が効率的\n\nしかし、強制変数と応答変数間の関数は、ほとんどの場合において未知\nモデルの誤設定 (misspecification) はバイアスの原因になりうる\n例) 多項式モデルの1〜2次項モデルの場合、因果効果が逆転\n\n\n\nノンパラメトリック/セミパラメトリック推定\n\nモデルと全く無関係ではないが、より柔軟な推定方法\n\nノンパラメトリックはモデルを使用しない\n\nモデルの特定が多少間違っても、そこまで大きく問題にならない推定法"
+  },
+  {
+    "objectID": "slide/rdd.html#ノンパラメトリック推定法-1",
+    "href": "slide/rdd.html#ノンパラメトリック推定法-1",
+    "title": "方法論特殊講義III",
+    "section": "ノンパラメトリック推定法",
+    "text": "ノンパラメトリック推定法\n閾値 ( \\(c\\) ) から \\(h\\) 以上離れているケースは分析から除外\n\n分析対象は \\(c - h \\leq X \\leq c + h\\) のみ\n\n閾値を中心に中心化済みなら \\(−h \\leq X^c \\leq h\\)\n\n\\(h\\) は「バンド幅 (bandwidth)」と呼ばれる\n\nバンド幅内のデータのみが対象となるため、局所ATE (LATE; Local ATE)が推定対象\n\n\n\n推定方法\n\nノンパラメトリック: 局所平均 (Local Average)\n\n\\(\\mathbb{E}[Y|0 \\leq X^c \\leq h] - \\mathbb{E}[Y|-h \\leq X^c < 0]\\)\n\nセミパラメトリック: 局所回帰分析 (Local Linear Regression)\n\n\\(−h \\leq X^c \\leq h\\) の範囲内で交差項を含むカーネル回帰分析\n定番のカーネル関数は三角 (triangular)\n\nカーネル関数が一様 (uniform, rectangular) なら線形回帰分析"
+  },
+  {
+    "objectID": "slide/rdd.html#ノンセミパラメトリック推定法",
+    "href": "slide/rdd.html#ノンセミパラメトリック推定法",
+    "title": "方法論特殊講義III",
+    "section": "ノン/セミパラメトリック推定法",
+    "text": "ノン/セミパラメトリック推定法\n\\(−h \\leq X^c \\leq h\\) 範囲内のデータのみ使用"
+  },
+  {
+    "objectID": "slide/rdd.html#局所平均-rdd_data2.csv",
+    "href": "slide/rdd.html#局所平均-rdd_data2.csv",
+    "title": "方法論特殊講義III",
+    "section": "局所平均 (rdd_data2.csv)",
+    "text": "局所平均 (rdd_data2.csv)\n\\(h = 5\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#局所平均-rdd_data2.csv-1",
+    "href": "slide/rdd.html#局所平均-rdd_data2.csv-1",
+    "title": "方法論特殊講義III",
+    "section": "局所平均 (rdd_data2.csv)",
+    "text": "局所平均 (rdd_data2.csv)\n\\(h = 3\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#局所平均-rdd_data2.csv-2",
+    "href": "slide/rdd.html#局所平均-rdd_data2.csv-2",
+    "title": "方法論特殊講義III",
+    "section": "局所平均 (rdd_data2.csv)",
+    "text": "局所平均 (rdd_data2.csv)\n\\(h = 1\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#局所平均-rdd_data2.csv-3",
+    "href": "slide/rdd.html#局所平均-rdd_data2.csv-3",
+    "title": "方法論特殊講義III",
+    "section": "局所平均 (rdd_data2.csv)",
+    "text": "局所平均 (rdd_data2.csv)\nバンド幅の調整による因果効果の推定値の変化"
+  },
+  {
+    "objectID": "slide/rdd.html#局所平均-rdd_data1.csv",
+    "href": "slide/rdd.html#局所平均-rdd_data1.csv",
+    "title": "方法論特殊講義III",
+    "section": "局所平均 (rdd_data1.csv)",
+    "text": "局所平均 (rdd_data1.csv)\n参考) 選挙制度と投票率の例 (真の因果効果は 5)\n\n傾きが緩やかな場合、バイアス小"
+  },
+  {
+    "objectID": "slide/rdd.html#限界",
+    "href": "slide/rdd.html#限界",
+    "title": "方法論特殊講義III",
+    "section": "限界",
+    "text": "限界\nパラメトリック推定に比べてバイアスが大きい場合も\n\nバンド幅内のデータのみが分析対象になるため、必然的にサンプル・サイズが小さくなる\n\n少数のケースによって平均値の変動が大きい (モデルの分散が大きい)\nバンド幅内に十分に大きいサンプルサイズが確保されている必要\n\n平均値を用いることは、バンド幅内のデータにおいて強制変数の傾きが0という非常に強い仮定を置く。\n\nDay4_Data2.csvのように \\(c\\) 周辺で変化が大きい場合、局所平均は向いていない\n\n\n\nより前提を緩めた推定法\n\n局所回帰分析 (local regression)"
+  },
+  {
+    "objectID": "slide/rdd.html#局所平均-vs.-局所回帰-rdd_data2.csv",
+    "href": "slide/rdd.html#局所平均-vs.-局所回帰-rdd_data2.csv",
+    "title": "方法論特殊講義III",
+    "section": "局所平均 vs. 局所回帰 (rdd_data2.csv)",
+    "text": "局所平均 vs. 局所回帰 (rdd_data2.csv)\n\\(h = 3\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#局所回帰分析",
+    "href": "slide/rdd.html#局所回帰分析",
+    "title": "方法論特殊講義III",
+    "section": "局所回帰分析",
+    "text": "局所回帰分析\nバンド幅内データを対象にした線形回帰分析 (Hahn et al. 2001, Poter 2003, Imbens and Lemieux 2008)\n\nパラメトリック推定と同様、交差項や多項式も投入可能\n\nRの{rdd}パッケージの場合、交差項 \\(\\bigcirc\\) & 多項式 \\(\\times\\)\n\n\n\n\n閾値 (c) に近いほど、ケースに重みを付ける\n\n重み関数はカーネル関数を用いる\nImbens and Lemieux (2008) は一様 (uniform; rectangular) カーネル関数を用いたが、この場合、重みを付けない普通の回帰分析と一致\n\nバンド幅内の全てのケースに同じ重みを付ける\n\n三角形 (triangular) カーネル関数が統計学的観点からは最適 (optimal) とも (Fan and Gijbels 1996)\n\nほとんどのパッケージは三角形カーネル関数がデフォルト"
+  },
+  {
+    "objectID": "slide/rdd.html#様々なカーネル関数",
+    "href": "slide/rdd.html#様々なカーネル関数",
+    "title": "方法論特殊講義III",
+    "section": "様々なカーネル関数",
+    "text": "様々なカーネル関数"
+  },
+  {
+    "objectID": "slide/rdd.html#局所回帰-一様カーネル",
+    "href": "slide/rdd.html#局所回帰-一様カーネル",
+    "title": "方法論特殊講義III",
+    "section": "局所回帰 & 一様カーネル",
+    "text": "局所回帰 & 一様カーネル\n\\(h = 5\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#局所回帰-一様カーネル-1",
+    "href": "slide/rdd.html#局所回帰-一様カーネル-1",
+    "title": "方法論特殊講義III",
+    "section": "局所回帰 & 一様カーネル",
+    "text": "局所回帰 & 一様カーネル\n\\(h = 3\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#局所回帰-一様カーネル-2",
+    "href": "slide/rdd.html#局所回帰-一様カーネル-2",
+    "title": "方法論特殊講義III",
+    "section": "局所回帰 & 一様カーネル",
+    "text": "局所回帰 & 一様カーネル\n\\(h = 1\\) の場合"
+  },
+  {
+    "objectID": "slide/rdd.html#バント幅とlate",
+    "href": "slide/rdd.html#バント幅とlate",
+    "title": "方法論特殊講義III",
+    "section": "バント幅とLATE",
+    "text": "バント幅とLATE"
+  },
+  {
+    "objectID": "slide/rdd.html#バンド幅の話",
+    "href": "slide/rdd.html#バンド幅の話",
+    "title": "方法論特殊講義III",
+    "section": "バンド幅の話",
+    "text": "バンド幅の話\nノンパラメトリック推定の場合、バンド幅の設定が大事\n\n一般的に、 \\(h\\) が大きいほどバイアスが大きい\n\nデータによっては逆の傾向や凹関数の形をしている場合もある\n分散とバイアスのトレード・オフ関係\n\n理想としては分散とバイアスの最小化が望ましい\n\n\n\n\n\n最適バンド幅 (optimal bandwidth)\n\n残念ながら、バンド幅を決めるルールは存在しない\nバンド幅を決めるのは分析者の仕事\nいろいろと \\(h\\) を変えながら分析を繰り返す\n多く使われているバンド幅の決め方\n\n\n\nImbens-Kalyanaraman Optimal Bandwidth"
+  },
+  {
+    "objectID": "slide/rdd.html#ik-optimal-bandwidth",
+    "href": "slide/rdd.html#ik-optimal-bandwidth",
+    "title": "方法論特殊講義III",
+    "section": "IK Optimal Bandwidth",
+    "text": "IK Optimal Bandwidth\n簡単に計算可能な最適バンド幅の一つ (Imbens and Kalyanaraman 2009)\n\n他に CCT バンド幅 (Calonico, Cattaneo, and Titiunik 2014)、CV バンド幅 (Ludwig, and Mill 2007) など\n\n\n\\[h_{\\text{opt}} = C_K \\cdot \\Bigg(\\frac{2 \\hat{\\sigma}^2(c) / \\hat{f}(c)}{\\big(m_{+}^{(2)}(c) - m_{-}^{(2)}(c)\\big)^2 + (\\hat{r}_{+} + \\hat{r}_{-})}\\Bigg)^{\\frac{1}{5}} \\cdot N^{-\\frac{1}{5}}\\]\n\n非常に簡単!\n\n\n\n\n\n\n\n\n\nパソコンが勝手に計算してくれるので安心して良い"
+  },
+  {
+    "objectID": "slide/rdd.html#カーネルとの関係",
+    "href": "slide/rdd.html#カーネルとの関係",
+    "title": "方法論特殊講義III",
+    "section": "カーネルとの関係",
+    "text": "カーネルとの関係\nカーネル選択は推定値に大きな影響を与えない (Lee and Lemieux 2010)\n\n\n\n\n \n\n\n処置効果\n\n  \n    カーネル \n    \\(h_{opt}\\) \n    LATE \n    Half BW \n    Double BW \n  \n \n\n  \n    triangular \n    3.860 \n    25.527 \n    30.865 \n    6.479 \n  \n  \n    rectangular \n    6.068 \n    10.566 \n    24.551 \n    -40.634 \n  \n  \n    epanechnikov \n    3.593 \n    24.570 \n    30.955 \n    7.702 \n  \n  \n    quartic \n    4.103 \n    25.317 \n    30.860 \n    7.323 \n  \n  \n    triweight \n    4.560 \n    25.478 \n    31.020 \n    7.443 \n  \n  \n    tricube \n    4.141 \n    25.001 \n    30.834 \n    7.697 \n  \n  \n    gaussian \n    1.413 \n    25.878 \n    31.318 \n    6.687 \n  \n  \n    cosine \n    3.659 \n    24.640 \n    30.891 \n    7.395"
+  },
+  {
+    "objectID": "slide/rdd.html#実習用データ",
+    "href": "slide/rdd.html#実習用データ",
+    "title": "方法論特殊講義III",
+    "section": "実習用データ",
+    "text": "実習用データ\n講師が作成した架空データ * rdd_data1.csv: スライド5ページ * 真の因果効果: 約5 * rdd_data2.csv: スライド15ページ * 真の因果効果: 約25 * rdd_data3.csv: スライド29ページ * 真の因果効果: 約7.5\n\n実習用データ\n\nrdd_data4.dta"
+  },
+  {
+    "objectID": "slide/rdd.html#アメリカにおける現職効果-1",
+    "href": "slide/rdd.html#アメリカにおける現職効果-1",
+    "title": "方法論特殊講義III",
+    "section": "アメリカにおける現職効果 (1)",
+    "text": "アメリカにおける現職効果 (1)"
+  },
+  {
+    "objectID": "slide/rdd.html#アメリカにおける現職効果-2",
+    "href": "slide/rdd.html#アメリカにおける現職効果-2",
+    "title": "方法論特殊講義III",
+    "section": "アメリカにおける現職効果 (2)",
+    "text": "アメリカにおける現職効果 (2)\n\n\n\nCall:\nRDestimate(formula = vote ~ margin, data = rdrobust_RDsenate)\n\nType:\nsharp \n\nEstimates:\n           Bandwidth  Observations  Estimate  Std. Error  z value  Pr(>|z|) \nLATE        7.550     347            9.645    2.115       4.559    5.135e-06\nHalf-BW     3.775     186           12.664    2.803       4.517    6.258e-06\nDouble-BW  15.100     610            7.477    1.561       4.789    1.678e-06\n              \nLATE       ***\nHalf-BW    ***\nDouble-BW  ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nF-statistics:\n           F      Num. DoF  Denom. DoF  p        \nLATE       23.66  3         343         1.226e-13\nHalf-BW    17.05  3         182         1.674e-09\nDouble-BW  51.45  3         606         0.000e+00"
+  },
+  {
+    "objectID": "slide/rdd.html#ariga-et-al.-データについて",
+    "href": "slide/rdd.html#ariga-et-al.-データについて",
+    "title": "方法論特殊講義III",
+    "section": "Ariga et al. データについて",
+    "text": "Ariga et al. データについて\n詳細は以下の論文を参照\n\nKenichi Ariga, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. “No Sorting, No Advantage: Regression Discontinuity Estimates of Incumbency Advantage in Japan,” Electoral Studies, 43: 21–31.\n\n\n変数の説明 * vm1: \\(t\\) 期選挙における自民党候補者の vote margin * vote margin: 自分の得票率 - 非自民候補の最高得票率 * F_ldpv_smd: \\(t + 1\\) 期選挙における自民党候補者の得票率 * ldp_LCF: \\(t − 1\\) から \\(t + 1\\) 期まで選挙区割が変化せず、自民党候補者がいる選挙区ダミー"
+  },
+  {
+    "objectID": "slide/rdd.html#散布図",
+    "href": "slide/rdd.html#散布図",
+    "title": "方法論特殊講義III",
+    "section": "散布図",
+    "text": "散布図\n全ケースの散布図"
+  },
+  {
+    "objectID": "slide/rdd.html#散布図-1",
+    "href": "slide/rdd.html#散布図-1",
+    "title": "方法論特殊講義III",
+    "section": "散布図",
+    "text": "散布図\n区間ごとの平均値の散布図 (点が多い時に便利)"
+  },
+  {
+    "objectID": "slide/rdd.html#処置効果",
+    "href": "slide/rdd.html#処置効果",
+    "title": "方法論特殊講義III",
+    "section": "処置効果",
+    "text": "処置効果\n現職効果は見られない"
+  },
+  {
+    "objectID": "slide/rdd.html#頑健性チェック-1",
+    "href": "slide/rdd.html#頑健性チェック-1",
+    "title": "方法論特殊講義III",
+    "section": "頑健性チェック (1)",
+    "text": "頑健性チェック (1)\nバンド幅を動かしても推定値は大きく変化しない"
+  },
+  {
+    "objectID": "slide/rdd.html#頑健性チェック-2",
+    "href": "slide/rdd.html#頑健性チェック-2",
+    "title": "方法論特殊講義III",
+    "section": "頑健性チェック (2)",
+    "text": "頑健性チェック (2)\n多項式回帰でも推定値は大きく変化しない (バンド幅は固定)"
+  },
+  {
+    "objectID": "slide/rdd.html#仮定の確認",
+    "href": "slide/rdd.html#仮定の確認",
+    "title": "方法論特殊講義III",
+    "section": "仮定の確認",
+    "text": "仮定の確認\n強制変数の密度が閾値周辺において連続しているか否かを確認\n\n出力されるp値が0.05を下回る場合、閾値周辺において操作が行われている可能性を示唆\n{rdd}のDCdensity()、または{rddensity}のrddensity()で検定可能\n\n\n\n\nDCdensity(ariga_df$vm1, plot = FALSE)\n\n[1] 0.3002424\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n{rddensity}の場合、デフォルトはjacknifeで分散共分散行列を算出\njacknife: ケースを1個ずつ抜いたデータセットをN個作成する(LOOに似ている)。常に同じ結果が得られる\nbootstrap: ランダムにサンプルを作成する。パソコンのPowerが必要\n\n\n\n\nhttps://www.jaysong.net/kobe-ci"
   }
 ]

@@ -24,6 +24,70 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css" id="theme">
   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9F94XL4N4M"></script>
@@ -325,6 +389,9 @@
       margin-right: 0; 
     }
   </style>
+  
+  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -338,14 +405,1178 @@
   <p class="date">2022年 8月 17-19、29-30日</p>
 </section>
 
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
+<section>
+<section id="回帰不連続デザイン" class="title-slide slide level1 center">
+<h1>回帰不連続デザイン</h1>
+
+</section>
+<section id="回帰不連続デザイン-1" class="slide level2">
+<h2>回帰不連続デザイン</h2>
+<p>Regression Discontinuity Design</p>
+<ul>
+<li>Thistlewaite and Campbell (1960) で紹介</li>
+<li>「<strong>RDD</strong>」と呼ばれる場合が多い
+<ul>
+<li>「かいきふれんぞくでざいん」は長すぎる</li>
+</ul></li>
+<li>ある点 (閾値)を超えることで処置を受けるか否かが決まる
+<ul>
+<li><strong>例)</strong> 人口によって選挙制度が決まる場合 (0 = 多数代表制; 1 = 比例代表制)</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[T_i = \begin{cases} 0 &amp; \text{ if } \text{Population} &lt; 3500, \\ 1 &amp; \text{ if } \text{Population} \geq 3500. \end{cases}\]</span></p>
+</section>
+<section id="rddの考え方" class="slide level2">
+<h2>RDDの考え方</h2>
+<p>比例代表制と多数代表制の投票率の比較</p>
+<ul>
+<li>選挙制度は国レベルで異なるため国家間比較になる</li>
+<li>国固有の文脈により単純比較は困難</li>
+<li>フランスの場合、同一国家、レベルの選挙内で制度が異なる
+<ul>
+<li>国固有の政治的文脈はコントロールされる</li>
+</ul></li>
+<li>しかし、人口が多いところは都市部が多いし、投票率の低い都市部の特徴により、比例代表制の投票率は過小評価される可能性
+<ul>
+<li>「都市化度」という交絡要因が残存している</li>
+</ul></li>
+<li>人口が3450人と村と3550人の村なら「都市化度」はほぼ同じなのでは …?
+<ul>
+<li><strong>ほぼ</strong>同条件で選挙制度だけが異なる状況</li>
+<li><span class="math inline">\(\rightarrow\)</span> 交絡要因が除去されているため、因果推論が可能に</li>
+</ul></li>
+</ul>
+</section>
+<section id="rddの考え方-1" class="slide level2">
+<h2>RDDの考え方</h2>
+<p>比例代表制と多数代表制の投票率の比較 (架空データ)</p>
+<ul>
+<li>人口が多くなるにつれ、投票率が減少傾向</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-2_eee31a06674fc736f1509454c55cd7f8">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-2-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rddの考え方-2" class="slide level2">
+<h2>RDDの考え方</h2>
+<p>比例代表制と多数代表制の投票率の比較</p>
+<ul>
+<li>比例代表制は投票率を低下する制度だと解釈されてしまう</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-3_6d22fdd54c4c299856b171259857e4bd">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-3-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rddの考え方-3" class="slide level2">
+<h2>RDDの考え方</h2>
+<p>比例代表制と多数代表制の投票率の比較 (架空データ)</p>
+<ul>
+<li>人口3500で分けてみると…</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-4_a81734ebfe62f6940cb459ab2ba5839e">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-4-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rddの考え方-4" class="slide level2">
+<h2>RDDの考え方</h2>
+<p>比例代表制と多数代表制の投票率の比較 (架空データ)</p>
+<ul>
+<li>人口3500で分けてみると…</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-5_dbe1cddda18e6a720ffa66fad697f8c7">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> Model 1 </th>
+   <th style="text-align:center;"> Model 2 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 切片 </td>
+   <td style="text-align:center;"> 59.650 </td>
+   <td style="text-align:center;"> 59.939 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.478) </td>
+   <td style="text-align:center;"> (0.453) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 人口 </td>
+   <td style="text-align:center;"> −0.001 </td>
+   <td style="text-align:center;"> −0.002 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.000) </td>
+   <td style="text-align:center;"> (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 人口3500以上ダミー </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 6.561 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.831) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 500 </td>
+   <td style="text-align:center;"> 500 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.338 </td>
+   <td style="text-align:center;"> 0.411 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.336 </td>
+   <td style="text-align:center;"> 0.409 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 5.27 </td>
+   <td style="text-align:center;"> 4.97 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="つのrdd" class="slide level2">
+<h2>2つのRDD</h2>
+<p>異なる割当メカニズムを想定した2つのRDD</p>
+<ul>
+<li>本講義で解説するのはSRDのみ</li>
+</ul>
+<p><br></p>
+<ol type="1">
+<li><strong>Sharp Regression Discontinuity</strong> (SRD)
+<ul>
+<li>強制変数 (running variable) が閾値 (cut point) を超えると<strong>必ず</strong>処置を受ける。</li>
+<li>もっとも単純明快な RDD。実際、多く使われている。</li>
+<li>例) 人口と選挙制度</li>
+</ul></li>
+<li><strong>Fuzzy Regression Discontinuity</strong> (FRD)
+<ul>
+<li>強制変数が閾値を超えると、処置を受ける<strong>確率</strong>が高まる。</li>
+<li>操作変数法の理解が必要 (実例もあまり見ないような . . . )</li>
+<li>例) 入試 (一定点数を超えると合格する可能性がある)</li>
+</ul></li>
+</ol>
+</section>
+<section id="割当メカニズムの比較" class="slide level2">
+<h2>割当メカニズムの比較</h2>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-6_4a1bb9f419a7416a6613752d1b4fce11">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-6-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rddの仮定" class="slide level2">
+<h2>RDDの仮定</h2>
+<p>Moscoe and Barninnghausen (2015)</p>
+<ol type="1">
+<li>閾値周辺において交絡要因が変化しないこと
+<ul>
+<li>飲酒年齢の事故の例: 20歳になった瞬間、アルコールを分解する酵素が劇的に増加するような悲しい現象は起きない</li>
+</ul></li>
+<li>閾値のルールが明確であり、既知であること
+<ul>
+<li>SRDの場合、閾値は制度に起因するものが多いため、問題になるケースは少ない</li>
+</ul></li>
+<li>強制変数が閾値周辺において連続であること
+<ul>
+<li>閾値周辺において強制変数の操作が行われていない</li>
+<li>密度検定 (density test)で検定可能</li>
+</ul></li>
+<li>潜在的結果が閾値周辺において連続であること</li>
+</ol>
+</section></section>
+<section>
+<section id="rddによる因果効果の推定" class="title-slide slide level1 center">
+<h1>RDDによる因果効果の推定</h1>
+
+</section>
+<section id="パラメトリック推定方法" class="slide level2">
+<h2>パラメトリック推定方法</h2>
+<p>(非) 線形回帰分析による推定</p>
+<ul>
+<li>フランス地方議会選挙の例</li>
+</ul>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \beta_1 \mbox{Population} + \rho \mathbf{I}(\mbox{Population} \geq 3500)\]</span></p>
+<ul>
+<li>推定されるパラメータは <span class="math inline">\(\beta_0, \beta_1, \rho\)</span> (+ 誤差項 ( <span class="math inline">\(\varepsilon\)</span> )の分散)
+<ul>
+<li><span class="math inline">\(\mathbf{I}(\cdot)\)</span> は指示関数 (indicator function)</li>
+<li>カッコ内の条件が満たされたら1、それ以外の場合は0を返す関数</li>
+<li><span class="math inline">\(1(\cdot)\)</span> と表現する場合もあり</li>
+</ul></li>
+<li>要は、処置変数 (=ダミー変数) を投入し、強制変数を統制した線形回帰モデル</li>
+</ul>
+</section>
+<section id="パラメトリック推定の例" class="slide level2">
+<h2>パラメトリック推定の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \beta_1 \mbox{Population} + \rho \mathbf{I}(\mbox{Population} \geq 3500)\]</span></p>
+<ul>
+<li><span class="math inline">\(\rho\)</span> = 制度が投票率に与える効果 (因果効果)</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-7_b72ddd2851f222dea1f29609d4b12c54">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-7-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形の場合" class="slide level2">
+<h2>非線形の場合</h2>
+<ul>
+<li>強制変数の二乗、三乗、… を投入
+<ul>
+<li>どこまで多項式にするかはモデル比較などを通じて分析者が決める</li>
+<li>R<sup>2</sup>、 <span class="math inline">\(F\)</span> 統計量、AIC、BIC、WAIC、LOOなど</li>
+</ul></li>
+<li>モデルにおけるバイアス—分散のトレードオフ関係
+<ul>
+<li>High-order: バイアス <span class="math inline">\(\downarrow\)</span> &amp; 分散 <span class="math inline">\(\uparrow\)</span></li>
+</ul></li>
+<li>High-orderは直感に反する推定値が得られる場合も(Gelman and Imbens 2019)
+<ul>
+<li>noisy estimates</li>
+<li>sensitivity to the degree of the polynomial</li>
+<li>poor coverage of confidence intervals</li>
+</ul></li>
+</ul>
+</section>
+<section id="非線形回帰の例-rdd_data2.csv" class="slide level2">
+<h2>非線形回帰の例 (<code>rdd_data2.csv</code>)</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 \mbox{X}\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-8_44c93a0cce20920912aecb5660aa035a">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-8-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-9_3467805969f981aa559e94908730a281">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-9-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-1" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \beta_3 X^3\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-10_71071f93f0143bbd350aee9f367fb7e1">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-10-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-2" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \beta_4 X^4\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-11_e9770e976472288d040f34335e13cbbd">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-11-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-3" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_5 X^5\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-12_a5ea55ddabb8563a92a3927bf936cee6">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-12-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-4" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_6 X^6\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-13_7eb415ad124a9da01981e8d213b2164f">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-13-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-5" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_7 X^7\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-14_f75d790d7ba1f616f92dd4e239a5e662">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-14-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-6" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_8 X^8\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-15_295942fc1baa755899545a9596d69b2b">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-15-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-7" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_9 X^9\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-16_cd93726c373125a930dba754b7ebcd25">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-16-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="非線形回帰の例-8" class="slide level2">
+<h2>非線形回帰の例</h2>
+<p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_{10} X^{10}\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-17_1c4386940d15f59061a3025e6c50f3ba">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-17-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="推定値の変化" class="slide level2">
+<h2>推定値の変化</h2>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-18_96ad33bf3caff4a53ed713035c5ff9ac">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-18-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="調整済み決定係数の変化" class="slide level2">
+<h2>調整済み決定係数の変化</h2>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-19_85cd07bb9156ac446ede1926dba0e2c7">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-19-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="閾値周辺で傾きが変化する場合" class="slide level2">
+<h2>閾値周辺で傾きが変化する場合</h2>
+<ul>
+<li>単純に<span class="math inline">\(\mathbf{I}(X &gt; c)\)</span>のみを回帰式に投入することは<strong>連続</strong>した回帰直線において<strong>切片のみ</strong>が変化するという前提</li>
+<li>回帰直線が連続し、切片のみ変化 (jump) しているため、バイアスが生じうる</li>
+<li><span class="math inline">\(\rightarrow\)</span> <strong>交差項を投入</strong>することで解決</li>
+</ul>
+<p><br></p>
+<p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).\]</span></p>
+<ul>
+<li><span class="math inline">\(\beta_0 = 3, \beta_1 = 1, \rho = 1.5, \gamma = 2\)</span> の場合
+<ul>
+<li>因果効果は <span class="math inline">\(X = 3\)</span> の場合に生じるため、 <span class="math inline">\(1.5 \cdot \mathbf{I}(X \geq 3) + 2 \cdot 3 \cdot \mathbf{I}(X \geq 3) = 7.5 \cdot \mathbf{I}(X \geq 3)\)</span></li>
+<li><span class="math inline">\(\rightarrow\)</span> 因果効果は 7.5</li>
+</ul></li>
+</ul>
+</section>
+<section id="交互作用の例-rdd_data3.csv" class="slide level2">
+<h2>交互作用の例 (<code>rdd_data3.csv</code>)</h2>
+<ul>
+<li>交差項なしの処置効果: 11.730</li>
+<li>交差項ありの処置効果: 7.173</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> 交差項なし </th>
+   <th style="text-align:center;"> 交差項あり </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> \(\beta_0\) </td>
+   <td style="text-align:center;"> 3.981 </td>
+   <td style="text-align:center;"> 3.028 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.701) </td>
+   <td style="text-align:center;"> (0.665) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \(\beta_1\) </td>
+   <td style="text-align:center;"> 1.273 </td>
+   <td style="text-align:center;"> 1.029 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.123) </td>
+   <td style="text-align:center;"> (0.121) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \(\rho\) </td>
+   <td style="text-align:center;"> 11.730 </td>
+   <td style="text-align:center;"> 0.699 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (1.519) </td>
+   <td style="text-align:center;"> (2.305) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> \(\gamma\) </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 2.158 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.358) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 200 </td>
+   <td style="text-align:center;"> 200 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.824 </td>
+   <td style="text-align:center;"> 0.851 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 467.822 </td>
+   <td style="text-align:center;"> 379.750 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 5.76 </td>
+   <td style="text-align:center;"> 5.29 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="交互作用の例-rdd_data3.csv-1" class="slide level2">
+<h2>交互作用の例 (<code>rdd_data3.csv</code>)</h2>
+<ul>
+<li>交差項なしの処置効果: 11.730</li>
+<li>交差項ありの処置効果: 7.173</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-21_35a9d420d722aab511d234121455d0fd">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-21-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="解釈をより分かりやすくするためには" class="slide level2">
+<h2>解釈をより分かりやすくするためには</h2>
+<p>強制変数を閾値で中心化 (centering) する</p>
+<p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).\]</span></p>
+<ul>
+<li>交差項がない場合、因果効果は <span class="math inline">\(\rho\)</span></li>
+<li>交差項が含まれている場合、因果効果は <span class="math inline">\(\rho + \gamma \cdot c\)</span>
+<ul>
+<li><span class="math inline">\(c\)</span> は閾値 (cut point)</li>
+</ul></li>
+<li>強制変数 (X) を <span class="math inline">\(c\)</span> で中心化すると …</li>
+</ul>
+</section>
+<section id="解釈をより分かりやすくするためには-1" class="slide level2">
+<h2>解釈をより分かりやすくするためには</h2>
+<p>強制変数を閾値で中心化 (centering) する</p>
+<p><span class="math display">\[\begin{align}\hat{Y} &amp; = \beta_0 + \beta_1 X^c + \rho \mathbf{I}(X^c \geq 0) + \gamma X \cdot \mathbf{I}(X^c \geq 0), \\ X^c &amp; = X - c.\end{align}\]</span></p>
+<ul>
+<li>閾値が0になるため、閾値での因果効果は
+<ul>
+<li><span class="math inline">\(\rho + \gamma \cdot 0 = \rho\)</span></li>
+</ul></li>
+<li><span class="math inline">\(\rho\)</span> を因果効果として解釈することが可能に</li>
+<li>交差項が含まれていないモデルの場合、閾値で中心化してもしなくても <span class="math inline">\(\rho\)</span> は同じ
+<ul>
+<li><span class="math inline">\(\rightarrow\)</span> とりあえず、入れてみる</li>
+</ul></li>
+<li>パッケージで分析する際、中心化は気にしなくても良いが、パッケージを使う前に自分で探索的に分析をしてみよう</li>
+</ul>
+</section>
+<section id="中心化前の-rho" class="slide level2">
+<h2>中心化前の <span class="math inline">\(\rho\)</span></h2>
+<p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-22_f325a386ed2527e2eafd395b067b34a8">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-22-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="中心化後の-rho" class="slide level2">
+<h2>中心化後の <span class="math inline">\(\rho\)</span></h2>
+<p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 X^c + \rho \mathbf{I}(X^c \geq 0) + \gamma X \cdot \mathbf{I}(X^c \geq 0).\]</span></p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-23_b65a662e469c94c7f72c078eba71afa5">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-23-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="ノンパラメトリック推定法" class="title-slide slide level1 center">
+<h1>ノンパラメトリック推定法</h1>
+
+</section>
+<section id="パラメトリック推定の問題点" class="slide level2">
+<h2>パラメトリック推定の問題点</h2>
+<p>強制変数と応答変数間の関数 (functional form) が正しく設定できるか</p>
+<ul>
+<li>閾値は制度などによって決まることが多いため、明確な場合が多い</li>
+<li>モデルが既知ならこれまでのようにパラメトリックな推定が効率的
+<ul>
+<li>しかし、<strong>強制変数と応答変数間の関数</strong>は、ほとんどの場合において<strong>未知</strong></li>
+<li>モデルの誤設定 (misspecification) はバイアスの原因になりうる</li>
+<li>例) 多項式モデルの1〜2次項モデルの場合、因果効果が逆転</li>
+</ul></li>
+</ul>
+<p><br></p>
+<p><strong>ノンパラメトリック</strong>/<strong>セミパラメトリック推定</strong></p>
+<ul>
+<li>モデルと全く無関係ではないが、より柔軟な推定方法
+<ul>
+<li>ノンパラメトリックはモデルを使用しない</li>
+</ul></li>
+<li>モデルの特定が多少間違っても、そこまで大きく問題にならない推定法</li>
+</ul>
+</section>
+<section id="ノンパラメトリック推定法-1" class="slide level2">
+<h2>ノンパラメトリック推定法</h2>
+<p>閾値 ( <span class="math inline">\(c\)</span> ) から <span class="math inline">\(h\)</span> 以上離れているケースは分析から除外</p>
+<ul>
+<li>分析対象は <span class="math inline">\(c - h \leq X \leq c + h\)</span> のみ
+<ul>
+<li>閾値を中心に中心化済みなら <span class="math inline">\(−h \leq X^c \leq h\)</span></li>
+</ul></li>
+<li><span class="math inline">\(h\)</span> は「<strong>バンド幅</strong> (bandwidth)」と呼ばれる
+<ul>
+<li>バンド幅内のデータのみが対象となるため、局所ATE (<strong>LATE</strong>; Local ATE)が推定対象</li>
+</ul></li>
+</ul>
+<p><br></p>
+<p>推定方法</p>
+<ul>
+<li><strong>ノン</strong>パラメトリック: <strong>局所平均</strong> (Local Average)
+<ul>
+<li><span class="math inline">\(\mathbb{E}[Y|0 \leq X^c \leq h] - \mathbb{E}[Y|-h \leq X^c &lt; 0]\)</span></li>
+</ul></li>
+<li><strong>セミ</strong>パラメトリック: <strong>局所回帰分析</strong> (Local Linear Regression)
+<ul>
+<li><span class="math inline">\(−h \leq X^c \leq h\)</span> の範囲内で交差項を含むカーネル回帰分析</li>
+<li>定番のカーネル関数は三角 (triangular)</li>
+</ul></li>
+<li>カーネル関数が一様 (uniform, rectangular) なら線形回帰分析</li>
+</ul>
+</section>
+<section id="ノンセミパラメトリック推定法" class="slide level2">
+<h2>ノン/セミパラメトリック推定法</h2>
+<p><span class="math inline">\(−h \leq X^c \leq h\)</span> 範囲内のデータのみ使用</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-24_fde6c1d057b923a746d20afc9520a878">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-24-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所平均-rdd_data2.csv" class="slide level2">
+<h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
+<p><span class="math inline">\(h = 5\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-25_074734be01c5c7a458d6dc80670fa3c3">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-25-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所平均-rdd_data2.csv-1" class="slide level2">
+<h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
+<p><span class="math inline">\(h = 3\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-26_9f8026f31e46995999742053de3fe9bb">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-26-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所平均-rdd_data2.csv-2" class="slide level2">
+<h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
+<p><span class="math inline">\(h = 1\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-27_b74123fb879fdbb75cfe1880af05e59b">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-27-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所平均-rdd_data2.csv-3" class="slide level2">
+<h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
+<p>バンド幅の調整による因果効果の推定値の変化</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-28_4b271f3332b24e2e5260e9e31a93e8af">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-28-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所平均-rdd_data1.csv" class="slide level2">
+<h2>局所平均 (<code>rdd_data1.csv</code>)</h2>
+<p>参考) 選挙制度と投票率の例 (真の因果効果は 5)</p>
+<ul>
+<li>傾きが緩やかな場合、バイアス小</li>
+</ul>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-29_7361508cf9a6de7d0390947e5696f608">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-29-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="限界" class="slide level2">
+<h2>限界</h2>
+<p>パラメトリック推定に比べてバイアスが大きい場合も</p>
+<ul>
+<li>バンド幅内のデータのみが分析対象になるため、必然的に<strong>サンプル・サイズが小さくなる</strong>
+<ul>
+<li>少数のケースによって平均値の変動が大きい (モデルの分散が大きい)</li>
+<li>バンド幅内に十分に大きいサンプルサイズが確保されている必要</li>
+</ul></li>
+<li>平均値を用いることは、バンド幅内のデータにおいて<strong>強制変数の傾きが0</strong>という非常に強い仮定を置く。
+<ul>
+<li><code>Day4_Data2.csv</code>のように <span class="math inline">\(c\)</span> 周辺で変化が大きい場合、局所平均は向いていない</li>
+</ul></li>
+</ul>
+<p><br></p>
+<p>より前提を緩めた推定法</p>
+<ul>
+<li><strong>局所回帰分析</strong> (local regression)</li>
+</ul>
+</section>
+<section id="局所平均-vs.-局所回帰-rdd_data2.csv" class="slide level2">
+<h2>局所平均 vs.&nbsp;局所回帰 (<code>rdd_data2.csv</code>)</h2>
+<p><span class="math inline">\(h = 3\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-30_60170fddbab420c4939da42b830c46e1">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-30-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所回帰分析" class="slide level2">
+<h2>局所回帰分析</h2>
+<p>バンド幅内データを対象にした線形回帰分析 (Hahn et al.&nbsp;2001, Poter 2003, Imbens and Lemieux 2008)</p>
+<ul>
+<li>パラメトリック推定と同様、<strong>交差項</strong>や<strong>多項式</strong>も投入可能
+<ul>
+<li>Rの{rdd}パッケージの場合、交差項 <span class="math inline">\(\bigcirc\)</span> &amp; 多項式 <span class="math inline">\(\times\)</span></li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li>閾値 (c) に近いほど、ケースに<strong>重み</strong>を付ける
+<ul>
+<li>重み関数はカーネル関数を用いる</li>
+<li>Imbens and Lemieux (2008) は一様 (uniform; rectangular) カーネル関数を用いたが、この場合、重みを付けない普通の回帰分析と一致
+<ul>
+<li>バンド幅内の全てのケースに同じ重みを付ける</li>
+</ul></li>
+<li>三角形 (triangular) カーネル関数が統計学的観点からは最適 (optimal) とも (Fan and Gijbels 1996)
+<ul>
+<li>ほとんどのパッケージは三角形カーネル関数がデフォルト</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="様々なカーネル関数" class="slide level2">
+<h2>様々なカーネル関数</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/rdd/Kernels.png" width="900"></p>
+</figure>
+</div>
+</section>
+<section id="局所回帰-一様カーネル" class="slide level2">
+<h2>局所回帰 &amp; 一様カーネル</h2>
+<p><span class="math inline">\(h = 5\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-32_e2e9e59b7c3d4878f0383e22113eed42">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-32-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所回帰-一様カーネル-1" class="slide level2">
+<h2>局所回帰 &amp; 一様カーネル</h2>
+<p><span class="math inline">\(h = 3\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-34_8421d0972b6db1ea9d50f953c444802a">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-34-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="局所回帰-一様カーネル-2" class="slide level2">
+<h2>局所回帰 &amp; 一様カーネル</h2>
+<p><span class="math inline">\(h = 1\)</span> の場合</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-36_e2bd4fe6669d8554995e1ab743b75485">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-36-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="バント幅とlate" class="slide level2">
+<h2>バント幅とLATE</h2>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-37_2518d1a740ec32d1fd7fbc708f0998fd">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-37-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="バンド幅の話" class="slide level2">
+<h2>バンド幅の話</h2>
+<p>ノンパラメトリック推定の場合、バンド幅の設定が大事</p>
+<ul>
+<li>一般的に、 <span class="math inline">\(h\)</span> が大きいほどバイアスが大きい
+<ul>
+<li>データによっては逆の傾向や凹関数の形をしている場合もある</li>
+<li>分散とバイアスのトレード・オフ関係
+<ul>
+<li>理想としては分散とバイアスの最小化が望ましい</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li><strong>最適バンド幅</strong> (optimal bandwidth)
+<ul>
+<li>残念ながら、<strong>バンド幅を決めるルールは存在しない</strong></li>
+<li>バンド幅を決めるのは分析者の仕事</li>
+<li>いろいろと <span class="math inline">\(h\)</span> を変えながら分析を繰り返す</li>
+<li>多く使われているバンド幅の決め方</li>
+<li><svg viewbox="0 0 448 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg">
+<path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+</svg>
+<strong>Imbens-Kalyanaraman Optimal Bandwidth</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="ik-optimal-bandwidth" class="slide level2">
+<h2>IK Optimal Bandwidth</h2>
+<p><strong>簡単</strong>に計算可能な最適バンド幅の一つ (Imbens and Kalyanaraman 2009)</p>
+<ul>
+<li>他に CCT バンド幅 (Calonico, Cattaneo, and Titiunik 2014)、CV バンド幅 (Ludwig, and Mill 2007) など</li>
+</ul>
+<div class="fragment">
+<p><span class="math display">\[h_{\text{opt}} = C_K \cdot \Bigg(\frac{2 \hat{\sigma}^2(c) / \hat{f}(c)}{\big(m_{+}^{(2)}(c) - m_{-}^{(2)}(c)\big)^2 + (\hat{r}_{+} + \hat{r}_{-})}\Bigg)^{\frac{1}{5}} \cdot N^{-\frac{1}{5}}\]</span></p>
+<center>
+非常に簡単!
+</center>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/rdd/WaiWai.png" width="150"></p>
+</figure>
+</div>
+</div>
+<div class="fragment">
+<center>
+パソコンが勝手に計算してくれるので安心して良い
+</center>
+</div>
+</section>
+<section id="カーネルとの関係" class="slide level2">
+<h2>カーネルとの関係</h2>
+<p>カーネル選択は推定値に大きな影響を与えない (Lee and Lemieux 2010)</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="2"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">処置効果</div></th>
+</tr>
+  <tr>
+   <th style="text-align:left;"> カーネル </th>
+   <th style="text-align:right;"> \(h_{opt}\) </th>
+   <th style="text-align:right;"> LATE </th>
+   <th style="text-align:right;"> Half BW </th>
+   <th style="text-align:right;"> Double BW </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> triangular </td>
+   <td style="text-align:right;"> 3.860 </td>
+   <td style="text-align:right;"> 25.527 </td>
+   <td style="text-align:right;"> 30.865 </td>
+   <td style="text-align:right;"> 6.479 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> rectangular </td>
+   <td style="text-align:right;"> 6.068 </td>
+   <td style="text-align:right;"> 10.566 </td>
+   <td style="text-align:right;"> 24.551 </td>
+   <td style="text-align:right;"> -40.634 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epanechnikov </td>
+   <td style="text-align:right;"> 3.593 </td>
+   <td style="text-align:right;"> 24.570 </td>
+   <td style="text-align:right;"> 30.955 </td>
+   <td style="text-align:right;"> 7.702 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> quartic </td>
+   <td style="text-align:right;"> 4.103 </td>
+   <td style="text-align:right;"> 25.317 </td>
+   <td style="text-align:right;"> 30.860 </td>
+   <td style="text-align:right;"> 7.323 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> triweight </td>
+   <td style="text-align:right;"> 4.560 </td>
+   <td style="text-align:right;"> 25.478 </td>
+   <td style="text-align:right;"> 31.020 </td>
+   <td style="text-align:right;"> 7.443 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tricube </td>
+   <td style="text-align:right;"> 4.141 </td>
+   <td style="text-align:right;"> 25.001 </td>
+   <td style="text-align:right;"> 30.834 </td>
+   <td style="text-align:right;"> 7.697 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gaussian </td>
+   <td style="text-align:right;"> 1.413 </td>
+   <td style="text-align:right;"> 25.878 </td>
+   <td style="text-align:right;"> 31.318 </td>
+   <td style="text-align:right;"> 6.687 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> cosine </td>
+   <td style="text-align:right;"> 3.659 </td>
+   <td style="text-align:right;"> 24.640 </td>
+   <td style="text-align:right;"> 30.891 </td>
+   <td style="text-align:right;"> 7.395 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section></section>
+<section>
+<section id="実習" class="title-slide slide level1 center">
+<h1>実習</h1>
+
+</section>
+<section id="実習用データ" class="slide level2">
+<h2>実習用データ</h2>
+<p>講師が作成した架空データ * <code>rdd_data1.csv</code>: スライド5ページ * 真の因果効果: 約5 * <code>rdd_data2.csv</code>: スライド15ページ * 真の因果効果: 約25 * <code>rdd_data3.csv</code>: スライド29ページ * 真の因果効果: 約7.5</p>
+<p><br></p>
+<p>実習用データ</p>
+<ul>
+<li><code>rdd_data4.dta</code></li>
+</ul>
+</section>
+<section id="アメリカにおける現職効果-1" class="slide level2">
+<h2>アメリカにおける現職効果 (1)</h2>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-39_33bdbf4592ac85bf7e740d505ee8e7bb">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-39-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="アメリカにおける現職効果-2" class="slide level2">
+<h2>アメリカにおける現職効果 (2)</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+RDestimate(formula = vote ~ margin, data = rdrobust_RDsenate)
+
+Type:
+sharp 
+
+Estimates:
+           Bandwidth  Observations  Estimate  Std. Error  z value  Pr(&gt;|z|) 
+LATE        7.550     347            9.645    2.115       4.559    5.135e-06
+Half-BW     3.775     186           12.664    2.803       4.517    6.258e-06
+Double-BW  15.100     610            7.477    1.561       4.789    1.678e-06
+              
+LATE       ***
+Half-BW    ***
+Double-BW  ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+F-statistics:
+           F      Num. DoF  Denom. DoF  p        
+LATE       23.66  3         343         1.226e-13
+Half-BW    17.05  3         182         1.674e-09
+Double-BW  51.45  3         606         0.000e+00</code></pre>
+</div>
+</div>
+</section>
+<section id="ariga-et-al.-データについて" class="slide level2">
+<h2>Ariga et al.&nbsp;データについて</h2>
+<p>詳細は以下の論文を参照</p>
+<ul>
+<li>Kenichi Ariga, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. “No Sorting, No Advantage: Regression Discontinuity Estimates of Incumbency Advantage in Japan,” <em>Electoral Studies,</em> 43: 21–31.</li>
+</ul>
+<p><br></p>
+<p>変数の説明 * <code>vm1</code>: <span class="math inline">\(t\)</span> 期選挙における自民党候補者の vote margin * vote margin: 自分の得票率 - 非自民候補の最高得票率 * <code>F_ldpv_smd</code>: <span class="math inline">\(t + 1\)</span> 期選挙における自民党候補者の得票率 * <code>ldp_LCF</code>: <span class="math inline">\(t − 1\)</span> から <span class="math inline">\(t + 1\)</span> 期まで選挙区割が変化せず、自民党候補者がいる選挙区ダミー</p>
+</section>
+<section id="散布図" class="slide level2">
+<h2>散布図</h2>
+<p>全ケースの散布図</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-42_2fe1d32741585ae8aa4c9b0044562729">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-42-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="散布図-1" class="slide level2">
+<h2>散布図</h2>
+<p>区間ごとの平均値の散布図 (点が多い時に便利)</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-43_b9c1b69b2243373e08bcefa84991951e">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-43-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="処置効果" class="slide level2">
+<h2>処置効果</h2>
+<p>現職効果は見られない</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-44_3612819815e226aed75b3f34daee1b54">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-44-1.png" width="1800"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="頑健性チェック-1" class="slide level2">
+<h2>頑健性チェック (1)</h2>
+<p>バンド幅を動かしても推定値は大きく変化しない</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-45_89f159e4286a64e66e8494485f197ebc">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-45-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="頑健性チェック-2" class="slide level2">
+<h2>頑健性チェック (2)</h2>
+<p>多項式回帰でも推定値は大きく変化しない (バンド幅は固定)</p>
+<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-46_576de3bbc2acc4a3008284b7f719ad97">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-46-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="仮定の確認" class="slide level2">
+<h2>仮定の確認</h2>
+<p>強制変数の密度が閾値周辺において連続しているか否かを確認</p>
+<ul>
+<li>出力される<em>p</em>値が0.05を下回る場合、閾値周辺において操作が行われている可能性を示唆</li>
+<li>{rdd}の<code>DCdensity()</code>、または{rddensity}の<code>rddensity()</code>で検定可能</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">DCdensity</span>(ariga_df<span class="sc">$</span>vm1, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3002424</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="cell" data-layout-align="center">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-49-1.png" width="1500"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>{rddensity}の場合、デフォルトはjacknifeで分散共分散行列を算出</p>
+<p>jacknife: ケースを1個ずつ抜いたデータセットをN個作成する(LOOに似ている)。常に同じ結果が得られる</p>
+<p>bootstrap: ランダムにサンプルを作成する。パソコンのPowerが必要</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 
 <p><img src="figs/logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://www.jaysong.net/kobe-ci" class="uri">https://www.jaysong.net/kobe-ci</a></p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
