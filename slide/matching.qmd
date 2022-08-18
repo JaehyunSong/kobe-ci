@@ -592,7 +592,7 @@ df1 |>
   select(ID, Yaruki, Y1, Y0, ITE) |>
   filter(ID < 17 | ID > 24) |>
   mutate(across(where(is.numeric), as.character)) |>
-  add_row(ID = "平均", Yaruki = "", Y0 = "", Y1 = "", ITE = "185.1") |>
+  add_row(ID = "平均", Yaruki = "", Y0 = "", Y1 = "", ITE = "198.1") |>
   add_row(ID = "...", Yaruki = "...", Y0 = "...", Y1 = "...", ITE = "...",
           .after = 6) |>
   gt() |>
@@ -1336,7 +1336,8 @@ weighted.mean(c(1.818, 3.923), c(11, 13))
 
 $$w_i = \begin{cases}\frac{1}{e_i} & \text{ if } T_i = 1, \\ \frac{1}{1 - e_i} & \text{ if } T_i = 0.\end{cases}$$
 
-* $e_i$ : $i$ の傾向スコア; $T_i$ : $i$ の処置有無 ( $\in \{0, 1\}$ )
+* $e_i$ : $i$ の傾向スコア
+* $T_i$ : $i$ の処置有無 ( $T_i \in \{0, 1\}$ )
 
 ## 傾向スコアのもう一つの使い方
 
@@ -1660,6 +1661,7 @@ ggdag(DAG2, node_size = 16, text_size = 9, stylized = TRUE) +
    * 全効果: 直接効果 + 間接効果
    * $T$が変動したら$W$も必ず変わるため、$T$のみの効果はあまり意味なし
    * 直接効果のみ推定する場合、$W$も統制
+      * 例) 就職市場における人種差別の例
 * 結論: $Z$と$X$のみ統制
    * 実は$X$は入れなくてもOK
 :::
