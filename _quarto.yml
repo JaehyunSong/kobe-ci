@@ -55,7 +55,7 @@ website:
         - material/matching.qmd
         - material/did.qmd
         - material/rdd.qmd
-        - material/iv.qmd
+        #- material/iv.qmd
   google-analytics: "G-9F94XL4N4M"
 
 format:

@@ -16,6 +16,9 @@ toc: false
 |7|<a href = "data/did_data2.csv" download>`did_data2.csv`</a>|差分の差分法|
 |8|<a href = "data/did_data4.csv" download>`did_data4.csv`</a>|差分の差分法|
 |9|<a href = "data/did_data6.csv" download>`did_data6.csv`</a>|差分の差分法|
+|10|<a href = "data/rdd_data1.csv" download>`rdd_data1.csv`</a>|差分の差分法|
+|11|<a href = "data/rdd_data2.csv" download>`rdd_data2.csv`</a>|差分の差分法|
+|12|<a href = "data/rdd_data3.csv" download>`rdd_data3.csv`</a>|差分の差分法|
 
 : {tbl-colwidths="[10,30,60]"}
 

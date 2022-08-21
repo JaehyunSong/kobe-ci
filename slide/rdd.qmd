@@ -230,7 +230,7 @@ $$\widehat{\mbox{Turnout}} = \beta_0 + \beta_1 \mbox{Population} + \rho \mathbf{
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.2
+#| fig-height: 3
 #| cache: true
 french_df |>
   mutate(System = if_else(Over3500F == "PR", 
@@ -705,7 +705,7 @@ modelsummary(list("交差項なし" = inter_fit1, "交差項あり" = inter_fit2
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3
 #| cache: true
 inter_pred <- tibble(X = c(-10, 2.999, 3, 10))
 
@@ -766,7 +766,7 @@ $$\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \ma
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 inter_pred <- tibble(X = c(-10, 2.999, 3, 10))
 
@@ -799,7 +799,7 @@ $$\hat{Y} = \beta_0 + \beta_1 X^c + \rho \mathbf{I}(X^c \geq 0) + \gamma X \cdot
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 inter_df |>
   mutate(Treat = if_else(X >= 3, "処置群", "統制群")) |>
@@ -865,7 +865,7 @@ $−h \leq X^c \leq h$ 範囲内のデータのみ使用
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 poly_df |>
   mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
@@ -889,7 +889,7 @@ $h = 5$ の場合
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 poly_df |>
   mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
@@ -923,7 +923,7 @@ $h = 3$ の場合
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 poly_df |>
   mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
@@ -954,7 +954,7 @@ $h = 1$ の場合
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 poly_df |>
   mutate(Treat = if_else(x >= 0, "処置群", "統制群"),
@@ -985,7 +985,7 @@ poly_df |>
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 poly_df <- poly_df |>
   mutate(Treat = if_else(x >= 0, "処置群", "統制群"))
@@ -1020,7 +1020,7 @@ tibble(h = 1:10) |>
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3
 #| cache: true
 french_df <- french_df |>
   mutate(Pop_c = Pop - 3500,
@@ -1131,9 +1131,7 @@ poly_df_3 |>
 
 ![](figs/rdd/Kernels.png){width=900px fig-align="center"}
 
-## 局所回帰 & 一様カーネル
-
-$h = 5$ の場合
+## 局所回帰 & 一様カーネル（$h = 5$）
 
 ```{r}
 #| include: false
@@ -1173,9 +1171,7 @@ poly_df_5 |>
   theme(legend.position = "bottom")
 ```
 
-## 局所回帰 & 一様カーネル
-
-$h = 3$ の場合
+## 局所回帰 & 一様カーネル（$h = 3$）
 
 ```{r}
 #| include: false
@@ -1215,9 +1211,7 @@ poly_df_3 |>
   theme(legend.position = "bottom")
 ```
 
-## 局所回帰 & 一様カーネル
-
-$h = 1$ の場合
+## 局所回帰 & 一様カーネル（$h = 1$）
 
 ```{r}
 #| include: false
@@ -1345,6 +1339,7 @@ tibble(kernel = c("triangular", "rectangular", "epanechnikov","quartic",
 ## 実習用データ
 
 講師が作成した架空データ
+
 * `rdd_data1.csv`: スライド5ページ
    * 真の因果効果: 約5
 * `rdd_data2.csv`: スライド15ページ
@@ -1360,7 +1355,10 @@ tibble(kernel = c("triangular", "rectangular", "epanechnikov","quartic",
 
 ## アメリカにおける現職効果 (1)
 
-```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
 data("rdrobust_RDsenate")
 
 Senate <- rdrobust_RDsenate
@@ -1404,7 +1402,8 @@ summary(Senate_Fit)
 
 全ケースの散布図
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 ariga_df  <- ariga_df |> filter(ldp_LCF == 1)
 ariga_fit <- lm(F_ldpv_smd ~ vm1 * I(vm1 > 0), data = ariga_df)
 predict(ariga_fit, newdata = tibble(vm1 = c(min(ariga_df$vm1),
@@ -1412,7 +1411,10 @@ predict(ariga_fit, newdata = tibble(vm1 = c(min(ariga_df$vm1),
                                             max(ariga_df$vm1))))
 ```
 
-```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+```{r}
+#| fig-width: 7
+#| fig-height: 3.5
+#| cache: true
 ariga_df |> 
   ggplot(aes(x = vm1, y = F_ldpv_smd, color = (vm1 > 0)), group = (vm1 > 0)) +
   geom_vline(xintercept = 0, linetype = 2) +
@@ -1434,7 +1436,10 @@ ariga_df |>
 
 区間ごとの平均値の散布図 (点が多い時に便利)
 
-```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
 ariga_df2 <- ariga_df |>
   filter(vm1 >= -15, vm1 <= 15)
 
@@ -1461,7 +1466,10 @@ ariga_df2 |>
 
 現職効果は見られない
 
-```{r, echo = FALSE, fig.width = 6, fig.height = 3.5, dpi = 300, cache = TRUE, message = FALSE, warning = FALSE}
+```{r}
+#| fig-width: 7
+#| fig-height: 3.2
+#| cache: true
 ariga_fit <- RDestimate(F_ldpv_smd ~ vm1, data = ariga_df)
 
 ariga_fig1 <- tibble(bw_type = c("Optimal", "Half", "Double"),
@@ -1489,7 +1497,7 @@ ariga_fig1 |>
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 tibble(h = c(3:15, 7.423955)) |>
   mutate(Fit = map(h, ~RDestimate(F_ldpv_smd ~ vm1, data = ariga_df, 
@@ -1521,7 +1529,7 @@ tibble(h = c(3:15, 7.423955)) |>
 
 ```{r}
 #| fig-width: 7
-#| fig-height: 3.5
+#| fig-height: 3.2
 #| cache: true
 tibble(p = 1:4) |>
   mutate(Fit = map(p, ~rdrobust(y = ariga_df$F_ldpv_smd,
@@ -1548,20 +1556,24 @@ tibble(p = 1:4) |>
 
 強制変数の密度が閾値周辺において連続しているか否かを確認
 
-* 出力される*p*値が0.05を下回る場合、閾値周辺において操作が行われている可能性を示唆
+* 出力される$p$値が0.05を下回る場合、閾値周辺において操作が行われている可能性を示唆
 * {rdd}の`DCdensity()`、または{rddensity}の`rddensity()`で検定可能
 
 ::::{.columns}
-:::{.column width=40%}
+:::{.column width=60%}
 ```{r}
 #| echo: true
 DCdensity(ariga_df$vm1, plot = FALSE)
+rddensity(X = ariga_df$vm1) |>
+  summary()
 ```
 :::
 
 :::{.column width=40%}
 ```{r}
 #| eval: false
+#| echo: true
+#| fig-align: center
 rddensity(X = ariga_df$vm1) |>
   rdplotdensity(X = ariga_df$vm1)
 ```
@@ -1569,7 +1581,7 @@ rddensity(X = ariga_df$vm1) |>
 ```{r}
 #| echo: false
 #| fig-width: 5
-#| fig-height: 5
+#| fig-height: 3
 #| fig-align: "center"
 Test <- rddensity(X = ariga_df$vm1)
 Fig  <- rdplotdensity(Test, X = ariga_df$vm1)

@@ -192,6 +192,7 @@ knitr::opts_chunk$set(fig.align = "center",
    * Lee, David S., and Thomas Lemieux. 2010. "[Regression Discontinuity Designs in Economics.](https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281) *Journal of Economic Literature*, 48 (2): 281-355.
    * Lee, David S., and Thomas Lemieux. 2010. "[Regression Discontinuity Designs in Economics.](https://www.aeaweb.org/articles?id=10.1257/jel.48.2.281)" *Journal of Economic Literature*, 48 (2): 281-355.
    * Imbens, Guido, and Karthik Kalyanaraman. 2011. "[Optimal Bandwidth Choice for the Regression Discontinuity Estimator.](https://academic.oup.com/restud/article/79/3/933/1533189)" *Review of Economic Studies*, 79 (3): 933-959.
+   * Hall, Andrew B. 2015. "[What Happens When Extremists Win Primaries?](https://www.cambridge.org/core/journals/american-political-science-review/article/what-happens-when-extremists-win-primaries/ECAC69648AE0DF91D93103E18342B9D2)," *American Political Science Review,* 109 (1): 18-42.
    * Ariga, Kenichi, Yusaku Horiuchi, Roland Mansilla, and Michio Umeda. 2016. "[No sorting, no advantage: Regression discontinuity estimates of incumbency advantage in Japan.](https://www.sciencedirect.com/science/article/pii/S0261379416301020)" *Electoral Studies*, 43: 21-31.
    * Andrew Gelman and Guido Imbens. 2019. "[Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs,](https://www.tandfonline.com/doi/full/10.1080/07350015.2017.1366909)" *Journal of Business & Economic Statistics*, 37(3): 447-456.
 * Monograph
