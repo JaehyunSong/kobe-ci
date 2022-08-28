@@ -24,3 +24,162 @@ knitr::opts_chunk$set(dev       = "ragg_png",
                       message   = FALSE,
                       warning   = FALSE)
 ```
+
+実習に必要なパッケージとデータセットを読み込む。
+
+```{r}
+pacman::p_load(tidyverse, rdd, rdrobust, rddensity, 
+               summarytools, BalanceR)
+
+df <- read_csv("data/rdd_data4.csv")
+
+df
+```
+
+分析に入る前に記述統計を確認する。
+
+```{r}
+df |>
+  descr(stats = c("mean", "sd", "min", "max", "n.valid"),
+        transpose = TRUE, order = "p")
+```
+
+## 処置効果の推定
+
+　因果効果の推定は{rdd}パッケージの`RDestimate()`関数、あるいは{rdrobust}パッケージの`rdrobust()`を使う。機能面では{rdrobust}の方が優れているものの、パッケージの使いやすさとしては{rdd}の方が優れている。本講義では頑健な推定方法については紹介しなかったものの、近年は{rdrobust}がより使われているため、ここでも{rdrobust}を使用する。いずれのパッケージも自動的に最適バンド幅を設定し[^1]、**交差項**が含まれた局所**線形**回帰分析を行った結果を返してくれる[^2]。また、デフォルトのカーネルは三角 (triangular)カーネル関数だ。
+
+[^1]: もし、自分でバンド幅を指定したい場合、`bw = ...`の引数を加える。
+
+[^2]: 閾値のデフォルトは0だ。もし、閾値が0ではない場合、`cutpoint = ...`の引数を設定する。
+
+```{r}
+rdd_fit1 <- rdrobust(y = df$outcome, x = df$rv, c = 0)
+
+summary(rdd_fit1)
+```
+
+　最適バンド幅は`r round(rdd_fit1$bws[1], 3)`であり、処置効果は約`r round(rdd_fit1$Estimate[1], 3)`である。これは自民党候補者の投票率から非自民候補者の最高得票率を引いた値（`rv`）が`r -1 * round(rdd_fit1$bws[1], 3)`から`r round(rdd_fit1$bws[1], 3)`までのデータを使うことを意味する。そして、これらのデータに対して交差項が含まれる線形回帰分析を行うことになる。また、閾値周辺に重みを付けるために三角カーネル関数による重み付けを行った。
+
+　結果として現職は新人に比べ、約`r round(rdd_fit1$Estimate[1], 3)*100`%ポイント得票率が高いという結果が得られたが、標準誤差はかなり大きく、必ずしも現職が新人より得票するとは言えないだろう（$p$ = `r round(rdd_fit1$pv[1], 3)`）。今回の推定結果から日本における現職効果について、**統計的**に有意な効果は確認できない。
+
+## 可視化
+
+```{r}
+rdplot(y = df$outcome, x = df$rv, c = 0,
+       kernel = "triangular")
+```
+
+```{r}
+rdplot(y = df$outcome, x = df$rv, c = 0, p = 1,
+       kernel = "triangular",
+       x.label = "Vote Margin in Election t",
+       y.label = "Vote Share in Election t+1",
+       title = "")
+```
+
+```{r}
+rdplot(y = df$outcome, x = df$rv, c = 0, p = 1,
+       kernel = "triangular", nbins = 30,
+       subset = (df$rv > -15 & df$rv < 15),
+       x.label = "Vote Margin in Election t",
+       y.label = "Vote Share in Election t+1",
+       title = "")
+```
+
+## 頑健性の確認
+
+### バンド幅
+
+### カーネル
+
+### 関数
+
+## 仮定の確認
+
+### 交絡要因の連続性
+
+　RDDの重要な仮定の一つとして、交絡要因の連続性がある。交絡要因として考えられる要因が、処置群に割り当てられることでジャンプした場合、観察される処置効果がが処置によるものか、交絡要因のジャンブによるものかが識別できないからだ。今回の例では処置効果が見られていないが、それでもこの仮定は確認する価値がある。処置による効果（$X \rightarrow Y$）と交絡要因による効果（$Z \rightarrow Y$）が両方存在するケースを考えてみよう。もしこの2つの効果の符号が逆である場合、処置効果（$X \rightarrow Y$）が交絡要因による効果（$Z \rightarrow Y$）に相殺される可能性もあるからだ。
+
+　確認する方法は簡単だ。もう一度RDDをするだけだ。ただし、応答変数が得票率（`outcome`）でなく、交絡要因に代わるだけだ。今回は候補者数（`total_cand`）、有効候補者数（`en_cand`）、得票数（`total_votes`）に対してRDDを行ってみよう。
+
+```{r}
+assumption_fit1 <- rdrobust(y = df$total_cand, x = df$rv)
+assumption_fit2 <- rdrobust(y = df$en_cand, x = df$rv)
+assumption_fit3 <- rdrobust(y = df$total_votes, x = df$rv)
+```
+
+```{r}
+summary(assumption_fit1)
+```
+
+```{r}
+summary(assumption_fit2)
+```
+
+```{r}
+summary(assumption_fit3)
+```
+
+　いずれも統計的に有意なジャンプは見られない。以上の検定結果から「仮定は満たされている」ことは主張できないものの、「仮定が満たされていないとは言えない」までは主張できるはずだ。
+
+### バランスチェック
+
+　ノンパラメトリックRDDの場合、バンド幅内であれば、処置群と統制群の性質はほぼ同じであると仮定する。つまり、処置変数を除く共変量が処置群と統制群の間において均質であることを意味する。それでは{BalanceR}を使って、候補者数（`total_cand`）、有効候補者数（`en_cand`）、得票数（`total_votes`）が処置群と統制群の間に差があるかを確認してみよう。
+
+```{r}
+df |>
+  # 処置の有無を示す treat 変数を作成
+  mutate(treat = if_else(rv > 0, "yes", "no")) |>
+  BalanceR(group = treat,
+           cov = total_cand:total_votes) |>
+  plot(abs = TRUE)
+```
+
+　得票数（`total_votes`）の場合、標準化差分が非常に大きいことが分かる。それではバンド幅内のサンプルに限定すればどうだろうか。`filter()`を使って`rv`が-8.064より大きく、8.064より小さいサンプルに絞っってバランスチェックをしてみよう。
+
+```{r}
+df |>
+  mutate(treat = if_else(rv > 0, "yes", "no")) |>
+  filter(rv > -8.064 & rv < 8.064) |>
+  BalanceR(group = treat,
+           cov = total_cand:total_votes) |>
+  plot(abs = TRUE)
+```
+
+　有効候補者数（`en_cand`）のバランスがむしろ悪くなったものの、他の2つの変数のバランスは改善されていることが分かる。
+
+### 強制変数の操作可能性
+
+　RDDのもう一つの重要な仮定として、閾値周辺において強制変数の操作が行われてはいけない。得票率の差を操作することは極めて困難なので、今回は問題はないと考えられるが、たとえばフランス地方議会選挙のように人口によって制度が変わる場合、特定の選挙制度を採用するために人口を操作することは不可能ではないだろう。
+
+　この仮定を確認、検定する手法がMcCrayの密度検定 (density test)だ (McCray 2006)[^mccray]。簡単に説明すると、強制変数の密度関数が閾値周辺においてジャンプしているか否かを確認する方法である。もし、操作が行われているとしたら、密度関数が断絶するだろう。
+
+[^mccray]: [McCray, Justin. 2008. "Manipulation of the running variable in the regression discontinuity design: A density test," *Journal of Econometrics,* 142(2): 698-714.](https://doi.org/10.1016/j.jeconom.2007.05.005)
+
+　密度検定は{rdd}の`DCdensity()`で簡単に行うことができる。第一引数は強制変数を、`cutpoint`には閾値を指定する（既定値は0であるため、今回は省略可能）。
+
+```{r}
+DCdensity(df$rv, cutpoint = 0)
+```
+
+　図と長さ1のnumeric型ベクトルが出力されるが[^dcdensity-plot]、図は密度分布を可視化したものであり、数値は「密度関数は連続している」という帰無仮説に対する$p$値である。これが$\alpha$（通常、$\alpha = 0.05$）を下回る場合、帰無仮説は棄却され、密度関数が断絶していると判断できる。つまり、RDDの仮定を満たしていないことを意味する。
+
+[^dcdensity-plot]: 図が不要なら`plot = FALSE`を指定する。
+
+　{rdd}の`DCdensity()`以外にも、密度検定専用のパッケージ{rddenstiy}の`rddensity()`を使うことも可能だ。検定方法は基本的に同じだが、検定の際に使用するパラメーターや標準誤差計算のアルゴリズムが異なるため、結果はやや異なる。使い方は`X`に強制変数を、`c`に閾値を指定すれば良い。他にも十数種類のパラメーターが指定できるが詳細はコンソール上で`?rddensity`を入力し、ヘルプを参照すること。
+
+```{r}
+Density_Test <- rddensity(X = df$rv, c = 0)
+summary(Density_Test)
+```
+
+　密度検定の結果（$p$値）は中間辺りにある`# Robust`行の0.4134だ。ここでも帰無仮説は棄却されず、強制変数の操作が行われているとは言えない。これらの結果を可視化の際は`rdplotdensity()`関数を使う。第一引数は`rddensity()`から得られたオブジェクト名を指定し、`X`には強制変数を指定する。その他の引数についてはヘルプ（コンソール上で`?rdplotdensity`）を参照すること。
+
+```{r}
+Density_Plot <- rdplotdensity(Density_Test, X = df$rv, 
+                              type = "both", lwd = 1, pwd = 3, pty = 19)
+```
+
+　また、要約結果の下段にあるBinomial testsは密度分布に代わるもう一つの検定手法だ。1行目はケースが20個入る範囲と、その中での処置群と統制群の大きさ、そしてその差の検定である。ここでは0.215だが、これは`rv`が-0.215から0.215の間に20個のケースがあるということを意味する。統制群は7ケース、処置群は13ケースである。もし、強制変数の操作が行われなかったのであれば、処置群の割合は0.5になるはずである。右の`P>|T|`列は、$p = 0.5$を帰無仮説とした二項検定における$p$値である。もし、この値が$\alpha$を下回ると、閾値周辺において何らかの操作が行われた可能性があることを示唆する。
+
+　2行目は1行目の幅を2倍に、3行目は1行目の幅を3倍に、...したものである。いずれも$p$値は0.05以上であり、強制変数の操作が行われたとは言えない。

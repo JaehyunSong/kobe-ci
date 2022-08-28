@@ -7,7 +7,6 @@ language: translate_jp.yml
 website:
   title: "Causal Inference@Kobe"
   site-url: "https://www.jaysong.net/kobe-ci/"
-  date: now
   page-navigation: true
   favicon: figs/favicon.png
   page-footer: 
