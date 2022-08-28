@@ -265,15 +265,15 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#スライド" id="toc-スライド" class="nav-link active" data-scroll-target="#スライド">スライド</a></li>
-  <li><a href="#スライド-1" id="toc-スライド-1" class="nav-link" data-scroll-target="#スライド-1">スライド</a></li>
+  <li><a href="#セットアップ" id="toc-セットアップ" class="nav-link" data-scroll-target="#セットアップ">セットアップ</a></li>
   <li><a href="#処置効果の推定" id="toc-処置効果の推定" class="nav-link" data-scroll-target="#処置効果の推定">処置効果の推定</a></li>
-  <li><a href="#可視化" id="toc-可視化" class="nav-link" data-scroll-target="#可視化">可視化</a></li>
   <li><a href="#頑健性の確認" id="toc-頑健性の確認" class="nav-link" data-scroll-target="#頑健性の確認">頑健性の確認</a>
   <ul class="collapse">
   <li><a href="#バンド幅" id="toc-バンド幅" class="nav-link" data-scroll-target="#バンド幅">バンド幅</a></li>
   <li><a href="#カーネル" id="toc-カーネル" class="nav-link" data-scroll-target="#カーネル">カーネル</a></li>
   <li><a href="#関数" id="toc-関数" class="nav-link" data-scroll-target="#関数">関数</a></li>
   </ul></li>
+  <li><a href="#可視化" id="toc-可視化" class="nav-link" data-scroll-target="#可視化">可視化</a></li>
   <li><a href="#仮定の確認" id="toc-仮定の確認" class="nav-link" data-scroll-target="#仮定の確認">仮定の確認</a>
   <ul class="collapse">
   <li><a href="#交絡要因の連続性" id="toc-交絡要因の連続性" class="nav-link" data-scroll-target="#交絡要因の連続性">交絡要因の連続性</a></li>
@@ -307,8 +307,8 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <p><a href="../slide/rdd.html" class="btn btn-primary btn-sm" target="_blank" role="button"><i class="bi bi-window"></i> 新しいタブで開く</a></p>
 <iframe class="slide-deck" src="../slide/rdd.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
 </section>
-<section id="スライド-1" class="level2">
-<h2 class="anchored" data-anchor-id="スライド-1">スライド</h2>
+<section id="セットアップ" class="level2">
+<h2 class="anchored" data-anchor-id="セットアップ">セットアップ</h2>
 <p>実習に必要なパッケージとデータセットを読み込む。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rdd, rdrobust, rddensity, </span>
@@ -391,60 +391,457 @@ Unique Obs.                     479          787
 <p>　最適バンド幅は8.064であり、処置効果は約0.725である。これは自民党候補者の投票率から非自民候補者の最高得票率を引いた値（<code>rv</code>）が-8.064から8.064までのデータを使うことを意味する。そして、これらのデータに対して交差項が含まれる線形回帰分析を行うことになる。また、閾値周辺に重みを付けるために三角カーネル関数による重み付けを行った。</p>
 <p>　結果として現職は新人に比べ、約72.5%ポイント得票率が高いという結果が得られたが、標準誤差はかなり大きく、必ずしも現職が新人より得票するとは言えないだろう（<span class="math inline">\(p\)</span> = 0.646）。今回の推定結果から日本における現職効果について、<strong>統計的</strong>に有意な効果は確認できない。</p>
 </section>
-<section id="可視化" class="level2">
-<h2 class="anchored" data-anchor-id="可視化">可視化</h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>,</span>
-<span id="cb7-2"><a href="#cb7-2"></a>       <span class="at">kernel =</span> <span class="st">"triangular"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="2100"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>,</span>
-<span id="cb8-2"><a href="#cb8-2"></a>       <span class="at">kernel =</span> <span class="st">"triangular"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3"></a>       <span class="at">x.label =</span> <span class="st">"Vote Margin in Election t"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4"></a>       <span class="at">y.label =</span> <span class="st">"Vote Share in Election t+1"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5"></a>       <span class="at">title =</span> <span class="st">""</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="2100"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>,</span>
-<span id="cb9-2"><a href="#cb9-2"></a>       <span class="at">kernel =</span> <span class="st">"triangular"</span>, <span class="at">nbins =</span> <span class="dv">30</span>,</span>
-<span id="cb9-3"><a href="#cb9-3"></a>       <span class="at">subset =</span> (df<span class="sc">$</span>rv <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">15</span> <span class="sc">&amp;</span> df<span class="sc">$</span>rv <span class="sc">&lt;</span> <span class="dv">15</span>),</span>
-<span id="cb9-4"><a href="#cb9-4"></a>       <span class="at">x.label =</span> <span class="st">"Vote Margin in Election t"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5"></a>       <span class="at">y.label =</span> <span class="st">"Vote Share in Election t+1"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6"></a>       <span class="at">title =</span> <span class="st">""</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="2100"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
 <section id="頑健性の確認" class="level2">
 <h2 class="anchored" data-anchor-id="頑健性の確認">頑健性の確認</h2>
+<p>　RDDで（局所）処置効果を推定する際、分析する側はバンド幅、カーネル関数、モデル（一次関数か、二次関数かなど）を決める必要がある。これらは恣意的なものであるため、これらを少し変更しても推定値が安定しているか、つまりどれほど頑健かを確認する必要がある。</p>
 <section id="バンド幅" class="level3">
 <h3 class="anchored" data-anchor-id="バンド幅">バンド幅</h3>
+<p>　<code>rdrobust()</code>の場合、基本的には最適バンド幅を使うことになるが、<code>h</code>引数を使って任意のバンド幅を指定することもできる。たとえば、既に得られた最適バンド幅8.064を使って推定してみよう。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>rdd_bw1 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">h =</span> <span class="fl">8.064</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">summary</span>(rdd_bw1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                      Manual
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             318          381
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   8.064        8.064
+BW bias (b)                   8.064        8.064
+rho (h/b)                     1.000        1.000
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.725     1.580     0.459     0.646    [-2.371 , 3.820]     
+        Robust         -         -     0.013     0.990    [-4.461 , 4.521]     
+=============================================================================</code></pre>
+</div>
+</div>
+<p>　先ほどと同じ結果が得られている（Robust行はこの講義では無視する。Robust推定値についてはCalonico et al.&nbsp;(2015)を参照されたい<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。）。頑健性を報告する際は最適バンド幅における処置効果に加え、最適バンド幅を半分にした場合、2倍にした場合の結果も報告するケースが多い。それでは<code>h</code>を8.064の半分、2倍にしたモデルも推定してみよう。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rdd_bw2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">h =</span> <span class="fl">8.064</span> <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">summary</span>(rdd_bw2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                      Manual
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             188          185
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   4.032        4.032
+BW bias (b)                   4.032        4.032
+rho (h/b)                     1.000        1.000
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.162     2.205     0.074     0.941    [-4.160 , 4.485]     
+        Robust         -         -     0.316     0.752    [-5.326 , 7.375]     
+=============================================================================</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>rdd_bw3 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">h =</span> <span class="fl">8.064</span> <span class="sc">*</span> <span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="fu">summary</span>(rdd_bw3)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                      Manual
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             453          650
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                  16.128       16.128
+BW bias (b)                  16.128       16.128
+rho (h/b)                     1.000        1.000
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    -0.006     1.141    -0.005     0.996    [-2.242 , 2.229]     
+        Robust         -         -     0.580     0.562    [-2.309 , 4.250]     
+=============================================================================</code></pre>
+</div>
+</div>
+<p>　いずれも統計的に有意な処置効果は得られない。これらの結果をまとめると以下のよるになる。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>bw_compare <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Bandwidth =</span> <span class="fu">c</span>(<span class="st">"Half"</span>, <span class="st">"Optimal"</span>, <span class="st">"Double"</span>),</span>
+<span id="cb13-2"><a href="#cb13-2"></a>                     <span class="at">LATE      =</span> <span class="fu">c</span>(<span class="fl">0.162</span>, <span class="fl">0.725</span>, <span class="sc">-</span><span class="fl">0.006</span>),</span>
+<span id="cb13-3"><a href="#cb13-3"></a>                     <span class="at">lower     =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.160</span>, <span class="sc">-</span><span class="fl">2.371</span>, <span class="sc">-</span><span class="fl">2.242</span>),</span>
+<span id="cb13-4"><a href="#cb13-4"></a>                     <span class="at">upper     =</span> <span class="fu">c</span>(<span class="fl">4.485</span>, <span class="fl">3.820</span>, <span class="fl">2.2249</span>))</span>
+<span id="cb13-5"><a href="#cb13-5"></a></span>
+<span id="cb13-6"><a href="#cb13-6"></a>bw_compare</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  Bandwidth   LATE lower upper
+  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Half       0.162 -4.16  4.49
+2 Optimal    0.725 -2.37  3.82
+3 Double    -0.006 -2.24  2.22</code></pre>
+</div>
+</div>
+<p>　これらをpoint-rangeプロットで可視化してみよう。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>bw_compare <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">mutate</span>(<span class="at">Bandwidth =</span> <span class="fu">fct_inorder</span>(Bandwidth)) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> Bandwidth, <span class="at">y =</span> LATE, </span>
+<span id="cb15-6"><a href="#cb15-6"></a>                      <span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper)) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) </span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="カーネル" class="level3">
 <h3 class="anchored" data-anchor-id="カーネル">カーネル</h3>
+<p>　カーネル関数は<code>kernel</code>引数で指定することができる。指定しない場合、既定値として<code>kernel = "triangular"</code>になるが、他にも<code>"uniform"</code>と<code>"epanechnikov"</code>がある。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>rdd_kernel1 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, </span>
+<span id="cb16-2"><a href="#cb16-2"></a>                        <span class="at">kernel =</span> <span class="st">"triangular"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>rdd_kernel2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, </span>
+<span id="cb16-4"><a href="#cb16-4"></a>                        <span class="at">kernel =</span> <span class="st">"uniform"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5"></a>rdd_kernel3 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, </span>
+<span id="cb16-6"><a href="#cb16-6"></a>                        <span class="at">kernel =</span> <span class="st">"epanechnikov"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7"></a></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="fu">summary</span>(rdd_kernel1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             318          381
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   8.064        8.064
+BW bias (b)                  12.613       12.613
+rho (h/b)                     0.639        0.639
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.725     1.580     0.459     0.646    [-2.371 , 3.820]     
+        Robust         -         -     0.528     0.598    [-2.692 , 4.677]     
+=============================================================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">summary</span>(rdd_kernel2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                      Uniform
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             245          264
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   5.651        5.651
+BW bias (b)                  10.115       10.115
+rho (h/b)                     0.559        0.559
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.611     1.699     0.360     0.719    [-2.718 , 3.941]     
+        Robust         -         -     0.516     0.606    [-2.878 , 4.933]     
+=============================================================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">summary</span>(rdd_kernel3)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                   Epanechnikov
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             298          349
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   7.420        7.420
+BW bias (b)                  12.211       12.211
+rho (h/b)                     0.608        0.608
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.722     1.586     0.455     0.649    [-2.387 , 3.832]     
+        Robust         -         -     0.560     0.575    [-2.633 , 4.740]     
+=============================================================================</code></pre>
+</div>
+</div>
+<p>　以上の結果をまとめたものが以下である。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>kernel_compare <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Kernel =</span> <span class="fu">c</span>(<span class="st">"Triangular"</span>, </span>
+<span id="cb22-2"><a href="#cb22-2"></a>                                    <span class="st">"Unifrom"</span>, </span>
+<span id="cb22-3"><a href="#cb22-3"></a>                                    <span class="st">"Epanechnikov"</span>),</span>
+<span id="cb22-4"><a href="#cb22-4"></a>                         <span class="at">LATE   =</span> <span class="fu">c</span>(<span class="fl">0.725</span>, <span class="fl">0.611</span>, <span class="fl">0.722</span>),</span>
+<span id="cb22-5"><a href="#cb22-5"></a>                         <span class="at">lower  =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.371</span>, <span class="sc">-</span><span class="fl">2.718</span>, <span class="sc">-</span><span class="fl">2.387</span>),</span>
+<span id="cb22-6"><a href="#cb22-6"></a>                         <span class="at">upper  =</span> <span class="fu">c</span>(<span class="fl">3.820</span>, <span class="fl">3.941</span>, <span class="fl">3.832</span>))</span>
+<span id="cb22-7"><a href="#cb22-7"></a></span>
+<span id="cb22-8"><a href="#cb22-8"></a>kernel_compare</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  Kernel        LATE lower upper
+  &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Triangular   0.725 -2.37  3.82
+2 Unifrom      0.611 -2.72  3.94
+3 Epanechnikov 0.722 -2.39  3.83</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>kernel_compare <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">mutate</span>(<span class="at">Kernel =</span> <span class="fu">fct_inorder</span>(Kernel)) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> Kernel, <span class="at">y =</span> LATE, </span>
+<span id="cb24-6"><a href="#cb24-6"></a>                      <span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper)) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) </span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="関数" class="level3">
 <h3 class="anchored" data-anchor-id="関数">関数</h3>
+<p>　パラメトリック推定、またはセミパラメトリック推定の場合、応答変数と強制変数間の関係をある関数として仮定する必要がある。セミパラメトリック推定は関数設定の影響力が比較的小さいが、バンド幅内のケース数が少なくなると、関数の形に影響を受けやすい。ここでは1次関数から4次関数までモデルを変えながら、推定値が安定しているかを確認してみよう。<code>rdrobust()</code>で関数の次数を指定するためには<code>p</code>引数を使用する。既定値は1であるが、<code>p</code>次関数を使う場合は<code>p</code>を指定する必要がある。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>rdd_p1 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a>rdd_p2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">2</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>rdd_p3 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">3</span>)</span>
+<span id="cb25-4"><a href="#cb25-4"></a>rdd_p4 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">4</span>)</span>
+<span id="cb25-5"><a href="#cb25-5"></a></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="fu">summary</span>(rdd_p1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             318          381
+Order est. (p)                    1            1
+Order bias  (q)                   2            2
+BW est. (h)                   8.064        8.064
+BW bias (b)                  12.613       12.613
+rho (h/b)                     0.639        0.639
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.725     1.580     0.459     0.646    [-2.371 , 3.820]     
+        Robust         -         -     0.528     0.598    [-2.692 , 4.677]     
+=============================================================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">summary</span>(rdd_p2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             358          433
+Order est. (p)                    2            2
+Order bias  (q)                   3            3
+BW est. (h)                   9.205        9.205
+BW bias (b)                  12.622       12.622
+rho (h/b)                     0.729        0.729
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional     0.260     2.139     0.122     0.903    [-3.931 , 4.452]     
+        Robust         -         -    -0.030     0.976    [-4.804 , 4.661]     
+=============================================================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">summary</span>(rdd_p3)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             379          476
+Order est. (p)                    3            3
+Order bias  (q)                   4            4
+BW est. (h)                  10.311       10.311
+BW bias (b)                  13.458       13.458
+rho (h/b)                     0.766        0.766
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    -0.389     2.676    -0.145     0.884    [-5.633 , 4.855]     
+        Robust         -         -    -0.240     0.811    [-6.462 , 5.055]     
+=============================================================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">summary</span>(rdd_p4)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sharp RD estimates using local polynomial regression.
+
+Number of Obs.                 1266
+BW type                       mserd
+Kernel                   Triangular
+VCE method                       NN
+
+Number of Obs.                  479          787
+Eff. Number of Obs.             420          567
+Order est. (p)                    4            4
+Order bias  (q)                   5            5
+BW est. (h)                  12.653       12.653
+BW bias (b)                  15.671       15.671
+rho (h/b)                     0.807        0.807
+Unique Obs.                     479          787
+
+=============================================================================
+        Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+=============================================================================
+  Conventional    -0.472     3.002    -0.157     0.875    [-6.356 , 5.411]     
+        Robust         -         -    -0.124     0.902    [-6.776 , 5.972]     
+=============================================================================</code></pre>
+</div>
+</div>
+<p>　以上の結果をまとめたものが以下である。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>order_compare <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Order =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb33-2"><a href="#cb33-2"></a>                        <span class="at">LATE  =</span> <span class="fu">c</span>(<span class="fl">0.725</span>, <span class="fl">0.260</span>, <span class="sc">-</span><span class="fl">0.389</span>, <span class="sc">-</span><span class="fl">0.472</span>),</span>
+<span id="cb33-3"><a href="#cb33-3"></a>                        <span class="at">lower =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.371</span>, <span class="sc">-</span><span class="fl">3.931</span>, <span class="sc">-</span><span class="fl">5.633</span>, <span class="sc">-</span><span class="fl">6.356</span>),</span>
+<span id="cb33-4"><a href="#cb33-4"></a>                        <span class="at">upper =</span> <span class="fu">c</span>(<span class="fl">3.820</span>, <span class="fl">4.452</span>, <span class="fl">4.855</span>, <span class="fl">5.411</span>))</span>
+<span id="cb33-5"><a href="#cb33-5"></a></span>
+<span id="cb33-6"><a href="#cb33-6"></a>order_compare</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  Order   LATE lower upper
+  &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     1  0.725 -2.37  3.82
+2     2  0.26  -3.93  4.45
+3     3 -0.389 -5.63  4.86
+4     4 -0.472 -6.36  5.41</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>order_compare <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> Order, <span class="at">y =</span> LATE, </span>
+<span id="cb35-5"><a href="#cb35-5"></a>                      <span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper)) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Order of Local Polynomial Regression"</span>) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) </span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>　結果は大きく変わらず、安定していることが分かる。</p>
 </section>
+</section>
+<section id="可視化" class="level2">
+<h2 class="anchored" data-anchor-id="可視化">可視化</h2>
+<p>　{rdrobust}パッケージには可視化に便利な<code>rdplot()</code>関数が用意されている。使い方は<code>rdrobust()</code>とほぼ同じで、<code>y</code>には応答変数を、<code>x</code>には強制変数、<code>c</code>には閾値を指定すれば良い。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>　観測値が少ないように見えるが、これは強制変数を区間に分け、区間内の平均値を示したものである。通常のRDDはサンプルサイズが大きいため、散布図+回帰直線（曲線）だと線が見えなかったり、傾向が見にくくなる傾向がある。サンプルサイズが数百程度なら全観測値を見せても良いだろうが、今回は1200以上であり、このような見せ方が効果的である。</p>
+<p>　1つ注意すべき点は、表示される回帰直線（曲線）の場合、2次関数が使用される。1次関数にフィットさせるためには、<code>rdrobust()</code>同様、<code>p = 1</code>を指定すれば良い。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>　また、この回帰直線の場合、カーネル関数は矩形関数である。三角形関数にするためには、更に<code>kernel = "triangular"</code>を指定する。また、<code>x.lab</code>、<code>y.lab</code>、<code>title</code>引数でラベルを修正することもできる。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>,</span>
+<span id="cb38-2"><a href="#cb38-2"></a>       <span class="at">kernel =</span> <span class="st">"triangular"</span>,</span>
+<span id="cb38-3"><a href="#cb38-3"></a>       <span class="at">x.label =</span> <span class="st">"Vote Margin in Election t"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4"></a>       <span class="at">y.label =</span> <span class="st">"Vote Share in Election t+1"</span>,</span>
+<span id="cb38-5"><a href="#cb38-5"></a>       <span class="at">title =</span> <span class="st">""</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>　以上の例は、バンド幅を設定せず、全観測値を利用したものである。<code>rdrobust()</code>のようにバンド幅を指定することはできないため、<code>subset</code>引数を使って使用するデータを制限することができる。たとえば、<code>rv</code>が-15より大きく、15より小さいケースのみを使う場合、<code>subset = (df$rv &gt; -15 &amp; df$rv &lt; 15)</code>と指定すれば良い。</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>outcome, <span class="at">x =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>,</span>
+<span id="cb39-2"><a href="#cb39-2"></a>       <span class="at">kernel =</span> <span class="st">"triangular"</span>, </span>
+<span id="cb39-3"><a href="#cb39-3"></a>       <span class="at">subset =</span> (df<span class="sc">$</span>rv <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">15</span> <span class="sc">&amp;</span> df<span class="sc">$</span>rv <span class="sc">&lt;</span> <span class="dv">15</span>),</span>
+<span id="cb39-4"><a href="#cb39-4"></a>       <span class="at">x.label =</span> <span class="st">"Vote Margin in Election t"</span>,</span>
+<span id="cb39-5"><a href="#cb39-5"></a>       <span class="at">y.label =</span> <span class="st">"Vote Share in Election t+1"</span>,</span>
+<span id="cb39-6"><a href="#cb39-6"></a>       <span class="at">title =</span> <span class="st">""</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="rdd_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="仮定の確認" class="level2">
 <h2 class="anchored" data-anchor-id="仮定の確認">仮定の確認</h2>
@@ -453,12 +850,12 @@ Unique Obs.                     479          787
 <p>　RDDの重要な仮定の一つとして、交絡要因の連続性がある。交絡要因として考えられる要因が、処置群に割り当てられることでジャンプした場合、観察される処置効果がが処置によるものか、交絡要因のジャンブによるものかが識別できないからだ。今回の例では処置効果が見られていないが、それでもこの仮定は確認する価値がある。処置による効果（<span class="math inline">\(X \rightarrow Y\)</span>）と交絡要因による効果（<span class="math inline">\(Z \rightarrow Y\)</span>）が両方存在するケースを考えてみよう。もしこの2つの効果の符号が逆である場合、処置効果（<span class="math inline">\(X \rightarrow Y\)</span>）が交絡要因による効果（<span class="math inline">\(Z \rightarrow Y\)</span>）に相殺される可能性もあるからだ。</p>
 <p>　確認する方法は簡単だ。もう一度RDDをするだけだ。ただし、応答変数が得票率（<code>outcome</code>）でなく、交絡要因に代わるだけだ。今回は候補者数（<code>total_cand</code>）、有効候補者数（<code>en_cand</code>）、得票数（<code>total_votes</code>）に対してRDDを行ってみよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>assumption_fit1 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>total_cand, <span class="at">x =</span> df<span class="sc">$</span>rv)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>assumption_fit2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>en_cand, <span class="at">x =</span> df<span class="sc">$</span>rv)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>assumption_fit3 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>total_votes, <span class="at">x =</span> df<span class="sc">$</span>rv)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>assumption_fit1 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>total_cand, <span class="at">x =</span> df<span class="sc">$</span>rv)</span>
+<span id="cb40-2"><a href="#cb40-2"></a>assumption_fit2 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>en_cand, <span class="at">x =</span> df<span class="sc">$</span>rv)</span>
+<span id="cb40-3"><a href="#cb40-3"></a>assumption_fit3 <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>total_votes, <span class="at">x =</span> df<span class="sc">$</span>rv)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">summary</span>(assumption_fit1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">summary</span>(assumption_fit1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sharp RD estimates using local polynomial regression.
 
@@ -485,7 +882,7 @@ Unique Obs.                     479          787
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">summary</span>(assumption_fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="fu">summary</span>(assumption_fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sharp RD estimates using local polynomial regression.
 
@@ -512,7 +909,7 @@ Unique Obs.                     479          787
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">summary</span>(assumption_fit3)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="fu">summary</span>(assumption_fit3)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sharp RD estimates using local polynomial regression.
 
@@ -544,32 +941,38 @@ Unique Obs.                     479          787
 <h3 class="anchored" data-anchor-id="バランスチェック">バランスチェック</h3>
 <p>　ノンパラメトリックRDDの場合、バンド幅内であれば、処置群と統制群の性質はほぼ同じであると仮定する。つまり、処置変数を除く共変量が処置群と統制群の間において均質であることを意味する。それでは{BalanceR}を使って、候補者数（<code>total_cand</code>）、有効候補者数（<code>en_cand</code>）、得票数（<code>total_votes</code>）が処置群と統制群の間に差があるかを確認してみよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="co"># 処置の有無を示す treat 変数を作成</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">if_else</span>(rv <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a>  <span class="fu">BalanceR</span>(<span class="at">group =</span> treat,</span>
-<span id="cb17-5"><a href="#cb17-5"></a>           <span class="at">cov =</span> total_cand<span class="sc">:</span>total_votes) <span class="sc">|&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6"></a>  <span class="fu">plot</span>(<span class="at">abs =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>  <span class="co"># 処置の有無を示す treat 変数を作成</span></span>
+<span id="cb47-3"><a href="#cb47-3"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">if_else</span>(rv <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4"></a>  <span class="fu">BalanceR</span>(<span class="at">group =</span> treat,</span>
+<span id="cb47-5"><a href="#cb47-5"></a>           <span class="at">cov =</span> total_cand<span class="sc">:</span>total_votes) <span class="sc">|&gt;</span></span>
+<span id="cb47-6"><a href="#cb47-6"></a>  <span class="fu">plot</span>(<span class="at">abs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">label =</span> <span class="fu">c</span>(<span class="st">"total_cand"</span> <span class="ot">=</span> <span class="st">"Total number of candidates"</span>,</span>
+<span id="cb47-8"><a href="#cb47-8"></a>                             <span class="st">"en_cand"</span> <span class="ot">=</span> <span class="st">"Effective number of candidates"</span>,</span>
+<span id="cb47-9"><a href="#cb47-9"></a>                             <span class="st">"total_votes"</span> <span class="ot">=</span> <span class="st">"Total votes"</span>))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="rdd_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>　得票数（<code>total_votes</code>）の場合、標準化差分が非常に大きいことが分かる。それではバンド幅内のサンプルに限定すればどうだろうか。<code>filter()</code>を使って<code>rv</code>が-8.064より大きく、8.064より小さいサンプルに絞っってバランスチェックをしてみよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">if_else</span>(rv <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">filter</span>(rv <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">8.064</span> <span class="sc">&amp;</span> rv <span class="sc">&lt;</span> <span class="fl">8.064</span>) <span class="sc">|&gt;</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>  <span class="fu">BalanceR</span>(<span class="at">group =</span> treat,</span>
-<span id="cb18-5"><a href="#cb18-5"></a>           <span class="at">cov =</span> total_cand<span class="sc">:</span>total_votes) <span class="sc">|&gt;</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a>  <span class="fu">plot</span>(<span class="at">abs =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">if_else</span>(rv <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb48-3"><a href="#cb48-3"></a>  <span class="fu">filter</span>(rv <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">8.064</span> <span class="sc">&amp;</span> rv <span class="sc">&lt;</span> <span class="fl">8.064</span>) <span class="sc">|&gt;</span></span>
+<span id="cb48-4"><a href="#cb48-4"></a>  <span class="fu">BalanceR</span>(<span class="at">group =</span> treat,</span>
+<span id="cb48-5"><a href="#cb48-5"></a>           <span class="at">cov =</span> total_cand<span class="sc">:</span>total_votes) <span class="sc">|&gt;</span></span>
+<span id="cb48-6"><a href="#cb48-6"></a>  <span class="fu">plot</span>(<span class="at">abs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb48-7"><a href="#cb48-7"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">label =</span> <span class="fu">c</span>(<span class="st">"total_cand"</span> <span class="ot">=</span> <span class="st">"Total number of candidates"</span>,</span>
+<span id="cb48-8"><a href="#cb48-8"></a>                             <span class="st">"en_cand"</span> <span class="ot">=</span> <span class="st">"Effective number of candidates"</span>,</span>
+<span id="cb48-9"><a href="#cb48-9"></a>                             <span class="st">"total_votes"</span> <span class="ot">=</span> <span class="st">"Total votes"</span>))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="rdd_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -579,14 +982,14 @@ Unique Obs.                     479          787
 <section id="強制変数の操作可能性" class="level3">
 <h3 class="anchored" data-anchor-id="強制変数の操作可能性">強制変数の操作可能性</h3>
 <p>　RDDのもう一つの重要な仮定として、閾値周辺において強制変数の操作が行われてはいけない。得票率の差を操作することは極めて困難なので、今回は問題はないと考えられるが、たとえばフランス地方議会選挙のように人口によって制度が変わる場合、特定の選挙制度を採用するために人口を操作することは不可能ではないだろう。</p>
-<p>　この仮定を確認、検定する手法がMcCrayの密度検定 (density test)だ (McCray 2006)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。簡単に説明すると、強制変数の密度関数が閾値周辺においてジャンプしているか否かを確認する方法である。もし、操作が行われているとしたら、密度関数が断絶するだろう。</p>
+<p>　この仮定を確認、検定する手法がMcCrayの密度検定 (density test)だ (McCray 2006)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>。簡単に説明すると、強制変数の密度関数が閾値周辺においてジャンプしているか否かを確認する方法である。もし、操作が行われているとしたら、密度関数が断絶するだろう。</p>
 <p>　密度検定は{rdd}の<code>DCdensity()</code>で簡単に行うことができる。第一引数は強制変数を、<code>cutpoint</code>には閾値を指定する（既定値は0であるため、今回は省略可能）。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">DCdensity</span>(df<span class="sc">$</span>rv, <span class="at">cutpoint =</span> <span class="dv">0</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="fu">DCdensity</span>(df<span class="sc">$</span>rv, <span class="at">cutpoint =</span> <span class="dv">0</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="rdd_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -594,11 +997,11 @@ Unique Obs.                     479          787
 <pre><code>[1] 0.3002424</code></pre>
 </div>
 </div>
-<p>　図と長さ1のnumeric型ベクトルが出力されるが<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>、図は密度分布を可視化したものであり、数値は「密度関数は連続している」という帰無仮説に対する<span class="math inline">\(p\)</span>値である。これが<span class="math inline">\(\alpha\)</span>（通常、<span class="math inline">\(\alpha = 0.05\)</span>）を下回る場合、帰無仮説は棄却され、密度関数が断絶していると判断できる。つまり、RDDの仮定を満たしていないことを意味する。</p>
+<p>　図と長さ1のnumeric型ベクトルが出力されるが<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>、図は密度分布を可視化したものであり、数値は「密度関数は連続している」という帰無仮説に対する<span class="math inline">\(p\)</span>値である。これが<span class="math inline">\(\alpha\)</span>（通常、<span class="math inline">\(\alpha = 0.05\)</span>）を下回る場合、帰無仮説は棄却され、密度関数が断絶していると判断できる。つまり、RDDの仮定を満たしていないことを意味する。</p>
 <p>　{rdd}の<code>DCdensity()</code>以外にも、密度検定専用のパッケージ{rddenstiy}の<code>rddensity()</code>を使うことも可能だ。検定方法は基本的に同じだが、検定の際に使用するパラメーターや標準誤差計算のアルゴリズムが異なるため、結果はやや異なる。使い方は<code>X</code>に強制変数を、<code>c</code>に閾値を指定すれば良い。他にも十数種類のパラメーターが指定できるが詳細はコンソール上で<code>?rddensity</code>を入力し、ヘルプを参照すること。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>Density_Test <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>)</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">summary</span>(Density_Test)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>Density_Test <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>rv, <span class="at">c =</span> <span class="dv">0</span>)</span>
+<span id="cb51-2"><a href="#cb51-2"></a><span class="fu">summary</span>(Density_Test)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Manipulation testing using local polynomial density estimation.
@@ -637,12 +1040,12 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
 </div>
 <p>　密度検定の結果（<span class="math inline">\(p\)</span>値）は中間辺りにある<code># Robust</code>行の0.4134だ。ここでも帰無仮説は棄却されず、強制変数の操作が行われているとは言えない。これらの結果を可視化の際は<code>rdplotdensity()</code>関数を使う。第一引数は<code>rddensity()</code>から得られたオブジェクト名を指定し、<code>X</code>には強制変数を指定する。その他の引数についてはヘルプ（コンソール上で<code>?rdplotdensity</code>）を参照すること。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>Density_Plot <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(Density_Test, <span class="at">X =</span> df<span class="sc">$</span>rv, </span>
-<span id="cb23-2"><a href="#cb23-2"></a>                              <span class="at">type =</span> <span class="st">"both"</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">pwd =</span> <span class="dv">3</span>, <span class="at">pty =</span> <span class="dv">19</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>Density_Plot <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(Density_Test, <span class="at">X =</span> df<span class="sc">$</span>rv, </span>
+<span id="cb53-2"><a href="#cb53-2"></a>                              <span class="at">type =</span> <span class="st">"both"</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">pwd =</span> <span class="dv">3</span>, <span class="at">pty =</span> <span class="dv">19</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="rdd_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="rdd_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -660,8 +1063,9 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
 <ol>
 <li id="fn1" role="doc-endnote"><p>もし、自分でバンド幅を指定したい場合、<code>bw = ...</code>の引数を加える。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>閾値のデフォルトは0だ。もし、閾値が0ではない場合、<code>cutpoint = ...</code>の引数を設定する。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p><a href="https://doi.org/10.1016/j.jeconom.2007.05.005">McCray, Justin. 2008. “Manipulation of the running variable in the regression discontinuity design: A density test,” <em>Journal of Econometrics,</em> 142(2): 698-714.</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>図が不要なら<code>plot = FALSE</code>を指定する。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Calonico, S., M. D. Cattaneo, and R. Titiunik. 2015b. “rdrobust: An R Package for Robust Nonparametric Inference in Regression-Discontinuity Designs,” <em>R Journal,</em> 7(1): 38-51.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p><a href="https://doi.org/10.1016/j.jeconom.2007.05.005">McCray, Justin. 2008. “Manipulation of the running variable in the regression discontinuity design: A density test,” <em>Journal of Econometrics,</em> 142(2): 698-714.</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>図が不要なら<code>plot = FALSE</code>を指定する。<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

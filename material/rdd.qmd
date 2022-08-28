@@ -14,7 +14,7 @@ code-line-numbers: true
 <iframe class="slide-deck" src="../slide/rdd.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
 ```
 
-## スライド
+## セットアップ
 
 ```{r}
 #| include: false
@@ -62,12 +62,151 @@ summary(rdd_fit1)
 
 　結果として現職は新人に比べ、約`r round(rdd_fit1$Estimate[1], 3)*100`%ポイント得票率が高いという結果が得られたが、標準誤差はかなり大きく、必ずしも現職が新人より得票するとは言えないだろう（$p$ = `r round(rdd_fit1$pv[1], 3)`）。今回の推定結果から日本における現職効果について、**統計的**に有意な効果は確認できない。
 
-## 可視化
+## 頑健性の確認
+
+　RDDで（局所）処置効果を推定する際、分析する側はバンド幅、カーネル関数、モデル（一次関数か、二次関数かなど）を決める必要がある。これらは恣意的なものであるため、これらを少し変更しても推定値が安定しているか、つまりどれほど頑健かを確認する必要がある。
+
+### バンド幅
+
+　`rdrobust()`の場合、基本的には最適バンド幅を使うことになるが、`h`引数を使って任意のバンド幅を指定することもできる。たとえば、既に得られた最適バンド幅8.064を使って推定してみよう。
 
 ```{r}
-rdplot(y = df$outcome, x = df$rv, c = 0,
-       kernel = "triangular")
+rdd_bw1 <- rdrobust(y = df$outcome, x = df$rv, c = 0, h = 8.064)
+
+summary(rdd_bw1)
 ```
+
+　先ほどと同じ結果が得られている（Robust行はこの講義では無視する。Robust推定値についてはCalonico et al. (2015)を参照されたい[^cct2015]。）。頑健性を報告する際は最適バンド幅における処置効果に加え、最適バンド幅を半分にした場合、2倍にした場合の結果も報告するケースが多い。それでは`h`を8.064の半分、2倍にしたモデルも推定してみよう。
+
+[^cct2015]: Calonico, S., M. D. Cattaneo, and R. Titiunik. 2015b. "rdrobust: An R Package for Robust Nonparametric Inference in Regression-Discontinuity Designs," *R Journal,* 7(1): 38-51.
+
+```{r}
+rdd_bw2 <- rdrobust(y = df$outcome, x = df$rv, c = 0, h = 8.064 / 2)
+
+summary(rdd_bw2)
+```
+
+```{r}
+rdd_bw3 <- rdrobust(y = df$outcome, x = df$rv, c = 0, h = 8.064 * 2)
+
+summary(rdd_bw3)
+```
+
+　いずれも統計的に有意な処置効果は得られない。これらの結果をまとめると以下のよるになる。
+
+```{r}
+bw_compare <- tibble(Bandwidth = c("Half", "Optimal", "Double"),
+                     LATE      = c(0.162, 0.725, -0.006),
+                     lower     = c(-4.160, -2.371, -2.242),
+                     upper     = c(4.485, 3.820, 2.2249))
+
+bw_compare
+```
+
+　これらをpoint-rangeプロットで可視化してみよう。
+
+```{r}
+bw_compare |>
+  mutate(Bandwidth = fct_inorder(Bandwidth)) |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = Bandwidth, y = LATE, 
+                      ymin = lower, ymax = upper)) +
+  theme_bw(base_size = 12) 
+```
+
+### カーネル
+
+　カーネル関数は`kernel`引数で指定することができる。指定しない場合、既定値として`kernel = "triangular"`になるが、他にも`"uniform"`と`"epanechnikov"`がある。
+
+```{r}
+rdd_kernel1 <- rdrobust(y = df$outcome, x = df$rv, c = 0, 
+                        kernel = "triangular")
+rdd_kernel2 <- rdrobust(y = df$outcome, x = df$rv, c = 0, 
+                        kernel = "uniform")
+rdd_kernel3 <- rdrobust(y = df$outcome, x = df$rv, c = 0, 
+                        kernel = "epanechnikov")
+
+summary(rdd_kernel1)
+summary(rdd_kernel2)
+summary(rdd_kernel3)
+```
+
+　以上の結果をまとめたものが以下である。
+
+```{r}
+kernel_compare <- tibble(Kernel = c("Triangular", 
+                                    "Unifrom", 
+                                    "Epanechnikov"),
+                         LATE   = c(0.725, 0.611, 0.722),
+                         lower  = c(-2.371, -2.718, -2.387),
+                         upper  = c(3.820, 3.941, 3.832))
+
+kernel_compare
+
+kernel_compare |>
+  mutate(Kernel = fct_inorder(Kernel)) |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = Kernel, y = LATE, 
+                      ymin = lower, ymax = upper)) +
+  theme_bw(base_size = 12) 
+```
+
+### 関数
+
+　パラメトリック推定、またはセミパラメトリック推定の場合、応答変数と強制変数間の関係をある関数として仮定する必要がある。セミパラメトリック推定は関数設定の影響力が比較的小さいが、バンド幅内のケース数が少なくなると、関数の形に影響を受けやすい。ここでは1次関数から4次関数までモデルを変えながら、推定値が安定しているかを確認してみよう。`rdrobust()`で関数の次数を指定するためには`p`引数を使用する。既定値は1であるが、`p`次関数を使う場合は`p`を指定する必要がある。
+
+```{r}
+rdd_p1 <- rdrobust(y = df$outcome, x = df$rv, c = 0, p = 1)
+rdd_p2 <- rdrobust(y = df$outcome, x = df$rv, c = 0, p = 2)
+rdd_p3 <- rdrobust(y = df$outcome, x = df$rv, c = 0, p = 3)
+rdd_p4 <- rdrobust(y = df$outcome, x = df$rv, c = 0, p = 4)
+
+summary(rdd_p1)
+summary(rdd_p2)
+summary(rdd_p3)
+summary(rdd_p4)
+```
+
+　以上の結果をまとめたものが以下である。
+
+```{r}
+order_compare <- tibble(Order = 1:4,
+                        LATE  = c(0.725, 0.260, -0.389, -0.472),
+                        lower = c(-2.371, -3.931, -5.633, -6.356),
+                        upper = c(3.820, 4.452, 4.855, 5.411))
+
+order_compare
+
+order_compare |>
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = Order, y = LATE, 
+                      ymin = lower, ymax = upper)) +
+  labs(x = "Order of Local Polynomial Regression") +
+  theme_bw(base_size = 12) 
+```
+
+　結果は大きく変わらず、安定していることが分かる。
+
+## 可視化
+
+　{rdrobust}パッケージには可視化に便利な`rdplot()`関数が用意されている。使い方は`rdrobust()`とほぼ同じで、`y`には応答変数を、`x`には強制変数、`c`には閾値を指定すれば良い。
+
+```{r}
+rdplot(y = df$outcome, x = df$rv, c = 0)
+```
+
+　観測値が少ないように見えるが、これは強制変数を区間に分け、区間内の平均値を示したものである。通常のRDDはサンプルサイズが大きいため、散布図+回帰直線（曲線）だと線が見えなかったり、傾向が見にくくなる傾向がある。サンプルサイズが数百程度なら全観測値を見せても良いだろうが、今回は1200以上であり、このような見せ方が効果的である。
+
+　1つ注意すべき点は、表示される回帰直線（曲線）の場合、2次関数が使用される。1次関数にフィットさせるためには、`rdrobust()`同様、`p = 1`を指定すれば良い。
+
+```{r}
+rdplot(y = df$outcome, x = df$rv, c = 0, p = 1)
+```
+
+　また、この回帰直線の場合、カーネル関数は矩形関数である。三角形関数にするためには、更に`kernel = "triangular"`を指定する。また、`x.lab`、`y.lab`、`title`引数でラベルを修正することもできる。
 
 ```{r}
 rdplot(y = df$outcome, x = df$rv, c = 0, p = 1,
@@ -77,22 +216,16 @@ rdplot(y = df$outcome, x = df$rv, c = 0, p = 1,
        title = "")
 ```
 
+　以上の例は、バンド幅を設定せず、全観測値を利用したものである。`rdrobust()`のようにバンド幅を指定することはできないため、`subset`引数を使って使用するデータを制限することができる。たとえば、`rv`が-15より大きく、15より小さいケースのみを使う場合、`subset = (df$rv > -15 & df$rv < 15)`と指定すれば良い。
+
 ```{r}
 rdplot(y = df$outcome, x = df$rv, c = 0, p = 1,
-       kernel = "triangular", nbins = 30,
+       kernel = "triangular", 
        subset = (df$rv > -15 & df$rv < 15),
        x.label = "Vote Margin in Election t",
        y.label = "Vote Share in Election t+1",
        title = "")
 ```
-
-## 頑健性の確認
-
-### バンド幅
-
-### カーネル
-
-### 関数
 
 ## 仮定の確認
 
@@ -132,7 +265,10 @@ df |>
   mutate(treat = if_else(rv > 0, "yes", "no")) |>
   BalanceR(group = treat,
            cov = total_cand:total_votes) |>
-  plot(abs = TRUE)
+  plot(abs = TRUE) +
+  scale_y_discrete(label = c("total_cand" = "Total number of candidates",
+                             "en_cand" = "Effective number of candidates",
+                             "total_votes" = "Total votes"))
 ```
 
 　得票数（`total_votes`）の場合、標準化差分が非常に大きいことが分かる。それではバンド幅内のサンプルに限定すればどうだろうか。`filter()`を使って`rv`が-8.064より大きく、8.064より小さいサンプルに絞っってバランスチェックをしてみよう。
@@ -143,7 +279,10 @@ df |>
   filter(rv > -8.064 & rv < 8.064) |>
   BalanceR(group = treat,
            cov = total_cand:total_votes) |>
-  plot(abs = TRUE)
+  plot(abs = TRUE) +
+  scale_y_discrete(label = c("total_cand" = "Total number of candidates",
+                             "en_cand" = "Effective number of candidates",
+                             "total_votes" = "Total votes"))
 ```
 
 　有効候補者数（`en_cand`）のバランスがむしろ悪くなったものの、他の2つの変数のバランスは改善されていることが分かる。
