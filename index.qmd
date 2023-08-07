@@ -1,34 +1,39 @@
 ---
-title: ""
+title: "方法論特殊講義IIIサポートページ"
 ---
 
-本ウェブサイトは神戸大学法学研究科/法学部「**方法論特殊講義III / プログラム講義計量政治学方法論I**（2022年度）」のサポートページです。
+本ウェブサイトは神戸大学法学研究科/法学部「**方法論特殊講義III / プログラム講義計量政治学方法論I**（2023年度）」のサポートページです。
 
 ```{r}
 #| include: false
-system("curl -s http://support-sp.apple.com/sp/product?edid=$(sw_vers -productVersion) | xmllint --xpath '/root/configCode/text()' -")
+ff_ver <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applications/Firefox.app/Contents/Info.plist -o -', intern = TRUE) |>
+  stringr::str_extract("[0-9]+\\.[0-9]+.+") |>
+  stringr::str_replace("\b", "")
+
+rs_ver1 <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applications/RStudio.app/Contents/Info.plist -o -', intern = TRUE) |>
+  stringr::str_replace("-daily", "") |>
+  stringr::str_extract("202[0-9]\\.[0-9]+\\.[0-9]+\\+[0-9]+")
+
+macos_ver <- system('sw_vers -productVersion', intern = TRUE)
 ```
 
 :::{.callout-tip}
 ## アイコン説明
 
-* <a href="https://jupyter.cs.rcos.nii.ac.jp/" target="_blank"><i class="bi bi-terminal"></i></a>：NIIオンライン分析システムの起動
-   * 右クリックし、新しいタブ（or ウィンドウ）で開いてください。
-   * 初期設定が必要です。初期設定の方法はRの使い方 > [Rの導入](intro/install.html)を参照してください。
 * <a href="https://www.jaysong.net/RBook/" target="_blank"><i class="bi bi-book"></i></a>：Rの教科書（『私たちのR』）
 * <i class="bi bi-search"></i>：本ウェブサイト内の検索
 :::
 
+
 :::{.callout-note}
 ## ページ情報
 
-* 最終更新日: `r format(Sys.Date(), "%Y年%m月%d日")`
-* 開発環境
-   * macOS 12.5 "Monterey"
-   * Firefox 103.0.2
+* Last Update: `r format(Sys.Date(), "%Y年%m月%d日")`
+* Environment
+   * macOS `r macos_ver` "Ventura"
+   * Firefox `r ff_ver`
    * `r version$version.string`
-   * RStudio 2022.11.0+105 "Elsbeth Geranium"
+   * RStudio `r rs_ver1`
    * Quarto `r quarto::quarto_inspect()$quarto$version`
    * R package {quarto} `r packageVersion("quarto")`
-* 本サポートページのレポジトリ<a href="https://github.com/JaehyunSong/kobe-ci" target="_blank"><i class="bi bi-github"></i></a>
 :::

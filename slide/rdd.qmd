@@ -1,21 +1,10 @@
 ---
-title: "方法論特殊講義III"
 subtitle: "回帰不連続デザイン"
-author: "<ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby>"
-institute: "関西大学総合情報学部"
-date: "2022年 8月 17-19、29-30日"
-format:
-  revealjs: 
-    width: 1400
-    slide-number: true
-    logo: figs/logo.png
-    theme: [default, styles.scss]
-    footer: <https://www.jaysong.net/kobe-ci>
-    preview-links: true
-    chalkboard: true
-    touch: true
-    controls: true
-    auto-stretch: false
+date: "1986/10/08"
+date-format: "2023年8月17〜23日"
+format: revealjs
+metadata-files: 
+  - _slide.yml
 ---
 
 # 回帰不連続デザイン
@@ -25,12 +14,6 @@ format:
 pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons,
                rdd, rdrobust, rddensity)
 pacman::p_load_gh("JaehyunSong/BalanceR")
-knitr::opts_chunk$set(dev       = "ragg_png",
-                      dpi       = 300,
-                      fig.align = "center",
-                      echo      = FALSE,
-                      message   = FALSE,
-                      warning   = FALSE)
 
 french_df <- read_csv("data/rdd_data1.csv")
 poly_df   <- read_csv("data/rdd_data2.csv")
@@ -48,7 +31,12 @@ Regression Discontinuity Design
 * ある点 (閾値)を超えることで処置を受けるか否かが決まる
    * **例)** 人口によって選挙制度が決まる場合 (0 = 多数代表制; 1 = 比例代表制)
 
-$$T_i = \begin{cases} 0 & \text{ if } \text{Population} < 3500, \\ 1 & \text{ if } \text{Population} \geq 3500. \end{cases}$$
+$$
+T_i = \begin{cases} 
+   0 & \text{ if } & \text{Population} < 3500, \\ 
+   1 & \text{ if } & \text{Population} \geq 3500. 
+\end{cases}
+$$
 
 ## RDDの考え方
 
@@ -66,7 +54,7 @@ $$T_i = \begin{cases} 0 & \text{ if } \text{Population} < 3500, \\ 1 & \text{ if
 
 ## RDDの考え方
 
-比例代表制と多数代表制の投票率の比較 (架空データ)
+比例代表制と多数代表制の投票率の比較（架空データ）
 
 * 人口が多くなるにつれ、投票率が減少傾向
 
@@ -151,8 +139,6 @@ modelsummary(list(french_fit1, french_fit2),
 
 * 本講義で解説するのはSRDのみ
 
-<br/>
-
 1. **Sharp Regression Discontinuity** (SRD)
    * 強制変数 (running variable) が閾値 (cut point) を超えると**必ず**処置を受ける。
    * もっとも単純明快な RDD。実際、多く使われている。
@@ -210,7 +196,7 @@ Moscoe and Barninnghausen (2015)
 
 ## パラメトリック推定方法
 
-(非) 線形回帰分析による推定
+（非）線形回帰分析による推定
 
 * フランス地方議会選挙の例
 
@@ -619,16 +605,16 @@ poly_df |>
 #| fig-width: 7
 #| fig-height: 3.2
 #| cache: true
-bind_rows(list(tidy(poly_fit1, conf.int = TRUE),
-               tidy(poly_fit2, conf.int = TRUE),
-               tidy(poly_fit3, conf.int = TRUE),
-               tidy(poly_fit4, conf.int = TRUE),
-               tidy(poly_fit5, conf.int = TRUE),
-               tidy(poly_fit6, conf.int = TRUE),
-               tidy(poly_fit7, conf.int = TRUE),
-               tidy(poly_fit8, conf.int = TRUE),
-               tidy(poly_fit9, conf.int = TRUE),
-               tidy(poly_fit10, conf.int = TRUE)),
+bind_rows(list(broom::tidy(poly_fit1, conf.int = TRUE),
+               broom::tidy(poly_fit2, conf.int = TRUE),
+               broom::tidy(poly_fit3, conf.int = TRUE),
+               broom::tidy(poly_fit4, conf.int = TRUE),
+               broom::tidy(poly_fit5, conf.int = TRUE),
+               broom::tidy(poly_fit6, conf.int = TRUE),
+               broom::tidy(poly_fit7, conf.int = TRUE),
+               broom::tidy(poly_fit8, conf.int = TRUE),
+               broom::tidy(poly_fit9, conf.int = TRUE),
+               broom::tidy(poly_fit10, conf.int = TRUE)),
           .id = "Model") |>
   filter(term == "TreatTreat") |>
   mutate(Model = paste0("X^",Model),
@@ -673,8 +659,6 @@ bind_rows(list(glance(poly_fit1),
 * 単純に$\mathbf{I}(X > c)$のみを回帰式に投入することは**連続**した回帰直線において**切片のみ**が変化するという前提
 * 回帰直線が連続し、切片のみ変化 (jump) しているため、バイアスが生じうる
 * $\rightarrow$ **交差項を投入**することで解決
-
-<br/>
 
 $$\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).$$
 
@@ -833,7 +817,7 @@ inter_df |>
 
 <br/>
 
-**ノンパラメトリック**/**セミパラメトリック推定**
+#### ノンパラメトリック / セミパラメトリック推定
 
 * モデルと全く無関係ではないが、より柔軟な推定方法
    * ノンパラメトリックはモデルを使用しない
@@ -841,27 +825,27 @@ inter_df |>
 
 ## ノンパラメトリック推定法
 
-閾値 ( $c$ ) から $h$ 以上離れているケースは分析から除外
+閾値（$c$）から$h$以上離れているケースは分析から除外
 
-* 分析対象は $c - h \leq X \leq c + h$ のみ
-   * 閾値を中心に中心化済みなら $−h \leq X^c \leq h$
-* $h$ は「**バンド幅** (bandwidth)」と呼ばれる
-   * バンド幅内のデータのみが対象となるため、局所ATE (**LATE**; Local ATE)が推定対象
+* 分析対象は$c - h \leq X \leq c + h$のみ
+   * 閾値を中心に中心化済みなら$−h \leq X^c \leq h$
+* $h$は「**バンド幅**（bandwidth）」と呼ばれる
+   * バンド幅内のデータのみが対象となるため、局所ATE（**LATE**; Local ATE）が推定対象
 
 <br/>
 
 推定方法
 
-* **ノン**パラメトリック: **局所平均** (Local Average)
+* **ノン**パラメトリック: **局所平均**（Local Average）
    * $\mathbb{E}[Y|0 \leq X^c \leq h] - \mathbb{E}[Y|-h \leq X^c < 0]$
-* **セミ**パラメトリック: **局所回帰分析** (Local Linear Regression)
-   * $−h \leq X^c \leq h$ の範囲内で交差項を含むカーネル回帰分析
-   * 定番のカーネル関数は三角 (triangular)
-* カーネル関数が一様 (uniform, rectangular) なら線形回帰分析
+* **セミ**パラメトリック: **局所回帰分析**（Local Linear Regression）
+   * $−h \leq X^c \leq h$の範囲内で交差項を含むカーネル回帰分析
+   * 定番のカーネル関数は三角形（triangular）カーネル関数
+* カーネル関数が一様（uniform or rectangular）なら線形回帰分析
 
 ## ノン/セミパラメトリック推定法
 
-$−h \leq X^c \leq h$ 範囲内のデータのみ使用
+$−h \leq X^c \leq h$範囲内のデータのみ使用
 
 ```{r}
 #| fig-width: 7
@@ -1116,15 +1100,15 @@ poly_df_3 |>
 バンド幅内データを対象にした線形回帰分析 (Hahn et al. 2001, Poter 2003, Imbens and Lemieux 2008) 
 
 * パラメトリック推定と同様、**交差項**や**多項式**も投入可能
-   * Rの{rdd}パッケージの場合、交差項 $\bigcirc$ & 多項式 $\times$
+   * Rの{rdd}パッケージの場合、交差項$\bigcirc$ & 多項式$\times$
 
 <br/>
 
-* 閾値 (c) に近いほど、ケースに**重み**を付ける
+* 閾値（$c$）に近いほど、ケースに**重み**を付ける
    * 重み関数はカーネル関数を用いる
-   * Imbens and Lemieux (2008) は一様 (uniform; rectangular) カーネル関数を用いたが、この場合、重みを付けない普通の回帰分析と一致
+   * Imbens and Lemieux（2008）は一様（uniform; rectangular） カーネル関数を用いたが、この場合、重みを付けない普通の回帰分析と一致
       * バンド幅内の全てのケースに同じ重みを付ける
-   * 三角形 (triangular) カーネル関数が統計学的観点からは最適 (optimal) とも (Fan and Gijbels 1996)
+   * 三角形（triangular）カーネル関数が統計学的観点からは最適（optimal）とも（Fan and Gijbels 1996）
       * ほとんどのパッケージは三角形カーネル関数がデフォルト
 
 ## 様々なカーネル関数
@@ -1294,7 +1278,7 @@ tibble(h = 1:10) |>
    * バンド幅を決めるのは分析者の仕事
    * いろいろと $h$ を変えながら分析を繰り返す
    * 多く使われているバンド幅の決め方
-   * `r fontawesome("arrow-right")` **Imbens-Kalyanaraman Optimal Bandwidth**
+   * $\Rightarrow$ **Imbens-Kalyanaraman Optimal Bandwidth**
 
 ## IK Optimal Bandwidth
 
@@ -1329,9 +1313,10 @@ tibble(kernel = c("triangular", "rectangular", "epanechnikov","quartic",
   select(-Fit) |>
   pivot_wider(names_from = "ATE", values_from = "Est") |>
   mutate(across(where(is.numeric), round, 3)) |>
-  kableExtra::kbl(col.names = c("カーネル", "\\(h_{opt}\\)",
-                    "LATE", "Half BW", "Double BW")) |>
-  kableExtra::add_header_above(c(" " = 2, "処置効果" = 3))
+  gt()
+  #kableExtra::kbl(col.names = c("カーネル", "\\(h_{opt}\\)",
+  #                  "LATE", "Half BW", "Double BW")) |>
+  #kableExtra::add_header_above(c(" " = 2, "処置効果" = 3))
 ```
 
 # 実習

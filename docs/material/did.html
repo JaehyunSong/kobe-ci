@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.4.232">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,10 +11,16 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -41,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -106,16 +82,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "panel-placement": "end",
   "type": "overlay",
   "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-no-results-text": "一致なし",
+    "search-matching-documents-text": "一致した文書",
+    "search-copy-link-title": "検索へのリンクをコピー",
+    "search-hide-matches-text": "追加の検索結果を非表示",
+    "search-more-match-text": "追加の検索結果",
+    "search-more-matches-text": "追加の検索結果",
+    "search-clear-button-title": "消去",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "検索",
+    "search-label": "サーチ"
   }
 }</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9F94XL4N4M"></script>
@@ -127,13 +109,23 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </script>
-
 <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Jaehyun Song, Ph.D.">
+<meta property="og:description" content="Causal Inference@Kobe">
+<meta property="og:image" content="https://www.jaysong.net/kobe-ci/material/imgs/favicon.png">
+<meta property="og:site_name" content="Causal Inference@Kobe">
+<meta name="twitter:title" content="Jaehyun Song, Ph.D.">
+<meta name="twitter:description" content="Causal Inference@Kobe">
+<meta name="twitter:image" content="https://www.jaysong.net/kobe-ci/material/imgs/favicon.png">
+<meta name="twitter:creator" content="@Tintstyle">
+<meta name="twitter:site" content="@Tintstyle">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
@@ -142,129 +134,151 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../index.html">
-    <img src="../figs/logo.png" alt="">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figs/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Causal Inference@Kobe</span>
-  </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="サーチ"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../syllabus.html">シラバス</a>
-  </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rの使い方" role="button" data-bs-toggle="dropdown" aria-expanded="false">Rの使い方</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">シラバス</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../syllabus/syllabus.html" rel="" target="">
+ <span class="dropdown-text">シラバス</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../syllabus/dataset.html" rel="" target="">
+ <span class="dropdown-text">データセットについて</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rの使い方" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Rの使い方</span>
+    </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-rの使い方">    
         <li>
-    <a class="dropdown-item" href="../intro/install.html">
+    <a class="dropdown-item" href="../intro/install.html" rel="" target="">
  <span class="dropdown-text">Rの導入</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/rstudio.html">
- <span class="dropdown-text">RStudioの設定</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../intro/project.html">
+    <a class="dropdown-item" href="../intro/project.html" rel="" target="">
  <span class="dropdown-text">プロジェクト管理</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/file.html">
+    <a class="dropdown-item" href="../intro/file.html" rel="" target="">
  <span class="dropdown-text">ファイル管理</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/filesystem.html">
- <span class="dropdown-text">ファイル管理術</span></a>
+    <a class="dropdown-item" href="../intro/filesystem.html" rel="" target="">
+ <span class="dropdown-text">ファイル・システム</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/packages.html">
+    <a class="dropdown-item" href="../intro/packages.html" rel="" target="">
  <span class="dropdown-text">パッケージ</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false">講義資料</a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">講義資料</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
         <li>
-    <a class="dropdown-item" href="../material/intro_rct.html">
+    <a class="dropdown-item" href="../material/intro_rct.html" rel="" target="">
  <span class="dropdown-text">因果推論の考え方とランダム化比較試験</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/matching.html">
+    <a class="dropdown-item" href="../material/matching.html" rel="" target="">
  <span class="dropdown-text">マッチング</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/did.html">
+    <a class="dropdown-item" href="../material/did.html" rel="" target="">
  <span class="dropdown-text">差分の差分法</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/rdd.html">
+    <a class="dropdown-item" href="../material/rdd.html" rel="" target="">
  <span class="dropdown-text">回帰不連続デザイン</span></a>
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../data.html">データ集</a>
-  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://jupyter.cs.rcos.nii.ac.jp/"><i class="bi bi-terminal" role="img">
+    <a class="nav-link" href="https://jupyter.cs.rcos.nii.ac.jp/" rel="" target=""><i class="bi bi-terminal" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.jaysong.net/RBook/"><i class="bi bi-book" role="img">
+    <a class="nav-link" href="https://www.jaysong.net/RBook/" rel="" target=""><i class="bi bi-book" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">差分の差分法</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../material/did.html">差分の差分法</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../material/intro_rct.html" class="sidebar-item-text sidebar-link">因果推論の考え方とランダム化比較試験</a>
+  <a href="../material/intro_rct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">因果推論の考え方とランダム化比較試験</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../material/matching.html" class="sidebar-item-text sidebar-link">マッチング</a>
+  <a href="../material/matching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">マッチング</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../material/did.html" class="sidebar-item-text sidebar-link active">差分の差分法</a>
+  <a href="../material/did.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">差分の差分法</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../material/rdd.html" class="sidebar-item-text sidebar-link">回帰不連続デザイン</a>
+  <a href="../material/rdd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">回帰不連続デザイン</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">目次</h2>
    
   <ul>
@@ -281,7 +295,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">差分の差分法</h1>
+<h1 class="title">差分の差分法</h1>
 </div>
 
 
@@ -289,6 +303,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -314,25 +329,24 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <span id="cb1-8"><a href="#cb1-8"></a></span>
 <span id="cb1-9"><a href="#cb1-9"></a>did_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data5.csv"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a>did_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11"></a>did_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18,749 × 14
-   county state  year shooting fatal_s…¹ non_f…² turnout demvote popul…³ non_w…⁴
-    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1   1001 01     1996        0         0       0    56.1    32.5   40207   0.190
- 2   1001 01     2000        0         0       0    56.8    28.7   44021   0.189
- 3   1001 01     2004        0         0       0    60.2    23.7   48366   0.196
- 4   1001 01     2008        0         0       0    64.1    25.8   53277   0.205
- 5   1001 01     2012        0         0       0    61.0    26.5   55027   0.212
- 6   1001 01     2016        0         0       0    60.7    24.0   55416   0.228
- 7   1003 01     1996        0         0       0    51.8    27.1  125412   0.123
- 8   1003 01     2000        0         0       0    54.6    24.8  141342   0.122
- 9   1003 01     2004        0         0       0    59.8    22.5  156266   0.122
-10   1003 01     2008        0         0       0    62.4    23.8  175827   0.122
-# … with 18,739 more rows, 4 more variables: change_unem_rate &lt;dbl&gt;,
-#   county_f &lt;dbl&gt;, state_f &lt;chr&gt;, year_f &lt;dbl&gt;, and abbreviated variable names
-#   ¹​fatal_shooting, ²​non_fatal_shooting, ³​population, ⁴​non_white
-# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+   county state  year shooting fatal_shooting non_fatal_shooting turnout demvote
+    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1   1001 01     1996        0              0                  0    56.1    32.5
+ 2   1001 01     2000        0              0                  0    56.8    28.7
+ 3   1001 01     2004        0              0                  0    60.2    23.7
+ 4   1001 01     2008        0              0                  0    64.1    25.8
+ 5   1001 01     2012        0              0                  0    61.0    26.5
+ 6   1001 01     2016        0              0                  0    60.7    24.0
+ 7   1003 01     1996        0              0                  0    51.8    27.1
+ 8   1003 01     2000        0              0                  0    54.6    24.8
+ 9   1003 01     2004        0              0                  0    59.8    22.5
+10   1003 01     2008        0              0                  0    62.4    23.8
+# ℹ 18,739 more rows
+# ℹ 6 more variables: population &lt;dbl&gt;, non_white &lt;dbl&gt;,
+#   change_unem_rate &lt;dbl&gt;, county_f &lt;dbl&gt;, state_f &lt;chr&gt;, year_f &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <p>　データの詳細はスライドを参照すること。DID推定には時間（年）とカウンティー（郡）の固定効果を投入し、州レベルでクラスタリングした標準誤差を使う予定である。これらの変数を予めfactor化しておこう。factor化した変数は変数名の後ろに<code>_f</code>を付けて、新しい列として追加しておく。</p>
@@ -342,25 +356,24 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <span id="cb3-3"><a href="#cb3-3"></a>         <span class="at">state_f  =</span> <span class="fu">factor</span>(state),</span>
 <span id="cb3-4"><a href="#cb3-4"></a>         <span class="at">year_f   =</span> <span class="fu">factor</span>(year))</span>
 <span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a>did_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6"></a>did_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18,749 × 14
-   county state  year shooting fatal_s…¹ non_f…² turnout demvote popul…³ non_w…⁴
-    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1   1001 01     1996        0         0       0    56.1    32.5   40207   0.190
- 2   1001 01     2000        0         0       0    56.8    28.7   44021   0.189
- 3   1001 01     2004        0         0       0    60.2    23.7   48366   0.196
- 4   1001 01     2008        0         0       0    64.1    25.8   53277   0.205
- 5   1001 01     2012        0         0       0    61.0    26.5   55027   0.212
- 6   1001 01     2016        0         0       0    60.7    24.0   55416   0.228
- 7   1003 01     1996        0         0       0    51.8    27.1  125412   0.123
- 8   1003 01     2000        0         0       0    54.6    24.8  141342   0.122
- 9   1003 01     2004        0         0       0    59.8    22.5  156266   0.122
-10   1003 01     2008        0         0       0    62.4    23.8  175827   0.122
-# … with 18,739 more rows, 4 more variables: change_unem_rate &lt;dbl&gt;,
-#   county_f &lt;fct&gt;, state_f &lt;fct&gt;, year_f &lt;fct&gt;, and abbreviated variable names
-#   ¹​fatal_shooting, ²​non_fatal_shooting, ³​population, ⁴​non_white
-# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+   county state  year shooting fatal_shooting non_fatal_shooting turnout demvote
+    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1   1001 01     1996        0              0                  0    56.1    32.5
+ 2   1001 01     2000        0              0                  0    56.8    28.7
+ 3   1001 01     2004        0              0                  0    60.2    23.7
+ 4   1001 01     2008        0              0                  0    64.1    25.8
+ 5   1001 01     2012        0              0                  0    61.0    26.5
+ 6   1001 01     2016        0              0                  0    60.7    24.0
+ 7   1003 01     1996        0              0                  0    51.8    27.1
+ 8   1003 01     2000        0              0                  0    54.6    24.8
+ 9   1003 01     2004        0              0                  0    59.8    22.5
+10   1003 01     2008        0              0                  0    62.4    23.8
+# ℹ 18,739 more rows
+# ℹ 6 more variables: population &lt;dbl&gt;, non_white &lt;dbl&gt;,
+#   change_unem_rate &lt;dbl&gt;, county_f &lt;fct&gt;, state_f &lt;fct&gt;, year_f &lt;fct&gt;</code></pre>
 </div>
 </div>
 <p>　連続変数（<code>shooting</code>から<code>change_unem_rate</code>まで）の記述統計量を出力する。ここで一つ注意が必要だ。それは<code>select()</code>関数の使い方である。具体的に言えば、使い方そのものは変わらない。問題は、現在、<code>select()</code>関数が2つ以上存在するという点だ。最初に読み込んだ{gsynth}パッケージは{MASS}パッケージにも依存しているため、自動的に{MASS}も読み込まれる。この{MASS}にも<code>select()</code>関数が存在する。しかも、{gsynth}は{tidyverse}よりも先に読み込まれているので、<code>select()</code>のみ書くと、{MASS}の<code>select()</code>関数として認識する。したがって、「どのパッケージの<code>select()</code>関数か」を具体的に書く必要がある。書き方は<code>パッケージ名::関数名()</code>だ。{tidyverse}内には{dplyr}というパッケージがあり、列の抽出に使う<code>select()</code>関数はこの{dplyr}が提供しているため、<code>dplyr::select()</code>と書く必要がある。</p>
@@ -368,7 +381,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>did_df <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(shooting<span class="sc">:</span>change_unem_rate) <span class="sc">|&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">descr</span>(<span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n.valid"</span>),</span>
-<span id="cb5-4"><a href="#cb5-4"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error : Can't find dplyr</code></pre>
 </div>
@@ -522,7 +535,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <span id="cb8-4"><a href="#cb8-4"></a>                      <span class="at">clusters      =</span> state_f,</span>
 <span id="cb8-5"><a href="#cb8-5"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
 <span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="fu">summary</span>(did_fit1)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="fu">summary</span>(did_fit1)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -550,7 +563,7 @@ F-statistic (proj. model): 0.6513 on 1 and 49 DF,  p-value: 0.4235</code></pre>
 <span id="cb10-5"><a href="#cb10-5"></a>                      <span class="at">clusters      =</span> state_f,</span>
 <span id="cb10-6"><a href="#cb10-6"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span>
 <span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="fu">summary</span>(did_fit2)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="fu">summary</span>(did_fit2)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -604,200 +617,200 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb12-22"><a href="#cb12-22"></a>                      <span class="at">data          =</span> did_df, </span>
 <span id="cb12-23"><a href="#cb12-23"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span>year_f <span class="sc">+</span> county_f,</span>
 <span id="cb12-24"><a href="#cb12-24"></a>                      <span class="at">clusters      =</span> state_f,</span>
-<span id="cb12-25"><a href="#cb12-25"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-25"><a href="#cb12-25"></a>                      <span class="at">se_type       =</span> <span class="st">"stata"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　これまで推定してきた6つのモデルを比較してみよう。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(did_fit1, did_fit2, did_fit3, </span>
-<span id="cb13-2"><a href="#cb13-2"></a>                  did_fit4, did_fit5, did_fit6))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a>                  did_fit4, did_fit5, did_fit6))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;">   </th>
-   <th style="text-align:center;"> Model 1 </th>
-   <th style="text-align:center;"> Model 2 </th>
-   <th style="text-align:center;"> Model 3 </th>
-   <th style="text-align:center;"> Model 4 </th>
-   <th style="text-align:center;"> Model 5 </th>
-   <th style="text-align:center;"> Model 6 </th>
-  </tr>
- </thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;(1)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(2)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(3)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(4)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(5)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(6)</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> shooting </td>
-   <td style="text-align:center;"> −0.521 </td>
-   <td style="text-align:center;"> −0.710 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (0.646) </td>
-   <td style="text-align:center;"> (0.624) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> population </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.000 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.000 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.000) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.000) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.000) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> non_white </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −34.834 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −34.844 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −34.814 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (15.575) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (15.618) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (15.614) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> change_unem_rate </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.159 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.159 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.160 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.066) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.066) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.066) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> fatal_shooting </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −0.678 </td>
-   <td style="text-align:center;"> −0.918 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.619) </td>
-   <td style="text-align:center;"> (0.658) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> non_fatal_shooting </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −0.239 </td>
-   <td style="text-align:center;"> −0.327 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> (1.094) </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> (1.145) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Num.Obs. </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 </td>
-   <td style="text-align:center;"> 0.857 </td>
-   <td style="text-align:center;"> 0.860 </td>
-   <td style="text-align:center;"> 0.857 </td>
-   <td style="text-align:center;"> 0.860 </td>
-   <td style="text-align:center;"> 0.857 </td>
-   <td style="text-align:center;"> 0.860 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 Adj. </td>
-   <td style="text-align:center;"> 0.829 </td>
-   <td style="text-align:center;"> 0.832 </td>
-   <td style="text-align:center;"> 0.829 </td>
-   <td style="text-align:center;"> 0.832 </td>
-   <td style="text-align:center;"> 0.829 </td>
-   <td style="text-align:center;"> 0.832 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> AIC </td>
-   <td style="text-align:center;"> 103543.4 </td>
-   <td style="text-align:center;"> 103237.2 </td>
-   <td style="text-align:center;"> 103543.3 </td>
-   <td style="text-align:center;"> 103237.1 </td>
-   <td style="text-align:center;"> 103544.6 </td>
-   <td style="text-align:center;"> 103239.4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> BIC </td>
-   <td style="text-align:center;"> 103559.0 </td>
-   <td style="text-align:center;"> 103276.4 </td>
-   <td style="text-align:center;"> 103559.0 </td>
-   <td style="text-align:center;"> 103276.3 </td>
-   <td style="text-align:center;"> 103560.2 </td>
-   <td style="text-align:center;"> 103278.6 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> RMSE </td>
-   <td style="text-align:center;"> 3.90 </td>
-   <td style="text-align:center;"> 3.87 </td>
-   <td style="text-align:center;"> 3.90 </td>
-   <td style="text-align:center;"> 3.87 </td>
-   <td style="text-align:center;"> 3.90 </td>
-   <td style="text-align:center;"> 3.87 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Std.Errors </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">shooting</td>
+<td style="text-align: center;">−0.521</td>
+<td style="text-align: center;">−0.710</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.646)</td>
+<td style="text-align: center;">(0.624)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">population</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.000)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.000)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.000)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">non_white</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−34.834</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−34.844</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−34.814</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(15.575)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(15.618)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(15.614)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">change_unem_rate</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.159</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.159</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.160</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.066)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.066)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.066)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fatal_shooting</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.678</td>
+<td style="text-align: center;">−0.918</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.619)</td>
+<td style="text-align: center;">(0.658)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">non_fatal_shooting</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.239</td>
+<td style="text-align: center;">−0.327</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(1.094)</td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(1.145)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.857</td>
+<td style="text-align: center;">0.860</td>
+<td style="text-align: center;">0.857</td>
+<td style="text-align: center;">0.860</td>
+<td style="text-align: center;">0.857</td>
+<td style="text-align: center;">0.860</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.829</td>
+<td style="text-align: center;">0.832</td>
+<td style="text-align: center;">0.829</td>
+<td style="text-align: center;">0.832</td>
+<td style="text-align: center;">0.829</td>
+<td style="text-align: center;">0.832</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">103543.4</td>
+<td style="text-align: center;">103237.2</td>
+<td style="text-align: center;">103543.3</td>
+<td style="text-align: center;">103237.1</td>
+<td style="text-align: center;">103544.6</td>
+<td style="text-align: center;">103239.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">103559.0</td>
+<td style="text-align: center;">103276.4</td>
+<td style="text-align: center;">103559.0</td>
+<td style="text-align: center;">103276.3</td>
+<td style="text-align: center;">103560.2</td>
+<td style="text-align: center;">103278.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">3.90</td>
+<td style="text-align: center;">3.87</td>
+<td style="text-align: center;">3.90</td>
+<td style="text-align: center;">3.87</td>
+<td style="text-align: center;">3.90</td>
+<td style="text-align: center;">3.87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Std.Errors</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 </div>
@@ -809,11 +822,11 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb14-3"><a href="#cb14-3"></a>tidy_fit3 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-4"><a href="#cb14-4"></a>tidy_fit4 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-5"><a href="#cb14-5"></a>tidy_fit5 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit5, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-6"><a href="#cb14-6"></a>tidy_fit6 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href="#cb14-6"></a>tidy_fit6 <span class="ot">&lt;-</span> <span class="fu">tidy</span>(did_fit6, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　全て確認する必要はないので、<code>tidy_fit1</code>のみを確認してみる。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>tidy_fit1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>tidy_fit1</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      term   estimate std.error  statistic   p.value conf.low conf.high df
 1 shooting -0.5210841 0.6456718 -0.8070417 0.4235426 -1.81861  0.776442 49
@@ -831,7 +844,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb17-6"><a href="#cb17-6"></a>                           <span class="st">"M2_Tr3"</span> <span class="ot">=</span> tidy_fit6),</span>
 <span id="cb17-7"><a href="#cb17-7"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span>
 <span id="cb17-8"><a href="#cb17-8"></a></span>
-<span id="cb17-9"><a href="#cb17-9"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-9"><a href="#cb17-9"></a>did_est1</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Model               term      estimate    std.error  statistic    p.value
 1  M1_Tr1           shooting -5.210841e-01 6.456718e-01 -0.8070417 0.42354260
@@ -872,7 +885,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">filter</span>(term <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"shooting"</span>, <span class="st">"fatal_shooting"</span>, <span class="st">"non_fatal_shooting"</span>))</span>
 <span id="cb19-3"><a href="#cb19-3"></a></span>
-<span id="cb19-4"><a href="#cb19-4"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-4"><a href="#cb19-4"></a>did_est1</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Model               term   estimate std.error  statistic   p.value  conf.low
 1 M1_Tr1           shooting -0.5210841 0.6456718 -0.8070417 0.4235426 -1.818610
@@ -893,7 +906,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <p>　ちなみに<code>grepl()</code>関数を使うと、<code>"shooting"</code>が含まれる行を抽出することもできる。以下のコードは上記のコードと同じ機能をする。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>did_est1 <span class="ot">&lt;-</span> did_est1 <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　つづいて、<code>Model</code>列を<code>Model</code>と<code>Treat</code>列へ分割する。</p>
 <div class="cell" data-layout-align="center">
@@ -902,7 +915,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb22-3"><a href="#cb22-3"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Treat"</span>),</span>
 <span id="cb22-4"><a href="#cb22-4"></a>           <span class="at">sep  =</span> <span class="st">"_"</span>)</span>
 <span id="cb22-5"><a href="#cb22-5"></a></span>
-<span id="cb22-6"><a href="#cb22-6"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-6"><a href="#cb22-6"></a>did_est1</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Model Treat               term   estimate std.error  statistic   p.value
 1    M1   Tr1           shooting -0.5210841 0.6456718 -0.8070417 0.4235426
@@ -933,7 +946,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb24-9"><a href="#cb24-9"></a>         <span class="at">Model =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Model)),</span>
 <span id="cb24-10"><a href="#cb24-10"></a>         <span class="at">Treat =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Treat)))</span>
 <span id="cb24-11"><a href="#cb24-11"></a></span>
-<span id="cb24-12"><a href="#cb24-12"></a>did_est1</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-12"><a href="#cb24-12"></a>did_est1</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        Model                   Treat               term
 1              County-Year FE      Any Shooting (t-1)           shooting
@@ -969,7 +982,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb26-14"><a href="#cb26-14"></a>  <span class="co"># 横軸の下限と上限を-10〜10とする。</span></span>
 <span id="cb26-15"><a href="#cb26-15"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb26-16"><a href="#cb26-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb26-17"><a href="#cb26-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-17"><a href="#cb26-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -995,7 +1008,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb27-13"><a href="#cb27-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
 <span id="cb27-14"><a href="#cb27-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb27-15"><a href="#cb27-15"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb27-16"><a href="#cb27-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-16"><a href="#cb27-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1019,7 +1032,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb28-11"><a href="#cb28-11"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
 <span id="cb28-12"><a href="#cb28-12"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb28-13"><a href="#cb28-13"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　続いて、民主党候補者の得票率（<code>demvote</code>）を応答変数として6つのモデルを推定し、同じ作業を繰り返す。</p>
 <div class="cell" data-layout-align="center">
@@ -1064,195 +1077,195 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb29-39"><a href="#cb29-39"></a></span>
 <span id="cb29-40"><a href="#cb29-40"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">"Model 7"</span>  <span class="ot">=</span> did_fit7,  <span class="st">"Model 8"</span>  <span class="ot">=</span> did_fit8, </span>
 <span id="cb29-41"><a href="#cb29-41"></a>                  <span class="st">"Model 9"</span>  <span class="ot">=</span> did_fit9,  <span class="st">"Model 10"</span> <span class="ot">=</span> did_fit10, </span>
-<span id="cb29-42"><a href="#cb29-42"></a>                  <span class="st">"Model 11"</span> <span class="ot">=</span> did_fit11, <span class="st">"Model 12"</span> <span class="ot">=</span> did_fit12))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-42"><a href="#cb29-42"></a>                  <span class="st">"Model 11"</span> <span class="ot">=</span> did_fit11, <span class="st">"Model 12"</span> <span class="ot">=</span> did_fit12))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;">   </th>
-   <th style="text-align:center;"> Model 7 </th>
-   <th style="text-align:center;"> Model 8 </th>
-   <th style="text-align:center;"> Model 9 </th>
-   <th style="text-align:center;"> Model 10 </th>
-   <th style="text-align:center;"> Model 11 </th>
-   <th style="text-align:center;"> Model 12 </th>
-  </tr>
- </thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 7</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 8</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 9</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 10</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 11</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 12</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> shooting </td>
-   <td style="text-align:center;"> 4.513 </td>
-   <td style="text-align:center;"> 2.364 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (0.875) </td>
-   <td style="text-align:center;"> (0.737) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> population </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.000 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.000 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.000) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.000) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.000) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> non_white </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 86.873 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 86.866 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 86.796 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (17.863) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (17.855) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (17.855) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> change_unem_rate </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −0.139 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −0.139 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> −0.140 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.127) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.128) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (0.127) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> fatal_shooting </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 4.404 </td>
-   <td style="text-align:center;"> 1.782 </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> (1.092) </td>
-   <td style="text-align:center;"> (0.836) </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> non_fatal_shooting </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 4.217 </td>
-   <td style="text-align:center;"> 2.930 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> (1.298) </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> (1.037) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Num.Obs. </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-   <td style="text-align:center;"> 18627 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 </td>
-   <td style="text-align:center;"> 0.882 </td>
-   <td style="text-align:center;"> 0.894 </td>
-   <td style="text-align:center;"> 0.882 </td>
-   <td style="text-align:center;"> 0.894 </td>
-   <td style="text-align:center;"> 0.882 </td>
-   <td style="text-align:center;"> 0.894 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 Adj. </td>
-   <td style="text-align:center;"> 0.859 </td>
-   <td style="text-align:center;"> 0.873 </td>
-   <td style="text-align:center;"> 0.859 </td>
-   <td style="text-align:center;"> 0.873 </td>
-   <td style="text-align:center;"> 0.859 </td>
-   <td style="text-align:center;"> 0.873 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> AIC </td>
-   <td style="text-align:center;"> 110745.2 </td>
-   <td style="text-align:center;"> 108755.4 </td>
-   <td style="text-align:center;"> 110772.0 </td>
-   <td style="text-align:center;"> 108768.2 </td>
-   <td style="text-align:center;"> 110786.5 </td>
-   <td style="text-align:center;"> 108762.1 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> BIC </td>
-   <td style="text-align:center;"> 110760.8 </td>
-   <td style="text-align:center;"> 108794.6 </td>
-   <td style="text-align:center;"> 110787.7 </td>
-   <td style="text-align:center;"> 108807.3 </td>
-   <td style="text-align:center;"> 110802.2 </td>
-   <td style="text-align:center;"> 108801.3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> RMSE </td>
-   <td style="text-align:center;"> 4.73 </td>
-   <td style="text-align:center;"> 4.48 </td>
-   <td style="text-align:center;"> 4.73 </td>
-   <td style="text-align:center;"> 4.48 </td>
-   <td style="text-align:center;"> 4.73 </td>
-   <td style="text-align:center;"> 4.48 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Std.Errors </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-   <td style="text-align:center;"> by: state_f </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">shooting</td>
+<td style="text-align: center;">4.513</td>
+<td style="text-align: center;">2.364</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.875)</td>
+<td style="text-align: center;">(0.737)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">population</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.000)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.000)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.000)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">non_white</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">86.873</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">86.866</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">86.796</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(17.863)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(17.855)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(17.855)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">change_unem_rate</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.139</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.139</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.140</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.127)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.128)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(0.127)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fatal_shooting</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4.404</td>
+<td style="text-align: center;">1.782</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(1.092)</td>
+<td style="text-align: center;">(0.836)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">non_fatal_shooting</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">4.217</td>
+<td style="text-align: center;">2.930</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(1.298)</td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(1.037)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+<td style="text-align: center;">18627</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.882</td>
+<td style="text-align: center;">0.894</td>
+<td style="text-align: center;">0.882</td>
+<td style="text-align: center;">0.894</td>
+<td style="text-align: center;">0.882</td>
+<td style="text-align: center;">0.894</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.859</td>
+<td style="text-align: center;">0.873</td>
+<td style="text-align: center;">0.859</td>
+<td style="text-align: center;">0.873</td>
+<td style="text-align: center;">0.859</td>
+<td style="text-align: center;">0.873</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">110745.2</td>
+<td style="text-align: center;">108755.4</td>
+<td style="text-align: center;">110772.0</td>
+<td style="text-align: center;">108768.2</td>
+<td style="text-align: center;">110786.5</td>
+<td style="text-align: center;">108762.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">110760.8</td>
+<td style="text-align: center;">108794.6</td>
+<td style="text-align: center;">110787.7</td>
+<td style="text-align: center;">108807.3</td>
+<td style="text-align: center;">110802.2</td>
+<td style="text-align: center;">108801.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">4.73</td>
+<td style="text-align: center;">4.48</td>
+<td style="text-align: center;">4.73</td>
+<td style="text-align: center;">4.48</td>
+<td style="text-align: center;">4.73</td>
+<td style="text-align: center;">4.48</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Std.Errors</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+<td style="text-align: center;">by: state_f</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 </div>
@@ -1274,7 +1287,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb30-13"><a href="#cb30-13"></a>                           <span class="st">"M2_Tr3"</span> <span class="ot">=</span> tidy_fit12),</span>
 <span id="cb30-14"><a href="#cb30-14"></a>                      <span class="at">.id =</span> <span class="st">"Model"</span>)</span>
 <span id="cb30-15"><a href="#cb30-15"></a></span>
-<span id="cb30-16"><a href="#cb30-16"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-16"><a href="#cb30-16"></a>did_est2</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Model               term      estimate    std.error statistic      p.value
 1  M1_Tr1           shooting  4.513237e+00 8.752702e-01  5.156393 4.514820e-06
@@ -1314,7 +1327,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>did_est2 <span class="ot">&lt;-</span> did_est2 <span class="sc">|&gt;</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"shooting"</span>, term))</span>
 <span id="cb32-3"><a href="#cb32-3"></a></span>
-<span id="cb32-4"><a href="#cb32-4"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-4"><a href="#cb32-4"></a>did_est2</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Model               term estimate std.error statistic      p.value  conf.low
 1 M1_Tr1           shooting 4.513237 0.8752702  5.156393 4.514820e-06 2.7543158
@@ -1338,7 +1351,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb34-3"><a href="#cb34-3"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Treat"</span>),</span>
 <span id="cb34-4"><a href="#cb34-4"></a>           <span class="at">sep  =</span> <span class="st">"_"</span>)</span>
 <span id="cb34-5"><a href="#cb34-5"></a></span>
-<span id="cb34-6"><a href="#cb34-6"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-6"><a href="#cb34-6"></a>did_est2</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Model Treat               term estimate std.error statistic      p.value
 1    M1   Tr1           shooting 4.513237 0.8752702  5.156393 4.514820e-06
@@ -1368,7 +1381,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb36-9"><a href="#cb36-9"></a>         <span class="at">Model =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Model)),</span>
 <span id="cb36-10"><a href="#cb36-10"></a>         <span class="at">Treat =</span> <span class="fu">fct_rev</span>(<span class="fu">fct_inorder</span>(Treat)))</span>
 <span id="cb36-11"><a href="#cb36-11"></a></span>
-<span id="cb36-12"><a href="#cb36-12"></a>did_est2</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-12"><a href="#cb36-12"></a>did_est2</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                        Model                   Treat               term
 1              County-Year FE      Any Shooting (t-1)           shooting
@@ -1402,7 +1415,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb38-13"><a href="#cb38-13"></a>                                <span class="st">"County-Year FE + Covariates"</span> <span class="ot">=</span> <span class="st">"gray50"</span>)) <span class="sc">+</span></span>
 <span id="cb38-14"><a href="#cb38-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb38-15"><a href="#cb38-15"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb38-16"><a href="#cb38-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-16"><a href="#cb38-16"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1417,7 +1430,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb39-2"><a href="#cb39-2"></a>                          <span class="st">"Out2"</span> <span class="ot">=</span> did_est2),</span>
 <span id="cb39-3"><a href="#cb39-3"></a>                     <span class="at">.id =</span> <span class="st">"Outcome"</span>)</span>
 <span id="cb39-4"><a href="#cb39-4"></a></span>
-<span id="cb39-5"><a href="#cb39-5"></a>did_est</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-5"><a href="#cb39-5"></a>did_est</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Outcome                       Model                   Treat
 1     Out1              County-Year FE      Any Shooting (t-1)
@@ -1468,7 +1481,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb41-4"><a href="#cb41-4"></a>                           <span class="st">"Change in Democratic Vote Share (%p)"</span>),</span>
 <span id="cb41-5"><a href="#cb41-5"></a>         <span class="at">Outcome =</span> <span class="fu">fct_inorder</span>(Outcome))</span>
 <span id="cb41-6"><a href="#cb41-6"></a></span>
-<span id="cb41-7"><a href="#cb41-7"></a>did_est</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-7"><a href="#cb41-7"></a>did_est</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                Outcome                       Model
 1                Change in Turnout (%p)              County-Year FE
@@ -1529,7 +1542,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb43-14"><a href="#cb43-14"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
 <span id="cb43-15"><a href="#cb43-15"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Outcome, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb43-16"><a href="#cb43-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb43-17"><a href="#cb43-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-17"><a href="#cb43-17"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1547,31 +1560,30 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>scm_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data6.csv"</span>)</span>
 <span id="cb44-2"><a href="#cb44-2"></a></span>
-<span id="cb44-3"><a href="#cb44-3"></a>scm_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-3"><a href="#cb44-3"></a>scm_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 938 × 9
-   Election PrefCode PrefName_E PrefNam…¹ Eligi…² Voters EffVote Magni…³ Candi…⁴
-      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1        7        1 Hokkaido   北海道    2903802 1.83e6 1683764       4       7
- 2        7        2 Aomori     青森県     823336 5.09e5  478380       1       5
- 3        7        3 Iwate      岩手県     849109 6.20e5  591977       1       3
- 4        7        4 Miyagi     宮城県    1049109 6.95e5  666205       1       4
- 5        7        5 Akita      秋田県     771983 5.91e5  558603       1       3
- 6        7        6 Yamagata   山形県     784438 6.37e5  615414       1       3
- 7        7        7 Fukushima  福島県    1123975 8.93e5  855609       2       5
- 8        7        8 Ibaraki    茨城県    1246254 7.85e5  750181       2       4
- 9        7        9 Tochigi    栃木県     909245 6.38e5  614249       2       6
-10        7       10 Gunma      群馬県     990083 7.20e5  690448       2       6
-# … with 928 more rows, and abbreviated variable names ¹​PrefName_J, ²​Eligible,
-#   ³​Magnitude, ⁴​Candidates
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+   Election PrefCode PrefName_E PrefName_J Eligible  Voters EffVote Magnitude
+      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+ 1        7        1 Hokkaido   北海道      2903802 1829347 1683764         4
+ 2        7        2 Aomori     青森県       823336  509254  478380         1
+ 3        7        3 Iwate      岩手県       849109  619767  591977         1
+ 4        7        4 Miyagi     宮城県      1049109  694827  666205         1
+ 5        7        5 Akita      秋田県       771983  591315  558603         1
+ 6        7        6 Yamagata   山形県       784438  636550  615414         1
+ 7        7        7 Fukushima  福島県      1123975  893381  855609         2
+ 8        7        8 Ibaraki    茨城県      1246254  785174  750181         2
+ 9        7        9 Tochigi    栃木県       909245  638413  614249         2
+10        7       10 Gunma      群馬県       990083  719678  690448         2
+# ℹ 928 more rows
+# ℹ 1 more variable: Candidates &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>scm_df <span class="sc">|&gt;</span></span>
 <span id="cb46-2"><a href="#cb46-2"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Eligible<span class="sc">:</span>Candidates) <span class="sc">|&gt;</span></span>
 <span id="cb46-3"><a href="#cb46-3"></a>  <span class="fu">descr</span>(<span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n.valid"</span>),</span>
-<span id="cb46-4"><a href="#cb46-4"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-4"><a href="#cb46-4"></a>        <span class="at">transpose =</span> <span class="cn">TRUE</span>, <span class="at">order =</span> <span class="st">"p"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error : Can't find dplyr</code></pre>
 </div>
@@ -1659,13 +1671,13 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb49-4"><a href="#cb49-4"></a>                                Election <span class="sc">&gt;=</span> <span class="dv">24</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb49-5"><a href="#cb49-5"></a>         <span class="at">Turnout    =</span> Voters <span class="sc">/</span> Eligible <span class="sc">*</span> <span class="dv">100</span>,</span>
 <span id="cb49-6"><a href="#cb49-6"></a>         <span class="at">Spoilt     =</span> (<span class="dv">1</span> <span class="sc">-</span> (EffVote <span class="sc">/</span> Voters)) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb49-7"><a href="#cb49-7"></a>         <span class="at">PrefName_J =</span> <span class="fu">fct_inorder</span>(PrefName_J))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-7"><a href="#cb49-7"></a>         <span class="at">PrefName_J =</span> <span class="fu">fct_inorder</span>(PrefName_J))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　本格的な分析に入る前に、各ケースの処置有無を可視化してみよう。パネルデータの確認には{panelView}パッケージの<code>panelview()</code>関数を使う。第一引数は<code>応答変数 ~ 処置変数</code>であり、<code>data</code>引数にデータフレームのオブジェクト名を指定する。また、<code>index</code>にはユニットと時間を表す変数名を長さ2のcharacter型ベクトルとして指定します。ここでは<code>"PrefName_J"</code>と<code>"Election"</code>である。最後に、<code>pre.post = TRUE</code>を指定すると、処置前後を色分けしてくれるので、見やすくなる。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a><span class="fu">panelview</span>(Turnout <span class="sc">~</span> Treat, <span class="at">data =</span> scm_df, </span>
 <span id="cb50-2"><a href="#cb50-2"></a>          <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"PrefName_J"</span>, <span class="st">"Election"</span>), <span class="at">pre.post =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb50-3"><a href="#cb50-3"></a>          <span class="at">xlab =</span> <span class="st">"参院選"</span>, <span class="at">ylab =</span> <span class="st">"都道府県"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-3"><a href="#cb50-3"></a>          <span class="at">xlab =</span> <span class="st">"参院選"</span>, <span class="at">ylab =</span> <span class="st">"都道府県"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1682,7 +1694,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb51-3"><a href="#cb51-3"></a>          <span class="at">type  =</span> <span class="st">"outcome"</span>,</span>
 <span id="cb51-4"><a href="#cb51-4"></a>          <span class="at">main  =</span> <span class="st">"投票率の推移"</span>,</span>
 <span id="cb51-5"><a href="#cb51-5"></a>          <span class="at">xlab  =</span> <span class="st">"参院選"</span>,</span>
-<span id="cb51-6"><a href="#cb51-6"></a>          <span class="at">ylab  =</span> <span class="st">"投票率 (%)"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-6"><a href="#cb51-6"></a>          <span class="at">ylab  =</span> <span class="st">"投票率 (%)"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1707,10 +1719,10 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>scm_fit <span class="ot">&lt;-</span> <span class="fu">gsynth</span>(Turnout <span class="sc">~</span> Treat <span class="sc">+</span> Magnitude <span class="sc">+</span> Candidates, </span>
 <span id="cb52-2"><a href="#cb52-2"></a>                  <span class="at">data =</span> scm_df, <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"PrefName_E"</span>, <span class="st">"Election"</span>), </span>
 <span id="cb52-3"><a href="#cb52-3"></a>                  <span class="at">force =</span> <span class="st">"two-way"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">inference =</span> <span class="st">"parametric"</span>,</span>
-<span id="cb52-4"><a href="#cb52-4"></a>                  <span class="at">nboots =</span> <span class="dv">500</span>, <span class="at">parallel =</span> <span class="cn">TRUE</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-4"><a href="#cb52-4"></a>                  <span class="at">nboots =</span> <span class="dv">500</span>, <span class="at">parallel =</span> <span class="cn">TRUE</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu">print</span>(scm_fit)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="fu">print</span>(scm_fit)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 gsynth.formula(formula = Turnout ~ Treat + Magnitude + Candidates, 
@@ -1756,7 +1768,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="fu">plot</span>(scm_fit, </span>
 <span id="cb55-2"><a href="#cb55-2"></a>     <span class="at">main =</span> <span class="st">"Estimated ATT"</span>, </span>
 <span id="cb55-3"><a href="#cb55-3"></a>     <span class="at">xlab =</span> <span class="st">"Election (0 = 2013 Election)"</span>, </span>
-<span id="cb55-4"><a href="#cb55-4"></a>     <span class="at">ylab =</span> <span class="st">"ATT (%p)"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-4"><a href="#cb55-4"></a>     <span class="at">ylab =</span> <span class="st">"ATT (%p)"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1771,7 +1783,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb56-2"><a href="#cb56-2"></a>     <span class="at">type =</span> <span class="st">"counterfactual"</span>, </span>
 <span id="cb56-3"><a href="#cb56-3"></a>     <span class="at">main =</span> <span class="st">""</span>,</span>
 <span id="cb56-4"><a href="#cb56-4"></a>     <span class="at">xlab =</span> <span class="st">"Election"</span>, </span>
-<span id="cb56-5"><a href="#cb56-5"></a>     <span class="at">ylab =</span> <span class="st">"Turnout (%)"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-5"><a href="#cb56-5"></a>     <span class="at">ylab =</span> <span class="st">"Turnout (%)"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1783,7 +1795,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <p>　処置を受けたのは4県であるが、線が1本になっている。ここからも処置前は架空の4県と実際の4県はほぼ同じトレンドを示していますが、処置後は傾向が変わったことが確認できる。</p>
 <p>　もし、4つの都道府県を個別に示したい場合はどうすれば良いだろうか。この場合、<code>plot()</code>内に<code>id</code>引数を使えば良い。たとえば、鳥取県の処置効果（ATT）を確認するためには<code>id = "Tottori"</code>と指定する。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="fu">plot</span>(scm_fit, <span class="at">id =</span> <span class="st">"Tottori"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="fu">plot</span>(scm_fit, <span class="at">id =</span> <span class="st">"Tottori"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1793,7 +1805,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="fu">plot</span>(scm_fit, <span class="at">id =</span> <span class="st">"Tottori"</span>, <span class="at">type =</span> <span class="st">"ct"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="fu">plot</span>(scm_fit, <span class="at">id =</span> <span class="st">"Tottori"</span>, <span class="at">type =</span> <span class="st">"ct"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1804,7 +1816,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 </div>
 <p>　4つの都道府県のデータを個別のファセットで全て出すためにはゼロベースで作図した方が効率的かも知れない。また、この場合は図のカスタマイズの幅も広がる。{gsynth}から得られたオブジェクトには架空の鳥取、島根、徳島、高知のデータが個別に格納されているため、それを抽出すれば個別の図を作成することもできる。たとえば、処置群（4県）の観察済みのデータは<code>オブジェクト名$Y.tr</code>で抽出できる。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>scm_fit<span class="sc">$</span>Y.tr</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>scm_fit<span class="sc">$</span>Y.tr</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Kochi  Shimane Tokushima  Tottori
 7  74.63966 83.49050  69.39499 81.24437
@@ -1833,7 +1845,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>treat_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(scm_fit<span class="sc">$</span>Y.tr)</span>
 <span id="cb61-2"><a href="#cb61-2"></a></span>
-<span id="cb61-3"><a href="#cb61-3"></a>treat_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb61-3"><a href="#cb61-3"></a>treat_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 4
    Kochi Shimane Tokushima Tottori
@@ -1865,7 +1877,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a>treat_df <span class="ot">&lt;-</span> treat_df <span class="sc">|&gt;</span></span>
 <span id="cb63-2"><a href="#cb63-2"></a>  <span class="fu">mutate</span>(<span class="at">Election =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">26</span>, <span class="at">.before =</span> Kochi)</span>
 <span id="cb63-3"><a href="#cb63-3"></a></span>
-<span id="cb63-4"><a href="#cb63-4"></a>treat_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb63-4"><a href="#cb63-4"></a>treat_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 5
    Election Kochi Shimane Tokushima Tottori
@@ -1899,7 +1911,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb65-3"><a href="#cb65-3"></a>               <span class="at">names_to  =</span> <span class="st">"Pref"</span>,</span>
 <span id="cb65-4"><a href="#cb65-4"></a>               <span class="at">values_to =</span> <span class="st">"Turnout"</span>)</span>
 <span id="cb65-5"><a href="#cb65-5"></a></span>
-<span id="cb65-6"><a href="#cb65-6"></a>treat_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb65-6"><a href="#cb65-6"></a>treat_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 80 × 3
    Election Pref      Turnout
@@ -1914,8 +1926,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
  8        8 Tottori      83.7
  9        9 Kochi        71.4
 10        9 Shimane      78.1
-# … with 70 more rows
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+# ℹ 70 more rows</code></pre>
 </div>
 </div>
 <p>　同じ作業を架空の処置群についても行う。架空の処置群は<code>オブジェクト名$Y.ct</code>で抽出できる。今回は全ての作業をパイプ演算子で繋ぎ、コードを効率化する。</p>
@@ -1927,7 +1938,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb67-5"><a href="#cb67-5"></a>               <span class="at">names_to  =</span> <span class="st">"Pref"</span>,</span>
 <span id="cb67-6"><a href="#cb67-6"></a>               <span class="at">values_to =</span> <span class="st">"Turnout"</span>)</span>
 <span id="cb67-7"><a href="#cb67-7"></a></span>
-<span id="cb67-8"><a href="#cb67-8"></a>counter_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb67-8"><a href="#cb67-8"></a>counter_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 80 × 3
    Election Pref      Turnout
@@ -1942,8 +1953,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
  8        8 Tottori      84.7
  9        9 Kochi        65.6
 10        9 Shimane      76.1
-# … with 70 more rows
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+# ℹ 70 more rows</code></pre>
 </div>
 </div>
 <p>　最後に<code>treat_df</code>と<code>counter_df</code>を結合する。<code>treat_df</code>の行なら<code>"観測値"</code>の値が、<code>counter_df</code>の行なら<code>"反実仮想"</code>の値が付けられた<code>Type</code>という列を追加し、この<code>Type</code>列をfactor化する。要素の順番は<code>"反実仮想"</code>、<code>"観測値"</code>の順とする。</p>
@@ -1951,7 +1961,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a>tr_ct_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">list</span>(<span class="st">"観測値"</span>   <span class="ot">=</span> treat_df, </span>
 <span id="cb69-2"><a href="#cb69-2"></a>                           <span class="st">"反実仮想"</span> <span class="ot">=</span> counter_df),</span>
 <span id="cb69-3"><a href="#cb69-3"></a>                      <span class="at">.id =</span> <span class="st">"Type"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb69-4"><a href="#cb69-4"></a>  <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="fu">factor</span>(Type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"反実仮想"</span>, <span class="st">"観測値"</span>)))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb69-4"><a href="#cb69-4"></a>  <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="fu">factor</span>(Type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"反実仮想"</span>, <span class="st">"観測値"</span>)))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　データが揃ったので{ggplot2}を使って折れ線グラフを作ってみよう。</p>
 <div class="cell" data-layout-align="center">
@@ -1980,7 +1990,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb70-23"><a href="#cb70-23"></a>  <span class="co"># 都道府県ごとにファセット分割</span></span>
 <span id="cb70-24"><a href="#cb70-24"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Pref, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb70-25"><a href="#cb70-25"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb70-26"><a href="#cb70-26"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb70-26"><a href="#cb70-26"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1991,7 +2001,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 </div>
 <p>　ただし、この図だけだと処置効果（ATT）が分かりにくい。処置効果は観測値（=処置群）と反実仮想（=架空の統制群）の差分である。<code>tr_ct_df</code>からもATTの計算はできるが、ATTの不確実性（標準誤差や信頼区間など）までは分からない。処置効果（ATT）を抽出は<code>オブジェクト名$est.ind</code>で出来るが、3次元配列（array構造）になっているため、<code>オブジェクト名$est.ind[, , "処置群名"]</code>で抽出する必要がある。処置群名は今回の場合だと<code>PrefName_E</code>上の名前である。たとえば、鳥取における処置効果は以下のように抽出する。これらもまた表形式でなく、行列構造であるので、<code>as_tibble()</code>を使って表形式にしよう。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="fu">as_tibble</span>(scm_fit<span class="sc">$</span>est.ind[, , <span class="st">"Tottori"</span>])</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="fu">as_tibble</span>(scm_fit<span class="sc">$</span>est.ind[, , <span class="st">"Tottori"</span>])</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 × 5
         Eff  S.E. CI.lower CI.upper  p.value
@@ -2029,7 +2039,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb73-7"><a href="#cb73-7"></a>         <span class="at">.before =</span> Pref) <span class="sc">|&gt;</span>       <span class="co"># Election列をPref列の前に</span></span>
 <span id="cb73-8"><a href="#cb73-8"></a>  <span class="fu">mutate</span>(<span class="at">Pref =</span> <span class="fu">fct_inorder</span>(Pref))</span>
 <span id="cb73-9"><a href="#cb73-9"></a></span>
-<span id="cb73-10"><a href="#cb73-10"></a>att_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb73-10"><a href="#cb73-10"></a>att_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 80 × 7
    Election Pref     Eff  S.E. CI.lower CI.upper p.value
@@ -2044,8 +2054,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
  8       14 鳥取   0.816  2.08    -3.27     4.90   0.695
  9       15 鳥取   0.247  1.90    -3.48     3.98   0.897
 10       16 鳥取  -3.24   2.23    -7.61     1.13   0.147
-# … with 70 more rows
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+# ℹ 70 more rows</code></pre>
 </div>
 </div>
 <p>　それでは折れ線グラフを作ってみよう。ただし、今回は点推定値（折れ線グラフ）だけでなく、信頼区間も示す必要があるので<code>geom_ribbon()</code>レイヤーを追加する。</p>
@@ -2064,7 +2073,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb75-12"><a href="#cb75-12"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Election"</span>, <span class="at">y =</span> <span class="st">"Gap (%p)"</span>) <span class="sc">+</span></span>
 <span id="cb75-13"><a href="#cb75-13"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Pref, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb75-14"><a href="#cb75-14"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb75-15"><a href="#cb75-15"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb75-15"><a href="#cb75-15"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2076,19 +2085,30 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <p>　個別に見ると、合区直後、合区によって投票率を下がったのは鳥取、徳島、高知である。しかし、合区から3回目の選挙となる2022年（第26回）では鳥取のみとなる。</p>
 <p>　SCMは統制群から合成された架空の鳥取、島根、徳島、高知を作成し、こちらを実際の統制群として用いる手法である。その際に43都道府県を重み付け合成されるが、それぞれの重みはいくつだろうか。<code>gsynth()</code>から得られたオブジェクトから<code>wgt.implied</code>を抽出すればその重みが分かる。通常のSCMの場合、重みは正の値であるが、一般化SCMの場合は負も正もあり得る。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>scm_fit<span class="sc">$</span>wgt.implied</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>scm_fit<span class="sc">$</span>wgt.implied</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
+<div id="bsnmkcqnry" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bsnmkcqnry table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-<div id="bsnmkcqnry" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+#bsnmkcqnry thead, #bsnmkcqnry tbody, #bsnmkcqnry tfoot, #bsnmkcqnry tr, #bsnmkcqnry td, #bsnmkcqnry th {
+  border-style: none;
+}
+
+#bsnmkcqnry p {
+  margin: 0;
+  padding: 0;
 }
 
 #bsnmkcqnry .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -2111,16 +2131,9 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#bsnmkcqnry .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
+#bsnmkcqnry .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 #bsnmkcqnry .gt_title {
@@ -2139,12 +2152,24 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
+}
+
+#bsnmkcqnry .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
 }
 
 #bsnmkcqnry .gt_bottom_border {
@@ -2220,6 +2245,10 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   width: 100%;
 }
 
+#bsnmkcqnry .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
 #bsnmkcqnry .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -2243,6 +2272,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: middle;
+  text-align: left;
 }
 
 #bsnmkcqnry .gt_empty_group_heading {
@@ -2318,6 +2348,10 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   border-top-width: 2px;
 }
 
+#bsnmkcqnry .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
 #bsnmkcqnry .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
@@ -2367,6 +2401,16 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   border-top-color: #D3D3D3;
 }
 
+#bsnmkcqnry .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
 #bsnmkcqnry .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
@@ -2397,8 +2441,8 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 #bsnmkcqnry .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -2454,20 +2498,10 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   font-size: 65%;
 }
 
-#bsnmkcqnry .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
 #bsnmkcqnry .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
 #bsnmkcqnry .gt_asterisk {
@@ -2475,251 +2509,253 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
   vertical-align: 0;
 }
 
-#bsnmkcqnry .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#bsnmkcqnry .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#bsnmkcqnry .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#bsnmkcqnry .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#bsnmkcqnry .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#bsnmkcqnry .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#bsnmkcqnry .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#bsnmkcqnry .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Kochi</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Shimane</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Tokushima</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Tottori</th>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Kochi">Kochi</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Shimane">Shimane</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Tokushima">Tokushima</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Tottori">Tottori</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right gt_stub">Aichi</td>
-<td class="gt_row gt_right">0.022</td>
-<td class="gt_row gt_right">−2.169</td>
-<td class="gt_row gt_right">−2.755</td>
-<td class="gt_row gt_right">0.448</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Akita</td>
-<td class="gt_row gt_right">−0.151</td>
-<td class="gt_row gt_right">−0.161</td>
-<td class="gt_row gt_right">−0.798</td>
-<td class="gt_row gt_right">0.170</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Aomori</td>
-<td class="gt_row gt_right">−0.069</td>
-<td class="gt_row gt_right">−1.188</td>
-<td class="gt_row gt_right">−1.613</td>
-<td class="gt_row gt_right">0.225</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Chiba</td>
-<td class="gt_row gt_right">0.309</td>
-<td class="gt_row gt_right">−2.096</td>
-<td class="gt_row gt_right">−1.885</td>
-<td class="gt_row gt_right">0.327</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Ehime</td>
-<td class="gt_row gt_right">0.238</td>
-<td class="gt_row gt_right">0.471</td>
-<td class="gt_row gt_right">0.851</td>
-<td class="gt_row gt_right">−0.009</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Fukui</td>
-<td class="gt_row gt_right">−0.630</td>
-<td class="gt_row gt_right">4.081</td>
-<td class="gt_row gt_right">4.711</td>
-<td class="gt_row gt_right">−1.122</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Fukuoka</td>
-<td class="gt_row gt_right">−0.541</td>
-<td class="gt_row gt_right">0.634</td>
-<td class="gt_row gt_right">0.342</td>
-<td class="gt_row gt_right">−0.368</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Fukushima</td>
-<td class="gt_row gt_right">0.947</td>
-<td class="gt_row gt_right">−0.235</td>
-<td class="gt_row gt_right">0.669</td>
-<td class="gt_row gt_right">0.402</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Gifu</td>
-<td class="gt_row gt_right">0.354</td>
-<td class="gt_row gt_right">0.149</td>
-<td class="gt_row gt_right">0.566</td>
-<td class="gt_row gt_right">0.097</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Gunma</td>
-<td class="gt_row gt_right">0.318</td>
-<td class="gt_row gt_right">2.085</td>
-<td class="gt_row gt_right">2.968</td>
-<td class="gt_row gt_right">−0.291</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Hiroshima</td>
-<td class="gt_row gt_right">−0.254</td>
-<td class="gt_row gt_right">1.622</td>
-<td class="gt_row gt_right">2.146</td>
-<td class="gt_row gt_right">−0.570</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Hokkaido</td>
-<td class="gt_row gt_right">−0.553</td>
-<td class="gt_row gt_right">−3.254</td>
-<td class="gt_row gt_right">−5.161</td>
-<td class="gt_row gt_right">0.643</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Hyogo</td>
-<td class="gt_row gt_right">0.117</td>
-<td class="gt_row gt_right">−3.045</td>
-<td class="gt_row gt_right">−3.918</td>
-<td class="gt_row gt_right">0.723</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Ibaraki</td>
-<td class="gt_row gt_right">0.378</td>
-<td class="gt_row gt_right">−0.483</td>
-<td class="gt_row gt_right">0.902</td>
-<td class="gt_row gt_right">−0.263</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Ishikawa</td>
-<td class="gt_row gt_right">−0.480</td>
-<td class="gt_row gt_right">1.476</td>
-<td class="gt_row gt_right">1.294</td>
-<td class="gt_row gt_right">−0.432</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Iwate</td>
-<td class="gt_row gt_right">0.006</td>
-<td class="gt_row gt_right">−2.615</td>
-<td class="gt_row gt_right">−4.020</td>
-<td class="gt_row gt_right">0.833</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Kagawa</td>
-<td class="gt_row gt_right">−0.391</td>
-<td class="gt_row gt_right">3.227</td>
-<td class="gt_row gt_right">3.960</td>
-<td class="gt_row gt_right">−0.902</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Kagoshima</td>
-<td class="gt_row gt_right">0.098</td>
-<td class="gt_row gt_right">0.202</td>
-<td class="gt_row gt_right">−0.102</td>
-<td class="gt_row gt_right">0.200</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Kanagawa</td>
-<td class="gt_row gt_right">0.506</td>
-<td class="gt_row gt_right">−3.426</td>
-<td class="gt_row gt_right">−3.741</td>
-<td class="gt_row gt_right">0.828</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Kumamoto</td>
-<td class="gt_row gt_right">−0.791</td>
-<td class="gt_row gt_right">1.767</td>
-<td class="gt_row gt_right">1.083</td>
-<td class="gt_row gt_right">−0.490</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Kyoto</td>
-<td class="gt_row gt_right">0.397</td>
-<td class="gt_row gt_right">−4.141</td>
-<td class="gt_row gt_right">−5.373</td>
-<td class="gt_row gt_right">1.200</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Mie</td>
-<td class="gt_row gt_right">0.016</td>
-<td class="gt_row gt_right">−1.162</td>
-<td class="gt_row gt_right">−1.447</td>
-<td class="gt_row gt_right">0.231</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Miyagi</td>
-<td class="gt_row gt_right">0.712</td>
-<td class="gt_row gt_right">−0.122</td>
-<td class="gt_row gt_right">1.072</td>
-<td class="gt_row gt_right">0.070</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Miyazaki</td>
-<td class="gt_row gt_right">−1.071</td>
-<td class="gt_row gt_right">5.630</td>
-<td class="gt_row gt_right">6.465</td>
-<td class="gt_row gt_right">−1.699</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Nagano</td>
-<td class="gt_row gt_right">0.498</td>
-<td class="gt_row gt_right">−1.419</td>
-<td class="gt_row gt_right">−1.244</td>
-<td class="gt_row gt_right">0.446</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Nagasaki</td>
-<td class="gt_row gt_right">−0.921</td>
-<td class="gt_row gt_right">1.910</td>
-<td class="gt_row gt_right">1.572</td>
-<td class="gt_row gt_right">−0.763</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Nara</td>
-<td class="gt_row gt_right">0.378</td>
-<td class="gt_row gt_right">−2.473</td>
-<td class="gt_row gt_right">−2.658</td>
-<td class="gt_row gt_right">0.589</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Nigata</td>
-<td class="gt_row gt_right">0.856</td>
-<td class="gt_row gt_right">−2.080</td>
-<td class="gt_row gt_right">−1.318</td>
-<td class="gt_row gt_right">0.535</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Oita</td>
-<td class="gt_row gt_right">−0.593</td>
-<td class="gt_row gt_right">2.253</td>
-<td class="gt_row gt_right">1.749</td>
-<td class="gt_row gt_right">−0.444</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Okayama</td>
-<td class="gt_row gt_right">−0.264</td>
-<td class="gt_row gt_right">0.966</td>
-<td class="gt_row gt_right">1.560</td>
-<td class="gt_row gt_right">−0.557</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Okinawa</td>
-<td class="gt_row gt_right">0.958</td>
-<td class="gt_row gt_right">0.416</td>
-<td class="gt_row gt_right">0.697</td>
-<td class="gt_row gt_right">0.637</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Osaka</td>
-<td class="gt_row gt_right">0.387</td>
-<td class="gt_row gt_right">−3.404</td>
-<td class="gt_row gt_right">−4.601</td>
-<td class="gt_row gt_right">1.118</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Saga</td>
-<td class="gt_row gt_right">−0.913</td>
-<td class="gt_row gt_right">4.668</td>
-<td class="gt_row gt_right">5.637</td>
-<td class="gt_row gt_right">−1.552</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Saitama</td>
-<td class="gt_row gt_right">0.217</td>
-<td class="gt_row gt_right">−0.975</td>
-<td class="gt_row gt_right">−0.328</td>
-<td class="gt_row gt_right">−0.031</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Shiga</td>
-<td class="gt_row gt_right">−0.012</td>
-<td class="gt_row gt_right">−0.073</td>
-<td class="gt_row gt_right">−0.613</td>
-<td class="gt_row gt_right">0.235</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Shizuoka</td>
-<td class="gt_row gt_right">0.599</td>
-<td class="gt_row gt_right">0.961</td>
-<td class="gt_row gt_right">2.654</td>
-<td class="gt_row gt_right">−0.330</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Tochigi</td>
-<td class="gt_row gt_right">0.409</td>
-<td class="gt_row gt_right">0.338</td>
-<td class="gt_row gt_right">1.366</td>
-<td class="gt_row gt_right">−0.143</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Tokyo</td>
-<td class="gt_row gt_right">0.619</td>
-<td class="gt_row gt_right">−4.424</td>
-<td class="gt_row gt_right">−5.420</td>
-<td class="gt_row gt_right">1.301</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Toyama</td>
-<td class="gt_row gt_right">−0.819</td>
-<td class="gt_row gt_right">4.384</td>
-<td class="gt_row gt_right">5.389</td>
-<td class="gt_row gt_right">−1.467</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Wakayama</td>
-<td class="gt_row gt_right">−0.050</td>
-<td class="gt_row gt_right">−1.103</td>
-<td class="gt_row gt_right">−1.730</td>
-<td class="gt_row gt_right">0.323</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Yamagata</td>
-<td class="gt_row gt_right">0.652</td>
-<td class="gt_row gt_right">−1.077</td>
-<td class="gt_row gt_right">−0.815</td>
-<td class="gt_row gt_right">0.508</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Yamaguchi</td>
-<td class="gt_row gt_right">−1.048</td>
-<td class="gt_row gt_right">1.821</td>
-<td class="gt_row gt_right">0.402</td>
-<td class="gt_row gt_right">−0.382</td></tr>
-    <tr><td class="gt_row gt_right gt_stub">Yamanashi</td>
-<td class="gt_row gt_right">−0.444</td>
-<td class="gt_row gt_right">2.064</td>
-<td class="gt_row gt_right">1.486</td>
-<td class="gt_row gt_right">−0.274</td></tr>
+    <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">Aichi</th>
+<td headers="stub_1_1 Kochi" class="gt_row gt_right">0.022</td>
+<td headers="stub_1_1 Shimane" class="gt_row gt_right">−2.169</td>
+<td headers="stub_1_1 Tokushima" class="gt_row gt_right">−2.755</td>
+<td headers="stub_1_1 Tottori" class="gt_row gt_right">0.448</td></tr>
+    <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">Akita</th>
+<td headers="stub_1_2 Kochi" class="gt_row gt_right">−0.151</td>
+<td headers="stub_1_2 Shimane" class="gt_row gt_right">−0.161</td>
+<td headers="stub_1_2 Tokushima" class="gt_row gt_right">−0.798</td>
+<td headers="stub_1_2 Tottori" class="gt_row gt_right">0.170</td></tr>
+    <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">Aomori</th>
+<td headers="stub_1_3 Kochi" class="gt_row gt_right">−0.069</td>
+<td headers="stub_1_3 Shimane" class="gt_row gt_right">−1.188</td>
+<td headers="stub_1_3 Tokushima" class="gt_row gt_right">−1.613</td>
+<td headers="stub_1_3 Tottori" class="gt_row gt_right">0.225</td></tr>
+    <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">Chiba</th>
+<td headers="stub_1_4 Kochi" class="gt_row gt_right">0.309</td>
+<td headers="stub_1_4 Shimane" class="gt_row gt_right">−2.096</td>
+<td headers="stub_1_4 Tokushima" class="gt_row gt_right">−1.885</td>
+<td headers="stub_1_4 Tottori" class="gt_row gt_right">0.327</td></tr>
+    <tr><th id="stub_1_5" scope="row" class="gt_row gt_left gt_stub">Ehime</th>
+<td headers="stub_1_5 Kochi" class="gt_row gt_right">0.238</td>
+<td headers="stub_1_5 Shimane" class="gt_row gt_right">0.471</td>
+<td headers="stub_1_5 Tokushima" class="gt_row gt_right">0.851</td>
+<td headers="stub_1_5 Tottori" class="gt_row gt_right">−0.009</td></tr>
+    <tr><th id="stub_1_6" scope="row" class="gt_row gt_left gt_stub">Fukui</th>
+<td headers="stub_1_6 Kochi" class="gt_row gt_right">−0.630</td>
+<td headers="stub_1_6 Shimane" class="gt_row gt_right">4.081</td>
+<td headers="stub_1_6 Tokushima" class="gt_row gt_right">4.711</td>
+<td headers="stub_1_6 Tottori" class="gt_row gt_right">−1.122</td></tr>
+    <tr><th id="stub_1_7" scope="row" class="gt_row gt_left gt_stub">Fukuoka</th>
+<td headers="stub_1_7 Kochi" class="gt_row gt_right">−0.541</td>
+<td headers="stub_1_7 Shimane" class="gt_row gt_right">0.634</td>
+<td headers="stub_1_7 Tokushima" class="gt_row gt_right">0.342</td>
+<td headers="stub_1_7 Tottori" class="gt_row gt_right">−0.368</td></tr>
+    <tr><th id="stub_1_8" scope="row" class="gt_row gt_left gt_stub">Fukushima</th>
+<td headers="stub_1_8 Kochi" class="gt_row gt_right">0.947</td>
+<td headers="stub_1_8 Shimane" class="gt_row gt_right">−0.235</td>
+<td headers="stub_1_8 Tokushima" class="gt_row gt_right">0.669</td>
+<td headers="stub_1_8 Tottori" class="gt_row gt_right">0.402</td></tr>
+    <tr><th id="stub_1_9" scope="row" class="gt_row gt_left gt_stub">Gifu</th>
+<td headers="stub_1_9 Kochi" class="gt_row gt_right">0.354</td>
+<td headers="stub_1_9 Shimane" class="gt_row gt_right">0.149</td>
+<td headers="stub_1_9 Tokushima" class="gt_row gt_right">0.566</td>
+<td headers="stub_1_9 Tottori" class="gt_row gt_right">0.097</td></tr>
+    <tr><th id="stub_1_10" scope="row" class="gt_row gt_left gt_stub">Gunma</th>
+<td headers="stub_1_10 Kochi" class="gt_row gt_right">0.318</td>
+<td headers="stub_1_10 Shimane" class="gt_row gt_right">2.085</td>
+<td headers="stub_1_10 Tokushima" class="gt_row gt_right">2.968</td>
+<td headers="stub_1_10 Tottori" class="gt_row gt_right">−0.291</td></tr>
+    <tr><th id="stub_1_11" scope="row" class="gt_row gt_left gt_stub">Hiroshima</th>
+<td headers="stub_1_11 Kochi" class="gt_row gt_right">−0.254</td>
+<td headers="stub_1_11 Shimane" class="gt_row gt_right">1.622</td>
+<td headers="stub_1_11 Tokushima" class="gt_row gt_right">2.146</td>
+<td headers="stub_1_11 Tottori" class="gt_row gt_right">−0.570</td></tr>
+    <tr><th id="stub_1_12" scope="row" class="gt_row gt_left gt_stub">Hokkaido</th>
+<td headers="stub_1_12 Kochi" class="gt_row gt_right">−0.553</td>
+<td headers="stub_1_12 Shimane" class="gt_row gt_right">−3.254</td>
+<td headers="stub_1_12 Tokushima" class="gt_row gt_right">−5.161</td>
+<td headers="stub_1_12 Tottori" class="gt_row gt_right">0.643</td></tr>
+    <tr><th id="stub_1_13" scope="row" class="gt_row gt_left gt_stub">Hyogo</th>
+<td headers="stub_1_13 Kochi" class="gt_row gt_right">0.117</td>
+<td headers="stub_1_13 Shimane" class="gt_row gt_right">−3.045</td>
+<td headers="stub_1_13 Tokushima" class="gt_row gt_right">−3.918</td>
+<td headers="stub_1_13 Tottori" class="gt_row gt_right">0.723</td></tr>
+    <tr><th id="stub_1_14" scope="row" class="gt_row gt_left gt_stub">Ibaraki</th>
+<td headers="stub_1_14 Kochi" class="gt_row gt_right">0.378</td>
+<td headers="stub_1_14 Shimane" class="gt_row gt_right">−0.483</td>
+<td headers="stub_1_14 Tokushima" class="gt_row gt_right">0.902</td>
+<td headers="stub_1_14 Tottori" class="gt_row gt_right">−0.263</td></tr>
+    <tr><th id="stub_1_15" scope="row" class="gt_row gt_left gt_stub">Ishikawa</th>
+<td headers="stub_1_15 Kochi" class="gt_row gt_right">−0.480</td>
+<td headers="stub_1_15 Shimane" class="gt_row gt_right">1.476</td>
+<td headers="stub_1_15 Tokushima" class="gt_row gt_right">1.294</td>
+<td headers="stub_1_15 Tottori" class="gt_row gt_right">−0.432</td></tr>
+    <tr><th id="stub_1_16" scope="row" class="gt_row gt_left gt_stub">Iwate</th>
+<td headers="stub_1_16 Kochi" class="gt_row gt_right">0.006</td>
+<td headers="stub_1_16 Shimane" class="gt_row gt_right">−2.615</td>
+<td headers="stub_1_16 Tokushima" class="gt_row gt_right">−4.020</td>
+<td headers="stub_1_16 Tottori" class="gt_row gt_right">0.833</td></tr>
+    <tr><th id="stub_1_17" scope="row" class="gt_row gt_left gt_stub">Kagawa</th>
+<td headers="stub_1_17 Kochi" class="gt_row gt_right">−0.391</td>
+<td headers="stub_1_17 Shimane" class="gt_row gt_right">3.227</td>
+<td headers="stub_1_17 Tokushima" class="gt_row gt_right">3.960</td>
+<td headers="stub_1_17 Tottori" class="gt_row gt_right">−0.902</td></tr>
+    <tr><th id="stub_1_18" scope="row" class="gt_row gt_left gt_stub">Kagoshima</th>
+<td headers="stub_1_18 Kochi" class="gt_row gt_right">0.098</td>
+<td headers="stub_1_18 Shimane" class="gt_row gt_right">0.202</td>
+<td headers="stub_1_18 Tokushima" class="gt_row gt_right">−0.102</td>
+<td headers="stub_1_18 Tottori" class="gt_row gt_right">0.200</td></tr>
+    <tr><th id="stub_1_19" scope="row" class="gt_row gt_left gt_stub">Kanagawa</th>
+<td headers="stub_1_19 Kochi" class="gt_row gt_right">0.506</td>
+<td headers="stub_1_19 Shimane" class="gt_row gt_right">−3.426</td>
+<td headers="stub_1_19 Tokushima" class="gt_row gt_right">−3.741</td>
+<td headers="stub_1_19 Tottori" class="gt_row gt_right">0.828</td></tr>
+    <tr><th id="stub_1_20" scope="row" class="gt_row gt_left gt_stub">Kumamoto</th>
+<td headers="stub_1_20 Kochi" class="gt_row gt_right">−0.791</td>
+<td headers="stub_1_20 Shimane" class="gt_row gt_right">1.767</td>
+<td headers="stub_1_20 Tokushima" class="gt_row gt_right">1.083</td>
+<td headers="stub_1_20 Tottori" class="gt_row gt_right">−0.490</td></tr>
+    <tr><th id="stub_1_21" scope="row" class="gt_row gt_left gt_stub">Kyoto</th>
+<td headers="stub_1_21 Kochi" class="gt_row gt_right">0.397</td>
+<td headers="stub_1_21 Shimane" class="gt_row gt_right">−4.141</td>
+<td headers="stub_1_21 Tokushima" class="gt_row gt_right">−5.373</td>
+<td headers="stub_1_21 Tottori" class="gt_row gt_right">1.200</td></tr>
+    <tr><th id="stub_1_22" scope="row" class="gt_row gt_left gt_stub">Mie</th>
+<td headers="stub_1_22 Kochi" class="gt_row gt_right">0.016</td>
+<td headers="stub_1_22 Shimane" class="gt_row gt_right">−1.162</td>
+<td headers="stub_1_22 Tokushima" class="gt_row gt_right">−1.447</td>
+<td headers="stub_1_22 Tottori" class="gt_row gt_right">0.231</td></tr>
+    <tr><th id="stub_1_23" scope="row" class="gt_row gt_left gt_stub">Miyagi</th>
+<td headers="stub_1_23 Kochi" class="gt_row gt_right">0.712</td>
+<td headers="stub_1_23 Shimane" class="gt_row gt_right">−0.122</td>
+<td headers="stub_1_23 Tokushima" class="gt_row gt_right">1.072</td>
+<td headers="stub_1_23 Tottori" class="gt_row gt_right">0.070</td></tr>
+    <tr><th id="stub_1_24" scope="row" class="gt_row gt_left gt_stub">Miyazaki</th>
+<td headers="stub_1_24 Kochi" class="gt_row gt_right">−1.071</td>
+<td headers="stub_1_24 Shimane" class="gt_row gt_right">5.630</td>
+<td headers="stub_1_24 Tokushima" class="gt_row gt_right">6.465</td>
+<td headers="stub_1_24 Tottori" class="gt_row gt_right">−1.699</td></tr>
+    <tr><th id="stub_1_25" scope="row" class="gt_row gt_left gt_stub">Nagano</th>
+<td headers="stub_1_25 Kochi" class="gt_row gt_right">0.498</td>
+<td headers="stub_1_25 Shimane" class="gt_row gt_right">−1.419</td>
+<td headers="stub_1_25 Tokushima" class="gt_row gt_right">−1.244</td>
+<td headers="stub_1_25 Tottori" class="gt_row gt_right">0.446</td></tr>
+    <tr><th id="stub_1_26" scope="row" class="gt_row gt_left gt_stub">Nagasaki</th>
+<td headers="stub_1_26 Kochi" class="gt_row gt_right">−0.921</td>
+<td headers="stub_1_26 Shimane" class="gt_row gt_right">1.910</td>
+<td headers="stub_1_26 Tokushima" class="gt_row gt_right">1.572</td>
+<td headers="stub_1_26 Tottori" class="gt_row gt_right">−0.763</td></tr>
+    <tr><th id="stub_1_27" scope="row" class="gt_row gt_left gt_stub">Nara</th>
+<td headers="stub_1_27 Kochi" class="gt_row gt_right">0.378</td>
+<td headers="stub_1_27 Shimane" class="gt_row gt_right">−2.473</td>
+<td headers="stub_1_27 Tokushima" class="gt_row gt_right">−2.658</td>
+<td headers="stub_1_27 Tottori" class="gt_row gt_right">0.589</td></tr>
+    <tr><th id="stub_1_28" scope="row" class="gt_row gt_left gt_stub">Nigata</th>
+<td headers="stub_1_28 Kochi" class="gt_row gt_right">0.856</td>
+<td headers="stub_1_28 Shimane" class="gt_row gt_right">−2.080</td>
+<td headers="stub_1_28 Tokushima" class="gt_row gt_right">−1.318</td>
+<td headers="stub_1_28 Tottori" class="gt_row gt_right">0.535</td></tr>
+    <tr><th id="stub_1_29" scope="row" class="gt_row gt_left gt_stub">Oita</th>
+<td headers="stub_1_29 Kochi" class="gt_row gt_right">−0.593</td>
+<td headers="stub_1_29 Shimane" class="gt_row gt_right">2.253</td>
+<td headers="stub_1_29 Tokushima" class="gt_row gt_right">1.749</td>
+<td headers="stub_1_29 Tottori" class="gt_row gt_right">−0.444</td></tr>
+    <tr><th id="stub_1_30" scope="row" class="gt_row gt_left gt_stub">Okayama</th>
+<td headers="stub_1_30 Kochi" class="gt_row gt_right">−0.264</td>
+<td headers="stub_1_30 Shimane" class="gt_row gt_right">0.966</td>
+<td headers="stub_1_30 Tokushima" class="gt_row gt_right">1.560</td>
+<td headers="stub_1_30 Tottori" class="gt_row gt_right">−0.557</td></tr>
+    <tr><th id="stub_1_31" scope="row" class="gt_row gt_left gt_stub">Okinawa</th>
+<td headers="stub_1_31 Kochi" class="gt_row gt_right">0.958</td>
+<td headers="stub_1_31 Shimane" class="gt_row gt_right">0.416</td>
+<td headers="stub_1_31 Tokushima" class="gt_row gt_right">0.697</td>
+<td headers="stub_1_31 Tottori" class="gt_row gt_right">0.637</td></tr>
+    <tr><th id="stub_1_32" scope="row" class="gt_row gt_left gt_stub">Osaka</th>
+<td headers="stub_1_32 Kochi" class="gt_row gt_right">0.387</td>
+<td headers="stub_1_32 Shimane" class="gt_row gt_right">−3.404</td>
+<td headers="stub_1_32 Tokushima" class="gt_row gt_right">−4.601</td>
+<td headers="stub_1_32 Tottori" class="gt_row gt_right">1.118</td></tr>
+    <tr><th id="stub_1_33" scope="row" class="gt_row gt_left gt_stub">Saga</th>
+<td headers="stub_1_33 Kochi" class="gt_row gt_right">−0.913</td>
+<td headers="stub_1_33 Shimane" class="gt_row gt_right">4.668</td>
+<td headers="stub_1_33 Tokushima" class="gt_row gt_right">5.637</td>
+<td headers="stub_1_33 Tottori" class="gt_row gt_right">−1.552</td></tr>
+    <tr><th id="stub_1_34" scope="row" class="gt_row gt_left gt_stub">Saitama</th>
+<td headers="stub_1_34 Kochi" class="gt_row gt_right">0.217</td>
+<td headers="stub_1_34 Shimane" class="gt_row gt_right">−0.975</td>
+<td headers="stub_1_34 Tokushima" class="gt_row gt_right">−0.328</td>
+<td headers="stub_1_34 Tottori" class="gt_row gt_right">−0.031</td></tr>
+    <tr><th id="stub_1_35" scope="row" class="gt_row gt_left gt_stub">Shiga</th>
+<td headers="stub_1_35 Kochi" class="gt_row gt_right">−0.012</td>
+<td headers="stub_1_35 Shimane" class="gt_row gt_right">−0.073</td>
+<td headers="stub_1_35 Tokushima" class="gt_row gt_right">−0.613</td>
+<td headers="stub_1_35 Tottori" class="gt_row gt_right">0.235</td></tr>
+    <tr><th id="stub_1_36" scope="row" class="gt_row gt_left gt_stub">Shizuoka</th>
+<td headers="stub_1_36 Kochi" class="gt_row gt_right">0.599</td>
+<td headers="stub_1_36 Shimane" class="gt_row gt_right">0.961</td>
+<td headers="stub_1_36 Tokushima" class="gt_row gt_right">2.654</td>
+<td headers="stub_1_36 Tottori" class="gt_row gt_right">−0.330</td></tr>
+    <tr><th id="stub_1_37" scope="row" class="gt_row gt_left gt_stub">Tochigi</th>
+<td headers="stub_1_37 Kochi" class="gt_row gt_right">0.409</td>
+<td headers="stub_1_37 Shimane" class="gt_row gt_right">0.338</td>
+<td headers="stub_1_37 Tokushima" class="gt_row gt_right">1.366</td>
+<td headers="stub_1_37 Tottori" class="gt_row gt_right">−0.143</td></tr>
+    <tr><th id="stub_1_38" scope="row" class="gt_row gt_left gt_stub">Tokyo</th>
+<td headers="stub_1_38 Kochi" class="gt_row gt_right">0.619</td>
+<td headers="stub_1_38 Shimane" class="gt_row gt_right">−4.424</td>
+<td headers="stub_1_38 Tokushima" class="gt_row gt_right">−5.420</td>
+<td headers="stub_1_38 Tottori" class="gt_row gt_right">1.301</td></tr>
+    <tr><th id="stub_1_39" scope="row" class="gt_row gt_left gt_stub">Toyama</th>
+<td headers="stub_1_39 Kochi" class="gt_row gt_right">−0.819</td>
+<td headers="stub_1_39 Shimane" class="gt_row gt_right">4.384</td>
+<td headers="stub_1_39 Tokushima" class="gt_row gt_right">5.389</td>
+<td headers="stub_1_39 Tottori" class="gt_row gt_right">−1.467</td></tr>
+    <tr><th id="stub_1_40" scope="row" class="gt_row gt_left gt_stub">Wakayama</th>
+<td headers="stub_1_40 Kochi" class="gt_row gt_right">−0.050</td>
+<td headers="stub_1_40 Shimane" class="gt_row gt_right">−1.103</td>
+<td headers="stub_1_40 Tokushima" class="gt_row gt_right">−1.730</td>
+<td headers="stub_1_40 Tottori" class="gt_row gt_right">0.323</td></tr>
+    <tr><th id="stub_1_41" scope="row" class="gt_row gt_left gt_stub">Yamagata</th>
+<td headers="stub_1_41 Kochi" class="gt_row gt_right">0.652</td>
+<td headers="stub_1_41 Shimane" class="gt_row gt_right">−1.077</td>
+<td headers="stub_1_41 Tokushima" class="gt_row gt_right">−0.815</td>
+<td headers="stub_1_41 Tottori" class="gt_row gt_right">0.508</td></tr>
+    <tr><th id="stub_1_42" scope="row" class="gt_row gt_left gt_stub">Yamaguchi</th>
+<td headers="stub_1_42 Kochi" class="gt_row gt_right">−1.048</td>
+<td headers="stub_1_42 Shimane" class="gt_row gt_right">1.821</td>
+<td headers="stub_1_42 Tokushima" class="gt_row gt_right">0.402</td>
+<td headers="stub_1_42 Tottori" class="gt_row gt_right">−0.382</td></tr>
+    <tr><th id="stub_1_43" scope="row" class="gt_row gt_left gt_stub">Yamanashi</th>
+<td headers="stub_1_43 Kochi" class="gt_row gt_right">−0.444</td>
+<td headers="stub_1_43 Shimane" class="gt_row gt_right">2.064</td>
+<td headers="stub_1_43 Tokushima" class="gt_row gt_right">1.486</td>
+<td headers="stub_1_43 Tottori" class="gt_row gt_right">−0.274</td></tr>
   </tbody>
   
   
@@ -2743,7 +2779,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb77-3"><a href="#cb77-3"></a>  <span class="fu">filter</span>(Election <span class="sc">&gt;=</span> <span class="dv">9</span>) <span class="sc">|&gt;</span></span>
 <span id="cb77-4"><a href="#cb77-4"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Election, PrefName_E, Turnout)</span>
 <span id="cb77-5"><a href="#cb77-5"></a></span>
-<span id="cb77-6"><a href="#cb77-6"></a>ci_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb77-6"><a href="#cb77-6"></a>ci_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 846 × 3
    Election PrefName_E Turnout
@@ -2758,8 +2794,7 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
  8        9 Ibaraki       56.5
  9        9 Tochigi       62.0
 10        9 Gunma         69.7
-# … with 836 more rows
-# ℹ Use `print(n = ...)` to see more rows</code></pre>
+# ℹ 836 more rows</code></pre>
 </div>
 </div>
 <p>　続いて、{tidyr}の<code>pivot_wider()</code>関数を使って<code>ci_df</code>をwide型データへ変換する。<code>pivot_*()</code>関数の使い方については『私たちのR』<a href="https://www.jaysong.net/RBook/tidydata.html">第15章「整然データ構造」</a>を参照されたい。</p>
@@ -2768,37 +2803,36 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb79-2"><a href="#cb79-2"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from  =</span> PrefName_E,</span>
 <span id="cb79-3"><a href="#cb79-3"></a>              <span class="at">values_from =</span> Turnout)</span>
 <span id="cb79-4"><a href="#cb79-4"></a></span>
-<span id="cb79-5"><a href="#cb79-5"></a>ci_df</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb79-5"><a href="#cb79-5"></a>ci_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18 × 48
-   Election Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukush…¹ Ibaraki Tochigi
-      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1        9     59.7   53.0  61.4   60.9  67.7     70.0     74.0    56.5    62.0
- 2       10     75.9   64.4  74.2   72.8  78.0     83.5     84.0    72.2    76.0
- 3       11     73.7   66.1  71.9   71.4  77.4     79.9     75.2    62.5    70.2
- 4       12     76.3   73.9  75.4   75.2  80.5     82.7     80.8    73.0    73.9
- 5       13     57.1   54.0  57.8   53.9  63.7     65.2     68.7    50.7    55.3
- 6       14     74.0   74.3  76.4   71.7  81.2     82.5     78.4    71.7    70.7
- 7       15     70.9   61.4  70.9   61.2  74.5     75.2     71.7    61.5    62.1
- 8       16     59.0   43.9  59.3   48.5  61.6     61.5     59.1    36.6    53.8
- 9       17     46.9   46.1  56.4   41.1  57.0     59.1     51.7    36.9    35.9
-10       18     59.9   63.1  65.1   54.3  64.1     64.4     65.2    51.0    56.8
-11       19     58.5   51.0  66.0   55.6  60.7     63.1     60.9    50.2    53.8
-12       20     61.7   53.9  63.3   53.9  65.3     61.7     60.3    50.1    51.0
-13       21     62.4   53.9  63.4   55.8  67.7     67.3     61.6    54.0    56.7
-14       22     61.9   54.6  60.4   53.3  65.1     64.0     61.6    55.1    56.6
-15       23     54.4   46.2  57.5   50.7  56.2     60.8     54.5    49.7    49.7
-16       24     56.8   55.3  57.8   52.4  60.9     62.2     57.1    50.8    51.4
-17       25     53.8   42.9  56.5   51.2  56.3     60.7     52.4    45.0    44.1
-18       26     54.0   49.5  55.4   48.8  55.6     61.9     53.4    47.2    47.0
-# … with 38 more variables: Gunma &lt;dbl&gt;, Saitama &lt;dbl&gt;, Chiba &lt;dbl&gt;,
+   Election Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukushima Ibaraki
+      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1        9     59.7   53.0  61.4   60.9  67.7     70.0      74.0    56.5
+ 2       10     75.9   64.4  74.2   72.8  78.0     83.5      84.0    72.2
+ 3       11     73.7   66.1  71.9   71.4  77.4     79.9      75.2    62.5
+ 4       12     76.3   73.9  75.4   75.2  80.5     82.7      80.8    73.0
+ 5       13     57.1   54.0  57.8   53.9  63.7     65.2      68.7    50.7
+ 6       14     74.0   74.3  76.4   71.7  81.2     82.5      78.4    71.7
+ 7       15     70.9   61.4  70.9   61.2  74.5     75.2      71.7    61.5
+ 8       16     59.0   43.9  59.3   48.5  61.6     61.5      59.1    36.6
+ 9       17     46.9   46.1  56.4   41.1  57.0     59.1      51.7    36.9
+10       18     59.9   63.1  65.1   54.3  64.1     64.4      65.2    51.0
+11       19     58.5   51.0  66.0   55.6  60.7     63.1      60.9    50.2
+12       20     61.7   53.9  63.3   53.9  65.3     61.7      60.3    50.1
+13       21     62.4   53.9  63.4   55.8  67.7     67.3      61.6    54.0
+14       22     61.9   54.6  60.4   53.3  65.1     64.0      61.6    55.1
+15       23     54.4   46.2  57.5   50.7  56.2     60.8      54.5    49.7
+16       24     56.8   55.3  57.8   52.4  60.9     62.2      57.1    50.8
+17       25     53.8   42.9  56.5   51.2  56.3     60.7      52.4    45.0
+18       26     54.0   49.5  55.4   48.8  55.6     61.9      53.4    47.2
+# ℹ 39 more variables: Tochigi &lt;dbl&gt;, Gunma &lt;dbl&gt;, Saitama &lt;dbl&gt;, Chiba &lt;dbl&gt;,
 #   Tokyo &lt;dbl&gt;, Kanagawa &lt;dbl&gt;, Nigata &lt;dbl&gt;, Toyama &lt;dbl&gt;, Ishikawa &lt;dbl&gt;,
 #   Fukui &lt;dbl&gt;, Yamanashi &lt;dbl&gt;, Nagano &lt;dbl&gt;, Gifu &lt;dbl&gt;, Shizuoka &lt;dbl&gt;,
 #   Aichi &lt;dbl&gt;, Mie &lt;dbl&gt;, Shiga &lt;dbl&gt;, Kyoto &lt;dbl&gt;, Osaka &lt;dbl&gt;, Hyogo &lt;dbl&gt;,
 #   Nara &lt;dbl&gt;, Wakayama &lt;dbl&gt;, Tottori &lt;dbl&gt;, Shimane &lt;dbl&gt;, Okayama &lt;dbl&gt;,
 #   Hiroshima &lt;dbl&gt;, Yamaguchi &lt;dbl&gt;, Tokushima &lt;dbl&gt;, Kagawa &lt;dbl&gt;,
-#   Ehime &lt;dbl&gt;, Kochi &lt;dbl&gt;, Fukuoka &lt;dbl&gt;, Saga &lt;dbl&gt;, Nagasaki &lt;dbl&gt;, …
-# ℹ Use `colnames()` to see all variable names</code></pre>
+#   Ehime &lt;dbl&gt;, Kochi &lt;dbl&gt;, Fukuoka &lt;dbl&gt;, Saga &lt;dbl&gt;, Nagasaki &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
 <p>　{CausalImpact}の場合、処置群は1つのみとなる。<code>ci_df</code>には4県の処置群があるが、ここでは鳥取（<code>PrefName_E == "Tottori"</code>）におけるATTを推定してみよう。<code>relocate()</code>関数を使って、<code>Tottori</code>列を<code>Election</code>列より前へ移動させる。続いて、不要になった<code>Election</code>関数とその他の統制群列を除外する。</p>
@@ -2807,27 +2841,27 @@ Candidates -0.05892 0.03945  -0.1362   0.0184 0.1353069</code></pre>
 <span id="cb81-2"><a href="#cb81-2"></a>  <span class="co"># Tottori列を最先端へ（= Election列より前）</span></span>
 <span id="cb81-3"><a href="#cb81-3"></a>  <span class="fu">relocate</span>(Tottori, <span class="at">.before =</span> Election) <span class="sc">|&gt;</span></span>
 <span id="cb81-4"><a href="#cb81-4"></a>  <span class="co"># その他の処置群とElection列を除外</span></span>
-<span id="cb81-5"><a href="#cb81-5"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Election, Shimane, Tokushima, Kochi))</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb81-5"><a href="#cb81-5"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Election, Shimane, Tokushima, Kochi))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　それでは実装してみよう。使う関数は<code>CausalImpact()</code>関数だ。第1引数はデータである。他に必要な引数としては<code>pre.period</code>と<code>post.period</code>があり、それぞれ統制の時期と初期が行われた時期を意味する。処置前の時期というのは<code>ci_df</code>でいうと、第9回から第23回参院選までだ。<code>ci_df</code>の1行目が第9回参院選、15行目は第23回参院選である。16行目から18行目は処置が行われてからの時期だ。それぞれ<code>pre.period</code>と<code>post.period</code>で指定する。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>ci_fit <span class="ot">&lt;-</span> ci_df <span class="sc">|&gt;</span></span>
 <span id="cb82-2"><a href="#cb82-2"></a>  <span class="fu">CausalImpact</span>(<span class="at">pre.period =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">15</span>), <span class="at">post.period =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">18</span>))</span>
 <span id="cb82-3"><a href="#cb82-3"></a></span>
-<span id="cb82-4"><a href="#cb82-4"></a>ci_fit</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb82-4"><a href="#cb82-4"></a>ci_fit</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Posterior inference {CausalImpact}
 
-                         Average         Cumulative   
-Actual                   52              155          
-Prediction (s.d.)        61 (3.6)        183 (10.9)   
-95% CI                   [54, 68]        [162, 204]   
-                                                      
-Absolute effect (s.d.)   -9.4 (3.6)      -28.1 (10.9) 
-95% CI                   [-16, -2.2]     [-49, -6.5]  
-                                                      
-Relative effect (s.d.)   -15% (5.9%)     -15% (5.9%)  
-95% CI                   [-27%, -3.6%]   [-27%, -3.6%]
+                         Average       Cumulative  
+Actual                   52            155         
+Prediction (s.d.)        61 (3.6)      183 (10.9)  
+95% CI                   [54, 68]      [162, 204]  
+                                                   
+Absolute effect (s.d.)   -9.4 (3.6)    -28.1 (10.9)
+95% CI                   [-16, -2.2]   [-49, -6.5] 
+                                                   
+Relative effect (s.d.)   -15% (5.2%)   -15% (5.2%) 
+95% CI                   [-24%, -4%]   [-24%, -4%] 
 
 Posterior tail-area probability p:   0.01308
 Posterior prob. of a causal effect:  98.692%
@@ -2842,7 +2876,7 @@ For more details, type: summary(impact, "report")</code></pre>
 <span id="cb84-3"><a href="#cb84-3"></a>          <span class="at">id     =</span> <span class="st">"Tottori"</span>, <span class="co"># PrefName_E上の名前</span></span>
 <span id="cb84-4"><a href="#cb84-4"></a>          <span class="at">period =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))   <span class="co"># 処置が行われた時期を1する。</span></span>
 <span id="cb84-5"><a href="#cb84-5"></a></span>
-<span id="cb84-6"><a href="#cb84-6"></a>tottori_att</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb84-6"><a href="#cb84-6"></a>tottori_att</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$catt
 [1]  -6.903364  -8.997478 -10.885151
@@ -2857,7 +2891,7 @@ $est.catt
 <p>　SCMから得られた結果、第24回におけるATTは-6.903、第25回は-8.997、第26回は-10.885であり、平均値は-8.929である。0.435%pの差はあるが、それなりに近い結果が得られている。</p>
 <p>　分析の手法はことなるものの、SCMもCausalImpactも、架空の統制群を作るという点では共通している。したがって、SCMで示したような図も作成できよう。{CausalImpact}も<code>plot()</code>関数で作図ができる。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a><span class="fu">plot</span>(ci_fit)</span></code><button title="コピーする" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a><span class="fu">plot</span>(ci_fit)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2892,14 +2926,14 @@ $est.catt
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">注</h2>
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">脚注</h2>
 
 <ol>
-<li id="fn1" role="doc-endnote"><p><code>fixed_effects</code>引数でなく、回帰式に説明変数として指定しても結果は同じである。しかし、回帰式に書く場合、固定効果の推定値も全て出力され、推定結果が非常に長くなる。しかし、固定効果の推定値は論文内で報告することもない。<code>fixed_effects</code>で指定すると、それらの結果は省略される。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>{gsynth}は通常のSCMでなく、一般化SCM（Generalized Synthetic Control Method）を実装したパッケージである。通常のSCMは処置群は1つのみに使えるが、一般化SCMは処置群が複数あっても使える。一般化SCMについてはYiqing Xu. 2017. “<a href="https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3#article">Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models</a>,” <em>Political Analysis,</em> 25 (1): 57-76.を参照されたい。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>第7〜23回参院選のデータは<a href="http://db.cps.kutc.kansai-u.ac.jp/">参議院議員通常選挙データベース</a>からダウンロードしたものを架空したものであり、第24〜26回データは宋が手入力したものである。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><code>fixed_effects</code>引数でなく、回帰式に説明変数として指定しても結果は同じである。しかし、回帰式に書く場合、固定効果の推定値も全て出力され、推定結果が非常に長くなる。しかし、固定効果の推定値は論文内で報告することもない。<code>fixed_effects</code>で指定すると、それらの結果は省略される。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>{gsynth}は通常のSCMでなく、一般化SCM（Generalized Synthetic Control Method）を実装したパッケージである。通常のSCMは処置群は1つのみに使えるが、一般化SCMは処置群が複数あっても使える。一般化SCMについてはYiqing Xu. 2017. “<a href="https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3#article">Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models</a>,” <em>Political Analysis,</em> 25 (1): 57-76.を参照されたい。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>第7〜23回参院選のデータは<a href="http://db.cps.kutc.kansai-u.ac.jp/">参議院議員通常選挙データベース</a>からダウンロードしたものを架空したものであり、第24〜26回データは宋が手入力したものである。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section></div></main> <!-- /main -->
+</aside></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -2927,9 +2961,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -2940,18 +2988,34 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "コピーしました");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "コピーしました");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -2961,47 +3025,222 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    if (id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        return container.innerHTML
+      } else {
+        return note.innerHTML;
+      }
+    } else {
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note);
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp(/https:\/\/www\.jaysong\.net\/kobe-ci\//);
+      var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -3028,7 +3267,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">Copyright 2022, <a href="https://www.jaysong.net" target="_blank">Jaehyun Song</a>. Powered by <a href="https://quarto.org/" target="_blank">Quarto</a></div>   
+    <div class="nav-footer-left">
+<p>Copyright 2023, <a href="https://www.jaysong.net" target="_blank">Jaehyun Song</a>. Powered by <a href="https://quarto.org/" target="_blank">Quarto</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
@@ -3047,6 +3291,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+
 
 
 

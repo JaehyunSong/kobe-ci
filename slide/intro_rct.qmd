@@ -1,40 +1,27 @@
 ---
-title: "方法論特殊講義III"
 subtitle: "因果推論の考え方とランダム化比較試験"
-author: "<ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby>"
-institute: "関西大学総合情報学部"
-date: "2022年 8月 17-19、29-30日"
-format:
-  revealjs: 
-    width: 1400
-    slide-number: true
-    logo: figs/logo.png
-    theme: [default, styles.scss]
-    footer: <https://www.jaysong.net/kobe-ci>
-    preview-links: true
-    chalkboard: true
-    touch: true
-    controls: true
-    auto-stretch: false
+date: "1986/10/08"
+date-format: "2023年8月17〜23日"
+format: revealjs
+metadata-files: 
+  - _slide.yml
 ---
 
 # 講義概要
 
 ```{r}
 #| include: false
+rs_ver1 <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applications/RStudio.app/Contents/Info.plist -o -', intern = TRUE) |>
+  stringr::str_replace("-daily", "") |>
+  stringr::str_extract("202[0-9]\\.[0-9]+\\.[0-9]+\\+[0-9]+")
+
+macos_ver <- system('sw_vers -productVersion', intern = TRUE)
+
 pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons)
 pacman::p_load_gh("JaehyunSong/BalanceR")
-knitr::opts_chunk$set(dev       = "ragg_png",
-                      dpi       = 300,
-                      fig.align = "center",
-                      echo      = FALSE,
-                      message   = FALSE,
-                      warning   = FALSE)
 ```
 
 ## 講師紹介
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
 ::::{.columns}
 
@@ -69,17 +56,17 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 
 各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。
 
-1. 1日目:8月17日(水)
+1. 1日目：8月17日（木）
    * 因果推論の考え方
    * ランダム化比較試験
-2. 2日目:8月18日(木)
+2. 2日目：8月18日（金）
    * Lab Session: R の使い方
    * 2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説
-3. 3日目:8月19日(金)
+3. 3日目：8月21日（月）
    * 回帰分析とマッチング、その応用
-4. 4日目:8月29日(月)
+4. 4日目：8月22日（火）
    * 差分の差分法とその応用 
-5. 5日目:8月30日(火)
+5. 5日目：8月23日（水）
    * 回帰不連続デザイン
 
 ## 実習
@@ -96,10 +83,10 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 :::{.column width=70%}
 ### 宋のR環境
 
-* macOS 12.5 "Monterey"
+* macOS `r macos_ver` "Ventura"
 * `r version$version.string`
    * R > 4.1ならOK
-* RStudio 2022.11.0+105 "Elsbeth Geranium"
+* RStudio `r rs_ver1`
 * スライド、サポートページ、実習用資料の執筆環境
    * Quarto `r quarto::quarto_inspect()$quarto$version`
    * R package {quarto} `r packageVersion("quarto")`
@@ -112,16 +99,6 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 :::
 
 ::::
-
-## 実習の日程について
-
-8月19〜23日はNIIオンライン分析システムの大規模メンテナンス&法定停電により使用不可
-
-* 19日は本講義の3日目
-   * 多分、マッチングの回
-* 19日の実施形態
-   * **案1）**19日は3回目と4回目の理論編、29日に3回目と4回目の実習
-   * **案2）**19日の実習は宋がやり方を見せるだけとする。
 
 ## Rの学習資料
 
@@ -139,10 +116,9 @@ R全般
 
 ## Discordについて
 
-1. Discordに登録し、Discordを起動する。
-   * アプリ版、Web版がある（どちらでも良い）。
+1. Discordに登録し、Discordを起動する（アプリ版、Web版、どちらでも良い）。
 1. 宋をフレンドとして追加
-   * 宋のIDとタグは**Jaehyun#4730**
+   * 宋のIDとタグは**_jaysong_**
    ![](figs/01/discord.png)
 1. 自分の学籍番号と氏名をDiscordメッセージで伝える。
 1. 宋からの招待が届けば、サーバーに登録する。
@@ -160,17 +136,13 @@ R全般
 
 ## レポート
 
-以下の3つのオプションから選択
+研究のプロポーザル
 
-1. 研究のプロポーザル
-   * 本講義で紹介した手法を用いた分析のプロポーザルを作成
-   * 実現可能性（予算、倫理など）があること
-   * 提出期限は**9月2日13時**（締切厳守!）
-   * 分量の制限（下限/上限）なし
-2. ~~既存研究の再現 (replication)~~
-   1. ~~分析をそのまま再現~~
-   2. 本講義で紹介した手法を用いて再現~~
-3. ~~本講義で紹介した手法を用いた2次分析~~
+* 本講義で紹介した手法を用いた分析のプロポーザルを作成
+* 実現可能性（予算、倫理など）があること
+   * 架空の予算は100万円を上限とする
+* 提出期限は**8月31日（木）13時**（締切厳守!）
+* 分量の制限（下限/上限）なし
 
 ## 前提知識
 
@@ -217,7 +189,7 @@ Morgan and Winship (2014) [*Counterfactuals and Causal Inference: Methods And Pr
 
 ## 相関から因果へ
 
-原因 (X) と結果 (Y) の関係
+原因（$X$）と結果（$Y$）の関係
 
 ::::{.columns}
 
@@ -226,7 +198,7 @@ Morgan and Winship (2014) [*Counterfactuals and Causal Inference: Methods And Pr
 #| fig-width: 8
 #| fig-height: 8
 tibble(Age  = c(20, 30, 40, 50, 60, 70),
-       Vote = c(0.7, 0.81, 0.88, 0.93, 0.94, 0.95)) %>%
+       Vote = c(0.7, 0.81, 0.88, 0.93, 0.94, 0.95)) |>
   ggplot(aes(x = Age, y = Vote)) +
   geom_point(size = 5) +
   geom_line(size = 2) +
@@ -239,7 +211,7 @@ tibble(Age  = c(20, 30, 40, 50, 60, 70),
 :::
 
 :::{.column width=60%}
-年齢(世代)と投票率の関係（架空の例）
+年齢（世代）と投票率の関係（架空の例）
 
 * 年齢が上がると高い投票率
    * 相関関係
@@ -353,7 +325,7 @@ dagify(Y ~ X + Z + e,
        coords   = list(x = c(X = 1, Z = 1, 
                              Y = 2, e = 3),
                        y = c(X = 3, Z = 1, 
-                             Y = 2, e = 2))) %>%
+                             Y = 2, e = 2))) |>
   ggdag(text_size = 5, node_size = 15) +
   theme_dag_blank()
 ```
@@ -386,7 +358,7 @@ dagify(Y ~ X + Z + e,
        coords   = list(x = c(X = 1, Z = 1, 
                              Y = 2, e = 3),
                        y = c(X = 3, Z = 1, 
-                             Y = 2, e = 2))) %>%
+                             Y = 2, e = 2))) |>
   ggdag(text_size = 5, node_size = 15) +
   theme_dag_blank()
 ```
@@ -694,7 +666,7 @@ ITEの平均値は−4であり、個人差はあるものの、全体的に薬�
 
 ## 信頼できるATEの条件
 
-ATE 推定値の信頼性を損なう敵: **内生性** (しかも、常に存在する)
+ATE 推定値の信頼性を損なう敵: **内生性**（しかも、常に存在する）
 
 例) やる気のある学生だけがソンさんの講義を履修した場合
 
@@ -703,7 +675,7 @@ ATE 推定値の信頼性を損なう敵: **内生性** (しかも、常に存�
 2. 疑似相関
    * やる気のある学生はいろんな方面で頑張るから、将来年収が高くなる。
 3. 測定誤差
-   * 履修者の年収はジンバブエ・ドルで測定されている可能性も（これはないか）
+   * 履修者の年収がジンバブエ・ドルで測定されている可能性も（これはないか）
 
 <br/>
 
@@ -736,7 +708,7 @@ $\downarrow$
 * 女性比率が55%、平均年齢が38歳の集団の例
 
 ::::{.columns}
-:::{.column width=50%}
+:::{.column width=55%}
 ```{r}
 #| echo: true
 set.seed(19861008)
@@ -746,19 +718,20 @@ Data <- tibble(
                    prob = c(0.4, 0.6)),
    Age    = round(rnorm(20, 38, 10), 0))
 
-Data %>%
+Data |> 
    summarise(Female = mean(Female),
              Age    = mean(Age))
 ```
 :::
-:::{.column width=50%}
+:::{.column width=45%}
 ```{r}
 bind_cols(Data[1:10, ], 
           tibble(X = rep("", 10)),
-          Data[11:20, ]) %>%
-  kableExtra::kbl(col.names = c("ID", "Female", "Age", 
-                                "　",
-                                "ID", "Female", "Age"))
+          Data[11:20, ]) |> 
+   gt() |> 
+   cols_label("ID...1" = "ID", "Female...2" = "Female", "Age...3" = "Age",
+              "X" = "",
+              "ID...5" = "ID", "Female...6" = "Female", "Age...7" = "Age")
 ```
 :::
 ::::
@@ -778,10 +751,11 @@ Data$Coin <- Coin
 ```{r}
 bind_cols(Data[1:10, ], 
           tibble(X = rep("", 10)),
-          Data[11:20, ]) %>%
-  kableExtra::kbl(col.names = c("ID", "Female", "Age", 
-                                "Coin", "　", "ID", 
-                                "Female", "Age", "Coin"))
+          Data[11:20, ]) |> 
+   gt() |> 
+   cols_label("ID...1" = "ID", "Female...2" = "Female", "Age...3" = "Age", "Coin...4" = "Coin",
+              "X" = "",
+              "ID...6" = "ID", "Female...7" = "Female", "Age...8" = "Age", "Coin...9" = "Coin")
 ```
 
 ## 無作為割当の力
@@ -793,8 +767,8 @@ bind_cols(Data[1:10, ],
 
 ```{r}
 #| echo: true
-Data %>%
-  group_by(Coin) %>%
+Data |>
+  group_by(Coin) |>
   summarise(Female = mean(Female),
             Age    = mean(Age),
             N      = n())
@@ -913,7 +887,7 @@ dagify(Y ~ X + e,
        coords   = list(x = c(X = 1, e = 2, 
                              Y = 3),
                        y = c(X = 1, e = 2, 
-                             Y = 1))) %>%
+                             Y = 1))) |>
   ggdag(text_size = 7, node_size = 15) +
   coord_cartesian(ylim = c(0.85, 2.1)) +
   theme_dag_blank()
@@ -925,7 +899,7 @@ dagify(Y ~ X + e,
        coords   = list(x = c(X = 1, e = 2, W = 1,
                              Y = 3),
                        y = c(X = 1, e = 2, W = 2, 
-                             Y = 1))) %>%
+                             Y = 1))) |>
   ggdag(text_size = 7, node_size = 15) +
   coord_cartesian(ylim = c(0.85, 2.1)) +
   theme_dag_blank()
@@ -953,7 +927,7 @@ Bertand and Mullainathan (2004)
 #| fig-height: 1.25
 tibble(name = c("人種", "面接連絡", "誤差項"),
        x    = c(1, 2, 3),
-       y    = c(2, 1, 2)) %>%
+       y    = c(2, 1, 2)) |>
    ggplot() +
    geom_text(aes(x = x, y = y, label = name), size = 3,
              family = "HiraKakuProN-W3") +
@@ -1019,19 +993,19 @@ $\Rightarrow$ ケースによって政策的含意が変わる。
 #| fig-height: 4
 #| cahce: true
 df <- read_dta("data/intro_data1.dta")
-df %>%
+df |>
   select(id, sex, race, h, l, 
-         education, military, call) %>%
+         education, military, call) |>
   mutate(high_qlty = ifelse(h == 1, 1, 0),
          female = ifelse(sex == "f", 1, 0),
-         black  = if_else(race == "b", "Black", "White")) %>%
-  select(-c(id, call, race, h, l, sex)) %>%
-  drop_na() %>% 
+         black  = if_else(race == "b", "Black", "White")) |>
+  select(-c(id, call, race, h, l, sex)) |>
+  drop_na() |> 
   BalanceR(group = black,
            cov = c(Female       = female,
                    Military     = military,
                    Education    = education,
-                   High_Quality = high_qlty)) %>%
+                   High_Quality = high_qlty)) |>
   plot(abs = TRUE, vline = c(5, 10)) +
   coord_cartesian(xlim = c(0, 10))
 ```
@@ -1271,8 +1245,8 @@ $$
 **非干渉性:** 他人の処置・統制有無が処置効果に影響を与えないこと
 
 * 例) AさんITEは
-   * 例1) Bさんが統制群の場合は10、処置群の場合は5 $\leftarrow$ `r fontawesome("angry")`
-   * 例2) Bさんが統制群の場合も、処置群の場合も、5 $\leftarrow$ `r fontawesome("smile")`
+   * 例1) Bさんが統制群の場合は10、処置群の場合は5 $\leftarrow$ <i class="bi bi-emoji-dizzy"></i>
+   * 例2) Bさんが統制群の場合も、処置群の場合も、5 $\leftarrow$ <i class="bi bi-emoji-smile"></i>
 
 <center>
 :::{layout-ncol=2}
@@ -1341,17 +1315,17 @@ $$
 #| fig-width: 8
 #| fig-height: 3.5
 gg_df <- read_csv("data/intro_data3.csv")
-gg_df <- gg_df %>%
+gg_df <- gg_df |>
    mutate(Female  = if_else(sex == "female", 1, 0),
           Voted00 = if_else(p2000 == "yes", 1, 0),
           Voted02 = if_else(p2002 == "yes", 1, 0),
           Voted04 = if_else(p2004 == "Yes", 1, 0), 
           Voted   = if_else(voted == "Yes", 1, 0))
 
-gg_df %>%
+gg_df |>
    BalanceR(group = treatment,
             cov   = c(Female, yob, hh_size, 
-                      Voted00, Voted02, Voted04)) %>%
+                      Voted00, Voted02, Voted04)) |>
    plot(text.size = 16) +
    scale_y_discrete(labels = c("yob"     = "Year of birth",
                                "hh_size" = "Household size",
@@ -1367,17 +1341,17 @@ gg_df %>%
 #| cache: true
 #| fig-width: 8
 #| fig-height: 4
-gg_df <- gg_df %>%
+gg_df <- gg_df |>
    mutate(treatment = factor(treatment,
                              levels = c("Control", "Civic Duty", "Hawthorne",
                                         "Self", "Neighbors")))
 
-lm(Voted ~ treatment, data = gg_df) %>%
-   broom::tidy() %>%
-   filter(term != "(Intercept)") %>%
+lm(Voted ~ treatment, data = gg_df) |>
+   broom::tidy() |>
+   filter(term != "(Intercept)") |>
    mutate(ci_lower = estimate + qnorm(0.025) * std.error,
           ci_upper = estimate + qnorm(0.975) * std.error,
-          term     = str_sub(term, 10, -1L)) %>% 
+          term     = str_sub(term, 10, -1L)) |> 
    ggplot() +
    geom_hline(yintercept = 0, linetype = 2) +
    geom_pointrange(aes(x = term, y = estimate, 

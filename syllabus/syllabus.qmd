@@ -1,8 +1,14 @@
 ---
-title: "本講義について"
+title: "シラバス"
 toc: true
-toc-title: "目次"
+link-external-newwindow: true
 ---
+
+:::{.callout-important}
+## 履修者のみなさまへ
+
+　自分のPCにRとR Studioをインストールしておいてください。本来はクラウド環境である「JDCat分析ツール」を使用する予定でしたが、集中講義期間中は使用できないことが判明しました。インストール方法については『私たちのR』の「第2章：[Rのインストール](https://www.jaysong.net/RBook/installation.html)」および「第3章：[IDEの導入](https://www.jaysong.net/RBook/ide.html)」、「第4章：[分析環境のカスタマイズ](https://www.jaysong.net/RBook/r_customize.html)」を参照してください。
+:::
 
 ```{r}
 #| include: false
@@ -12,13 +18,13 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ## 概要
 
-* 科目名: 計量政治学方法論 I (実証分析と方法)
+* 科目名: 方法論特殊講義III（プログラム講義計量政治学方法論Ⅰ）
 * 講師: 宋財泫 (ソン ジェヒョン)
-* 所属: 関西大学総合情報学部
-   * E-mail: song [*at*] kansai-u.ac.jp
+* 所属: [関西大学](https://www.kansai-u.ac.jp/)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/)
+   * E-mail: song<i class="bi bi-at"></i>kansai-u.ac.jp
    * Homepage: <https://www.jaysong.net>
-* 時間: 2021年9月1,2,3,13,14日2∼4限目
-* 教室: フロンティア館 304 教室
+* 時間: 2023年8月17、18、21、22、23日 2〜4限目
+* 教室: フロンティア館 303教室
 
 ## 授業の内容
 
@@ -52,7 +58,7 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ## 教科書・参考書
 
-以下は本書の内容を(一部)カバーする書籍の目録である。必ずしも購入する必要はないが、予習・復習において適宜参照することを推奨する。
+以下は本書の内容を（一部）カバーする書籍の目録である。必ずしも購入する必要はないが、予習・復習において適宜参照することを推奨する。
 
 * 因果推論の理論と実例
    * **【AP 2008】** Angrist, Joahua D., and Jorn-steffen Pischke. 2008. [*Mostly Harmless Econometrics: An Empiricist’s Companion.*](http://amzn.asia/d/2TJ1HXE) Princeton University Press.
@@ -85,10 +91,11 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ## 講義内容・参考文献
 
-### 1日目：因果推論の考え方
+### 因果推論の考え方
 
 * Textbook
    * Imbens, Guido W., and Donald B. Rubin. 2015. [*Causal Inference for Statistics, Social, and Biomedical Sciences.*](http://amzn.asia/d/4hiunWS) Cambridge University Press. (Ch. 1 and 2)
+      * 『[インベンス・ルービン　統計的因果推論（上）](https://www.amazon.co.jp/dp/4254122918/)』（有斐閣）の第1・2章
    * Hernan, Miguel A., James M. Robins. 2020. [*Causal Inference.*](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) Chapman & Hall/CRC. (Ch. 1)
 * Article
    * Holland, Paul W. 1986. "[Statistics and Causal Inference](https://www.jstor.org/stable/2289064)." *Journal of the American Statistical Association,* 81: 945--960.
@@ -99,12 +106,13 @@ knitr::opts_chunk$set(fig.align = "center",
 * Monograph
    * 岩波データサイエンス刊行委員会. 2016.『[岩波データサイエンス Vol.3](http://amzn.asia/d/5zbJ3iw)』岩波書店.
 
-### ランダム化比較試験とLab Session
+### RCT（Lab Session）
 
 履修者全員がRの操作に慣れていると判断した場合、Lab Sessionは省略し、最終日に操作変数法の講義を行う。
 
 * Textbook (RCT)
-   * Imbens, Guido W., and Donald B. Rubin. 2015. [*Causal Inference for Statistics, Social, and Biomedical Sciences.*](http://amzn.asia/d/4hiunWS) Cambridge University Press. (Part II)}
+   * Imbens, Guido W., and Donald B. Rubin. 2015. [*Causal Inference for Statistics, Social, and Biomedical Sciences.*](http://amzn.asia/d/4hiunWS) Cambridge University Press. (Part II)
+      * 『[インベンス・ルービン　統計的因果推論（上）](https://www.amazon.co.jp/dp/4254122918/)』（有斐閣）の第2部
    * Hernan, Miguel A., James M. Robins. 2020. [*Causal Inference.*](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) Chapman & Hall/CRC. (Ch. 2)
 * Textbook (R Language)
    * 飯田健. 2013.『[計量政治学](http://amzn.asia/d/8FE3FxN)』共立出版

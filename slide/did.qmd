@@ -1,21 +1,10 @@
 ---
-title: "方法論特殊講義III"
 subtitle: "差分の差分法"
-author: "<ruby>宋<rp>(</rp><rt>そん</rt><rp>)</rp></ruby>&nbsp;&nbsp;<ruby>財泫<rp>(</rp><rt>じぇひょん</rt><rp>)</rp></ruby>"
-institute: "関西大学総合情報学部"
-date: "2022年 8月 17-19、29-30日"
-format:
-  revealjs: 
-    width: 1400
-    slide-number: true
-    logo: figs/logo.png
-    theme: [default, styles.scss]
-    footer: <https://www.jaysong.net/kobe-ci>
-    preview-links: true
-    chalkboard: true
-    touch: true
-    controls: true
-    auto-stretch: false
+date: "1986/10/08"
+date-format: "2023年8月17〜23日"
+format: revealjs
+metadata-files: 
+  - _slide.yml
 ---
 
 # 自然実験

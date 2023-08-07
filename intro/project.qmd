@@ -1,44 +1,31 @@
 ---
 title: "プロジェクト管理"
 toc: true
-number-sections: true
 ---
 
-```{r}
-#| include: false
-knitr::opts_chunk$set(echo      = FALSE,
-                      fig.align = "center")
-```
+:::{.callout-important}
+## なぜプロジェクト機能を使う必要があるのか
+
+　「なぜプロジェクト機能を使うのか」を知るためにはファイルシステムに関する理解が必要だ。もし、「**ファイルシステム**」という単語や「**絶対パス**」、「**相対パス**」という単語を聞いたことのない人は[ファイル・システム](filesystem.qmd)も予め読んでおこう。
+:::
 
 ## プロジェクトの作成
 
 **手順1:** File > New Project...をクリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Create1.png")
-```
+![](Figs/Project/Create1.png){width=75% fig-align="center"}
 
 **手順2:** New Directoryをクリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Create2.png")
-```
+![](Figs/Project/Create2.png){width=50% fig-align="center"}
 
 **手順3:** New Projectをクリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Create3.png")
-```
+![](Figs/Project/Create3.png){width=50% fig-align="center"}
 
 **手順4:** Directory name:にプロジェクト名を入力し、Create Projectをクリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Create4.png")
-```
+![](Figs/Project/Create4.png){width=50% fig-align="center"}
 
 :::{.callout-important}
 ## 注意: プロジェクト名の付け方
@@ -48,35 +35,23 @@ knitr::include_graphics("Figs/Project/Create4.png")
 
 ## プロジェクトの開き方
 
-　プロジェクトを作成すれば、自動的に出来たてのプロジェクトが開かれる。しかし、NIIオンライン分析システムから一旦ログアウトし、改めてRStudioを起動する場合、プロジェクトをロードする必要がある。
+　プロジェクトを作成すれば、自動的に出来たてのプロジェクトが開かれる。しかし、JDCat分析ツールから一旦ログアウトし、改めてRStudioを起動する場合、プロジェクトをロードする必要がある。
 
 **手順1:** File > Open Project...をクリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Open1.png")
-```
+![](Figs/Project/Open1.png){width=50% fig-align="center"}
 
 **手順2:** プロジェクト・フォルダー名を**ダブル**クリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Open2.png")
-```
+![](Figs/Project/Open2.png){width=50% fig-align="center"}
 
 **手順3:** `.Rproj`で終わるファイルを**ダブル**クリックする。
 
-```{r}
-#| out-width: "500px"
-knitr::include_graphics("Figs/Project/Open3.png")
-```
+![](Figs/Project/Open3.png){width=50% fig-align="center"}
 
 プロジェクトが正しくロードされている場合、RStudioの右上にプロジェクト名が表示される。
 
-```{r}
-#| out-width: "300px"
-knitr::include_graphics("Figs/Project/Check.png")
-```
+![](Figs/Project/Check.png){width=50% fig-align="center"}
 
 :::{.callout-important}
 ### 常にプロジェクト機能を使おう!

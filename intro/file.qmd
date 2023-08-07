@@ -1,14 +1,13 @@
 ---
 title: "ファイル管理"
 toc: true
-number-sections: true
 ---
 
-```{r}
-#| include: false
-knitr::opts_chunk$set(echo      = FALSE,
-                      fig.align = "center")
-```
+:::{.callout-note}
+## 「ファイル・システム」も合わせて読もう！
+
+　本ページの内容を読む前に、ファイルシステムの詳細などを解説した「[ファイル・システム](filesystem.qmd)」も合わせて読むことを強く推奨する。
+:::
 
 　フォルダー/ファイルの管理はJupyterHub内でも、RStudio内でもできるが、ここではRStudio側で管理する方法を紹介する。RStudioを起動し、作業するプロジェクトを開き、Filesペインを確認しよう。RStudioを経由したフォルダー/ファイルの管理は全てFilesペイン上で行われる。
 
@@ -26,31 +25,19 @@ knitr::opts_chunk$set(echo      = FALSE,
 
 **手順1:** 現在、Filesペインで表示されているフォルダーがプロジェクトの最上位フォルダーであることを確認する。「Home > プロジェクト名」と表示されていれば問題ない。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/Folder_Create1.png")
-```
+![](Figs/Files/Folder_Create1.png){width=75% fig-align="center"}
 
 **手順2:** New Folderをクリックする。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/Folder_Create2.png")
-```
+![](Figs/Files/Folder_Create2.png){width=75% fig-align="center"}
 
 **手順3:** 作成するフォルダーの名前を入力する。ここではデータなどを集めておく`Data`という名のフォルダーを作成する。
 
-```{r}
-#| out-width: "300px"
-knitr::include_graphics("Figs/Files/Folder_Create3.png")
-```
+![](Figs/Files/Folder_Create3.png){width=45% fig-align="center"}
 
 **手順4:** 正しくフォルダーが作成されているかを確認する。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/Folder_Create4.png")
-```
+![](Figs/Files/Folder_Create4.png){width=75% fig-align="center"}
 
 :::{.callout-important}
 ## フォルダー名の付け方
@@ -74,21 +61,15 @@ knitr::include_graphics("Figs/Files/Folder_Create4.png")
 
 **手順1:** 削除するフォルダーの左にチェックを付け、Deleteをクリックする。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/Folder_Delete1.png")
-```
+![](Figs/Files/Folder_Delete1.png){width=75% fig-align="center"}
 
 **手順2:** Yesをクリックする。
 
-```{r}
-#| out-width: "300px"
-knitr::include_graphics("Figs/Files/Folder_Delete2.png")
-```
+![](Figs/Files/Folder_Delete2.png){width=50% fig-align="center"}
 
 ## ファイルの管理
 
-　分析に使用するデータセットを自分のPCにダウンロードしてもそのままNIIオンライン分析システムで使うことはできない。NIIオンライン分析システムで使用するためには、ファイルをアップロードする必要がある。これはデータだけでなく、本講義の課題用ファイルについても同様である。
+　分析に使用するデータセットを自分のPCにダウンロードしてもそのままJDCat分析ツールで使うことはできない。JDCat分析ツールで使用するためには、ファイルをアップロードする必要がある。これはデータだけでなく、本講義の課題用ファイルについても同様である。
 
 ### ファイルのアップロード
 
@@ -101,17 +82,11 @@ knitr::include_graphics("Figs/Files/Folder_Delete2.png")
 
 * 以下の例は`Homework_01`プロジェクト・フォルダー内の`Data`フォルダーがアップロード先である。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/File_Upload1.png")
-```
+![](Figs/Files/File_Upload1.png){width=75% fig-align="center"}
 
 **手順3:** File to upload:でアップロードしたいファイルを選択する。
 
-```{r}
-#| out-width: "300px"
-knitr::include_graphics("Figs/Files/File_Upload2.png")
-```
+![](Figs/Files/File_Upload2.png){width=50% fig-align="center"}
 
 :::{.callout-note}
 ## 複数のファイルをアップロードしたい場合
@@ -123,24 +98,15 @@ RStudio上でファイルは一度の一つしかアップロードできない�
 
 * 以下では`Prev_Vote.csv`というファイルをアップロードする例である。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/File_Upload3.png")
-```
+![](Figs/Files/File_Upload3.png){width=75% fig-align="center"}
 
 **手順5:** OKをクリックする。
 
-```{r}
-#| out-width: "300px"
-knitr::include_graphics("Figs/Files/File_Upload4.png")
-```
+![](Figs/Files/File_Upload4.png){width=50% fig-align="center"}
 
 **手順6:** 正しくファイルがアップロードされているかを確認する。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/File_Upload5.png")
-```
+![](Figs/Files/File_Upload5.png){width=75% fig-align="center"}
 
 ### ファイルのダウンロード
 
@@ -156,21 +122,28 @@ knitr::include_graphics("Figs/Files/File_Upload5.png")
 
 * 以下では`Micro_HW01.html`というファイルをダウンロードする例である。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/File_Download1.png")
-```
+![](Figs/Files/File_Download1.png){width=75% fig-align="center"}
 
 **手順2:** More > Export...をクリックする。
 
-```{r}
-#| out-width: "700px"
-knitr::include_graphics("Figs/Files/File_Download2.png")
-```
+![](Figs/Files/File_Download2.png){width=75% fig-align="center"}
 
 **手順3:** Downloadをクリックする。
 
-```{r}
-#| out-width: "300px"
-knitr::include_graphics("Figs/Files/File_Download3.png")
-```
+![](Figs/Files/File_Download3.png){width=50% fig-align="center"}
+
+:::{.callout-important}
+## 課題の出力物は提出する前に必ず確認を!!
+
+LMSで課題を提出するためには出力物を提出する必要があるが、提出する前にダウンロードしたファイルを必ず確認しよう。間違ったファイルを提出した場合でも提出期限内なら差し替え可能だが、期限が過ぎた場合、理由を問わず差し替えは認めない。また、間違ったファイルが提出されたことを宋が個別に知らせることもないため注意しよう。
+:::
+
+### ファイルの削除
+
+フォルダーの削除と同じ手順で削除できる。
+
+:::{.callout-note}
+## ファイルの場所が分からない
+
+Fileペインではファイルの一覧が確認できる。しかし、これらのファイルがどのフォルダーに入っているかが分からない場合もあろう。この場合、Fileペインの上段バーを確認すること。そこに現在表示されているファイルのパスが表示されている。「Home>プロジェクト名」と表示されている場合、Fileペインに見えるファイルはプロジェクト・フォルダ―直に入っていることを意味する（右上のプロジェクト名とFileペインのプロジェクト名が一致しているか確認すること）。これらのファイルのパスは`"ファイル名"`のみで良い。上段バーのパスが「Home>プロジェクト名>Data」になっている場合、表示されているファイルはプロジェクト・フォルダー内の`Data`フォルダーに入っていることを意味する。これらのファイルのパスは`"Data/ファイル名"`となる。
+:::

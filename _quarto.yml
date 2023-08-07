@@ -2,7 +2,7 @@ project:
   type: website
   output-dir: docs
 
-language: translate_jp.yml
+lang: ja
 
 website:
   title: "Causal Inference@Kobe"
@@ -10,7 +10,7 @@ website:
   page-navigation: true
   favicon: figs/favicon.png
   page-footer: 
-    left: "Copyright 2022, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
+    left: "Copyright 2023, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
     right:
       - icon: house-fill
         href: https://www.jaysong.net
@@ -19,33 +19,33 @@ website:
   navbar:
     logo: figs/logo.png
     search: true
-    background: "#4169E1"
+    background: "#1955A6" # royal blue
     pinned: true
     left:
-      - text: "シラバス"
-        href: syllabus.qmd
+      - sidebar:syllabus
       - sidebar:intro
       - sidebar:material
-      - text: "データ集"
-        href: data.qmd
     right: 
       - icon: terminal
         href: https://jupyter.cs.rcos.nii.ac.jp/
       - icon: book
         href: https://www.jaysong.net/RBook/
   sidebar:
+    - id: syllabus
+      title: "シラバス"
+      style: "docked"
+      contents: 
+        - syllabus/syllabus.qmd
+        - syllabus/dataset.qmd
     - id: intro
       title: "Rの使い方"
       style: "docked"
       contents:
         - intro/install.qmd
-        - intro/rstudio.qmd
         - intro/project.qmd
         - intro/file.qmd
-        - text: "ファイル管理術"
-          href: intro/filesystem.qmd
-        - text: "パッケージ"
-          href: intro/packages.qmd
+        - intro/filesystem.qmd
+        - intro/packages.qmd
     - id: material
       title: "講義資料"
       style: "docked"
@@ -56,6 +56,17 @@ website:
         - material/rdd.qmd
         #- material/iv.qmd
   google-analytics: "G-9F94XL4N4M"
+  twitter-card:
+    title: Jaehyun Song, Ph.D.
+    description: Causal Inference@Kobe
+    card-style: summary
+    creator: "@Tintstyle"
+    site: "@Tintstyle"
+    image: "imgs/favicon.png"
+  open-graph:
+    title: Jaehyun Song, Ph.D.
+    description: Causal Inference@Kobe
+    image: "imgs/favicon.png"
 
 format:
   html:
