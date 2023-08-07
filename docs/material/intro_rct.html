@@ -283,11 +283,11 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
   <ul>
   <li><a href="#スライド" id="toc-スライド" class="nav-link active" data-scroll-target="#スライド">スライド</a></li>
   <li><a href="#パッケージ" id="toc-パッケージ" class="nav-link" data-scroll-target="#パッケージ">パッケージ</a></li>
-  <li><a href="#データの読み込みと確認" id="toc-データの読み込みと確認" class="nav-link" data-scroll-target="#データの読み込みと確認">データの読み込みと確認</a></li>
-  <li><a href="#データハンドリングとパイプ演算子" id="toc-データハンドリングとパイプ演算子" class="nav-link" data-scroll-target="#データハンドリングとパイプ演算子">データハンドリングとパイプ演算子</a></li>
+  <li><a href="#データの読み込み" id="toc-データの読み込み" class="nav-link" data-scroll-target="#データの読み込み">データの読み込み</a></li>
+  <li><a href="#データハンドリング" id="toc-データハンドリング" class="nav-link" data-scroll-target="#データハンドリング">データハンドリング</a></li>
   <li><a href="#記述統計量" id="toc-記述統計量" class="nav-link" data-scroll-target="#記述統計量">記述統計量</a></li>
   <li><a href="#バランスチェック" id="toc-バランスチェック" class="nav-link" data-scroll-target="#バランスチェック">バランスチェック</a></li>
-  <li><a href="#処置効果の確認" id="toc-処置効果の確認" class="nav-link" data-scroll-target="#処置効果の確認">処置効果の確認</a>
+  <li><a href="#処置効果の推定" id="toc-処置効果の推定" class="nav-link" data-scroll-target="#処置効果の推定">処置効果の推定</a>
   <ul class="collapse">
   <li><a href="#グループごとの応答変数の平均値" id="toc-グループごとの応答変数の平均値" class="nav-link" data-scroll-target="#グループごとの応答変数の平均値">グループごとの応答変数の平均値</a></li>
   <li><a href="#統計的推定単回帰分析" id="toc-統計的推定単回帰分析" class="nav-link" data-scroll-target="#統計的推定単回帰分析">統計的推定（単回帰分析）</a></li>
@@ -325,24 +325,27 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </section>
 <section id="パッケージ" class="level2">
 <h2 class="anchored" data-anchor-id="パッケージ">パッケージ</h2>
-<p>　通常、Rでのパッケージのインストールとアップーでとには<code>install.packages()</code>関数、読み込みには<code>library()</code>、または<code>require()</code>関数を使う。また、R公式レポジトリにないパッケージは{devtools}か{remote}パッケージを使う。これらの関数を使い分けることは面倒なので、本講義ではこれらの処理を統合した{pacman}パッケージを使用する。まずは、{pacman}パッケージをインストールする。</p>
+<p>　通常、Rでのパッケージのインストールとアップデートは<code>install.packages()</code>関数、読み込みは<code>library()</code>、または<code>require()</code>関数を使う。一つ注意すべき点は<code>install.packages()</code>の場合、R公式レポジトリであるCRANに登録されているパッケージのみが対象となっている点だ。しかし、今はCRANでなくGitHub上で公開されているパッケージも非常に多い。これらパッケージは{devtools}か{remote}パッケージを使う。これらの関数を使い分けることは面倒なので、本講義ではこれらの処理を統合した{pacman}パッケージを使用する。まずは、{pacman}パッケージをインストールする。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># NIIオンライン分析システムを利用する場合、導入済み</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>　パッケージを読み込む際、<code>pacman::p_load(読み込むパッケージ名)</code>を入力する。インストールされていない場合は、自動的にCRANからダウンロード&amp;インストールした上で読み込んでくれるので便利だ<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。以下では本講義で使用するパッケージとして{tidyverse}、{summarytools}、{fastDummies}、{modelsummary}を読み込む。</p>
+<p>　まず、CRANに登録されているパッケージを読み込む際は、<code>pacman::p_load(読み込むパッケージ名)</code>を入力する<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。インストールされていない場合は、自動的にCRANからダウンロード&amp;インストールした上で読み込んでくれるので便利だ<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。以下では本講義で使用するパッケージとして{tidyverse}、{summarytools}、{fastDummies}、{modelsummary}、{broom}を読み込む。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, summarytools, fastDummies,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>               modelsummary, broom)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># pacman::p_load(tidyverse, summarytools, fastDummies, modelsummary, broom) もOK</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, </span>
+<span id="cb2-3"><a href="#cb2-3"></a>               summarytools, </span>
+<span id="cb2-4"><a href="#cb2-4"></a>               fastDummies,</span>
+<span id="cb2-5"><a href="#cb2-5"></a>               modelsummary,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>               broom)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>　CRANでなく、GitHub上で公開されているパッケージを使う場合は<code>pacman::p_load_gh()</code>を使用する。<code>()</code>の中には<code>"ユーザー名/リポジトリ名"</code>を入力。たとえば、{BalanceR}の作成者のGitHubアカウント名は<code>JaehyunSong</code>であり、{BalanceR}のリポジトリ名は<code>BalanceR</code>だから、以下のように入力する。</p>
+<p>　CRANでなく、GitHub上で公開されているパッケージを使う場合は<code>pacman::p_load_gh()</code>を使用する。<code>()</code>の中には<code>"ユーザー名/リポジトリ名"</code>を入力する。たとえば、{BalanceR}の作成者のGitHubアカウント名は<code>JaehyunSong</code>であり、{BalanceR}のリポジトリ名は<code>BalanceR</code>だから、以下のように入力する。<code>p_load()</code>とは違って、文字列は<code>"</code>で囲む必要があることに注意しよう。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>pacman<span class="sc">::</span><span class="fu">p_load_gh</span>(<span class="st">"JaehyunSong/BalanceR"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="データの読み込みと確認" class="level2">
-<h2 class="anchored" data-anchor-id="データの読み込みと確認">データの読み込みと確認</h2>
-<p>　<code>.csv</code>形式のデータを読み込むには<code>read_csv()</code>関数を使用する。<code>()</code>内には読み込むファイルのパスを<code>"</code>で囲んで記入する。<code>read_csv()</code>関数はファイルの読み込み<strong>のみ</strong>の機能しか持たない。現在の作業環境内に読み込んだデータを格納するためには代入演算子<code>&lt;-</code>を使う。ここでは<code>data</code>フォルダー内の<code>Day1_Data3.csv</code>を読み込み、<code>raw_df</code>という名のオブジェクトとしてく格納する。作業環境内のオブジェクトはRを再起動すると削除されるため、改めてパッケージ・データの読み込みが必要だ。</p>
+<section id="データの読み込み" class="level2">
+<h2 class="anchored" data-anchor-id="データの読み込み">データの読み込み</h2>
+<p>　<code>.csv</code>形式のデータを読み込むには<code>read_csv()</code>関数を使用する<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。<code>()</code>内には読み込むファイルのパスを<code>"</code>で囲んで記入する。<code>read_csv()</code>関数はファイルの読み込み<strong>のみ</strong>の機能しか持たない。現在の作業環境内に読み込んだデータを格納するためには代入演算子<code>&lt;-</code>を使う。ここでは<code>data</code>フォルダー内の<code>intro_data3.csv</code>を読み込み、<code>raw_df</code>という名のオブジェクトとしてく格納する。作業環境内のオブジェクトはRを再起動すると削除されるため、改めてパッケージ・データの読み込みが必要だ。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>raw_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/intro_data3.csv"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -366,7 +369,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 # ℹ 344,074 more rows</code></pre>
 </div>
 </div>
-<p>　表形式データの大きさ（行の列の数）の確認には<code>dim()</code>関数を使う。</p>
+<p>　表形式データの大きさ（行の列の数）の確認には<code>dim()</code>関数を使う。長さ2のnumeric（数値）型ベクトルが返され、それぞれデータセットの行と列の数を意味する。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">dim</span>(raw_df)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -382,9 +385,26 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </div>
 </div>
 </section>
-<section id="データハンドリングとパイプ演算子" class="level2">
-<h2 class="anchored" data-anchor-id="データハンドリングとパイプ演算子">データハンドリングとパイプ演算子</h2>
+<section id="データハンドリング" class="level2">
+<h2 class="anchored" data-anchor-id="データハンドリング">データハンドリング</h2>
 <p>　パイプ演算子には{magrittr}パッケージが提供する<code>%&gt;%</code>とR 4.1から提供されるネイティブパイプ演算子の<code>|&gt;</code>がある。現在の主流は古くから使われてきた<code>%&gt;%</code>であるが、今後、<code>|&gt;</code>が主流になると考えられるため、本講義では<code>|&gt;</code>を使用する。しかし、多くの場合、<code>|&gt;</code>の代わりに<code>%&gt;%</code>を使っても同じ結果が得られる。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+パイプ演算子のショートカットキー
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>　Rのnativeパイプ演算子（<code>|&gt;</code>）は意外と打ちにくい。ショートカットキーを活用しよう。</p>
+<ul>
+<li>macOS：Cmd（⌘） + Shift + m</li>
+<li>Windows：Ctrl（Control） + Shift + m</li>
+</ul>
+</div>
+</div>
 <p>　パイプ演算子はパイプ前のオブジェクトを、パイプ後の関数の<strong>第一引数</strong>として渡す単純な演算子だ。たとえば、列名を変更する関数は<code>rename()</code>であるが、使い方は<code>renames(データ名, 新しい列名 = 既存の列名, ...)</code>である。<code>raw_df</code>の<code>gender</code>列の名前を<code>female</code>に変更する場合は以下のように書く。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">rename</span>(raw_df, <span class="at">female =</span> gender)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -426,8 +446,8 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 # ℹ 344,074 more rows</code></pre>
 </div>
 </div>
-<p>　要するに、<code>X |&gt; Y</code>は「<code>X</code>（の結果）を使って<code>Y</code>を行う」ことを意味する。</p>
-<p>　続いて、変数のリコーディングをしてみよう。<code>x</code>の値が<code>"A"</code>なら1、それ以外は0のように、戻り値が2種類の場合のリコーディングには<code>if_else()</code>を使用する。書き方は以下の通りだ。</p>
+<p>　要するに、<code>X |&gt; Y</code>は「<code>X</code>（の結果）を使って<code>Y</code>を行う」ことを意味する。より詳しいパイプ演算子の解説は『私たちのR』の「<a href="https://www.jaysong.net/RBook/datahandling1.html#sec-handling1-pipe">データハンドリング [抽出]</a>」を参照されたい。</p>
+<p>　続いて、変数のリコーディングをしてみよう。<code>x</code>の値が<code>"A"</code>なら1、それ以外は0のように、戻り値が2種類の場合、<code>if_else()</code>関数でリコーディングする。書き方は以下の通りだ。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">if_else</span>(条件式, 条件が満たされる場合の戻り値, 条件が満たされない場合の戻り値)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -604,7 +624,7 @@ N: 344084
       N.Valid   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00   344084.00</code></pre>
 </div>
 </div>
-<p>　ただし、<code>descr()</code>を使うと数値型（numeric）変数の記述統計量のみ表示される。<code>df</code>だと、<code>treatment</code>列は文字型（character）であるため、表示されない<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。各グループがサンプルの何割かを計算するためには、<code>treatment</code>変数をダミー変数へ変換する必要がある。ダミー変数の作成は面倒な作業であるが、{fastDummies}パッケージの<code>dummy_cols()</code>を使えば簡単にできる。<code>dummy_cols()</code>の中には<code>select_columns = "ダミー化する列名"</code>を入れれば、当該変数をダミー変数へ変換し、新しい列として追加してくれる。それでは<code>treatment</code>列をダミー化&amp;追加し、その結果を<code>df</code>に上書きしてみよう。</p>
+<p>　ただし、<code>descr()</code>を使うと数値型（numeric）変数の記述統計量のみ表示される。<code>df</code>だと、<code>treatment</code>列は文字型（character）であるため、表示されない<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>。各グループがサンプルの何割かを計算するためには、<code>treatment</code>変数をダミー変数へ変換する必要がある。ダミー変数の作成は面倒な作業であるが、{fastDummies}パッケージの<code>dummy_cols()</code>を使えば簡単にできる。<code>dummy_cols()</code>の中には<code>select_columns = "ダミー化する列名"</code>を入れれば、当該変数をダミー変数へ変換し、新しい列として追加してくれる。それでは<code>treatment</code>列をダミー化&amp;追加し、その結果を<code>df</code>に上書きしてみよう。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
 <span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">dummy_cols</span>(<span class="at">select_columns =</span> <span class="st">"treatment"</span>)</span>
@@ -652,7 +672,7 @@ N: 344084
 </div>
 </div>
 <p>　<code>select()</code>関数内には抽出する列名を入力するだけで良い。たとえば、<code>female</code>と<code>yob</code>列を抽出するなら<code>select(female, yob)</code>である。また、<code>female</code><strong>から</strong><code>voted2006</code><strong>まで</strong>の意味で<code>female:voted2006</code>のような書き方もできる。他にも上の例のように<code>starts_with()</code>や<code>ends_with()</code>、<code>contain()</code>を使って特定の文字列で始まる（で終わる、を含む）列を指定することもできる。一部の列を除外する場合は変数名の前に<code>!</code>か<code>-</code>を付ける。</p>
-<p>　とにかく、問題なくダミー化されていることが分かる。もう一度記述統計量を出してみよう。<code>descr()</code>は仕様上、出力される変数の順番はアルファベット順になるが、ここでは元の順番を維持するために<code>order = "p"</code>を追加する。また、通常の記述統計表が、先ほど見たものとは違って、各行が変数を、列は記述統計量を表す場合が多い。このように行と列を交換するためには<code>transpose = TRUE</code>を追加する<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。</p>
+<p>　とにかく、問題なくダミー化されていることが分かる。もう一度記述統計量を出してみよう。<code>descr()</code>は仕様上、出力される変数の順番はアルファベット順になるが、ここでは元の順番を維持するために<code>order = "p"</code>を追加する。また、通常の記述統計表が、先ほど見たものとは違って、各行が変数を、列は記述統計量を表す場合が多い。このように行と列を交換するためには<code>transpose = TRUE</code>を追加する<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>df <span class="sc">|&gt;</span></span>
 <span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">descr</span>(<span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>, <span class="st">"n.valid"</span>),</span>
@@ -855,7 +875,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGAAAAB9CAQAAAD32a72AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAABB0lEQVR42u3aQQrCMBBG4UR6Rw/hefQOPaVuE7G1xcWbX963ExHmQSpkaH+2bBd6AAPoAX61jB8eXx+IW6cHbq21ccxl/uq6+8OVnvyD+CNkAM0AmgE0A2gG0AygGUAzgPZ2I6t459rXx/tliQvvAePM8UfIANr0EN9TFqXDw3pqL1TD/E8Zf4QMoBlAM4BmAM0AmgE0A2gG0OIDXGwRXGxVcnIvVON9oc0A3xcywIA8BtAMoBlAM4BmAM0AmgE090IE90KVuBeixR8hA2gG0AygGUAzgGYAzQCaAbT4APdCBPdClbgXosUfIQNoBtAMoBlAM4BmAM0AmgG0+ID/2gslij9CBtBeu/od7x9DAtEAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDCZBiG+AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDAzOjI1OjEyKzAwOjAw6FuZAgAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGAAAAB9CAQAAAD32a72AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAABB0lEQVR42u3aQQrCMBBG4UR6Rw/hefQOPaVuE7G1xcWbX963ExHmQSpkaH+2bBd6AAPoAX61jB8eXx+IW6cHbq21ccxl/uq6+8OVnvyD+CNkAM0AmgE0A2gG0AygGUAzgPZ2I6t459rXx/tliQvvAePM8UfIANr0EN9TFqXDw3pqL1TD/E8Zf4QMoBlAM4BmAM0AmgE0A2gG0OIDXGwRXGxVcnIvVON9oc0A3xcywIA8BtAMoBlAM4BmAM0AmgE090IE90KVuBeixR8hA2gG0AygGUAzgGYAzQCaAbT4APdCBPdClbgXosUfIQNoBtAMoBlAM4BmAM0AmgG0+ID/2gslij9CBtBeu/od7x9DAtEAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -895,7 +915,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAFgAAAA3CAQAAAAiPkUwAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAAAkklEQVRo3u3YsQ2AMAxE0RixIzvAPLBDpoTWiaCJFOKL/nVurFecIsV2J60sowGAo2X1wxW00Lt9gFPaRttekotJrhKAAQMGDBgw4FABDBgw4MnA1Z8ut235MeY/yta8pm+8Ua4ScuCiw2fIQ8pRNDX8IaV+BuQqARgwYMCAAQMOFcCAAQOeDKx9SFGIXCUA984D81ILx+yzmEIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDCZBiG+AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDAzOjI1OjEyKzAwOjAw6FuZAgAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAFgAAAA3CAQAAAAiPkUwAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAAAkklEQVRo3u3YsQ2AMAxE0RixIzvAPLBDpoTWiaCJFOKL/nVurFecIsV2J60sowGAo2X1wxW00Lt9gFPaRttekotJrhKAAQMGDBgw4FABDBgw4MnA1Z8ut235MeY/yta8pm+8Ua4ScuCiw2fIQ8pRNDX8IaV+BuQqARgwYMCAAQMOFcCAAQOeDKx9SFGIXCUA984D81ILx+yzmEIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -919,7 +939,7 @@ N: 344084
 </tbody>
 </table></td>
 <td style="text-align: left; vertical-align: middle;">86 distinct values</td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuCAQAAABxABKuAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAABx0lEQVR42u3cQZKCMBQAUbG8o3fQ8+gdPKVuQ7TUhoT8hH47NyN2zQ+BYZyeBxHH1gfQG4NBBoNO6Yup9dH87fa29F4rHnz6ZqfFP6Wx8+zVY7P3dSQhg0EGgzpZw25h9tedBGu3yOccSchgkMEgg0EGgwwGdbOt+GW+U6t3KT5MsHSfVnOX5khCBoMMBhkMCrvox7k/MRc22HbnPcaRhAwGGQwyGGQwyGCQwSCDQQaDDAYZDDIYZDDIYJDBIINBBoMMBhkMMhhkMMhgUOA/s62R/1Wz3NM8gwar98y1IwkZDAozklGfpciFCRbnfz2+cyQhg0EGgwwGGQwyGGQwyGCQwSCDQQaDAl1LtsK+x8dgB3bZ70hCBoMMBhkMarbo93JLOtfwLNnHLemcIwkZDDIYZDDIYNBOriXLPc2zk2DltjCOJGQwyGCQwaDNFv1YF9vLj2bDs2Ski+3l3+vjSEIGgwwGGQwyGFTxLBlrI1FK1W1FzC/lW8eRhAwGGQwyGFRw0R/nrPj2SZIb2kXPkpEur2t9DkcSMhhkMGjFGjbOIk+sWvRHWeQJRxJCv2H7HMK5KW1wN8hHl2TjOtmIcQ2DDAYZDHoBkgoxatSAN4MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDCZBiG+AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDAzOjI1OjEyKzAwOjAw6FuZAgAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuCAQAAABxABKuAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAABx0lEQVR42u3cQZKCMBQAUbG8o3fQ8+gdPKVuQ7TUhoT8hH47NyN2zQ+BYZyeBxHH1gfQG4NBBoNO6Yup9dH87fa29F4rHnz6ZqfFP6Wx8+zVY7P3dSQhg0EGgzpZw25h9tedBGu3yOccSchgkMEgg0EGgwwGdbOt+GW+U6t3KT5MsHSfVnOX5khCBoMMBhkMCrvox7k/MRc22HbnPcaRhAwGGQwyGGQwyGCQwSCDQQaDDAYZDDIYZDDIYJDBIINBBoMMBhkMMhhkMMhgUOA/s62R/1Wz3NM8gwar98y1IwkZDAozklGfpciFCRbnfz2+cyQhg0EGgwwGGQwyGGQwyGCQwSCDQQaDAl1LtsK+x8dgB3bZ70hCBoMMBhkMarbo93JLOtfwLNnHLemcIwkZDDIYZDDIYNBOriXLPc2zk2DltjCOJGQwyGCQwaDNFv1YF9vLj2bDs2Ski+3l3+vjSEIGgwwGGQwyGFTxLBlrI1FK1W1FzC/lW8eRhAwGGQwyGFRw0R/nrPj2SZIb2kXPkpEur2t9DkcSMhhkMGjFGjbOIk+sWvRHWeQJRxJCv2H7HMK5KW1wN8hHl2TjOtmIcQ2DDAYZDHoBkgoxatSAN4MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1010,7 +1030,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGoAAADECAQAAADdPnyCAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAABgUlEQVR42u3bYUoCURhG4Qz32CJaj+2hVdrfGY3SIrzn63n+SSBz6M6AL3o4P83z/OgLEPWfo47bF2933GCvh0df+t720o/7P73c+Bbvj2740sjjJ6pCVIWoClEVoipEVYiqEFUxMuri4/zaH9NvddgOFottKXfZdow8fiOjdvfUqTysb+6dH+5+q9k/4EYeP1EVoipEVYiqEFUhqkJUhaiKkVF2v5XZ/Yp+vfut9r2/q6j7d781Hywjj5+oClEVoipEVYiqEFUhqkJUhYlsZSayopFR3+5+K+56d0Vd737Np+HI4yeqQlSFqApRFaIqRFWIqhBVYfdbmd2vaH7U6Zz+pe/nUVOIqhBVIapCVIWoClEVoipEVYiqsPtViKq42P0efTl/EDWFqApRFaIqRFWIqhBVIapCVIWoCrtfxfwoE9nCRFWIqhBVIapCVIWoClEVoipEVYyMsvtVzI+y+y1MVIWoClEVoipEVYiqEFUhqkJUxciow5CtZWfkf0pUxQeNeCis3OJezAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwMzoyNToxMiswMDowMJkGIb4AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDDoW5kCAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGoAAADECAQAAADdPnyCAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAABgUlEQVR42u3bYUoCURhG4Qz32CJaj+2hVdrfGY3SIrzn63n+SSBz6M6AL3o4P83z/OgLEPWfo47bF2933GCvh0df+t720o/7P73c+Bbvj2740sjjJ6pCVIWoClEVoipEVYiqEFUxMuri4/zaH9NvddgOFottKXfZdow8fiOjdvfUqTysb+6dH+5+q9k/4EYeP1EVoipEVYiqEFUhqkJUhaiKkVF2v5XZ/Yp+vfut9r2/q6j7d781Hywjj5+oClEVoipEVYiqEFUhqkJUhYlsZSayopFR3+5+K+56d0Vd737Np+HI4yeqQlSFqApRFaIqRFWIqhBVYfdbmd2vaH7U6Zz+pe/nUVOIqhBVIapCVIWoClEVoipEVYiqsPtViKq42P0efTl/EDWFqApRFaIqRFWIqhBVIapCVIWoCrtfxfwoE9nCRFWIqhBVIapCVIWoClEVoipEVYyMsvtVzI+y+y1MVIWoClEVoipEVYiqEFUhqkJUxciow5CtZWfkf0pUxQeNeCis3OJezAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwNjowODo1NSswMDowMGhWkKgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDAZCygUAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1050,7 +1070,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAH0AAAA3CAQAAACLSo2kAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAAAnklEQVRo3u3ZsQ2AIBQAUTDu6A46j+7AlNqiiQ0REe9eR2O45GMBcQ9UQ+sNmG76m8Z8sf3+4M/xJj2EqfXeqkqnFXjgTScynch0ItOJTCcynch0ItOJTCe63M2lsq90KeaXsLH4M73Ia8EDD04/nfX1wSeI5fOnp9ITRA+/S/DAm05kOpHpRKYTmU5kOpHpRKYTmU7kEwQReOBNJzoAJacLx1TWcigAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDCZBiG+AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDAzOjI1OjEyKzAwOjAw6FuZAgAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAH0AAAA3CAQAAACLSo2kAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAAAnklEQVRo3u3ZsQ2AIBQAUTDu6A46j+7AlNqiiQ0REe9eR2O45GMBcQ9UQ+sNmG76m8Z8sf3+4M/xJj2EqfXeqkqnFXjgTScynch0ItOJTCcynch0ItOJTCe63M2lsq90KeaXsLH4M73Ia8EDD04/nfX1wSeI5fOnp9ITRA+/S/DAm05kOpHpRKYTmU5kOpHpRKYTmU7kEwQReOBNJzoAJacLx1TWcigAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1090,7 +1110,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGgAAAA3CAQAAABKzccIAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAAAn0lEQVRo3u3YsQmAMBBA0UTc0R10Ht3BKbWNgk0Q7nv+36WRPLhYXD1KroboCwj6G2hsD9tHH9RcH0ClTNF362i/nNKNnCB6gugJoieIniB6gugJoieIniB6t53C3vcVULVd9NTuz8TWGtKNXDrQ5Q2tIYvG5dVJD180vv0bSjdygugJoieIniB6gugJoieIniB6gujlXjRmKN3ICaJ3AppiC8fdrh9zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTA4LTA3VDAzOjI1OjEyKzAwOjAwmQYhvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wOC0wN1QwMzoyNToxMiswMDowMOhbmQIAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGgAAAA3CAQAAABKzccIAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDiOZLzGAAAAn0lEQVRo3u3YsQmAMBBA0UTc0R10Ht3BKbWNgk0Q7nv+36WRPLhYXD1KroboCwj6G2hsD9tHH9RcH0ClTNF362i/nNKNnCB6gugJoieIniB6gugJoieIniB6t53C3vcVULVd9NTuz8TWGtKNXDrQ5Q2tIYvG5dVJD180vv0bSjdygugJoieIniB6gugJoieIniB6gujlXjRmKN3ICaJ3AppiC8fdrh9zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTA4LTA3VDA2OjA4OjU2KzAwOjAwWb6KNQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wOC0wN1QwNjowODo1NiswMDowMCjjMokAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1130,7 +1150,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGYAAAA3CAQAAABUBPe7AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAAAoElEQVRo3u3YsQmAMBBA0UTc0R10Ht0hU2obBQtFyM/5X5dG8uFicXlPcQytL2DMH2LG+rB1+IDmfBOT0tT6bg+V0ynUmBlDZQyVMVTGUBlDZQyVMVTGUBlDddkBlHdfgcj1Qia//kw79f1DjVmomNObWZstAZdPJhyxBPzqtxNqzIyhMobKGCpjqIyhMobKGCpjqIyhirsE7F2oMTOG6gClgAvHCon2YAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwMzoyNToxMiswMDowMJkGIb4AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDDoW5kCAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGYAAAA3CAQAAABUBPe7AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDiOZLzGAAAAoElEQVRo3u3YsQmAMBBA0UTc0R10Ht0hU2obBQtFyM/5X5dG8uFicXlPcQytL2DMH2LG+rB1+IDmfBOT0tT6bg+V0ynUmBlDZQyVMVTGUBlDZQyVMVTGUBlDddkBlHdfgcj1Qia//kw79f1DjVmomNObWZstAZdPJhyxBPzqtxNqzIyhMobKGCpjqIyhMobKGCpjqIyhirsE7F2oMTOG6gClgAvHCon2YAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwNjowODo1NiswMDowMFm+ijUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDY6MDg6NTYrMDA6MDAo4zKJAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1170,7 +1190,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAHMAAAA3CAQAAACVg70XAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcDGQz6wqmIAAAAoElEQVRo3u3YQQ5AMBBA0Vbc0R04D3dwSrYlsdCg8ue/XTfSn0wtJm8pgq71Bcw0866+PCyohzrmi8yUhtZ3e8x6OAUZWjNJzCQxk8RMEjNJzCQxk8RMEjNJTrugte4rv5fLZV6u/swflWVBhjZI5uFtzi+vo6dmr+LDdXTL31uQoTWTxEwSM0nMJDGTxEwSM0nMJDGTJOI6mivI0JpJsgNdPQvHfudQawAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwMzoyNToxMiswMDowMJkGIb4AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDM6MjU6MTIrMDA6MDDoW5kCAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAHMAAAA3CAQAAACVg70XAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDiOZLzGAAAAoElEQVRo3u3YQQ5AMBBA0Vbc0R04D3dwSrYlsdCg8ue/XTfSn0wtJm8pgq71Bcw0866+PCyohzrmi8yUhtZ3e8x6OAUZWjNJzCQxk8RMEjNJzCQxk8RMEjNJTrugte4rv5fLZV6u/swflWVBhjZI5uFtzi+vo6dmr+LDdXTL31uQoTWTxEwSM0nMJDGTxEwSM0nMJDGTJOI6mivI0JpJsgNdPQvHfudQawAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwNjowODo1NiswMDowMFm+ijUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDY6MDg6NTYrMDA6MDAo4zKJAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1278,8 +1298,8 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-blc-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-blc-1-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;1: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-blc-1-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;1: 標準化差分によるバランス✔</figcaption>
 </figure>
 </div>
 </div>
@@ -1292,15 +1312,15 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-blc-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-blc-2-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;2: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-blc-2-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;2: 標準化差分を全て絶対値にし、最も大きいもののみを表示</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="処置効果の確認" class="level2">
-<h2 class="anchored" data-anchor-id="処置効果の確認">処置効果の確認</h2>
+<section id="処置効果の推定" class="level2">
+<h2 class="anchored" data-anchor-id="処置効果の推定">処置効果の推定</h2>
 <section id="グループごとの応答変数の平均値" class="level3">
 <h3 class="anchored" data-anchor-id="グループごとの応答変数の平均値">グループごとの応答変数の平均値</h3>
 <p>　処置効果を確認するためには各グループごとの応答変数（ここでは<code>voted2006</code>）の平均値を計算し、処置群の平均値から統制群の平均値を引く必要がある。まずは、特定の変数の平均値を計算する方法について紹介する。データ内にある特定の変数の平均値を計算するためには<code>summarise()</code>関数内に平均値を求める<code>mean()</code>関数を入れる。たとえば、<code>df</code>の<code>voted2006</code>の平均値を計算するコードは以下の通りである。</p>
@@ -1360,7 +1380,7 @@ N: 344084
 5 Self         0.345</code></pre>
 </div>
 </div>
-<p>　ここで一つ注目したいのが、グループの表示順番である。変数のデータ型が文字型だと（Rコンソール上で<code>class(df$treatment)</code>を入力するか、<code>df</code>の出力画面で<code>treatment</code>の下に<code>&lt;chr&gt;</code>と表示されていることで確認できる）、今のようにアルファベット順で表示される。しかし、統制群は最初か最後に来るのが通例である。この順番をアルファベット順でなく、任意の順番にするためには<code>treatment</code>変数をfactor型変数へ変換する必要がある。Factor型は「順序付きの文字型変数」だと理解しても良い<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>。列の追加・上書き（今回は<code>treatment</code>列の上書き）の処理が必要なので<code>mutate()</code>関数を使う。変数をfactor型に変換する関数は<code>factor()</code>関数で、第1引数としてはfactor型へ変換する変数名を指定する。第2引数は<code>levels</code>であり、出力したい順番の文字型ベクトルを指定する。<strong>スペルミス</strong>に注意すること。</p>
+<p>　ここで一つ注目したいのが、グループの表示順番である。変数のデータ型が文字型だと（Rコンソール上で<code>class(df$treatment)</code>を入力するか、<code>df</code>の出力画面で<code>treatment</code>の下に<code>&lt;chr&gt;</code>と表示されていることで確認できる）、今のようにアルファベット順で表示される。しかし、統制群は最初か最後に来るのが通例である。この順番をアルファベット順でなく、任意の順番にするためには<code>treatment</code>変数をfactor型変数へ変換する必要がある。Factor型は「順序付きの文字型変数」だと理解しても良い<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>。列の追加・上書き（今回は<code>treatment</code>列の上書き）の処理が必要なので<code>mutate()</code>関数を使う。変数をfactor型に変換する関数は<code>factor()</code>関数で、第1引数としてはfactor型へ変換する変数名を指定する。第2引数は<code>levels</code>であり、出力したい順番の文字型ベクトルを指定する。<strong>スペルミス</strong>に注意すること。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>df <span class="sc">|&gt;</span></span>
 <span id="cb54-2"><a href="#cb54-2"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">factor</span>(treatment,</span>
@@ -1419,8 +1439,8 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-intro-bar-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-bar-1-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;3: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-bar-1-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;3: 各グループごとの投票率</figcaption>
 </figure>
 </div>
 </div>
@@ -1437,8 +1457,8 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-intro-bar-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-bar-2-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;4: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-bar-2-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;4: 縦軸タイトルの変更 + 文字サイスの修正</figcaption>
 </figure>
 </div>
 </div>
@@ -1454,13 +1474,13 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-intro-bar-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-bar-3-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;5: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-bar-3-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;5: 棒にラベルを追加</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>　小数点が長すぎるので3桁まで表示としよう。ここでは<code>sprintf()</code>を使用する。使い方が簡単とは言えないが、覚える必要はなく、必要な時にググるか、本資料のコードをコピペすれば良い<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>。</p>
+<p>　小数点が長すぎるので3桁まで表示としよう。ここでは<code>sprintf()</code>を使用する。使い方が簡単とは言えないが、覚える必要はなく、必要な時にググるか、本資料のコードをコピペすれば良い<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>out_mean_df <span class="sc">|&gt;</span></span>
 <span id="cb62-2"><a href="#cb62-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -1472,8 +1492,8 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-intro-bar-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-bar-4-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;6: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-bar-4-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;6: 推定値を小数点3桁まで表示</figcaption>
 </figure>
 </div>
 </div>
@@ -1489,8 +1509,8 @@ N: 344084
 <div class="cell-output-display">
 <div id="fig-intro-bar-5" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-bar-5-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;7: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-bar-5-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;7: マッピングを共有する箇所を<code>ggplot()</code>内でまとめる</figcaption>
 </figure>
 </div>
 </div>
@@ -1584,7 +1604,7 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
 </div>
 </div>
-<p>　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準<strong>偏差</strong>ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%であれば、95%信頼区間を示し、10%なら90%信頼区間を用いる。</p>
+<p>　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準<strong>偏差</strong>ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%（<span class="math inline">\(\alpha\)</span> = 0.05）であれば、95%信頼区間を示し、10%（<span class="math inline">\(\alpha\)</span> = 0.1）なら90%信頼区間を用いる。<code>tidy()</code>で得られたデータの場合、信頼区間の下限と上限はそれぞれ<code>conf.low</code>と<code>conf.high</code>という名の列に格納されている（<code>conf.int = TRUE</code>を指定しておかないと、信頼区間は計算されない）。</p>
 <p>　点と区間を同時に示すプロットがpoint-rangeプロットであり、{ggplot2}では<code>geom_pointrange()</code>レイヤーを使う。必要な情報はpoint-rangeの横軸上の位置（<code>x</code>）、点の縦軸上の位置（<code>y</code>）、区間の上限（<code>ymax</code>）と下限（<code>ymin</code>）である。これらの情報は全て<code>fit1_coef</code>に入っているため、<code>fit1_coef</code>をそのまま<code>ggplot()</code>関数に渡して作図することができる。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>fit1_coef <span class="sc">|&gt;</span></span>
@@ -1594,8 +1614,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-1-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;8: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-1-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;8: 処置効果と95%信頼区間</figcaption>
 </figure>
 </div>
 </div>
@@ -1612,8 +1632,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-2-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;9: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-2-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;9: 軸タイトルの修正 + y = 0の水平線を追加 + テーマの変更</figcaption>
 </figure>
 </div>
 </div>
@@ -1638,7 +1658,7 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
 </div>
 </div>
-<p>　以上の作業は<code>term</code>列の各値から<code>"treatment"</code>文字を<code>""</code>に置換することなので、文字列を置換する関数である<code>str_replace()</code>を使えば、より短くすることができる。</p>
+<p>　以上の作業は<code>term</code>列の各値から<code>"treatment"</code>文字を<code>""</code>に置換することなので、文字列を置換する関数である<code>str_replace()</code>を使えば、より短くすることができる<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>。</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>fit1_coef <span class="ot">&lt;-</span> fit1_coef <span class="sc">|&gt;</span></span>
 <span id="cb79-2"><a href="#cb79-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">str_replace</span>(term, <span class="st">"treatment"</span>, <span class="st">""</span>))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1655,8 +1675,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-3-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;10: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-3-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;10: 横軸ラベルの変更</figcaption>
 </figure>
 </div>
 </div>
@@ -1689,8 +1709,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-4-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;11: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-4-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;11: 横軸ラベルの順番を変更した後</figcaption>
 </figure>
 </div>
 </div>
@@ -1767,8 +1787,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-5" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-5-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;12: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-5-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;12: 処置効果と98.75%信頼区間</figcaption>
 </figure>
 </div>
 </div>
@@ -2432,8 +2452,8 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-6" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-6-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;13: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-6-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;13: Model 1とModel 2の比較（ファセット分割）</figcaption>
 </figure>
 </div>
 </div>
@@ -2451,8 +2471,8 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-7" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-7-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;14: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-7-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;14: Model 1とModel 2の比較（色分け）</figcaption>
 </figure>
 </div>
 </div>
@@ -2471,8 +2491,8 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-8" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-8-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;15: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-8-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;15: Pointrangeの位置調整</figcaption>
 </figure>
 </div>
 </div>
@@ -2494,8 +2514,8 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <div id="fig-intro-pointrange-9" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-9-1.png" class="img-fluid figure-img" width="2100"></p>
-<figcaption class="figure-caption">図&nbsp;16: <strong>?(caption)</strong></figcaption>
+<p><img src="intro_rct_files/figure-html/fig-intro-pointrange-9-1.png" class="img-fluid figure-img" width="1050"></p>
+<figcaption class="figure-caption">図&nbsp;16: 凡例の位置調整</figcaption>
 </figure>
 </div>
 </div>
@@ -2508,11 +2528,14 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">脚注</h2>
 
 <ol>
-<li id="fn1"><p>パッケージのアップデートには<code>pacman::p_update()</code>または<code>pacman::p_up()</code>関数を使う。<code>()</code>内に何も入力しない場合、全パッケージがアップデートされる。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>変数のデータ型はデータを出力する際、列名の下段に表示される。<code>&lt;chr&gt;</code>は文字型、<code>&lt;dbl&gt;</code>と<code>&lt;int&gt;</code>は数値型、<code>&lt;fct&gt;</code>はfactor型である。他にもいくつかのデータ型がある。詳細は『私たちのR』の<a href="https://www.jaysong.net/RBook/datatype.html">第8章</a>を参照すること。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>RMarkdown内に埋め込むなら更に<code>style = "rmarkdown"</code>を追加してみよう。ただし、Chunkオプションに<code>results = "asis"</code>（Quartoなら<code>#| results: "asis"</code>）を付けること。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>中身が1、2、3、…であってもfactor型であれば1、2、3、…は数字でなく文字として認識される。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>もっと使いやすい<code>round()</code>があるが、<code>round()</code>の場合、丸めた結果が1.100なら1.1としか表記されない。表示される桁数を固定するためには<code>sprintf()</code>を使う。<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><code>pacman::p_load()</code>は「{pacman}パッケージの<code>p_load()</code>関数」を意味する。このような書き方をすると、パッケージを読み込まず、関数を使うことができる。むろん、<code>library(pacman)</code>で予め{pacman}パッケージを読み込んでおくと、<code>pacman::</code>は省略し、<code>p_load()</code>だけでも問題ない。ただし、最初の1、2回程度しか使わないパッケージをわざわざ読み込んでおくのは目盛りの無駄遣いなので、このようにパッケージから直接呼び出したほうが効率が良い。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>パッケージのアップデートには<code>pacman::p_update()</code>または<code>pacman::p_up()</code>関数を使う。<code>()</code>内に何も入力しない場合、全パッケージがアップデートされる。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Microsoft Excel形式（<code>.xls</code>、<code>.xlsx</code>）は{readxl}パッケージの<code>read_excel()</code>関数を、Stata形式（<code>.dta</code>）は{heaven}の<code>read_dta()</code>（または<code>read_stata()</code>）、SPSS形式（<code>.sav</code>）は{haven}の<code>read_sav()</code>（または<code>read_spss()</code>）を使用する。ただし、データ分析界隈の標準は<code>.csv</code>フォーマットである。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>変数のデータ型はデータを出力する際、列名の下段に表示される。<code>&lt;chr&gt;</code>は文字型、<code>&lt;dbl&gt;</code>と<code>&lt;int&gt;</code>は数値型、<code>&lt;fct&gt;</code>はfactor型である。他にもいくつかのデータ型がある。詳細は『私たちのR』の<a href="https://www.jaysong.net/RBook/datatype.html">第8章</a>を参照すること。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>RMarkdown内に埋め込むなら更に<code>style = "rmarkdown"</code>を追加してみよう。ただし、Chunkオプションに<code>results = "asis"</code>（Quartoなら<code>#| results: "asis"</code>）を付けること。<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>中身が1、2、3、…であってもfactor型であれば1、2、3、…は数字でなく文字として認識される。<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>もっと使いやすい<code>round()</code>があるが、<code>round()</code>の場合、丸めた結果が1.100なら1.1としか表記されない。表示される桁数を固定するためには<code>sprintf()</code>を使う。<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><code>str_replace(term, "treatment", "")</code>の代わりに<code>str_remove(term, "treatment")</code>でも良い。<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

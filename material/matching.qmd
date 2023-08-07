@@ -1,9 +1,8 @@
 ---
 title: "マッチング"
 toc: true
-link-external-icon: true
-link-external-newwindow: true
-code-line-numbers: true
+metadata-files: 
+  - _material.yml
 ---
 
 ## スライド
@@ -12,15 +11,6 @@ code-line-numbers: true
 
 ```{=html}
 <iframe class="slide-deck" src="../slide/matching.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
-```
-
-```{r}
-#| include: false
-knitr::opts_chunk$set(dev       = "ragg_png",
-                      dpi       = 300,
-                      fig.align = "center",
-                      message   = FALSE,
-                      warning   = FALSE)
 ```
 
 ## セットアップ

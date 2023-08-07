@@ -1,9 +1,8 @@
 ---
 title: "因果推論の考え方とランダム化比較試験"
 toc: true
-link-external-icon: true
-link-external-newwindow: true
-code-line-numbers: true
+metadata-files: 
+  - _material.yml
 ---
 
 ## スライド
@@ -14,43 +13,41 @@ code-line-numbers: true
 <iframe class="slide-deck" src="../slide/intro_rct.html" width="100%" style="aspect-ratio: 16 / 9.2;"></iframe>
 ```
 
-```{r}
-#| include: false
-knitr::opts_chunk$set(dev       = "ragg_png",
-                      dpi       = 300,
-                      fig.align = "center",
-                      message   = FALSE,
-                      warning   = FALSE)
-```
-
 ## パッケージ
 
-　通常、Rでのパッケージのインストールとアップーでとには`install.packages()`関数、読み込みには`library()`、または`require()`関数を使う。また、R公式レポジトリにないパッケージは{devtools}か{remote}パッケージを使う。これらの関数を使い分けることは面倒なので、本講義ではこれらの処理を統合した{pacman}パッケージを使用する。まずは、{pacman}パッケージをインストールする。
+　通常、Rでのパッケージのインストールとアップデートは`install.packages()`関数、読み込みは`library()`、または`require()`関数を使う。一つ注意すべき点は`install.packages()`の場合、R公式レポジトリであるCRANに登録されているパッケージのみが対象となっている点だ。しかし、今はCRANでなくGitHub上で公開されているパッケージも非常に多い。これらパッケージは{devtools}か{remote}パッケージを使う。これらの関数を使い分けることは面倒なので、本講義ではこれらの処理を統合した{pacman}パッケージを使用する。まずは、{pacman}パッケージをインストールする。
 
 ```{r}
 #| eval: false
-# NIIオンライン分析システムを利用する場合、導入済み
 install.packages("pacman")
 ```
 
-　パッケージを読み込む際、`pacman::p_load(読み込むパッケージ名)`を入力する。インストールされていない場合は、自動的にCRANからダウンロード&インストールした上で読み込んでくれるので便利だ[^pacman-update]。以下では本講義で使用するパッケージとして{tidyverse}、{summarytools}、{fastDummies}、{modelsummary}を読み込む。
+　まず、CRANに登録されているパッケージを読み込む際は、`pacman::p_load(読み込むパッケージ名)`を入力する[^pac-func]。インストールされていない場合は、自動的にCRANからダウンロード&インストールした上で読み込んでくれるので便利だ[^pacman-update]。以下では本講義で使用するパッケージとして{tidyverse}、{summarytools}、{fastDummies}、{modelsummary}、{broom}を読み込む。
+
+[^pac-func]: `pacman::p_load()`は「{pacman}パッケージの`p_load()`関数」を意味する。このような書き方をすると、パッケージを読み込まず、関数を使うことができる。むろん、`library(pacman)`で予め{pacman}パッケージを読み込んでおくと、`pacman::`は省略し、`p_load()`だけでも問題ない。ただし、最初の1、2回程度しか使わないパッケージをわざわざ読み込んでおくのは目盛りの無駄遣いなので、このようにパッケージから直接呼び出したほうが効率が良い。
 
 [^pacman-update]: パッケージのアップデートには`pacman::p_update()`または`pacman::p_up()`関数を使う。`()`内に何も入力しない場合、全パッケージがアップデートされる。
 
 ```{r}
-pacman::p_load(tidyverse, summarytools, fastDummies,
-               modelsummary, broom)
+# pacman::p_load(tidyverse, summarytools, fastDummies, modelsummary, broom) もOK
+pacman::p_load(tidyverse, 
+               summarytools, 
+               fastDummies,
+               modelsummary,
+               broom)
 ```
 
-　CRANでなく、GitHub上で公開されているパッケージを使う場合は`pacman::p_load_gh()`を使用する。`()`の中には`"ユーザー名/リポジトリ名"`を入力。たとえば、{BalanceR}の作成者のGitHubアカウント名は`JaehyunSong`であり、{BalanceR}のリポジトリ名は`BalanceR`だから、以下のように入力する。
+　CRANでなく、GitHub上で公開されているパッケージを使う場合は`pacman::p_load_gh()`を使用する。`()`の中には`"ユーザー名/リポジトリ名"`を入力する。たとえば、{BalanceR}の作成者のGitHubアカウント名は`JaehyunSong`であり、{BalanceR}のリポジトリ名は`BalanceR`だから、以下のように入力する。`p_load()`とは違って、文字列は`"`で囲む必要があることに注意しよう。
 
 ```{r}
 pacman::p_load_gh("JaehyunSong/BalanceR")
 ```
 
-## データの読み込みと確認
+## データの読み込み
 
-　`.csv`形式のデータを読み込むには`read_csv()`関数を使用する。`()`内には読み込むファイルのパスを`"`で囲んで記入する。`read_csv()`関数はファイルの読み込み**のみ**の機能しか持たない。現在の作業環境内に読み込んだデータを格納するためには代入演算子`<-`を使う。ここでは`data`フォルダー内の`Day1_Data3.csv`を読み込み、`raw_df`という名のオブジェクトとしてく格納する。作業環境内のオブジェクトはRを再起動すると削除されるため、改めてパッケージ・データの読み込みが必要だ。
+　`.csv`形式のデータを読み込むには`read_csv()`関数を使用する[^haven]。`()`内には読み込むファイルのパスを`"`で囲んで記入する。`read_csv()`関数はファイルの読み込み**のみ**の機能しか持たない。現在の作業環境内に読み込んだデータを格納するためには代入演算子`<-`を使う。ここでは`data`フォルダー内の`intro_data3.csv`を読み込み、`raw_df`という名のオブジェクトとしてく格納する。作業環境内のオブジェクトはRを再起動すると削除されるため、改めてパッケージ・データの読み込みが必要だ。
+
+[^haven]: Microsoft Excel形式（`.xls`、`.xlsx`）は{readxl}パッケージの`read_excel()`関数を、Stata形式（`.dta`）は{heaven}の`read_dta()`（または`read_stata()`）、SPSS形式（`.sav`）は{haven}の`read_sav()`（または`read_spss()`）を使用する。ただし、データ分析界隈の標準は`.csv`フォーマットである。
 
 ```{r}
 raw_df <- read_csv("data/intro_data3.csv")
@@ -62,7 +59,7 @@ raw_df <- read_csv("data/intro_data3.csv")
 raw_df
 ```
 
-　表形式データの大きさ（行の列の数）の確認には`dim()`関数を使う。
+　表形式データの大きさ（行の列の数）の確認には`dim()`関数を使う。長さ2のnumeric（数値）型ベクトルが返され、それぞれデータセットの行と列の数を意味する。
 
 ```{r}
 dim(raw_df)
@@ -74,9 +71,18 @@ dim(raw_df)
 names(raw_df)
 ```
 
-## データハンドリングとパイプ演算子
+## データハンドリング
 
-　パイプ演算子には{magrittr}パッケージが提供する`%>%`とR 4.1から提供されるネイティブパイプ演算子の`|>`がある。現在の主流は古くから使われてきた`%>%`であるが、今後、`|>`が主流になると考えられるため、本講義では`|>`を使用する。しかし、多くの場合、`|>`の代わりに`%>%`を使っても同じ結果が得られる。
+　パイプ演算子には{magrittr}パッケージが提供する`%>%`とR 4.1から提供されるネイティブパイプ演算子の`|>`がある。現在の主流は古くから使われてきた`%>%`であるが、今後、`|>`が主流になると考えられるため、本講義では`|>`を使用する。しかし、多くの場合、`|>`の代わりに`%>%`を使っても同じ結果が得られる。 
+
+:::{.callout-note}
+## パイプ演算子のショートカットキー
+
+　Rのnativeパイプ演算子（`|>`）は意外と打ちにくい。ショートカットキーを活用しよう。
+
+* macOS：Cmd（⌘） + Shift + m
+* Windows：Ctrl（Control） + Shift + m
+:::
 
 　パイプ演算子はパイプ前のオブジェクトを、パイプ後の関数の**第一引数**として渡す単純な演算子だ。たとえば、列名を変更する関数は`rename()`であるが、使い方は`renames(データ名, 新しい列名 = 既存の列名, ...)`である。`raw_df`の`gender`列の名前を`female`に変更する場合は以下のように書く。
 
@@ -91,9 +97,9 @@ raw_df |>
   rename(female = gender)
 ```
 
-　要するに、`X |> Y`は「`X`（の結果）を使って`Y`を行う」ことを意味する。
+　要するに、`X |> Y`は「`X`（の結果）を使って`Y`を行う」ことを意味する。より詳しいパイプ演算子の解説は『私たちのR』の「[データハンドリング [抽出]](https://www.jaysong.net/RBook/datahandling1.html#sec-handling1-pipe)」を参照されたい。
 
-　続いて、変数のリコーディングをしてみよう。`x`の値が`"A"`なら1、それ以外は0のように、戻り値が2種類の場合のリコーディングには`if_else()`を使用する。書き方は以下の通りだ。
+　続いて、変数のリコーディングをしてみよう。`x`の値が`"A"`なら1、それ以外は0のように、戻り値が2種類の場合、`if_else()`関数でリコーディングする。書き方は以下の通りだ。
 
 ```{r}
 #| eval: false
@@ -266,19 +272,23 @@ summary(blc_chk)
 
 　`plot()`関数を使えば、これらの結果を可視化することもできる。
 
-```{r fig-blc-1}
+```{r}
+#| label: fig-blc-1
+#| fig-cap: "標準化差分によるバランス✔"
 plot(blc_chk)
 ```
 
 　先ほど述べたようにバランスチェックで重要なのは絶対値が最も大きい標準化差分である。`plot()`内に`simplify = TRUE`を指定すれば最大値のみ表示され、更に`abs = TRUE`にすると絶対値へ変換される。また、垂直のガイドラインは`vline`引数で変更できる。
 
-```{r fig-blc-2}
+```{r}
+#| label: fig-blc-2
+#| fig-cap: "標準化差分を全て絶対値にし、最も大きいもののみを表示"
 # plot() の第1引数は blc_chk なのでパイプの使える
 blc_chk |>
   plot(vline = c(5, 10), simplify = TRUE, abs = TRUE)
 ```
 
-## 処置効果の確認
+## 処置効果の推定
 
 ### グループごとの応答変数の平均値
 
@@ -350,7 +360,9 @@ out_mean_df
 
 　それではこの結果をグラフとして示してみよう。作図には{ggplot2}パッケージを使う。まずは`out_mean_df`を`ggplot()`関数に渡す。`ggplot()`関数以降は、`+`演算子を使ってレイヤーを足していくこととなる。棒グラフのレイヤーは`geom_bar()`関数であり、その中に`aes()`関数を入れる。`aes()`の中には棒グラフの作図に必要な情報を入れる必要がある（これを**マッピング**（mapping）と呼ぶ）。棒グラフを作成するために必要な最低限の情報とは各棒の横軸上の位置（`x`）と棒の高さ（`y`）だ。今回は横軸がグループ名、縦軸が平均値となる棒グラフを作る。`aes()`外側には`stat = "identity"`を忘れずに付けること。
 
-```{r fig-intro-bar-1}
+```{r}
+#| label: fig-intro-bar-1
+#| fig-cap: "各グループごとの投票率"
 out_mean_df |>
   ggplot() +
   geom_bar(aes(x = Groups, y = Outcome), stat = "identity")
@@ -358,7 +370,9 @@ out_mean_df |>
 
 　続いて、このグラフの見た目を調整してみよう。
 
-```{r fig-intro-bar-2}
+```{r}
+#| label: fig-intro-bar-2
+#| fig-cap: "縦軸タイトルの変更 + 文字サイスの修正"
 out_mean_df |>
   ggplot() +
   geom_bar(aes(x = Groups, y = Outcome), stat = "identity") +
@@ -370,7 +384,9 @@ out_mean_df |>
 
 　また、`geom_label()`レイヤーを足すと、棒の上にラベルを付けることもできる。ラベルに必要な情報は各ラベルの横軸上の位置（`x`）、縦軸上の位置（`y`）、ラベルの表示内容（`label`）だ。今回のラベルは平均値の具体的な数値を入れてみよう。
 
-```{r fig-intro-bar-3}
+```{r}
+#| label: fig-intro-bar-3
+#| fig-cap: "棒にラベルを追加"
 out_mean_df |>
   ggplot() +
   geom_bar(aes(x = Groups, y = Outcome), stat = "identity") +
@@ -383,7 +399,9 @@ out_mean_df |>
 
 [^sprintf]: もっと使いやすい`round()`があるが、`round()`の場合、丸めた結果が1.100なら1.1としか表記されない。表示される桁数を固定するためには`sprintf()`を使う。
 
-```{r fig-intro-bar-4}
+```{r}
+#| label: fig-intro-bar-4
+#| fig-cap: "推定値を小数点3桁まで表示"
 out_mean_df |>
   ggplot() +
   geom_bar(aes(x = Groups, y = Outcome), stat = "identity") +
@@ -395,7 +413,9 @@ out_mean_df |>
 
 　これで可視化ができた。ただし、以上のコードには改善の余地がある。`geom_bar()`と`geom_label()`内の`aes()`関数に注目して欲しい。よく見ると`x`と`y`と同じだろう。`geom_*()`が共有するマッピングがあれば、`ggplot()`内で指定することでコードを効率化することもできる。
 
-```{r fig-intro-bar-5}
+```{r}
+#| label: fig-intro-bar-5
+#| fig-cap: "マッピングを共有する箇所を`ggplot()`内でまとめる"
 out_mean_df |>
   ggplot(aes(x = Groups, y = Outcome)) +
   geom_bar(stat = "identity") +
@@ -461,11 +481,13 @@ fit1_coef <- fit1_coef |>
 fit1_coef
 ```
 
-　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準**偏差**ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%であれば、95%信頼区間を示し、10%なら90%信頼区間を用いる。
+　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準**偏差**ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%（$\alpha$ = 0.05）であれば、95%信頼区間を示し、10%（$\alpha$ = 0.1）なら90%信頼区間を用いる。`tidy()`で得られたデータの場合、信頼区間の下限と上限はそれぞれ`conf.low`と`conf.high`という名の列に格納されている（`conf.int = TRUE`を指定しておかないと、信頼区間は計算されない）。
 
 　点と区間を同時に示すプロットがpoint-rangeプロットであり、{ggplot2}では`geom_pointrange()`レイヤーを使う。必要な情報はpoint-rangeの横軸上の位置（`x`）、点の縦軸上の位置（`y`）、区間の上限（`ymax`）と下限（`ymin`）である。これらの情報は全て`fit1_coef`に入っているため、`fit1_coef`をそのまま`ggplot()`関数に渡して作図することができる。
 
-```{r fig-intro-pointrange-1}
+```{r}
+#| label: fig-intro-pointrange-1
+#| fig-cap: "処置効果と95%信頼区間"
 #| fig-height: 3.5
 fit1_coef |>
   ggplot() +
@@ -475,7 +497,9 @@ fit1_coef |>
 
 　それでは図をカスタマイズしてみよう。図内の様々なラベルを修正する`labs()`レイヤーでラベルを修正する。テーマはデフォルトの`theme_gray()`の代わりに白黒テーマ（`theme_bw()`）を使用し、フォントサイズは12とする。また、y = 0の水平線を追加する。95%信頼区間内に0が含まれる場合、「5%水準で統計的に有意でない」と判断できる。水平線を描くには`geom_hline()`レイヤーを追加し、`yintercept = 0`を指定することで、0のところに水平線が描ける。
 
-```{r fig-intro-pointrange-2}
+```{r}
+#| label: fig-intro-pointrange-2
+#| fig-cap: "軸タイトルの修正 + y = 0の水平線を追加 + テーマの変更"
 #| fig-height: 3.5
 fit1_coef |>
   ggplot() +
@@ -499,7 +523,9 @@ fit1_coef <- fit1_coef |>
 fit1_coef
 ```
 
-　以上の作業は`term`列の各値から`"treatment"`文字を`""`に置換することなので、文字列を置換する関数である`str_replace()`を使えば、より短くすることができる。
+　以上の作業は`term`列の各値から`"treatment"`文字を`""`に置換することなので、文字列を置換する関数である`str_replace()`を使えば、より短くすることができる[^str-remove]。
+
+[^str-remove]: `str_replace(term, "treatment", "")`の代わりに`str_remove(term, "treatment")`でも良い。
 
 ```{r}
 #| eval: false
@@ -509,7 +535,9 @@ fit1_coef <- fit1_coef |>
 
 　`fit1_coef`も修正できたので、 @fig-intro-pointrange-2 と同じコードでもう一度作図してみよう。
 
-```{r fig-intro-pointrange-3}
+```{r}
+#| label: fig-intro-pointrange-3
+#| fig-cap: "横軸ラベルの変更"
 #| fig-height: 3.5
 fit1_coef |>
   ggplot() +
@@ -531,7 +559,9 @@ fit1_coef
 
 　それでは、 @fig-intro-pointrange-3 と同じコードでもう一度作図してみよう。
 
-```{r fig-intro-pointrange-4}
+```{r}
+#| label: fig-intro-pointrange-4
+#| fig-cap: "横軸ラベルの順番を変更した後"
 #| fig-height: 3.5
 fit1_coef |>
   ggplot() +
@@ -583,7 +613,9 @@ fit1_coef
 
 　最後に @fig-intro-pointrange-4 と同じコードで作図する。
 
-```{r fig-intro-pointrange-5}
+```{r}
+#| label: fig-intro-pointrange-5
+#| fig-cap: "処置効果と98.75%信頼区間"
 #| fig-height: 3.5
 fit1_coef |>
   ggplot() +
@@ -688,7 +720,9 @@ fit_coef <- bind_rows(list("Model 1" = fit1_coef,
 
 　それでは`fit_coef`を使って、作図をしてみよう。コードは @fig-intro-pointrange-5 と同じであるが、`facet_wrap()`レイヤーを追加する。これはグラフのファセット（facet）分割を意味し、ファセットとは「面」を意味する。`()`内には`~分割の基準となる変数名`を入れる。2つのモデルがあり、`fit_coef`だと`Model`列がどのモデルの推定値かを示している。
 
-```{r fig-intro-pointrange-6}
+```{r}
+#| label: fig-intro-pointrange-6
+#| fig-cap: "Model 1とModel 2の比較（ファセット分割）"
 #| fig-height: 3.5
 fit_coef |>
   ggplot() +
@@ -702,7 +736,9 @@ fit_coef |>
 
 　今回の結果だとモデル1もモデル2も推定値がほぼ同じである。ファセット分割の場合、小さい差の比較が難しいというデメリットがある。この場合、ファセット分割をせず、一つのファセットにpoint-rangeの色分けした方が読みやすくなる。point-rangeを`Model`の値に応じて色分けする場合、`aes()`内に`color = Model`を追加する。
 
-```{r fig-intro-pointrange-7}
+```{r}
+#| label: fig-intro-pointrange-7
+#| fig-cap: "Model 1とModel 2の比較（色分け）"
 #| fig-height: 3.5
 fit_coef |>
   ggplot() +
@@ -716,7 +752,9 @@ fit_coef |>
 
 　何かおかしい。point-rangeの横軸上の位置が同じということから重なってしまい、モデル1のpoint-rangeがよく見えない。これをずらすために`aes()`の**外**側に`position = position_dodge2(1/2)`を追加する。
 
-```{r fig-intro-pointrange-8}
+```{r}
+#| label: fig-intro-pointrange-8
+#| fig-cap: "Pointrangeの位置調整"
 #| fig-height: 3.5
 fit_coef |>
   ggplot() +
@@ -731,7 +769,9 @@ fit_coef |>
 
 　これで図は完成だが、少し修正してみよう。{ggplot2}の場合、凡例は右側に表示されるが、これを下側へ移動させるためには`theme()`レイヤーを追加し、`legend.position = "bottom"`を指定する。また、モデル1とモデル2が具体的に何を意味するのかを明確に示したい。これは`fit_coef`の`Model`列を修正しても良いが、今回は`scale_color_discrete()`レイヤーで修正する例を紹介する。
 
-```{r fig-intro-pointrange-9}
+```{r}
+#| label: fig-intro-pointrange-9
+#| fig-cap: "凡例の位置調整"
 #| fig-height: 3.5
 fit_coef |>
   ggplot() +

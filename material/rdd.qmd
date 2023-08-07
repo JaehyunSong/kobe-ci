@@ -1,9 +1,8 @@
 ---
 title: "回帰不連続デザイン"
 toc: true
-link-external-icon: true
-link-external-newwindow: true
-code-line-numbers: true
+metadata-files: 
+  - _material.yml
 ---
 
 ## スライド
@@ -15,15 +14,6 @@ code-line-numbers: true
 ```
 
 ## セットアップ
-
-```{r}
-#| include: false
-knitr::opts_chunk$set(dev       = "ragg_png",
-                      dpi       = 300,
-                      fig.align = "center",
-                      message   = FALSE,
-                      warning   = FALSE)
-```
 
 実習に必要なパッケージとデータセットを読み込む。
 

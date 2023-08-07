@@ -570,7 +570,7 @@
 <ul>
 <li><strong>平常点</strong>: 30%
 <ul>
-<li>授業への参加度 (質問/発言)</li>
+<li>授業への参加度（質問/発言）</li>
 <li>Discordでの参加度も含む</li>
 </ul></li>
 <li><strong>期末レポート</strong>: 70%
@@ -594,27 +594,24 @@
 </section>
 <section id="前提知識" class="slide level2">
 <h2>前提知識</h2>
-<div class="columns">
-<div class="column" style="width:47%;">
-<h3 id="統計学">統計学</h3>
+<h4 id="統計学">統計学</h4>
 <p>自分で計算できなくても、結果の読み方が分かるレベル</p>
 <ul>
 <li>仮説検定</li>
 <li>統計的有意性検定</li>
 <li>回帰分析</li>
 </ul>
-</div><div class="column" style="width:53%;">
-<h3 id="r">R</h3>
+<h4 id="r">R</h4>
 <ul>
 <li>データクリーニング、回帰分析、可視化などができるならベスト</li>
 <li>2日目にRの解説は行うが、深入りはしない（できない）
 <ul>
-<li><a href="https://www.jaysong.net/micro-book/" class="uri">https://www.jaysong.net/micro-book/</a> <span class="math inline">\(\leftarrow\)</span> <strong>全員</strong>がこの資料レベルの内容を知っていれば2日目の内容を省略し、代わりに操作変数法について解説</li>
+<li><strong>全員</strong>が以下の資料レベルの内容を知っていれば2日目の内容を省略し、代わりに操作変数法について解説</li>
+<li><a href="https://www.jaysong.net/r4ps/" class="uri">https://www.jaysong.net/r4ps/</a><br>
+</li>
 <li>『<a href="https://www.jaysong.net/RBook/">私たちのR</a>』を読もう！</li>
 </ul></li>
 </ul>
-</div>
-</div>
 </section></section>
 <section>
 <section id="因果推論とその敵" class="title-slide slide level1 center">
@@ -666,7 +663,7 @@
 <li>統計分析から得られる結果は相関関係<strong>のみ</strong></li>
 </ul></li>
 <li>理論/デザインを用いて相関関係が因果関係であることを<strong>説得</strong></li>
-<li>相関関係→因果関係における障害物
+<li>「相関関係<span class="math inline">\(\rightarrow\)</span>因果関係」における障害物
 <ul>
 <li>Selection Bias</li>
 <li>Simultaneity</li>
@@ -691,7 +688,7 @@
 </div><div class="column" style="width:60%;">
 <p>原因と結果の間に双方向の因果関係が存在</p>
 <ul>
-<li>例) お酒 (原因; X) とストレス (結果; Y) の関係
+<li>例）お酒（原因; <span class="math inline">\(X\)</span>）とストレス（結果; <span class="math inline">\(Y\)</span>）の関係
 <ul>
 <li>酒を飲むとストレスが貯まる</li>
 <li>ストレス解消のために酒を飲む</li>
@@ -921,28 +918,10 @@
 </ol></li>
 <li>最近の教科書はこれはすべてを<strong>自己選択バイアス</strong>や欠落変数バイアスでまとめる傾向</li>
 </ul>
-</section>
-<section id="相関から因果へ-1" class="slide level2">
-<h2>相関から因果へ</h2>
-<p>内生性の除外 <span class="math inline">\(\rightarrow\)</span> 因果効果の推定</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figs/01/Door1.jpg"></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figs/01/Door2.jpg"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<p><br></p>
+<center>
+<span style="font-size:1.5em;"> 内生性の除外 <span class="math inline">\(\rightarrow\)</span> 因果効果の推定 </span>
+</center>
 </section></section>
 <section>
 <section id="因果推論の根本問題" class="title-slide slide level1 center">
@@ -953,7 +932,7 @@
 <h2>因果関係の例</h2>
 <p>ソンさんの講義を履修することで期待年収が上がるか</p>
 <ul>
-<li>藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+<li>藤村君の場合：ソンさんの講義を履修し、年収が5000万円に
 <ul>
 <li>ソンさんの授業のおかげで富裕層になった（次は社交界進出）</li>
 <li>友達に教えてあげよう</li>
@@ -961,15 +940,15 @@
 </ul>
 <p>講義履修の効果</p>
 <ul>
-<li>処置: ソンさんの講義を履修するか否か</li>
-<li>効果: 履修した場合の年収 − 履修しなかった場合の年収</li>
+<li>処置：ソンさんの講義を履修するか否か</li>
+<li>効果：履修した場合の年収 − 履修しなかった場合の年収</li>
 </ul>
 </section>
 <section id="因果関係の例-1" class="slide level2">
 <h2>因果関係の例</h2>
 <p>ソンさんの講義を履修することで期待年収が上がるか</p>
 <ul>
-<li>藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+<li>藤村君の場合：ソンさんの講義を履修し、年収が5000万円に
 <ul>
 <li>ソンさんの授業のおかげで富裕層になった（次は社交界進出）</li>
 <li>友達に教えてあげよう</li>
@@ -1005,7 +984,7 @@
 <h2>因果関係の例</h2>
 <p>ソンさんの講義を履修することで期待年収が上がるか</p>
 <ul>
-<li>藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+<li>藤村君の場合：ソンさんの講義を履修し、年収が5000万円に
 <ul>
 <li>ソンさんの授業のおかげで富裕層になった（次は社交界進出）</li>
 <li>友達に教えてあげよう</li>
@@ -1079,7 +1058,7 @@
 <h2>因果関係の例</h2>
 <p>ソンさんの講義を履修することで期待年収が上がるか</p>
 <ul>
-<li>藤村君の場合: ソンさんの講義を履修し、年収が5000万円に
+<li>藤村君の場合：ソンさんの講義を履修し、年収が5000万円に
 <ul>
 <li>ソンさんの授業のおかげで富裕層になった（次は社交界進出）</li>
 <li>友達に教えてあげよう</li>
@@ -1127,19 +1106,19 @@
 <h2>潜在的結果枠組み</h2>
 <p>Neyman-Rubin-Hollandの<strong>Potential Outcome Framework</strong></p>
 <ul>
-<li><span class="math inline">\(i\)</span> : 学生ID ( <span class="math inline">\(i = 1,2,3,...,N\)</span> )</li>
-<li><span class="math inline">\(T\)</span> : 処置
+<li><span class="math inline">\(i\)</span>：学生ID（<span class="math inline">\(i = 1,2,3,...,N\)</span>）</li>
+<li><span class="math inline">\(T\)</span>：処置
 <ul>
-<li>学生 <span class="math inline">\(i\)</span> が謎の薬を飲んだ ( <span class="math inline">\(T_i = 1\)</span> )</li>
-<li>学生 <span class="math inline">\(i\)</span> が謎の薬を飲まなかった ( <span class="math inline">\(T_i = 0\)</span> )</li>
+<li>学生<span class="math inline">\(i\)</span>が謎の薬を飲んだ（<span class="math inline">\(T_i = 1\)</span>）</li>
+<li>学生<span class="math inline">\(i\)</span>が謎の薬を飲まなかった（<span class="math inline">\(T_i = 0\)</span>）</li>
 </ul></li>
-<li><span class="math inline">\(Y_i(T_i = 1)\)</span> : 学生 <span class="math inline">\(i\)</span> が謎の薬を飲んだ場合の数学成績</li>
-<li><span class="math inline">\(Y_i(T_i = 0)\)</span> : 学生 <span class="math inline">\(i\)</span> が謎の薬を飲まなかった場合の数学成績</li>
-<li><span class="math inline">\(ITE_i = Y_i(T_i = 1) − Y_i(T_i = 0)\)</span> : 学生iにおける薬の処置効果
+<li><span class="math inline">\(Y_i(T_i = 1)\)</span>：学生<span class="math inline">\(i\)</span>が謎の薬を飲んだ場合の数学成績</li>
+<li><span class="math inline">\(Y_i(T_i = 0)\)</span>：学生<span class="math inline">\(i\)</span>が謎の薬を飲まなかった場合の数学成績</li>
+<li><span class="math inline">\(ITE_i = Y_i(T_i = 1) − Y_i(T_i = 0)\)</span>：学生<span class="math inline">\(i\)</span>における薬の処置効果
 <ul>
-<li><strong>ITE</strong>: Individual Treatment Effect (個人における処置効果)
+<li><strong>ITE</strong>：Individual Treatment Effect（個人における処置効果）
 <ul>
-<li>= <strong>UTE</strong>: Unit Treatment Effect</li>
+<li>= <strong>UTE</strong>：Unit Treatment Effect</li>
 </ul></li>
 <li>全く同じ個人において薬を飲んだ場合と飲まなかった場合の数学成績の差 = 謎の薬の因果効果</li>
 </ul></li>
@@ -1147,7 +1126,7 @@
 </section>
 <section id="薬の効果は" class="slide level2">
 <h2>薬の効果は?</h2>
-<p>ITEの平均値は−4であり、個人差はあるものの、全体的に薬は成績に負の影響</p>
+<p>ITEの平均値は-4であり、個人差はあるものの、全体的に薬は成績に負の影響</p>
 <table>
 <thead>
 <tr class="header">
@@ -1213,10 +1192,10 @@
 </section>
 <section id="因果推論の根本問題-1" class="slide level2">
 <h2>因果推論の根本問題</h2>
-<p>しかし、観察できるのは<span class="math inline">\(Y_i(T_i = 1)\)</span>か<span class="math inline">\(Y_i(T_i = 0)\)</span>、片方のみ</p>
+<p>しかし、各ケースにおいて観察できるのは<span class="math inline">\(Y_i(T_i = 1)\)</span>か<span class="math inline">\(Y_i(T_i = 0)\)</span>、片方のみ</p>
 <ul>
-<li><span class="math inline">\(Y_i(T_i = 0)\)</span>は<strong>反実仮想</strong>（counterfactual）であり、観察不可 (<span class="math inline">\(i \in \{1,2,3\}\)</span>)</li>
-<li><span class="math inline">\(Y_i(T_i = 1)\)</span>も<strong>反実仮想</strong>(<span class="math inline">\(i \in \{4,5,6\}\)</span>)</li>
+<li><span class="math inline">\(Y_{i \in \{1, 2, 3\}}(T_{i \in \{1, 2, 3\}} = 0)\)</span>は<strong>反実仮想</strong>（counterfactual）であり、観察不可</li>
+<li><span class="math inline">\(Y_{i \in \{4, 5, 6\}}(T_{i \in \{4, 5, 6\}} = 1)\)</span>も<strong>反実仮想</strong></li>
 </ul>
 <table>
 <thead>
@@ -1225,51 +1204,51 @@
 <th style="text-align: right;"><span class="math inline">\(T_i\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 0)\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 1)\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(ITE_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\mbox{ITE}_i\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">観察不可</td>
 <td style="text-align: right;">85</td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">計算不可</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">2</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">観察不可</td>
 <td style="text-align: right;">59</td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">計算不可</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">3</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">観察不可</td>
 <td style="text-align: right;">66</td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">計算不可</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">4</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">61</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">観察不可</td>
+<td style="text-align: right;">計算不可</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">5</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">50</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">観察不可</td>
+<td style="text-align: right;">計算不可</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">6</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">75</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
+<td style="text-align: right;">観察不可</td>
+<td style="text-align: right;">計算不可</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">平均</td>
@@ -1290,6 +1269,7 @@
 <p>履修者5名と非履修者5名の年収の比較</p>
 <ul>
 <li>ITEは分からないが、平均値の差分を見ると、+100万円の効果</li>
+<li>ソンさんはマジ神なのか</li>
 </ul>
 <table>
 <thead>
@@ -1298,7 +1278,7 @@
 <th style="text-align: right;"><span class="math inline">\(T_i\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 0)\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 1)\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(ITE_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\mbox{ITE}_i\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -1386,7 +1366,7 @@
 <h2>世界一受けたいソンさんの授業</h2>
 <p>履修者5名と非履修者5名の年収の比較（ケース1）</p>
 <ul>
-<li>ITEは分からないが、平均値の差分を見ると、+100万円の効果</li>
+<li>ITEの平均値：80万円</li>
 <li>80万円の価値があるソンさんの講義、みんなで履修しよう!</li>
 </ul>
 <table>
@@ -1396,7 +1376,7 @@
 <th style="text-align: right;"><span class="math inline">\(T_i\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 0)\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 1)\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(ITE_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\mbox{ITE}_i\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -1484,7 +1464,7 @@
 <h2>世界一受けたいソンさんの授業</h2>
 <p>履修者5名と非履修者5名の年収の比較（ケース2）</p>
 <ul>
-<li>ITEは分からないが、平均値の差分を見ると、+100万円の効果</li>
+<li>ITEの平均値：-20万円</li>
 <li>ソンさんは悪くない</li>
 </ul>
 <table>
@@ -1494,7 +1474,7 @@
 <th style="text-align: right;"><span class="math inline">\(T_i\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 0)\)</span></th>
 <th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 1)\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(ITE_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\mbox{ITE}_i\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -1583,7 +1563,7 @@
 <ul>
 <li><span class="math inline">\(Y_i(T_i = 1)\)</span>か<span class="math inline">\(Y_i(T_i = 0)\)</span>、片方のみしか観察できない状態においてITEから因果効果を推定することは不可能
 <ul>
-<li><strong>因果推論の根本問題</strong> (The Fundamental Problem of Causal Inference)</li>
+<li><strong>因果推論の根本問題</strong>（The Fundamental Problem of Causal Inference）</li>
 </ul></li>
 </ul>
 <div class="fragment" data-fragment-index="1">
@@ -1608,7 +1588,7 @@
 <li><span class="math inline">\(Y_i(T_i = 1)\)</span>か<span class="math inline">\(Y_i(T_i = 0)\)</span>、片方のみしか観察できない状態において、ITEから因果効果を推定することは不可能
 <ul>
 <li>ただし、ドラえもんが存在する世界線を除く</li>
-<li><strong>因果推論の根本問題</strong> (The Fundamental Problem of Causal Inference)</li>
+<li><strong>因果推論の根本問題</strong>（The Fundamental Problem of Causal Inference）</li>
 </ul></li>
 </ul>
 <p><br></p>
@@ -1616,108 +1596,14 @@
 <li>潜在的結果を直接観察する方法
 <ul>
 <li>ただし、個々人の潜在的結果ではなく、<strong>集団における潜在的結果</strong></li>
-<li><strong>平均処置効果</strong> (ATE; Average Treatment Effect)
+<li><strong>平均処置効果</strong>（ATE; Average Treatment Effect）
 <ul>
 <li>平均値の差分から<strong>平均的</strong>な因果効果を推定</li>
-<li>しかし、…</li>
+<li>しかし、通常、「平均値の差分 <span class="math inline">\(\neq\)</span> ATE」</li>
 </ul></li>
-<li><strong>無作為割当</strong>の重要性</li>
+<li><span class="math inline">\(\Rightarrow\)</span> <strong>無作為割当</strong>の重要性</li>
 </ul></li>
 </ul>
-</section>
-<section id="平均取るだけでok" class="slide level2">
-<h2>平均取るだけでOK?</h2>
-<p>観察されたデータから差分を計算するだけではATEは推定不可能</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;"><span class="math inline">\(i\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(T_i\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 0)\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(Y_i(T_i = 1)\)</span></th>
-<th style="text-align: right;"><span class="math inline">\(ITE_i\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;">700</td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;">550</td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;">350</td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;">400</td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">400</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">500</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">8</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">350</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">9</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">750</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">10</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">500</td>
-<td style="text-align: right;"><strong>?</strong></td>
-<td style="text-align: right;"><strong>?</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">平均</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;">500</td>
-<td style="text-align: right;">600</td>
-<td style="text-align: right;">100</td>
-</tr>
-</tbody>
-</table>
 </section>
 <section id="信頼できるateの条件" class="slide level2">
 <h2>信頼できるATEの条件</h2>
@@ -1741,31 +1627,31 @@
 <center>
 <p>内生性は因果推論の敵! どうすれば…?</p>
 <p><span class="math inline">\(\downarrow\)</span></p>
-<strong>無作為割当</strong> (Random Assignment)
+<strong>無作為割当</strong>
 </center>
 </section>
 <section id="無作為割当とは" class="slide level2">
 <h2>無作為割当とは</h2>
-<p><strong>無作為割当</strong> (Random Assignment)</p>
+<p><strong>無作為割当</strong>（random assignment）</p>
 <ul>
 <li>処置を受けるかどうかを無作為に割り当てる方法
 <ul>
-<li>完全無作為割当: 全ての被験者において、どのグループに属するかの確率が等しい</li>
-<li><span class="math inline">\(Pr(T_i = 1) = Pr(T_j = 1) \text{ where } i \neq j\)</span></li>
-<li><span class="math inline">\(Pr(T_i = 0) = Pr(T_j = 0) \text{ where } i \neq j\)</span></li>
+<li>完全無作為割当：全ての被験者において、どのグループに属するかの確率が等しい</li>
+<li><span class="math inline">\(Pr(T_i = 1) = Pr(T_j = 1) \mbox{ where } i \neq j\)</span></li>
+<li><span class="math inline">\(Pr(T_i = 0) = Pr(T_j = 0) \mbox{ where } i \neq j\)</span></li>
 <li>無作為割当の方法は色々</li>
 </ul></li>
 <li>無作為に割り当てると、処置を受けないグループと処置を受けるグループは「集団」として同質なグループになる。
 <ul>
-<li>受けないグループ: <strong>統制群</strong> (Control Group)</li>
-<li>受けるグループ: <strong>処置群</strong> (Treatment Group)</li>
+<li>受けないグループ: <strong>統制群</strong>（Control Group）</li>
+<li>受けるグループ: <strong>処置群</strong>（Treatment Group）</li>
 </ul></li>
-<li><strong>一つの集団を一人の個人として扱い</strong>、ITEを測定 ⇒ ATE</li>
+<li><strong>一つの集団を一人の個人として扱い</strong>、ITEを測定 <span class="math inline">\(\Rightarrow\)</span> ATE</li>
 </ul>
 </section>
 <section id="無作為割当の力" class="slide level2">
 <h2>無作為割当の力</h2>
-<p>コインを投げ、表( <span class="math inline">\(H\)</span> )なら統制群、裏( <span class="math inline">\(T\)</span> )なら処置群に割当</p>
+<p>コインを投げ、表（<span class="math inline">\(H\)</span>）なら統制群、裏（<span class="math inline">\(T\)</span>）なら処置群に割当</p>
 <ul>
 <li>女性比率が55%、平均年齢が38歳の集団の例</li>
 </ul>
@@ -2239,7 +2125,7 @@
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="　">　</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
@@ -2784,7 +2670,7 @@
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Coin">Coin</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="　">　</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
@@ -2923,7 +2809,7 @@
 </ul>
 <p><br></p>
 <ul>
-<li>統制群と処置群、母集団はそれぞれ<strong>交換可能</strong> (exchangeable)
+<li>統制群と処置群、母集団はそれぞれ<strong>交換可能</strong>（exchangeable）
 <ul>
 <li>処置群に処置を与えること = 母集団全体に処置を与えること</li>
 <li>統制群に処置を与えないこと = 母集団全体に処置を与えないこと</li>
@@ -2931,7 +2817,7 @@
 </ul>
 <p><br></p>
 <ul>
-<li>統制群と処置群の比較で<strong>集団を一つの単位としたITE (= ATE)</strong>が推定可能
+<li>統制群と処置群の比較で<strong>集団を一つの単位としたITE（= ATE）</strong>が推定可能
 <ul>
 <li>処置を与えた母集団 vs.&nbsp;処置を与えなかった母集団</li>
 </ul></li>
@@ -2958,8 +2844,8 @@
 <li>内生性:処置変数（講義の履修）と誤差項（やる気など）間の相関
 <ul>
 <li>コイン投げの結果は被験者（学生）の性質と<strong>無関係</strong>に行われるため、誤差項と相関がない。</li>
-<li><strong>外生変数</strong> (Exogenous variable)</li>
-<li>学生の性質 (X) と処置有無 (T) は独立している ⇒ <span class="math inline">\(X \perp T\)</span></li>
+<li><strong>外生変数</strong>（Exogenous variable）</li>
+<li>学生の性質（<span class="math inline">\(X\)</span>）と処置変数（<span class="math inline">\(T\)</span>）は独立している <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(X \perp T\)</span></li>
 </ul></li>
 </ul>
 <p><br></p>
@@ -2971,8 +2857,8 @@
 <h2>無作為抽出と無作為割当</h2>
 <ul>
 <li>無作為<strong>抽出</strong>によってサンプル（標本）と母集団が交換可能（実はここが難しい）</li>
-<li>無作為<strong>割当</strong>によって各グループとサンプルに交換可能（=各グループ間で交換可能）</li>
-<li>無作為<strong>抽出</strong>&amp;無作為<strong>割当</strong>によって各グループと母集団が交換可能（グループへの刺激=母集団への刺激）</li>
+<li>無作為<strong>割当</strong>によって各グループとサンプルに交換可能（= 各グループ間で交換可能）</li>
+<li>無作為<strong>抽出</strong>&amp;無作為<strong>割当</strong>によって各グループと母集団が交換可能（グループへの刺激 = 母集団への刺激）</li>
 </ul>
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
@@ -3024,18 +2910,18 @@
 </section>
 <section id="ランダム化比較試験とは" class="slide level2">
 <h2>ランダム化比較試験とは</h2>
-<p><strong>Randomized Controlled Trial</strong> (RCT)</p>
+<p><strong>Randomized Controlled Trial</strong>（RCT）</p>
 <ul>
 <li>無作為割当で複数のグループを作り上げた上で、異なる刺激・処置を与え、結果を観察する手法
 <ul>
 <li>社会科学でいう「<strong>実験</strong>」の多くはこれを指す</li>
-<li><strong>因果推論の王道</strong></li>
+<li><strong>因果推論の王道</strong>（best practice）</li>
 </ul></li>
-<li>因果効果をもたらす(と想定される)処置変数が外生的
+<li>因果効果をもたらす（と考えられる）処置変数が外生的
 <ul>
-<li>グループ間における結果変数の差 = 因果効果</li>
+<li>グループ間における応答変数の差 = 因果効果</li>
 </ul></li>
-<li>データ生成過程(Data Generating Process; DGP)への直接介入
+<li>データ生成過程（Data Generating Process; DGP）への直接介入
 <ul>
 <li><strong>「真のモデル」が分かる</strong></li>
 </ul></li>
@@ -3055,15 +2941,15 @@
 <h2>データ生成過程への介入</h2>
 <p>以下のデータ生成過程を仮定</p>
 <p><span class="math display">\[
-\text{Income} = \beta_0 + \beta_1 \cdot \text{Quant} + \varepsilon
+\mbox{Income} = \beta_0 + \beta_1 \cdot \mbox{Quant} + \varepsilon
 \]</span></p>
 <ul>
-<li>Income: 10年後の年収 (<span class="math inline">\(\in [0, \infty)\)</span>)</li>
-<li>Quant:ソンさんの講義を履修したか否か (<span class="math inline">\(\in \{0, 1\})\)</span> )</li>
-<li>誤差項(<span class="math inline">\(\varepsilon\)</span>)には「やる気」や「真面目さ」が含まれるため、Quantと相関がある (<span class="math inline">\(\rightarrow\)</span> <strong>内生性</strong>)</li>
-<li>無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係 (<strong>独立</strong>) になる
+<li>Income：10年後の年収（<span class="math inline">\(\mbox{Income} \in [0, \infty)\)</span>）</li>
+<li>Quant：ソンさんの講義を履修したか否か（<span class="math inline">\(\mbox{Quant} \in \{0, 1\})\)</span>）</li>
+<li>誤差項（<span class="math inline">\(\varepsilon\)</span>）には「やる気」や「真面目さ」が含まれるため、Quantと相関がある（<span class="math inline">\(\rightarrow\)</span> <strong>内生性</strong>）</li>
+<li>無作為割当で受講有無を決めると、「やる気」や「真面目さ」はQunatと無関係（= <strong>独立</strong>）になる
 <ul>
-<li>例) 受講有無をコイン投げ（W）で決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）</li>
+<li>例) 受講有無をコイン投げ（<span class="math inline">\(W\)</span>）で決める場合、コインの結果は誤差項（やる気や真面目さ）と独立（ただし、全員がコイン投げの結果に従うと仮定）</li>
 <li><span class="math inline">\(\Rightarrow\)</span> 内生性がなくなる!</li>
 </ul></li>
 </ul>
@@ -3088,18 +2974,18 @@
 </section>
 <section id="rctの例" class="slide level2">
 <h2>RCTの例</h2>
-<p>Bertand and Mullainathan (2004)</p>
+<p>Bertand and Mullainathan（2004）</p>
 <ul>
 <li>労働市場における人種差別</li>
 <li>約5000人分の架空の履歴書を求人中の会社へ送る
 <ul>
-<li>履歴書の内容 (性別、人種、能力など) は<strong>完全無作為</strong></li>
-<li>履歴書に人種は記入できないため、白人っぽい名前 (Emily など)、黒人っぽい名前 (Jamal など) を記入</li>
+<li>履歴書の内容（性別、人種、能力など）は<strong>完全無作為</strong></li>
+<li>履歴書に人種は記入できないため、白人っぽい名前（Emilyなど）、黒人っぽい名前（Jamalなど）を記入</li>
 </ul></li>
 <li>後は、返事を待つだけ</li>
 </ul>
-<p><strong>処置変数:</strong> 人種 ( <span class="math inline">\(\in \{\text{black}, \text{white}\}\)</span> )</p>
-<p><strong>結果変数:</strong> 連絡の有無 ( <span class="math inline">\(\in \{0, 1\}\)</span> )</p>
+<p><strong>処置変数:</strong> 人種（<span class="math inline">\(\in \{\mbox{black}, \mbox{white}\}\)</span>）</p>
+<p><strong>応答変数:</strong> 連絡の有無（<span class="math inline">\(\in \{0, 1\}\)</span>）</p>
 </section>
 <section id="内生性の可能性" class="slide level2">
 <h2>内生性の可能性</h2>
@@ -3115,12 +3001,12 @@
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>誤差項 (<span class="math inline">\(\varepsilon\)</span>) には教育水準、親の所得、居住地などが含まれる可能性
+<li>誤差項（<span class="math inline">\(\varepsilon\)</span>）には教育水準、親の所得、居住地などが含まれる可能性
 <ul>
 <li>実際に人種と上記の要因には相関あり</li>
-<li>人種 (処置) と誤差項 (<span class="math inline">\(\varepsilon\)</span>) 間の相関関係 <span class="math inline">\(\rightarrow\)</span> <strong>内生性</strong></li>
+<li>人種（処置）と誤差項（<span class="math inline">\(\varepsilon\)</span>）間の相関関係 <span class="math inline">\(\rightarrow\)</span> <strong>内生性</strong></li>
 </ul></li>
-<li>黒人が採用されなかった場合 …
+<li>黒人が採用されなかった場合…
 <ul>
 <li>黒人だから? <span class="math inline">\(\leftarrow\)</span> 人種差別<span class="math inline">\(\bigcirc\)</span></li>
 <li>教育水準が低いから <span class="math inline">\(\leftarrow\)</span> 人種差別<span class="math inline">\(\times\)</span></li>
@@ -3158,7 +3044,7 @@
 <td style="text-align: right;">6.45%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">計 (人)</td>
+<td style="text-align: left;">計（人）</td>
 <td style="text-align: right;">2435</td>
 <td style="text-align: right;">2435</td>
 </tr>
@@ -3171,8 +3057,8 @@
 <li>この場合、労働市場における人種の因果効果は
 <ul>
 <li>ATE = 黒人の平均連絡率 − 白人の平均連絡率</li>
-<li>黒人という理由だけで会社から連絡が来る確率が 3.2%p<span class="math inline">\(\downarrow\)</span></li>
-<li>-3.2%p: 人種の<strong>因果効果</strong> or <strong>処置効果</strong> (treatment effect)</li>
+<li>黒人という理由だけで会社から連絡が来る確率が3.2%p<span class="math inline">\(\downarrow\)</span></li>
+<li>-3.2%p：人種の<strong>因果効果</strong> or <strong>処置効果</strong>（treatment effect）</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -3194,12 +3080,12 @@
 </div><div class="column" style="width:50%;">
 <p><strong>標準化差分</strong>を使用</p>
 <ul>
-<li>Standardized Bias (or Difference)
+<li>Standardized Bias（Standardized Difference）
 <ul>
 <li>サンプルサイズの影響<span class="math inline">\(\times\)</span></li>
 <li>統計的検定ではない</li>
 </ul></li>
-<li><span class="math inline">\(t\)</span> 検定、ANOVA、 <span class="math inline">\(\chi^2\)</span> 検定は<span class="math inline">\(\times\)</span>
+<li><span class="math inline">\(t\)</span>検定、ANOVA、 <span class="math inline">\(\chi^2\)</span>検定は<span class="math inline">\(\times\)</span>
 <ul>
 <li>バランスチェックに統計的有意性検定は使わない</li>
 </ul></li>
@@ -3212,16 +3098,16 @@
 <h2>標準化差分について</h2>
 <p>連続変数</p>
 <p><span class="math display">\[
-\text{SB}_{T-C} = 100 \cdot \frac{\bar{X}_T - \bar{X}_C}{\sqrt{0.5 \cdot (s_T^2 + s_C^2)}}
+\mbox{SB}_{T-C} = 100 \cdot \frac{\bar{X}_T - \bar{X}_C}{\sqrt{0.5 \cdot (s_T^2 + s_C^2)}}
 \]</span></p>
 <p>二値変数</p>
 <p><span class="math display">\[
-\text{SB}_{T-C} = 100 \cdot \frac{\bar{X}_T - \bar{X}_C}{\sqrt{0.5 \cdot (\bar{X}_T(1-\bar{X}_T) + \bar{X}_C(1-\bar{X}_C))}}
+\mbox{SB}_{T-C} = 100 \cdot \frac{\bar{X}_T - \bar{X}_C}{\sqrt{0.5 \cdot (\bar{X}_T(1-\bar{X}_T) + \bar{X}_C(1-\bar{X}_C))}}
 \]</span></p>
 <ul>
-<li><span class="math inline">\(\bar{X}_T\)</span> : 処置群におけるXの平均値</li>
-<li><span class="math inline">\(s_T^2\)</span> : 処置群におけるXの分散</li>
-<li>|SB|が小さいほどバランス
+<li><span class="math inline">\(\bar{X}_T\)</span>：処置群におけるXの平均値</li>
+<li><span class="math inline">\(s_T^2\)</span>：処置群におけるXの分散</li>
+<li><span class="math inline">\(|\mbox{SB}|\)</span>が小さいほどバランス
 <ul>
 <li>明確な基準はないが、3、5、10、25などを使用</li>
 </ul></li>
@@ -3231,161 +3117,999 @@
 <section id="因果効果の推定" class="slide level2">
 <h2>因果効果の推定</h2>
 <ul>
-<li><strong>方法1:</strong> グループ間の結果変数の差分の検定 (<span class="math inline">\(t\)</span>検定)
+<li><strong>方法1：</strong> グループ間の応答変数の差分の検定（<span class="math inline">\(t\)</span>検定; 応答変数の尺度に応じてノンパラメトリック分析）
 <ul>
-<li>因果効果 (ATE): <span class="math inline">\(\mathbb{E}[\mbox{Call}|\mbox{Race = Black}] - \mathbb{E}[\mbox{Call}|\mbox{Race = White}] = -0.032\)</span></li>
+<li>因果効果（ATE)）：<span class="math inline">\(\mathbb{E}[\mbox{Call}|\mbox{Race = Black}] - \mathbb{E}[\mbox{Call}|\mbox{Race = White}] = -0.032\)</span></li>
 <li>ATE = 0の帰無仮説の検定
 <ul>
-<li><span class="math inline">\(t_{\text{df} = 4711.7} = −4.117\)</span>; <span class="math inline">\(p\)</span> &lt; 0.001; 95% CI = [−0.047, −0.017]</li>
+<li><span class="math inline">\(t = −4.117\)</span>（<span class="math inline">\(\mbox{df}\)</span> = 4711.7）; <span class="math inline">\(p\)</span> &lt; 0.001; 95% CI = [−0.047, −0.017]</li>
 </ul></li>
-<li>応答変数の尺度に応じてノンパラメトリック分析</li>
 </ul></li>
-<li><strong>方法2:</strong> 単回帰分析 (線形 or ロジスティックス/プロビット)</li>
+<li><strong>方法2：</strong> 単回帰分析（線形、ロジスティックス、プロビットなど）</li>
 </ul>
-<center>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<table>
-<caption>線形回帰分析（LPM）</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Covriates</th>
-<th style="text-align: right;">Est.</th>
-<th style="text-align: right;">S.E.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Intercept</td>
-<td style="text-align: right;">0.064</td>
-<td style="text-align: right;">0.006</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Race: White</td>
-<td style="text-align: right;"><strong>0.032</strong></td>
-<td style="text-align: right;">0.008</td>
-</tr>
-</tbody>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="uhotcqpbxu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uhotcqpbxu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#uhotcqpbxu thead, #uhotcqpbxu tbody, #uhotcqpbxu tfoot, #uhotcqpbxu tr, #uhotcqpbxu td, #uhotcqpbxu th {
+  border-style: none;
+}
+
+#uhotcqpbxu p {
+  margin: 0;
+  padding: 0;
+}
+
+#uhotcqpbxu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#uhotcqpbxu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#uhotcqpbxu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#uhotcqpbxu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#uhotcqpbxu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#uhotcqpbxu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#uhotcqpbxu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#uhotcqpbxu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#uhotcqpbxu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#uhotcqpbxu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#uhotcqpbxu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uhotcqpbxu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#uhotcqpbxu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#uhotcqpbxu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#uhotcqpbxu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uhotcqpbxu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#uhotcqpbxu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#uhotcqpbxu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#uhotcqpbxu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uhotcqpbxu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#uhotcqpbxu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uhotcqpbxu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#uhotcqpbxu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uhotcqpbxu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uhotcqpbxu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uhotcqpbxu .gt_left {
+  text-align: left;
+}
+
+#uhotcqpbxu .gt_center {
+  text-align: center;
+}
+
+#uhotcqpbxu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#uhotcqpbxu .gt_font_normal {
+  font-weight: normal;
+}
+
+#uhotcqpbxu .gt_font_bold {
+  font-weight: bold;
+}
+
+#uhotcqpbxu .gt_font_italic {
+  font-style: italic;
+}
+
+#uhotcqpbxu .gt_super {
+  font-size: 65%;
+}
+
+#uhotcqpbxu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#uhotcqpbxu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#uhotcqpbxu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#uhotcqpbxu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#uhotcqpbxu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#uhotcqpbxu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#uhotcqpbxu .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="線形回帰分析（LPM）">線形回帰分析（LPM）</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ロジスティック回帰分析">ロジスティック回帰分析</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="プロビット回帰分析">プロビット回帰分析</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="" class="gt_row gt_left">Intercept</td>
+<td headers="線形回帰分析（LPM）" class="gt_row gt_right">0.064 (0.006)</td>
+<td headers="ロジスティック回帰分析" class="gt_row gt_right">-2.675 (0.083)</td>
+<td headers="プロビット回帰分析" class="gt_row gt_right">-1.518 (0.040)</td></tr>
+    <tr><td headers="" class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">White</td>
+<td headers="線形回帰分析（LPM）" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">0.032 (0.008)</td>
+<td headers="ロジスティック回帰分析" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">0.438 (0.107)</td>
+<td headers="プロビット回帰分析" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">0.217 (0.053)</td></tr>
+    <tr><td headers="" class="gt_row gt_left">Num.Obs.</td>
+<td headers="線形回帰分析（LPM）" class="gt_row gt_right">4870</td>
+<td headers="ロジスティック回帰分析" class="gt_row gt_right">4870</td>
+<td headers="プロビット回帰分析" class="gt_row gt_right">4870</td></tr>
+    <tr><td headers="" class="gt_row gt_left">AIC</td>
+<td headers="線形回帰分析（LPM）" class="gt_row gt_right">1130.5</td>
+<td headers="ロジスティック回帰分析" class="gt_row gt_right">2713.9</td>
+<td headers="プロビット回帰分析" class="gt_row gt_right">2713.9</td></tr>
+    <tr><td headers="" class="gt_row gt_left">F</td>
+<td headers="線形回帰分析（LPM）" class="gt_row gt_right">16.931</td>
+<td headers="ロジスティック回帰分析" class="gt_row gt_right">16.669</td>
+<td headers="プロビット回帰分析" class="gt_row gt_right">16.836</td></tr>
+  </tbody>
+  
+  
 </table>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<table>
-<caption>ロジスティック回帰分析</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Covriates</th>
-<th style="text-align: right;">Est.</th>
-<th style="text-align: right;">S.E.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Intercept</td>
-<td style="text-align: right;">-2.675</td>
-<td style="text-align: right;">0.083</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Race: White</td>
-<td style="text-align: right;"><strong>0.438</strong></td>
-<td style="text-align: right;">0.107</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<table>
-<caption>プロビット回帰分析</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Covriates</th>
-<th style="text-align: right;">Est.</th>
-<th style="text-align: right;">S.E.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Intercept</td>
-<td style="text-align: right;">-1.518</td>
-<td style="text-align: right;">0.039</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Race: White</td>
-<td style="text-align: right;"><strong>0.21654</strong></td>
-<td style="text-align: right;">0.053</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
-</div>
-</center>
+
+<aside><div>
 <ul>
 <li>Freedman, David A. 2008. “<a href="https://www.jstor.org/stable/27645896">Randomization Does Not Justify Logistic Regression</a>,” <em>Statistical Science Statistical Science,</em> 23(2): 237-249.
 <ul>
-<li>Logit: 一致推定量<span class="math inline">\(\times\)</span> &amp; 不偏推定量<span class="math inline">\(\times\)</span></li>
-<li>Linear: 一致推定量<span class="math inline">\(\bigcirc\)</span> &amp; 不偏推定量<span class="math inline">\(\times\)</span></li>
+<li>Logit：一致推定量<span class="math inline">\(\times\)</span> &amp; 不偏推定量<span class="math inline">\(\times\)</span></li>
+<li>Linear：一致推定量<span class="math inline">\(\bigcirc\)</span> &amp; 不偏推定量<span class="math inline">\(\times\)</span></li>
 <li><a href="https://www.jaysong.net/notes/simulation/consistency.html">一致性と不偏性の違いについて</a></li>
 </ul></li>
 </ul>
-</section>
+</div></aside></section>
 <section id="因果効果の推定-重回帰分析は" class="slide level2">
 <h2>因果効果の推定: 重回帰分析は?</h2>
 <p>無作為割当のおかげですべての変数が互いに独立</p>
 <ul>
-<li>重回帰分析をしても人種のATEは変化しない (OVB がない)
+<li>重回帰分析をしても人種のATEは変化しない（OVBがない）
 <ul>
 <li>無作為割当の場合、回帰は<strong>してもしなくても</strong>良い</li>
 </ul></li>
 <li>現実的に<strong>完全に</strong>バランスが取れていないため、若干の変化はある</li>
 </ul>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Covriates</th>
-<th style="text-align: right;">Est.</th>
-<th style="text-align: right;">S.E.</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Intercept</td>
-<td style="text-align: right;">0.057</td>
-<td style="text-align: right;">0.007</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Race: White</td>
-<td style="text-align: right;"><strong>0.032</strong></td>
-<td style="text-align: right;">0.08</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">0.007</td>
-<td style="text-align: right;">0.009</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Military</td>
-<td style="text-align: right;">-0.027</td>
-<td style="text-align: right;">0.014</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Education</td>
-<td style="text-align: right;">-0.002</td>
-<td style="text-align: right;">0.005</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">High Quality</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: right;">0.008</td>
-</tr>
-</tbody>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="cuqgfgpikm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cuqgfgpikm table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cuqgfgpikm thead, #cuqgfgpikm tbody, #cuqgfgpikm tfoot, #cuqgfgpikm tr, #cuqgfgpikm td, #cuqgfgpikm th {
+  border-style: none;
+}
+
+#cuqgfgpikm p {
+  margin: 0;
+  padding: 0;
+}
+
+#cuqgfgpikm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cuqgfgpikm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cuqgfgpikm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cuqgfgpikm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cuqgfgpikm .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cuqgfgpikm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cuqgfgpikm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cuqgfgpikm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cuqgfgpikm .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cuqgfgpikm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cuqgfgpikm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cuqgfgpikm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cuqgfgpikm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cuqgfgpikm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cuqgfgpikm .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cuqgfgpikm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cuqgfgpikm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cuqgfgpikm .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cuqgfgpikm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cuqgfgpikm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cuqgfgpikm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cuqgfgpikm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cuqgfgpikm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cuqgfgpikm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cuqgfgpikm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cuqgfgpikm .gt_left {
+  text-align: left;
+}
+
+#cuqgfgpikm .gt_center {
+  text-align: center;
+}
+
+#cuqgfgpikm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cuqgfgpikm .gt_font_normal {
+  font-weight: normal;
+}
+
+#cuqgfgpikm .gt_font_bold {
+  font-weight: bold;
+}
+
+#cuqgfgpikm .gt_font_italic {
+  font-style: italic;
+}
+
+#cuqgfgpikm .gt_super {
+  font-size: 65%;
+}
+
+#cuqgfgpikm .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cuqgfgpikm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cuqgfgpikm .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cuqgfgpikm .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cuqgfgpikm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cuqgfgpikm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cuqgfgpikm .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Coef. (SE)">Coef. (SE)</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="" class="gt_row gt_left">Intercept</td>
+<td headers="(1)" class="gt_row gt_right">0.060 (0.023)</td></tr>
+    <tr><td headers="" class="gt_row gt_left" style="background-color: #ADD8E6;">White</td>
+<td headers="(1)" class="gt_row gt_right" style="background-color: #ADD8E6;">0.032 (0.008)</td></tr>
+    <tr><td headers="" class="gt_row gt_left">Female</td>
+<td headers="(1)" class="gt_row gt_right">0.007 (0.009)</td></tr>
+    <tr><td headers="" class="gt_row gt_left">Military</td>
+<td headers="(1)" class="gt_row gt_right">-0.027 (0.014)</td></tr>
+    <tr><td headers="" class="gt_row gt_left">Education</td>
+<td headers="(1)" class="gt_row gt_right">-0.002 (0.005)</td></tr>
+    <tr><td headers="" class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">High Quality</td>
+<td headers="(1)" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">0.019 (0.008)</td></tr>
+    <tr><td headers="" class="gt_row gt_left">Num.Obs.</td>
+<td headers="(1)" class="gt_row gt_right">4870</td></tr>
+    <tr><td headers="" class="gt_row gt_left">AIC</td>
+<td headers="(1)" class="gt_row gt_right">1130.3</td></tr>
+    <tr><td headers="" class="gt_row gt_left">F</td>
+<td headers="(1)" class="gt_row gt_right">5.025</td></tr>
+  </tbody>
+  
+  
 </table>
+</div>
+</div>
+</div>
 </section>
 <section id="因果効果の不均一性" class="slide level2">
 <h2>因果効果の不均一性</h2>
 <p>因果効果が下位グループによって異なる場合</p>
 <ul>
-<li><strong>因果効果の不均一性</strong> (heterogeneous treatment effects)
+<li><strong>因果効果の不均一性</strong>（heterogeneous treatment effects）
 <ul>
 <li>例) 性別によって薬の効果が異なる場合</li>
 <li>薬の効果が男性なら 1、女性なら 2 の場合
@@ -3636,10 +4360,10 @@ mean in group 0 mean in group 1
 <div id="tabset-2-1">
 <p><strong>非干渉性:</strong> 他人の処置・統制有無が処置効果に影響を与えないこと</p>
 <ul>
-<li>例) AさんITEは
+<li>例）AさんITEは…
 <ul>
-<li>例1) Bさんが統制群の場合は10、処置群の場合は5 <span class="math inline">\(\leftarrow\)</span> <i class="bi bi-emoji-dizzy"></i></li>
-<li>例2) Bさんが統制群の場合も、処置群の場合も、5 <span class="math inline">\(\leftarrow\)</span> <i class="bi bi-emoji-smile"></i></li>
+<li>例1）Bさんが統制群の場合は10、処置群の場合は5 <span class="math inline">\(\leftarrow\)</span> <i class="bi bi-emoji-dizzy"></i></li>
+<li>例2）Bさんが統制群の場合も、処置群の場合も、5 <span class="math inline">\(\leftarrow\)</span> <i class="bi bi-emoji-smile"></i></li>
 </ul></li>
 </ul>
 <center>
@@ -3700,8 +4424,8 @@ mean in group 0 mean in group 1
 <div id="tabset-2-2">
 <p><strong>処置の無分散性:</strong> 同じグループに属する対象は同じ処置を受けること</p>
 <ul>
-<li>手術の場合: 医者、設備、手順、環境など</li>
-<li>投票参加: 当日、期日前など</li>
+<li>手術の場合：医者、設備、手順、環境など</li>
+<li>投票参加：当日、期日前など</li>
 </ul>
 </div>
 </div>
@@ -3709,20 +4433,23 @@ mean in group 0 mean in group 1
 <ul>
 <li>サーベイ実験では問題にならない場合が多い
 <ul>
-<li>実験室実験、フィールド実験の場合、「非干渉性」には気をつける</li>
-<li>例) 隣の人が見てるのとと私が見てるのが違いますが…?</li>
+<li>実験室実験、フィールド実験の場合、「非干渉性」には気をつける。</li>
+<li>例）隣の人が見てるのとと私が見てるのが違いますが…?</li>
 </ul></li>
 </ul>
 </section>
 <section id="二重盲検法" class="slide level2">
 <h2>二重盲検法</h2>
-<p><strong>二重盲検法</strong> (Double Blind Test):ある被験者がどのような処置を受けているかについて研究者と被験者両方において不明な状態で実験を行う</p>
+<p><strong>二重盲検法</strong>（Double Blind Test）</p>
+<ul>
+<li>「ある被験者がどのような処置を受けているか」について、研究者と被験者両方において不明な状態で実験を行う。</li>
+</ul>
 <p><br></p>
 <p>二重盲検法を使えば以下の問題点に対処することが可能</p>
 <ul>
-<li><strong>プラセボ効果</strong> (placebo effect):偽薬が与えられても、薬だと信じ込む 事によって何らかの効果が生じる</li>
-<li><strong>ホーソン効果</strong> (Hawthorne effect):自分が観察されていることを認知さ れることによって何らかの効果が生じる</li>
-<li><strong>観察者効果</strong> (observer/experimenter effect):研究者の期待により被験者へ の対応が異なったり、被験者がその期待に添えるように行動すること</li>
+<li><strong>プラセボ効果</strong>（placebo effect）：偽薬が与えられても、薬だと信じ込む 事によって何らかの効果が生じる。</li>
+<li><strong>ホーソン効果</strong>（Hawthorne effect）：自分が観察されていることを認知さ れることによって何らかの効果が生じる。</li>
+<li><strong>観察者効果</strong>（observer/experimenter effect）：研究者の期待により被験者へ の対応が異なったり、被験者がその期待に添えるように行動すること</li>
 </ul>
 </section></section>
 <section>
@@ -3734,18 +4461,18 @@ mean in group 0 mean in group 1
 <h2>データ</h2>
 <h3 id="これまで紹介した例題">これまで紹介した例題</h3>
 <ul>
-<li>労働市場と人種差別: <code>intro_data1.dta</code>
+<li>労働市場と人種差別：<code>intro_data1.dta</code>
 <ul>
 <li>Marianne Bertrand and Sendhil Mullainathan. 2004. “<a href="https://www.jstor.org/stable/3592802">Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination</a>,” <em>American Economic Review,</em> 94(4) pp.&nbsp;991–1013</li>
 </ul></li>
-<li>処置効果の不均一性: <code>intro_data2.csv</code>
+<li>処置効果の不均一性：<code>intro_data2.csv</code>
 <ul>
 <li>架空データ</li>
 </ul></li>
 </ul>
 <h3 id="lab-session用のデータ">Lab Session用のデータ</h3>
 <ul>
-<li>社会的圧力と投票参加: <code>intro_data3.csv</code>
+<li>社会的圧力と投票参加：<code>intro_data3.csv</code>
 <ul>
 <li>Alan S. Gerber, Donald P. Green, and Christopher W. Larimer. 2008. “<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/social-pressure-and-voter-turnout-evidence-from-a-largescale-field-experiment/11E84AF4C0B7FBD1D20C855972C2C3EB/share/35f1ba74f474559d06827d80421d821f7ed57efc">Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment</a>,” <em>American Political Science Review,</em> 102(1) pp.&nbsp;33–48</li>
 </ul></li>
@@ -3754,11 +4481,11 @@ mean in group 0 mean in group 1
 <section id="バランスチェック-1" class="slide level2">
 <h2>バランスチェック</h2>
 <p>処置が複数の場合、組み合わせごとに標準化差分を計算</p>
-<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-20_827653736f6678d52f11042c94e863e5">
+<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-22_babdf597175b7b266862507221cd13cd">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-20-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-22-1.png" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -3766,11 +4493,11 @@ mean in group 0 mean in group 1
 </section>
 <section id="処置効果の可視化" class="slide level2">
 <h2>処置効果の可視化</h2>
-<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-21_ae1eae2ad2df7b06000a9d1643ccd40b">
+<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-23_c2f65f879c10b03707827318a656e673">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-21-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-23-1.png" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -3779,10 +4506,6 @@ mean in group 0 mean in group 1
 <section id="実習内容" class="slide level2">
 <h2>実習内容</h2>
 <ul>
-<li>Rの導入
-<ul>
-<li>R + RStudioがインストールされていない場合、NIIオンライン分析システムを利用する。</li>
-</ul></li>
 <li>Rの基礎（プロジェクト管理、データの読み込みなど）</li>
 <li>記述統計量の計算</li>
 <li>バランスチェック</li>
