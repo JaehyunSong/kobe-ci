@@ -286,7 +286,6 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
   <li><a href="#セットアップ" id="toc-セットアップ" class="nav-link" data-scroll-target="#セットアップ">セットアップ</a></li>
   <li><a href="#diff-in-diff" id="toc-diff-in-diff" class="nav-link" data-scroll-target="#diff-in-diff">Diff-in-Diff</a></li>
   <li><a href="#scm" id="toc-scm" class="nav-link" data-scroll-target="#scm">SCM</a></li>
-  <li><a href="#causalimpact" id="toc-causalimpact" class="nav-link" data-scroll-target="#causalimpact">CausalImpact</a></li>
   </ul>
 </nav>
     </div>
@@ -327,7 +326,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <span id="cb1-6"><a href="#cb1-6"></a>               panelView,     <span class="co"># パネルデータのチェック</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a>               CausalImpact)  <span class="co"># CausalImpactの実装</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>did_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data5.csv"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>did_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data4.csv"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10"></a></span>
 <span id="cb1-11"><a href="#cb1-11"></a>did_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1558,7 +1557,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <p>　ここでは、差分の差分法の応用としてSynthetic Control Method（SCM）を{gsynth}パッケージの使い方に重点を起きながら説明する。Synthetic Control MethodをRに実装したパッケージは{Synth}、{gsynth}、{bpCausal}などがある。SCMの代表的な論文の一つであるAbadie et al.（2015）は{Synth}パッケージを使っているが、使い方はかなり複雑である。したがって、ここでは使い方が最も簡単な{gsynth}パッケージについて説明する<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。</p>
 <p>　ここで使用するのは歴代参院選（第7回以降）における都道府県の投票率である<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。処置変数は第24回参院選から導入された「合区」だ。具体的には鳥取選挙区と島根選挙区が「鳥取・島根選挙区」に、徳島選挙区と高知選挙区が「徳島・高知選挙区」として合区されたか否かである。合区によって自分の1票の価値がほぼ半分に下がり、投票参加を妨げたのではないかという議論もあるが、本当だろうか。</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>scm_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data6.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>scm_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/did_data5.csv"</span>)</span>
 <span id="cb44-2"><a href="#cb44-2"></a></span>
 <span id="cb44-3"><a href="#cb44-3"></a>scm_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2763,164 +2762,6 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="causalimpact" class="level2">
-<h2 class="anchored" data-anchor-id="causalimpact">CausalImpact</h2>
-<p>　最後にCausalImpactをRで実装した{CausalImpact}パッケージを使ってSCMの例を再現してみよう。この{CausalImpact}パッケージの場合、いくつかデータの制約がある。</p>
-<ul>
-<li>処置群の値は1列目 &amp; 2列目以降は統制群の値</li>
-<li>処置群は1つのみ</li>
-<li>欠損値があってはならない。</li>
-</ul>
-<p>　以上の2点である。<code>scm_df</code>の場合、沖縄県に2つの欠損値（第7・8回参院選）が存在するため、第9回以降のデータのみを使用する。また、共変量などは使わないので選挙（<code>Election</code>）、都道府県名（<code>PrefName_E</code>）、投票率（<code>Turnout</code>）のみを残し、<code>ci_df</code>という名で格納する。</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a>ci_df <span class="ot">&lt;-</span> scm_df <span class="sc">|&gt;</span></span>
-<span id="cb77-2"><a href="#cb77-2"></a>  <span class="co"># 第7・8回参院選の場合、沖縄県が欠損しているため、除外</span></span>
-<span id="cb77-3"><a href="#cb77-3"></a>  <span class="fu">filter</span>(Election <span class="sc">&gt;=</span> <span class="dv">9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb77-4"><a href="#cb77-4"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Election, PrefName_E, Turnout)</span>
-<span id="cb77-5"><a href="#cb77-5"></a></span>
-<span id="cb77-6"><a href="#cb77-6"></a>ci_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 846 × 3
-   Election PrefName_E Turnout
-      &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;
- 1        9 Hokkaido      59.7
- 2        9 Aomori        53.0
- 3        9 Iwate         61.4
- 4        9 Miyagi        60.9
- 5        9 Akita         67.7
- 6        9 Yamagata      70.0
- 7        9 Fukushima     74.0
- 8        9 Ibaraki       56.5
- 9        9 Tochigi       62.0
-10        9 Gunma         69.7
-# ℹ 836 more rows</code></pre>
-</div>
-</div>
-<p>　続いて、{tidyr}の<code>pivot_wider()</code>関数を使って<code>ci_df</code>をwide型データへ変換する。<code>pivot_*()</code>関数の使い方については『私たちのR』<a href="https://www.jaysong.net/RBook/tidydata.html">第15章「整然データ構造」</a>を参照されたい。</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>ci_df <span class="ot">&lt;-</span> ci_df <span class="sc">|&gt;</span> </span>
-<span id="cb79-2"><a href="#cb79-2"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from  =</span> PrefName_E,</span>
-<span id="cb79-3"><a href="#cb79-3"></a>              <span class="at">values_from =</span> Turnout)</span>
-<span id="cb79-4"><a href="#cb79-4"></a></span>
-<span id="cb79-5"><a href="#cb79-5"></a>ci_df</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 18 × 48
-   Election Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukushima Ibaraki
-      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
- 1        9     59.7   53.0  61.4   60.9  67.7     70.0      74.0    56.5
- 2       10     75.9   64.4  74.2   72.8  78.0     83.5      84.0    72.2
- 3       11     73.7   66.1  71.9   71.4  77.4     79.9      75.2    62.5
- 4       12     76.3   73.9  75.4   75.2  80.5     82.7      80.8    73.0
- 5       13     57.1   54.0  57.8   53.9  63.7     65.2      68.7    50.7
- 6       14     74.0   74.3  76.4   71.7  81.2     82.5      78.4    71.7
- 7       15     70.9   61.4  70.9   61.2  74.5     75.2      71.7    61.5
- 8       16     59.0   43.9  59.3   48.5  61.6     61.5      59.1    36.6
- 9       17     46.9   46.1  56.4   41.1  57.0     59.1      51.7    36.9
-10       18     59.9   63.1  65.1   54.3  64.1     64.4      65.2    51.0
-11       19     58.5   51.0  66.0   55.6  60.7     63.1      60.9    50.2
-12       20     61.7   53.9  63.3   53.9  65.3     61.7      60.3    50.1
-13       21     62.4   53.9  63.4   55.8  67.7     67.3      61.6    54.0
-14       22     61.9   54.6  60.4   53.3  65.1     64.0      61.6    55.1
-15       23     54.4   46.2  57.5   50.7  56.2     60.8      54.5    49.7
-16       24     56.8   55.3  57.8   52.4  60.9     62.2      57.1    50.8
-17       25     53.8   42.9  56.5   51.2  56.3     60.7      52.4    45.0
-18       26     54.0   49.5  55.4   48.8  55.6     61.9      53.4    47.2
-# ℹ 39 more variables: Tochigi &lt;dbl&gt;, Gunma &lt;dbl&gt;, Saitama &lt;dbl&gt;, Chiba &lt;dbl&gt;,
-#   Tokyo &lt;dbl&gt;, Kanagawa &lt;dbl&gt;, Nigata &lt;dbl&gt;, Toyama &lt;dbl&gt;, Ishikawa &lt;dbl&gt;,
-#   Fukui &lt;dbl&gt;, Yamanashi &lt;dbl&gt;, Nagano &lt;dbl&gt;, Gifu &lt;dbl&gt;, Shizuoka &lt;dbl&gt;,
-#   Aichi &lt;dbl&gt;, Mie &lt;dbl&gt;, Shiga &lt;dbl&gt;, Kyoto &lt;dbl&gt;, Osaka &lt;dbl&gt;, Hyogo &lt;dbl&gt;,
-#   Nara &lt;dbl&gt;, Wakayama &lt;dbl&gt;, Tottori &lt;dbl&gt;, Shimane &lt;dbl&gt;, Okayama &lt;dbl&gt;,
-#   Hiroshima &lt;dbl&gt;, Yamaguchi &lt;dbl&gt;, Tokushima &lt;dbl&gt;, Kagawa &lt;dbl&gt;,
-#   Ehime &lt;dbl&gt;, Kochi &lt;dbl&gt;, Fukuoka &lt;dbl&gt;, Saga &lt;dbl&gt;, Nagasaki &lt;dbl&gt;, …</code></pre>
-</div>
-</div>
-<p>　{CausalImpact}の場合、処置群は1つのみとなる。<code>ci_df</code>には4県の処置群があるが、ここでは鳥取（<code>PrefName_E == "Tottori"</code>）におけるATTを推定してみよう。<code>relocate()</code>関数を使って、<code>Tottori</code>列を<code>Election</code>列より前へ移動させる。続いて、不要になった<code>Election</code>関数とその他の統制群列を除外する。</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>ci_df <span class="ot">&lt;-</span> ci_df <span class="sc">|&gt;</span> </span>
-<span id="cb81-2"><a href="#cb81-2"></a>  <span class="co"># Tottori列を最先端へ（= Election列より前）</span></span>
-<span id="cb81-3"><a href="#cb81-3"></a>  <span class="fu">relocate</span>(Tottori, <span class="at">.before =</span> Election) <span class="sc">|&gt;</span></span>
-<span id="cb81-4"><a href="#cb81-4"></a>  <span class="co"># その他の処置群とElection列を除外</span></span>
-<span id="cb81-5"><a href="#cb81-5"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Election, Shimane, Tokushima, Kochi))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>　それでは実装してみよう。使う関数は<code>CausalImpact()</code>関数だ。第1引数はデータである。他に必要な引数としては<code>pre.period</code>と<code>post.period</code>があり、それぞれ統制の時期と初期が行われた時期を意味する。処置前の時期というのは<code>ci_df</code>でいうと、第9回から第23回参院選までだ。<code>ci_df</code>の1行目が第9回参院選、15行目は第23回参院選である。16行目から18行目は処置が行われてからの時期だ。それぞれ<code>pre.period</code>と<code>post.period</code>で指定する。</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>ci_fit <span class="ot">&lt;-</span> ci_df <span class="sc">|&gt;</span></span>
-<span id="cb82-2"><a href="#cb82-2"></a>  <span class="fu">CausalImpact</span>(<span class="at">pre.period =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">15</span>), <span class="at">post.period =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">18</span>))</span>
-<span id="cb82-3"><a href="#cb82-3"></a></span>
-<span id="cb82-4"><a href="#cb82-4"></a>ci_fit</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Posterior inference {CausalImpact}
-
-                         Average         Cumulative   
-Actual                   52              155          
-Prediction (s.d.)        61 (3.7)        183 (11.2)   
-95% CI                   [54, 69]        [161, 206]   
-                                                      
-Absolute effect (s.d.)   -9.4 (3.7)      -28.1 (11.2) 
-95% CI                   [-17, -2.1]     [-51, -6.3]  
-                                                      
-Relative effect (s.d.)   -15% (5.3%)     -15% (5.3%)  
-95% CI                   [-25%, -3.9%]   [-25%, -3.9%]
-
-Posterior tail-area probability p:   0.01509
-Posterior prob. of a causal effect:  98.491%
-
-For more details, type: summary(impact, "report")</code></pre>
-</div>
-</div>
-<p>　推定されたATTはAbsolute effect行のAverageから確認できる。これは鳥取県の場合、合区によって投票率が約-9.364%p低下したことを意味する。ちなみにSCMで指定した鳥取県のATTはいくらだろうか。</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a>tottori_att <span class="ot">&lt;-</span> scm_fit <span class="sc">|&gt;</span></span>
-<span id="cb84-2"><a href="#cb84-2"></a>  <span class="fu">cumuEff</span>(<span class="at">cumu   =</span> <span class="cn">FALSE</span>,     <span class="co"># TRUEの場合、累積ATT</span></span>
-<span id="cb84-3"><a href="#cb84-3"></a>          <span class="at">id     =</span> <span class="st">"Tottori"</span>, <span class="co"># PrefName_E上の名前</span></span>
-<span id="cb84-4"><a href="#cb84-4"></a>          <span class="at">period =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))   <span class="co"># 処置が行われた時期を1する。</span></span>
-<span id="cb84-5"><a href="#cb84-5"></a></span>
-<span id="cb84-6"><a href="#cb84-6"></a>tottori_att</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$catt
-[1]  -6.903364  -8.997478 -10.885151
-
-$est.catt
-        CATT     S.E.  CI.lower    CI.upper p.value
-1  -6.903364 2.630950 -11.61234 -1.30268808   0.024
-2  -8.997478 3.978876 -15.81718 -0.04993765   0.052
-3 -10.885151 3.368874 -17.40259 -4.86724650   0.004</code></pre>
-</div>
-</div>
-<p>　SCMから得られた結果、第24回におけるATTは-6.903、第25回は-8.997、第26回は-10.885であり、平均値は-8.929である。0.435%pの差はあるが、それなりに近い結果が得られている。</p>
-<p>　分析の手法はことなるものの、SCMもCausalImpactも、架空の統制群を作るという点では共通している。したがって、SCMで示したような図も作成できよう。{CausalImpact}も<code>plot()</code>関数で作図ができる。</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a><span class="fu">plot</span>(ci_fit)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid figure-img" width="1200"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>　上の図が架空の鳥取県と実際の鳥取県を示したもの、真ん中の図はその2つの差分であり、ATTを意味する。下の図はATTの累積である。</p>
-<p>　それでは既に作成したSCMの図と比較してみよう。</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid figure-img" width="1200"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid figure-img" width="1200"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>　CausalImpactの方が信頼区間が広いものの、傾向としてはほとんど同じである。今回は{CausalImpact}の基本的な使い方のみを紹介したが、{bsts}パッケージの使用経験がある場合、ある程度のモデリングもできるため、より精度の良い推定ができるかも知れない。宋はCausalImpactの便利さ（=統制群すら必要としない点、{CausalImpact}パッケージの使いやすさ）は認めるものの、まだまだ改善の余地があると考えているので、ここまでに紹介させて頂きたい。詳細な紹介についてはill-identifiedさんの<a href="https://ill-identified.hatenablog.com/entry/2019/10/09/120000">記事</a>と<a href="https://github.com/Gedevan-Aleksizde/20190728_DID">コード</a>が詳しい。</p>
 
 
 </section>

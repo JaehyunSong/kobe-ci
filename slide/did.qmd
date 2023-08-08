@@ -13,7 +13,7 @@ metadata-files:
 #| include: false
 pacman::p_load(tidyverse, haven, gt, modelsummary, 
                ggdag, dagitty, estimatr, 
-               Synth, CausalImpact)
+               Synth)
 pacman::p_load_gh("JaehyunSong/BalanceR")
 knitr::opts_chunk$set(dev       = "ragg_png",
                       dpi       = 300,
@@ -25,25 +25,24 @@ knitr::opts_chunk$set(dev       = "ragg_png",
 hoiku    <- read_csv("data/did_data1.csv")
 evote    <- read_csv("data/did_data2.csv")
 synth_df <- read_csv("data/did_data3.csv")
-stock_df <- read_csv("data/did_data4.csv")
 ```
 
 ## マッチングの限界
 
 **条件付き独立の仮定** (Conditional Independent Assumption; CIA)
 
-* 処置変数 (T) と結果変数 (Y) の間に存在する交絡要因 (X) が全て観察されている場合
-   * ${Y_i (T_i = 1), Y_i (T_i = 0) \perp T_i | X_i}$
+* 処置変数（$T$）と応答変数（$Y$）の間に存在する交絡要因（$W$）が全て観察されている場合
+   * ${Y_i (T_i = 1), Y_i (T_i = 0) \perp T_i | W_i}$
    * $\rightarrow$ 交絡変数を共変量として統制する場合、観察データからも因果効果の推定が可能 
 * しかし、**全て**の交絡要因がデータに含まれる場合もほぼゼロ
-   * $\rightarrow$ **仮定としては強すぎる**ため、(回帰分析を含む) マッチングによる**厳密**な因果推論は困難
-   * ただし、単純に処置変数と結果変数の単回帰分析よりは望ましい。
+   * $\rightarrow$ **仮定としては強すぎる**ため、（回帰分析を含む）マッチングによる**厳密**な因果推論は困難
+   * ただし、単純に処置変数と応答変数の単回帰分析よりは望ましい。
 * より緩い仮定の下で可能な因果推論の手法 
-   * $\rightarrow$ **自然実験** (Natural Experiment)
+   * $\rightarrow$ **自然実験**（Natural Experiment）
 
 ## 自然実験とは
 
-RCTの3つの特徴 (Freedman, Pisani, and Purves 2007)
+RCTの3つの特徴（Freedman, Pisani, and Purves 2007）
 
 1. The response of experimental subjects assigned to receive a treatment is
 compared to the response of subjects assigned to a control group.
@@ -52,21 +51,21 @@ compared to the response of subjects assigned to a control group.
 
 <br/>
 
-自然実験は (Dunning 2012)
+自然実験は（Dunning 2012）
 
 1. 同じ
-2. 処置の有無は無作為の**ように**決まる (as-if random)。
+2. 処置の有無は無作為の**ように**決まる（as-if random）。
 3. 処置内容などを研究者が操作することは不可能
-   * 2と3は自然、制度などによって影響を受ける
+   * 2と3は自然、制度などによって影響を受ける。
 
 ## 自然実験の例
 
 処置を受けるか否かが**自然、制度、偶然など**によって規定される
 
 * 多数代表制と比例代表制
-   * 人口3500未満なら多数代表制、以上なら比例代表制を採用 (フランス 地方選挙)
+   * 人口3500未満なら多数代表制、以上なら比例代表制を採用（フランス地方選挙）
 * 軍の経験と所得
-   * ベトナム戦争時、徴兵対象がくじによって決まる (アメリカ)
+   * ベトナム戦争時、徴兵対象がくじによって決まる（アメリカ）
 * 最低賃金の効果
    * 隣接するペンシルベニア州とニュージャージー州の最低賃金の格差
 * 現職効果
@@ -79,19 +78,18 @@ compared to the response of subjects assigned to a control group.
 
 本講義では1と2を解説
 
-1. **差分の差分法** (Difference-in-Difference; Diff-in-Diff/DID/DD)
+1. **差分の差分法**（Difference-in-Difference; Diff-in-Diff/DID/DD）
 2. **回帰不連続デザイン** (Regression Discontinuity Design; RDD)
-   * 中断時系列デザイン (Interrupted Time-series Design; ITS)
+   * 中断時系列デザイン（Interrupted Time-series Design; ITS）
       * RDDの時系列版であるが、自己相関などの対処が必要であるため本講義では省略
-3. **操作変数** (Instrumental Variable; IV)
-4. **集積分析** (Bunching Analysis)
-5. その他
+3. **操作変数**（Instrumental Variable; IV）
+4. **集積分析**（Bunching Analysis）など
 
 # 差分の差分法の考え方
 
-## 保育所の整備と母の就労率 (1)
+## 保育所の整備と母の就労率（1）
 
-X軸: $\frac{\mbox{認可保育所定員}}{\mbox{5歳以下子供数}}$ ; Y軸: 女性の就労率（元ネタ: [Asai, Kambayashi, and Yamaguchi (2015)](https://www.sciencedirect.com/science/article/pii/S088915831500043X) / データは宋が収集）
+横軸: $\frac{\mbox{認可保育所定員}}{\mbox{5歳以下子供数}}$; 縦軸: 女性の就労率（元ネタ: [Asai, Kambayashi, and Yamaguchi (2015)](https://www.sciencedirect.com/science/article/pii/S088915831500043X) / データは宋が収集）
 
 ```{r}
 #| fig-width: 8
@@ -106,7 +104,7 @@ hoiku |>
            base_family = "HiraKakuProN-W3")
 ```
 
-## 保育所の整備と母の就労率 (2)
+## 保育所の整備と母の就労率（2）
 
 保育所が整備されると母は安心して働けるから就労率が上がる
 
@@ -158,9 +156,9 @@ dagify(Y ~ X,
 
 元ネタはカルフォルニア州のProposition99
 
-* $t+1$ 期において、A州のみタバコの値上げ
-* $t$ 期におけるA州のタバコ消費量(箱/人): 15
-* $t+1$ 期におけるA州のタバコ消費量(箱/人): 10
+* $t+1$期において、A州のみタバコの値上げ
+* $t$期におけるA州のタバコ消費量（箱/人）：15
+* $t+1$期におけるA州のタバコ消費量（箱/人）：10
    * $\rightarrow$ 値上げ後、タバコの消費量が5箱$\downarrow$
 
 <br/><br/>
@@ -227,7 +225,7 @@ tibble(x = c(0, 1, 0, 1),
 因果推論の枠組みから考えると ...
 
 * 処置変数 ( $T$ ): タバコの値上げ
-* 結果変数 ( $Y$ ): タバコの消費量
+* 応答変数 ( $Y$ ): タバコの消費量
 * $i$ : 観測単位 (人/自治体/国/企業など) 
 * $t$ : 観測時期
 
@@ -305,7 +303,7 @@ tibble(x = c(0, 1, 0, 1, 0, 1),
 
 * 差分の差分法から推定された値が因果効果になるための前提
    * A州が値上げしなかったらB州**並に**消費量が減っただろうというのが前提
-* 処置を受けたユニットが、もし処置を受けなかった場合、結果変数の変化は統制群の変化と一致する
+* 処置を受けたユニットが、もし処置を受けなかった場合、応答変数の変化は統制群の変化と一致する
    * 処置群の潜在的結果は観測された統制群の動きと並行する
    * = A州が値上げしなかったら、B州のように2箱減に留まる
 
@@ -483,7 +481,7 @@ $$\hat{Y} = \beta_0 + \beta_1 T + \beta_2 \mbox{POST} + \delta T \cdot \mbox{Pos
 
 * T: 処置群か否か
 * POST: 処置が行われた後か否か
-* Y: 結果変数
+* Y: 応答変数
 
 |ID|Name|POST|T|Y|
 |---|---|---|---|---|
@@ -724,8 +722,8 @@ bind_rows(list("Model 1" = tidy(Hoiku_Fit1),
 1. より多くの時点のデータを収集し、プロット
    * 検定 (test) ではなく、診断 (diagnostics)
 2. プラセボ・テスト
-   * **方法1:** $t=3$ が処置を受けた時期なら、 $t = 3$ をデータから除外し、 $t = 2$ を処置とコーディングしてDIDを実行 (3期以上のデータが必要)
-   * **方法2:** 統制群の一部を処置群とコーディング&処置群をデータから除外してDIDを実行 (3つ以上の対象が必要)
+   * **方法1：** $t=3$が処置を受けた時期なら、$t = 3$をデータから除外し、$t = 2$を処置とコーディングしてDIDを実行（3期以上のデータが必要）
+   * **方法2：** 統制群の一部を処置群とコーディング&処置群をデータから除外してDIDを実行（3つ以上の対象が必要）
    * 検定の結果、DID推定量が統計的有意であったら平行トレンドが満たされていないと判断する（並行トレンドの仮定が満たされていることは示せない）
 
 # Diff-in-Diffの応用
@@ -735,11 +733,11 @@ bind_rows(list("Model 1" = tidy(Hoiku_Fit1),
 **並行トレンドを満たすケースを仮想的に作り上げる**手法
 
 * 処置群以外のケースを重み付け&合成
-   * 合成に使われるケース: **ドナー** (Donor)
+   * 合成に使われるケース: **ドナー**（Donor）
 * 一つ一つの観察対象が処置群と並行トレンドを満たさない場合でも使用可能
    * 精度を上げるには共変量が必要
    * プラセボ・テストも必要
-   * 統制群、処置前のサンプルサイズは大きいほど良い (DIDと同じ)
+   * 統制群、処置前のサンプルサイズは大きいほど良い（DIDと同じ）
 * {Synth}、または{gsynth}パッケージで実装可能
    * ベイジアン・アプローチだと{bpCausal}
 
@@ -949,88 +947,6 @@ Gaps_Plot <- Synth_Result |>
 ggpubr::ggarrange(Path_Plot, Gaps_Plot)
 ```
 
-## CausalImpact: 概要
-
-データの制約が非常に少ない差分の差分法の応用
-
-* **ベイジアン状態空間モデル**により、処置後の結果変数を予測
-   * 他の観察対象の結果変数でなく、自分自身のデータから予測される結果を潜在的結果として使用
-* 予測値と観測値の差から因果効果を推定
-* データの制約が非常に小さい
-   * 共変量なしでもOK (あった方が良い)
-   * 観察対象が1つ (1カ国、1自治体など)
-   * ただし、時間単位の観察数を確保する必要がある
-* {CausalImpact}パッケージで**簡単**に実装可能
-
-* 参考) Brodersen, Kay H., Fabian Gallusser, Jim Koehler, Nicolas Remy,  and Steven L. Scott. 2015. "[Inferring Causal Impact using Bayesian Structural Time-series Models,](https://www.jstor.org/stable/24522418)" *Annals of Applied Statistics,* 9: 247-274.
-
-## CausalImpactの例
-
-2020年8月28日におけるNHK報道が株価に与えた影響
-
-::::{.columns}
-:::{.column width=30%}
-* 安倍総理の辞任に関する報道
-* 日本の株価のみ
-* 13時〜15時の1分単位の株価 (1∼121)
-:::
-
-:::{.column width=70%}
-```{r}
-#| fig-width: 6
-#| fig-height: 3.5
-stock_df |>
-  ggplot() +
-  geom_vline(xintercept = 67, linetype = 2) +
-  geom_line(aes(x = Trend, y = Stock_J), size = 1) +
-  annotate("text", x = 65, y = 22900, label = "安倍首相の辞任発表",
-           hjust = 1, size = 4) +
-  labs(x = "時間 (0 = 13時; 1分単位)", y = "日経指数 (2020年8月28日)", 
-       color = "", linetype = "") +
-  scale_linetype_manual(values = c('安倍首相の辞任発表' = 2)) +
-  theme_bw(base_size = 12)
-```
-:::
-::::
-
-## CausalImpactの例
-
-CausalImpactの可視化
-
-* Original: 予測値 (+信用区間)と観測値
-* Pointwise: 予測値と観測値の差分 (+信用区間)
-* Cumulative: Pointwiseの累積 (+信用区間)
-
-```{r}
-#| include: false
-#| cache: true
-CI <- stock_df |>
-  dplyr::select(Stock_J) |>
-  CausalImpact(pre.period  = c(1, 67), 
-               post.period = c(68, 121))
-```
-
-```{r}
-#| layout-ncol: 3
-#| fig-width: 4
-#| fig-height: 3.5
-plot(CI, "original") + facet_wrap(~"Original")
-plot(CI, "pointwise") + facet_wrap(~"Pointwise")
-plot(CI, "cumulative") + facet_wrap(~"Cumulative")
-```
-
-## CausalImpactの例
-
-NHK報道の因果効果
-
-* 日経指数を「平均」426ポイント下げた効果 
-* 「累積」が大事な場合もあり
-
-```{r}
-#| echo: false
-summary(CI)
-```
-
 # 実習
 
 ## 実習用データ
@@ -1043,10 +959,9 @@ summary(CI)
 
 実習用データ
 
-* `did_data4.csv`: 2020年8月28日の株価
-* `did_data5.csv`: 学校内銃撃事件と政治参加
+* `did_data4.csv`: 学校内銃撃事件と政治参加
    * Laura García-Montoya, Ana Arjona, and Matthew Lacombe. 2022. "[Violence and Voting in the United States: How School Shootings Affect Elections](https://www.cambridge.org/core/journals/american-political-science-review/article/violence-and-voting-in-the-united-states-how-school-shootings-affect-elections/48D77237C8B89BCA106ED7BAC20CE2E4)," *American Political Science Review,* 116 (3): 807-826.
-* `did_data6.csv`: 参院選投票率（都道府県）
+* `did_data5.csv`: 参院選投票率（都道府県）
 
 ## データの説明
 
@@ -1074,4 +989,3 @@ García-Montoya, Arjona, and Lacombe (2022)のFigure 3&4の一部を再現
 1. {estimatr}パッケージ（`lm_robust()`関数）の使い方
 1. 推定結果の可視化
 1. Synthetic Control Methodの実装 ({gsynth})
-1. CausalImpactの実装 ({CausalImpact})

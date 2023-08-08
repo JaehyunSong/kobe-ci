@@ -375,38 +375,38 @@
 <h2>マッチングの限界</h2>
 <p><strong>条件付き独立の仮定</strong> (Conditional Independent Assumption; CIA)</p>
 <ul>
-<li>処置変数 (T) と結果変数 (Y) の間に存在する交絡要因 (X) が全て観察されている場合
+<li>処置変数（<span class="math inline">\(T\)</span>）と応答変数（<span class="math inline">\(Y\)</span>）の間に存在する交絡要因（<span class="math inline">\(W\)</span>）が全て観察されている場合
 <ul>
-<li><span class="math inline">\({Y_i (T_i = 1), Y_i (T_i = 0) \perp T_i | X_i}\)</span></li>
+<li><span class="math inline">\({Y_i (T_i = 1), Y_i (T_i = 0) \perp T_i | W_i}\)</span></li>
 <li><span class="math inline">\(\rightarrow\)</span> 交絡変数を共変量として統制する場合、観察データからも因果効果の推定が可能</li>
 </ul></li>
 <li>しかし、<strong>全て</strong>の交絡要因がデータに含まれる場合もほぼゼロ
 <ul>
-<li><span class="math inline">\(\rightarrow\)</span> <strong>仮定としては強すぎる</strong>ため、(回帰分析を含む) マッチングによる<strong>厳密</strong>な因果推論は困難</li>
-<li>ただし、単純に処置変数と結果変数の単回帰分析よりは望ましい。</li>
+<li><span class="math inline">\(\rightarrow\)</span> <strong>仮定としては強すぎる</strong>ため、（回帰分析を含む）マッチングによる<strong>厳密</strong>な因果推論は困難</li>
+<li>ただし、単純に処置変数と応答変数の単回帰分析よりは望ましい。</li>
 </ul></li>
 <li>より緩い仮定の下で可能な因果推論の手法
 <ul>
-<li><span class="math inline">\(\rightarrow\)</span> <strong>自然実験</strong> (Natural Experiment)</li>
+<li><span class="math inline">\(\rightarrow\)</span> <strong>自然実験</strong>（Natural Experiment）</li>
 </ul></li>
 </ul>
 </section>
 <section id="自然実験とは" class="slide level2">
 <h2>自然実験とは</h2>
-<p>RCTの3つの特徴 (Freedman, Pisani, and Purves 2007)</p>
+<p>RCTの3つの特徴（Freedman, Pisani, and Purves 2007）</p>
 <ol type="1">
 <li>The response of experimental subjects assigned to receive a treatment is compared to the response of subjects assigned to a control group.</li>
 <li>The assignment of subjects to treatment and control groups is done at random, through a randomizing device such as a coin flip.</li>
 <li>The manipulation of the treatment—also known as the intervention—is under the control of an experimental researcher.</li>
 </ol>
 <p><br></p>
-<p>自然実験は (Dunning 2012)</p>
+<p>自然実験は（Dunning 2012）</p>
 <ol type="1">
 <li>同じ</li>
-<li>処置の有無は無作為の<strong>ように</strong>決まる (as-if random)。</li>
+<li>処置の有無は無作為の<strong>ように</strong>決まる（as-if random）。</li>
 <li>処置内容などを研究者が操作することは不可能
 <ul>
-<li>2と3は自然、制度などによって影響を受ける</li>
+<li>2と3は自然、制度などによって影響を受ける。</li>
 </ul></li>
 </ol>
 </section>
@@ -416,11 +416,11 @@
 <ul>
 <li>多数代表制と比例代表制
 <ul>
-<li>人口3500未満なら多数代表制、以上なら比例代表制を採用 (フランス 地方選挙)</li>
+<li>人口3500未満なら多数代表制、以上なら比例代表制を採用（フランス地方選挙）</li>
 </ul></li>
 <li>軍の経験と所得
 <ul>
-<li>ベトナム戦争時、徴兵対象がくじによって決まる (アメリカ)</li>
+<li>ベトナム戦争時、徴兵対象がくじによって決まる（アメリカ）</li>
 </ul></li>
 <li>最低賃金の効果
 <ul>
@@ -441,17 +441,16 @@
 <h2>自然実験の方法</h2>
 <p>本講義では1と2を解説</p>
 <ol type="1">
-<li><strong>差分の差分法</strong> (Difference-in-Difference; Diff-in-Diff/DID/DD)</li>
+<li><strong>差分の差分法</strong>（Difference-in-Difference; Diff-in-Diff/DID/DD）</li>
 <li><strong>回帰不連続デザイン</strong> (Regression Discontinuity Design; RDD)
 <ul>
-<li>中断時系列デザイン (Interrupted Time-series Design; ITS)
+<li>中断時系列デザイン（Interrupted Time-series Design; ITS）
 <ul>
 <li>RDDの時系列版であるが、自己相関などの対処が必要であるため本講義では省略</li>
 </ul></li>
 </ul></li>
-<li><strong>操作変数</strong> (Instrumental Variable; IV)</li>
-<li><strong>集積分析</strong> (Bunching Analysis)</li>
-<li>その他</li>
+<li><strong>操作変数</strong>（Instrumental Variable; IV）</li>
+<li><strong>集積分析</strong>（Bunching Analysis）など</li>
 </ol>
 </section></section>
 <section>
@@ -459,9 +458,9 @@
 <h1>差分の差分法の考え方</h1>
 
 </section>
-<section id="保育所の整備と母の就労率-1" class="slide level2">
-<h2>保育所の整備と母の就労率 (1)</h2>
-<p>X軸: <span class="math inline">\(\frac{\mbox{認可保育所定員}}{\mbox{5歳以下子供数}}\)</span> ; Y軸: 女性の就労率（元ネタ: <a href="https://www.sciencedirect.com/science/article/pii/S088915831500043X">Asai, Kambayashi, and Yamaguchi (2015)</a> / データは宋が収集）</p>
+<section id="保育所の整備と母の就労率1" class="slide level2">
+<h2>保育所の整備と母の就労率（1）</h2>
+<p>横軸: <span class="math inline">\(\frac{\mbox{認可保育所定員}}{\mbox{5歳以下子供数}}\)</span>; 縦軸: 女性の就労率（元ネタ: <a href="https://www.sciencedirect.com/science/article/pii/S088915831500043X">Asai, Kambayashi, and Yamaguchi (2015)</a> / データは宋が収集）</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -472,8 +471,8 @@
 </div>
 </div>
 </section>
-<section id="保育所の整備と母の就労率-2" class="slide level2">
-<h2>保育所の整備と母の就労率 (2)</h2>
+<section id="保育所の整備と母の就労率2" class="slide level2">
+<h2>保育所の整備と母の就労率（2）</h2>
 <p>保育所が整備されると母は安心して働けるから就労率が上がる</p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -522,9 +521,9 @@
 <h2>タバコの値段と消費量</h2>
 <p>元ネタはカルフォルニア州のProposition99</p>
 <ul>
-<li><span class="math inline">\(t+1\)</span> 期において、A州のみタバコの値上げ</li>
-<li><span class="math inline">\(t\)</span> 期におけるA州のタバコ消費量(箱/人): 15</li>
-<li><span class="math inline">\(t+1\)</span> 期におけるA州のタバコ消費量(箱/人): 10
+<li><span class="math inline">\(t+1\)</span>期において、A州のみタバコの値上げ</li>
+<li><span class="math inline">\(t\)</span>期におけるA州のタバコ消費量（箱/人）：15</li>
+<li><span class="math inline">\(t+1\)</span>期におけるA州のタバコ消費量（箱/人）：10
 <ul>
 <li><span class="math inline">\(\rightarrow\)</span> 値上げ後、タバコの消費量が5箱<span class="math inline">\(\downarrow\)</span></li>
 </ul></li>
@@ -582,7 +581,7 @@
 <p>因果推論の枠組みから考えると …</p>
 <ul>
 <li>処置変数 ( <span class="math inline">\(T\)</span> ): タバコの値上げ</li>
-<li>結果変数 ( <span class="math inline">\(Y\)</span> ): タバコの消費量</li>
+<li>応答変数 ( <span class="math inline">\(Y\)</span> ): タバコの消費量</li>
 <li><span class="math inline">\(i\)</span> : 観測単位 (人/自治体/国/企業など)</li>
 <li><span class="math inline">\(t\)</span> : 観測時期</li>
 </ul>
@@ -717,7 +716,7 @@
 <ul>
 <li>A州が値上げしなかったらB州<strong>並に</strong>消費量が減っただろうというのが前提</li>
 </ul></li>
-<li>処置を受けたユニットが、もし処置を受けなかった場合、結果変数の変化は統制群の変化と一致する
+<li>処置を受けたユニットが、もし処置を受けなかった場合、応答変数の変化は統制群の変化と一致する
 <ul>
 <li>処置群の潜在的結果は観測された統制群の動きと並行する</li>
 <li>= A州が値上げしなかったら、B州のように2箱減に留まる</li>
@@ -820,7 +819,7 @@
 <ul>
 <li>T: 処置群か否か</li>
 <li>POST: 処置が行われた後か否か</li>
-<li>Y: 結果変数</li>
+<li>Y: 応答変数</li>
 </ul>
 <table>
 <thead>
@@ -1330,8 +1329,8 @@
 </ul></li>
 <li>プラセボ・テスト
 <ul>
-<li><strong>方法1:</strong> <span class="math inline">\(t=3\)</span> が処置を受けた時期なら、 <span class="math inline">\(t = 3\)</span> をデータから除外し、 <span class="math inline">\(t = 2\)</span> を処置とコーディングしてDIDを実行 (3期以上のデータが必要)</li>
-<li><strong>方法2:</strong> 統制群の一部を処置群とコーディング&amp;処置群をデータから除外してDIDを実行 (3つ以上の対象が必要)</li>
+<li><strong>方法1：</strong> <span class="math inline">\(t=3\)</span>が処置を受けた時期なら、<span class="math inline">\(t = 3\)</span>をデータから除外し、<span class="math inline">\(t = 2\)</span>を処置とコーディングしてDIDを実行（3期以上のデータが必要）</li>
+<li><strong>方法2：</strong> 統制群の一部を処置群とコーディング&amp;処置群をデータから除外してDIDを実行（3つ以上の対象が必要）</li>
 <li>検定の結果、DID推定量が統計的有意であったら平行トレンドが満たされていないと判断する（並行トレンドの仮定が満たされていることは示せない）</li>
 </ul></li>
 </ol>
@@ -1347,13 +1346,13 @@
 <ul>
 <li>処置群以外のケースを重み付け&amp;合成
 <ul>
-<li>合成に使われるケース: <strong>ドナー</strong> (Donor)</li>
+<li>合成に使われるケース: <strong>ドナー</strong>（Donor）</li>
 </ul></li>
 <li>一つ一つの観察対象が処置群と並行トレンドを満たさない場合でも使用可能
 <ul>
 <li>精度を上げるには共変量が必要</li>
 <li>プラセボ・テストも必要</li>
-<li>統制群、処置前のサンプルサイズは大きいほど良い (DIDと同じ)</li>
+<li>統制群、処置前のサンプルサイズは大きいほど良い（DIDと同じ）</li>
 </ul></li>
 <li>{Synth}、または{gsynth}パッケージで実装可能
 <ul>
@@ -1549,111 +1548,6 @@
 </div>
 </div>
 </div>
-</section>
-<section id="causalimpact-概要" class="slide level2">
-<h2>CausalImpact: 概要</h2>
-<p>データの制約が非常に少ない差分の差分法の応用</p>
-<ul>
-<li><p><strong>ベイジアン状態空間モデル</strong>により、処置後の結果変数を予測</p>
-<ul>
-<li>他の観察対象の結果変数でなく、自分自身のデータから予測される結果を潜在的結果として使用</li>
-</ul></li>
-<li><p>予測値と観測値の差から因果効果を推定</p></li>
-<li><p>データの制約が非常に小さい</p>
-<ul>
-<li>共変量なしでもOK (あった方が良い)</li>
-<li>観察対象が1つ (1カ国、1自治体など)</li>
-<li>ただし、時間単位の観察数を確保する必要がある</li>
-</ul></li>
-<li><p>{CausalImpact}パッケージで<strong>簡単</strong>に実装可能</p></li>
-<li><p>参考) Brodersen, Kay H., Fabian Gallusser, Jim Koehler, Nicolas Remy, and Steven L. Scott. 2015. “<a href="https://www.jstor.org/stable/24522418">Inferring Causal Impact using Bayesian Structural Time-series Models,</a>” <em>Annals of Applied Statistics,</em> 9: 247-274.</p></li>
-</ul>
-</section>
-<section id="causalimpactの例" class="slide level2">
-<h2>CausalImpactの例</h2>
-<p>2020年8月28日におけるNHK報道が株価に与えた影響</p>
-<div class="columns">
-<div class="column" style="width:30%;">
-<ul>
-<li>安倍総理の辞任に関する報道</li>
-<li>日本の株価のみ</li>
-<li>13時〜15時の1分単位の株価 (1∼121)</li>
-</ul>
-</div><div class="column" style="width:70%;">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="did_files/figure-revealjs/unnamed-chunk-22-1.png" width="1800"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="causalimpactの例-1" class="slide level2">
-<h2>CausalImpactの例</h2>
-<p>CausalImpactの可視化</p>
-<ul>
-<li>Original: 予測値 (+信用区間)と観測値</li>
-<li>Pointwise: 予測値と観測値の差分 (+信用区間)</li>
-<li>Cumulative: Pointwiseの累積 (+信用区間)</li>
-</ul>
-<div class="cell quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="did_files/figure-revealjs/unnamed-chunk-24-1.png" width="1200"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="did_files/figure-revealjs/unnamed-chunk-24-2.png" width="1200"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="did_files/figure-revealjs/unnamed-chunk-24-3.png" width="1200"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="causalimpactの例-2" class="slide level2">
-<h2>CausalImpactの例</h2>
-<p>NHK報道の因果効果</p>
-<ul>
-<li>日経指数を「平均」426ポイント下げた効果</li>
-<li>「累積」が大事な場合もあり</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stdout">
-<pre><code>Posterior inference {CausalImpact}
-
-                         Average          Cumulative        
-Actual                   22881            1235580           
-Prediction (s.d.)        23307 (2.7)      1258599 (145.5)   
-95% CI                   [23302, 23313]   [1258304, 1258885]
-                                                            
-Absolute effect (s.d.)   -426 (2.7)       -23019 (145.5)    
-95% CI                   [-432, -421]     [-23305, -22724]  
-                                                            
-Relative effect (s.d.)   -1.8% (0.012%)   -1.8% (0.012%)    
-95% CI                   [-1.9%, -1.8%]   [-1.9%, -1.8%]    
-
-Posterior tail-area probability p:   0.00102
-Posterior prob. of a causal effect:  99.89817%
-
-For more details, type: summary(impact, "report")</code></pre>
-</div>
-</div>
 </section></section>
 <section>
 <section id="実習" class="title-slide slide level1 center">
@@ -1670,12 +1564,11 @@ For more details, type: summary(impact, "report")</code></pre>
 </ul>
 <p>実習用データ</p>
 <ul>
-<li><code>did_data4.csv</code>: 2020年8月28日の株価</li>
-<li><code>did_data5.csv</code>: 学校内銃撃事件と政治参加
+<li><code>did_data4.csv</code>: 学校内銃撃事件と政治参加
 <ul>
 <li>Laura García-Montoya, Ana Arjona, and Matthew Lacombe. 2022. “<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/violence-and-voting-in-the-united-states-how-school-shootings-affect-elections/48D77237C8B89BCA106ED7BAC20CE2E4">Violence and Voting in the United States: How School Shootings Affect Elections</a>,” <em>American Political Science Review,</em> 116 (3): 807-826.</li>
 </ul></li>
-<li><code>did_data6.csv</code>: 参院選投票率（都道府県）</li>
+<li><code>did_data5.csv</code>: 参院選投票率（都道府県）</li>
 </ul>
 </section>
 <section id="データの説明" class="slide level2">
@@ -1746,7 +1639,6 @@ For more details, type: summary(impact, "report")</code></pre>
 <li>{estimatr}パッケージ（<code>lm_robust()</code>関数）の使い方</li>
 <li>推定結果の可視化</li>
 <li>Synthetic Control Methodの実装 ({gsynth})</li>
-<li>CausalImpactの実装 ({CausalImpact})</li>
 </ol>
 
 <p><img src="Figs/logo.png" class="slide-logo"></p>
