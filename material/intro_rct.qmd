@@ -342,8 +342,8 @@ df |>
 ```{r}
 df <- df |>
   mutate(treatment = factor(treatment,
-                            levels = c("Control", "Civic Duty",
-                                       "Self", "Neighbors", "Hawthorne")))
+                            levels = c("Control", "Civic Duty", "Hawthorne",
+                                       "Self", "Neighbors")))
 ```
 
 　それでは、改めてグループごとの`voted2006`の平均値を計算してみよう。今回は計算結果を`out_mean_df`という名のオブジェクトとして格納する。
@@ -447,7 +447,7 @@ fit1 <- df %>% # %>% パイプを使う場合
   lm(voted2006 ~ treatment, data = .)
 ```
 
-　Factor型、または文字型変数が説明変数の場合、自動的にダミー変数として処理され、Factor型の場合、最初の水準（ここでは`"Control"`）がベースカテゴリとなる。説明変数が文字型ならアルファベット順で最初の水準がベースカテゴリとなり、今回の例だと`"Civic Duty"`がベースカテゴリとなる。処置効果は「統制群に比べて〜」が重要となるので、数値型以外の説明変数は予めfactor化しておいた方が望ましい。
+　Factor型、または文字型変数が説明変数の場合、自動的にダミー変数として処理され、factor型の場合、最初の水準（ここでは`"Control"`）がベースカテゴリとなる。もし説明変数が文字型なら、アルファベット順で最初の水準がベースカテゴリとなり、今回の例だと`"Civic Duty"`がベースカテゴリとなる。処置効果は「統制群に比べて〜」が重要となるので、数値型以外の説明変数は予めfactor化しておいた方が望ましい。
 
 　Civic Dutyの推定値は約`r sprintf("%.3f", coef(fit1)[2])`であり、これは統制群に比べ、Civic Duty群の`voted2006`の平均値は約`r sprintf("%.3f", coef(fit1)[2])`高いことを意味する。応答変数が0、1であるため、これを割合（=投票率）で換算すると、約`r sprintf("%.1f", coef(fit1)[2] * 100)`%p高いことを意味する。つまり、Civic Dutyのはがきをもらった被験者はそうでない被験者に比べて投票率が約`r sprintf("%.1f", coef(fit1)[2] * 100)`%p高いことを意味する。他の推定値も同じやり方で解釈すれば良い。
 
@@ -517,8 +517,8 @@ fit1_coef <- fit1_coef |>
   mutate(term = recode(term,
                        "treatmentCivic Duty" = "Civic Duty",
                        "treatmentHawthorne"  = "Hawthorne",
-                       "treatmentNeighbors"  = "Neighbors",
-                       "treatmentSelf"       = "Self"))
+                       "treatmentSelf"       = "Self",
+                       "treatmentNeighbors"  = "Neighbors"))
 
 fit1_coef
 ```
@@ -604,8 +604,8 @@ fit1_coef <- fit1_coef |>
   mutate(term = recode(term,
                        "treatmentCivic Duty" = "Civic Duty",
                        "treatmentHawthorne"  = "Hawthorne",
-                       "treatmentNeighbors"  = "Neighbors",
-                       "treatmentSelf"       = "Self"),
+                       "treatmentSelf"       = "Self",
+                       "treatmentNeighbors"  = "Neighbors"),
          term = fct_inorder(term))
 
 fit1_coef
@@ -668,9 +668,9 @@ modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
              statistic = NULL,
              align = "lrr", # 1列は左寄せ、2列は右寄せ、3列は右寄せ
              coef_rename = c("treatmentCivic Duty" = "Civic Duty",
+                             "treatmentHawthorne"  = "Hawthorne",
                              "treatmentSelf"       = "Self",
                              "treatmentNeighbors"  = "Neighbors",
-                             "treatmentHawthorne"  = "Hawthorne",
                              "female"              = "Female",
                              "yob"                 = "Year of Birth",
                              "hh_size"             = "Household Size",
@@ -682,6 +682,8 @@ modelsummary(list("w/o Covariates" = fit1, "w/ Covariates" = fit2),
 　処置効果に注目すると、共変量の有無が推定結果に影響をほぼ与えないことが分かる。これは無作為割当に成功したことを意味する。
 
 ## 番外編
+
+### 複数モデルの出力
 
 　`modelsummary()`を使えば、複数のモデルの推定結果を一つの表としてまとめられる。しかし、図の場合はどうだろう。共変量なしモデルとありモデルを @fig-intro-pointrange-5 のように一つにまとめることはできるだろうか。もちろん出来る。
 
@@ -695,8 +697,8 @@ fit2_coef <- fit2_coef |>
   mutate(term = recode(term,
                        "treatmentCivic Duty" = "Civic Duty",
                        "treatmentHawthorne"  = "Hawthorne",
-                       "treatmentNeighbors"  = "Neighbors",
-                       "treatmentSelf"       = "Self"),
+                       "treatmentSelf"       = "Self",
+                       "treatmentNeighbors"  = "Neighbors"),
          term = fct_inorder(term))
 
 fit2_coef
@@ -785,4 +787,154 @@ fit_coef |>
                                   "Model 2" = "w/ Covariates")) +
   theme_bw(base_size = 12) +
   theme(legend.position = "bottom")
+```
+
+### 交互作用
+
+```{r}
+fit3 <- lm(voted2006 ~ treatment * hh_size + female + yob + hh_size +
+             voted2000 + voted2002 + voted2004, data = df)
+
+modelsummary(list("w/o Interaction" = fit2, "w/ Interaction" = fit3),
+             estimate  = "{estimate} ({std.error})",
+             statistic = NULL)
+```
+
+```{r}
+pacman::p_load(marginaleffects)
+```
+
+```{r}
+fit3_pred <- predictions(fit3,
+                         newdata = datagrid(treatment = c("Control",
+                                                          "Civic Duty",
+                                                          "Hawthorne",
+                                                          "Neighbors",
+                                                          "Self"),
+                                            hh_size   = c(1, 4, 8)))
+
+fit3_pred
+```
+
+```{r}
+#| error: true
+fit3_pred |> 
+  ggplot() +
+  geom_col(aes(x = treatment, y = Estimate)) +
+  facet_wrap(~hh_size)
+```
+
+```{r}
+print(fit3_pred, style = "data.frame")
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+fit3_pred |> 
+  ggplot() +
+  geom_col(aes(x = treatment, y = estimate)) +
+  facet_wrap(~hh_size)
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+fit3_pred |> 
+  mutate(hh_size = case_when(hh_size == 1 ~ "Household size = 1",
+                             hh_size == 4 ~ "Household size = 4",
+                             hh_size == 8 ~ "Household size = 8"),
+         hh_size = fct_inorder(hh_size)) |> 
+  ggplot() +
+  geom_col(aes(x = treatment, y = estimate)) +
+  labs(x = "Groups", y = "Predicted Turnout") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  facet_wrap(~hh_size)
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+fit3_pred |> 
+  mutate(hh_size = case_when(hh_size == 1 ~ "Household size = 1",
+                             hh_size == 4 ~ "Household size = 4",
+                             hh_size == 8 ~ "Household size = 8"),
+         hh_size = fct_inorder(hh_size)) |> 
+  ggplot() +
+  geom_col(aes(x = treatment, y = estimate)) +
+  geom_text(aes(x = treatment, y = estimate, label = sprintf("%.3f", estimate))) +
+  labs(x = "Groups", y = "Predicted Turnout") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  facet_wrap(~hh_size)
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+fit3_pred |> 
+  mutate(hh_size = case_when(hh_size == 1 ~ "Household size = 1",
+                             hh_size == 4 ~ "Household size = 4",
+                             hh_size == 8 ~ "Household size = 8"),
+         hh_size = fct_inorder(hh_size)) |> 
+  ggplot() +
+  geom_col(aes(x = treatment, y = estimate)) +
+  geom_text(aes(x = treatment, y = estimate, label = sprintf("%.3f", estimate)),
+            color = "white", vjust = 2) +
+  labs(x = "Groups", y = "Predicted Turnout") +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
+  facet_wrap(~hh_size)
+```
+
+```{r}
+fit3_ame <- fit3 |> 
+  marginaleffects(variables = "treatment",
+                  newdata = datagrid(hh_size = 1:8))
+
+print(fit3_ame, style = "data.frame")
+```
+
+```{r}
+fit3_ame |> 
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = hh_size, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Household Size", y = "Average Marginal Effects") +
+  facet_wrap(~contrast)
+```
+
+```{r}
+fit3_ame |> 
+  mutate(contrast = str_remove(contrast, " - Control")) |> 
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = hh_size, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  labs(x = "Household Size", y = "Average Marginal Effects") +
+  facet_wrap(~contrast)
+```
+
+```{r}
+fit3_ame |> 
+  mutate(contrast = str_remove(contrast, " - Control"),
+         sig      = if_else(p.value < 0.05, "sig", "insig")) |> 
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = hh_size, y = estimate, ymin = conf.low, ymax = conf.high,
+                      color = sig)) +
+  labs(x = "Household Size", y = "Average Marginal Effects") +
+  facet_wrap(~contrast)
+```
+
+```{r}
+fit3_ame |> 
+  mutate(contrast = str_remove(contrast, " - Control"),
+         sig      = if_else(p.value < 0.05, "sig", "insig")) |> 
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_pointrange(aes(x = hh_size, y = estimate, ymin = conf.low, ymax = conf.high,
+                      color = sig)) +
+  labs(x = "Household Size", y = "Average Marginal Effects") +
+  scale_color_manual(values = c("sig" = "black", "insig" = "gray80")) +
+  facet_wrap(~contrast) +
+  theme_bw() +
+  theme(legend.position = "none")
 ```

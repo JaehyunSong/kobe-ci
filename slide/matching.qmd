@@ -1,7 +1,7 @@
 ---
 subtitle: "マッチング"
 date: "2023/08/23"
-date-format: "2023年8月17〜23日"
+date-format: "2023年8月17〜23日" 
 format: revealjs
 metadata-files: 
   - _slide.yml
@@ -11,7 +11,7 @@ metadata-files:
 
 ```{r}
 #| include: false
-pacman::p_load(tidyverse, gt, broom, modelsummary, 
+pacman::p_load(tidyverse, gt, gtExtras, broom, modelsummary, 
                dagitty, ggdag, WeightIt, MatchIt, mvtnorm)
 
 knitr::opts_chunk$set(dev       = "ragg_png",
@@ -94,7 +94,7 @@ The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
    * What is $X$ that caused $Y$ ?
    * What if I had acted differently?
 * Examples:
-   * Was it the asprin that stopped my headache? 
+   * Was it the aspirin that stopped my headache? 
    * Would Kennedy be alive had Oswald not shot him? 
    * What if I had not been smoking the past 2 years?
 
@@ -116,7 +116,7 @@ The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
 
 ## 内生性への対処
 
-`matching_data1.csv`の例 (架空データ; 30行 $\times$ 4列)
+`matching_data1.csv`の例（架空データ; 30行 $\times$ 4列）
 
 * 明らかに「やる気」と「履修」は連関
 * 履修有無による平均年収の差は約`r round(mean(df1$Income[df1$Rishu == 1]) - mean(df1$Income[df1$Rishu == 0]), 3)`万円
@@ -137,7 +137,7 @@ df1[21:30, ]
 
 ## 内生性への対処
 
-方法: 処置変数と結果変数に影響を与える要因(交絡要因)を揃える 
+方法：処置変数と結果変数に影響を与える要因（交絡要因）を揃える 
 
 * 「やる気」のない学生（`Yaruki == 0`）だけに絞ってみる
 * 履修有無による平均年収の差は209万円
@@ -231,8 +231,7 @@ bind_cols(df1 |>
   cols_label(ID...1 = "ID", ID...6 = "ID", X = "　", 
              Income...2 = "所得", Income...7 = "所得",
              Yaruki...3 = "やる気", Yaruki...8 = "やる気", 
-             Rishu...4 = "履修", Rishu...9 = "履修") |>
-  tab_options(table.font.size = 20)
+             Rishu...4 = "履修", Rishu...9 = "履修")
 ```
 :::
 ::::
@@ -242,25 +241,27 @@ bind_cols(df1 |>
 ::::{.columns}
 :::{.column width=40%}
 ```{r}
+#| tbl-cap: "やる気なし"
 tibble(履修 = c(1, 0),
        平均年収 = c(402.5000, 193.5000)) |>
   gt() |>
   cols_label("履修"     = "履修 (T)",
              "平均年収" = "平均年収 (Y)") |>
-  fmt_markdown(columns = 1, rows = 1) |>
-  tab_options(table.font.size = 24)
+  fmt_markdown(columns = 1, rows = 1) |> 
+  fmt_number(columns = 2, decimals = 1)
 ```
 :::
 
 :::{.column width=50%}
 ```{r}
+#| tbl-cap: "やる気あり"
 tibble(履修 = c(1, 0),
        平均年収 = c(570.5455, 394.2000))   |>
   gt() |>
   cols_label("履修"     = "履修 (T)",
              "平均年収" = "平均年収 (Y)") |>
-  fmt_markdown(columns = 1, rows = 1) |>
-  tab_options(table.font.size = 24)
+  fmt_markdown(columns = 1, rows = 1) |> 
+  fmt_number(columns = 2, decimals = 1)
 ```
 :::
 ::::
@@ -269,26 +270,29 @@ tibble(履修 = c(1, 0),
 
 やる気のある（ない）被験者を一人の被験者として考える場合、差分はITEと解釈可能。
 
-* ITEの加重平均 $\rightarrow$ 講義履修の因果効果 $\rightarrow$ 約**191.6万円**
-
 ```{r}
 tibble(ID     = 1:2,
        N      = c(14, 16),
        Yaruki = c(0, 1),
-       Y1     = c("402.5000", "570.5455"),
-       Y2     = c("193.5000", "394.2000"),
-       Diff   = c("209.0000", "176.3455")) |>
-  mutate(across(where(is.numeric), as.character)) |>
-  add_row(ID = "**加重平均**", N = "", Yaruki = "", Y1 = "", 
-          Y2 = "", Diff = "**191.5843**") |>
+       Y1     = c(402.5000, 570.5455),
+       Y2     = c(193.5000, 394.2000),
+       Diff   = c(209.0000, 176.3455)) |>
   gt() |>
   cols_label("ID" = "ID (i)",
              "Yaruki" = html("やる気 (Z<sub>i</sub>)"), 
              "Y1" = html("Y<sub>i</sub>(T<sub>i</sub> = 1)"), 
              "Y2" = html("Y<sub>i</sub>(T<sub>i</sub> = 0)"), 
              "Diff" = html("ITE<sub>i</sub>")) |>
-  fmt_markdown(columns = 1:6) |>
-  tab_options(table.font.size = 24)
+  fmt_markdown(columns = 1:6)  |> 
+  fmt_number(columns = 4:6, decimals = 1) |> 
+  gt_highlight_cols(columns = 6, fill = "lightblue")
+```
+
+* ITEの**加重**平均 $\rightarrow$ 講義履修の因果効果 $\rightarrow$ 約**191.6万円**
+
+```{r}
+#| echo: true
+weighted.mean(c(209.0, 176.3), w = c(14, 16))
 ```
 
 ## マッチングの考え方
@@ -344,7 +348,7 @@ tibble(X = c("T = 0", "T = 1"),
 * 処置群がもし統制群になっても、今の統制群と同じ
 * $\Rightarrow$ 交換可能性が成立せず
 
-![](figs/02/moolook.png){width=100px fig-align="center"}
+![](figs/02/moolook.png){width=150px fig-align="center"}
 
 :::
 ::::
@@ -392,7 +396,7 @@ tibble(X = c("T = 0", "T = 1"),
 * A = C、そしてB = Dが成立
 * $\Rightarrow$ 交換可能性が成立
 
-![](figs/02/WaiWai.png){width=100px fig-align="center"}
+![](figs/02/WaiWai.png){width=150px fig-align="center"}
 
 :::
 ::::
@@ -440,7 +444,7 @@ tibble(X = c("T = 0", "T = 1"),
 * A = C、そしてB = Dが成立
 * $\Rightarrow$ 交換可能性が成立
 
-![](figs/02/WaiWai.png){width=100px fig-align="center"}
+![](figs/02/WaiWai.png){width=150px fig-align="center"}
 
 :::
 ::::
@@ -457,8 +461,7 @@ df3 |>
              "T"  = html("T<sub>i</sub>"),
              "Y0" = html("Y<sub>0, i</sub>"),
              "Y1" = html("Y<sub>1, i</sub>")) |>
-  tab_options(data_row.padding = 3,
-              table.font.size  = 18)
+  tab_options(data_row.padding = 3)
 ```
 :::
 
@@ -483,22 +486,22 @@ df3 |>
 
 重回帰分析とマッチングの結果が近似することも $\bigcirc$
 
-* 手計算マッチング: 191.5843
+* 参考）手計算マッチングの結果：約191.6万円
+   * 計算時に小数点を切り捨てたため誤差あり
 
 ::::{.columns}
-:::{.column width=50%}
+:::{.column width=55%}
 ```{r}
 #| echo: true
 # df1 は matching_data1.csv
 # 単回帰分析
 Fit1 <- lm(Income ~ Rishu, data = df1)
 # 重回帰分析
-Fit2 <- lm(Income ~ Rishu + Yaruki, 
-           data = df1)
+Fit2 <- lm(Income ~ Rishu + Yaruki, data = df1)
 ```
 :::
 
-:::{.column width=50%}
+:::{.column width=45%}
 ```{r}
 modelsummary(list("単回帰分析" = Fit1, "重回帰分析" = Fit2),
              estimate = "{estimate} ({std.error})",
@@ -1066,12 +1069,13 @@ tibble(Age  = c(rep("20代", 4),
 重み付け回帰分析
 
 * $W = \{2.200, 0.367, 1.000, 1.100, 0.000, 0.000, ..., 1.100\}^{\top}$
-   * マッチングされないケースの重みは0にするか、分析から除外
+   * マッチングされないケースの重みは0にする（=分析から除外される）
    * $\beta = (X^{\top}WX)^{-1}X^{\top}WY$
 * Rの場合、`lm(formula, data, weight = ...)`で推定可能
    * {cem} or {MatchIt}パッケージならもっと簡単
 * $\widehat{\text{Outcome}} = 4.567 + 2.033 \cdot \text{Treat}$
-   * 処置群における因果効果 (ATT) = 2.033
+   * 処置群における因果効果（ATT）= 2.033
+   * ATCの場合、重み付けが逆（統制群の重みを1とする）
 
 # 傾向スコア
 
@@ -1079,7 +1083,8 @@ tibble(Age  = c(rep("20代", 4),
 
 **Propensity Score**
 
-* 簡単にいうと「あるユニット $i$ が**処置を受ける確率**」
+* 簡単にいうと「あるユニット$i$が**処置を受ける確率**」
+   * 主に$e$と表記する。
    * $e_i = Pr(T_i = 1 | X_i)$
 
 <br/><br/><br/><br/>
@@ -1117,32 +1122,30 @@ tibble(Age  = c(rep("20代", 4),
 ::::{.columns}
 :::{.column width=40%}
 $$Pr(\text{処置}) \propto \beta_0 + \beta_1 \cdot \text{年齢} + \beta_2 \cdot \text{教育}$$
+
+* 参考）教育水準
+   1. 1：小
+   1. 2：中
+   1. 3：高
+   1. 4：専
+   1. 5：大
+   1. 6：院
 :::
 
 :::{.column width=60%}
 ```{r}
-df2_c3 <- df2 |>
-  mutate(Edu2 = case_when(Edu == 1 ~ "小",
-                          Edu == 2 ~ "中",
-                          Edu == 3 ~ "高",
-                          Edu == 4 ~ "専",
-                          Edu == 5 ~ "大",
-                          TRUE     ~ "院"))
+df2_c3 <- df2
 
 bind_cols(df2_c3 |> 
-            filter(ID <= 12) |> 
-            select(-Edu) |>
-            relocate(Edu2, .after = Age),
+            filter(ID <= 12),
           tibble(X = rep("", 12)), 
           df2_c3 |>
-            filter(ID > 12) |> 
-            select(-Edu) |>
-            relocate(Edu2, .after = Age)) |>
+            filter(ID > 12)) |>
   gt() |>
   cols_label(X = "　",
              ID...1 = "ID", ID...7 = "ID",
              Age...2 = "年齢", Age...8 = "年齢",
-             Edu2...3 = "教育", Edu2...9 = "教育",
+             Edu...3 = "教育", Edu...9 = "教育",
              Treat...4 = "処置", Treat...10 = "処置",
              Outcome...5 = "結果", Outcome...11 = "結果") |>
   tab_options(table.font.size = 24)
@@ -1170,6 +1173,13 @@ modelsummary(PS_Fit,
              gof_map   = c("nobs", "aic", "F"))
 ```
 
+予測確率の抽出
+
+```{r}
+#| echo: true
+PS_Fit$fitted.value
+```
+
 ## 傾向スコアの算出
 
 傾向スコアの抽出
@@ -1188,19 +1198,15 @@ modelsummary(PS_Fit,
 df2_c3$PS <- PS_Fit$fitted.value
 
 bind_cols(df2_c3 |> 
-            filter(ID <= 12) |> 
-            select(-Edu) |>
-            relocate(Edu2, .after = Age),
+            filter(ID <= 12),
           tibble(X = rep("", 12)), 
           df2_c3 |>
-            filter(ID > 12) |> 
-            select(-Edu) |>
-            relocate(Edu2, .after = Age)) |>
+            filter(ID > 12)) |>
   gt() |>
   cols_label(X = "　", PS...6 = "PS", PS...13 = "PS",
              ID...1 = "ID", ID...8 = "ID",
              Age...2 = "年齢", Age...9 = "年齢",
-             Edu2...3 = "教育", Edu2...10 = "教育",
+             Edu...3 = "教育", Edu...10 = "教育",
              Treat...4 = "処置", Treat...11 = "処置",
              Outcome...5 = "結果", Outcome...12 = "結果") |>
   fmt_number(columns = c(6, 13), decimals = 3) |>
@@ -1217,8 +1223,7 @@ bind_cols(df2_c3 |>
 :::{.column width=50%}
 **ATT**: 傾向スコアが最も近い統制群を割り当てる
 
-* 一回マッチングされたケースを除外する vs. しない
-* 傾向スコアが同じケースが複数ある場合の対処
+* 復元マッチングの例
 :::
 
 :::{.column width=50%}
@@ -1238,7 +1243,6 @@ bind_cols(df2_c3[c(3, 7, 10, 11, 12, 14, 15, 18, 19, 21, 23), ] |>
              Outcome...2 = "結果", Outcome...6 = "結果",
              Diff = "差分") |>
   fmt_number(columns = c(3, 7), decimals = 3) |>
-  tab_options(table.font.size = 24) |>
   tab_spanner(label = "処置群", columns = 1:3) |>
   tab_spanner(label = "統制群", columns = 5:7) |>
   tab_style(style = cell_fill(color = "gray90"),
@@ -1700,7 +1704,7 @@ adjustmentSets(DAG1,
 
 {ggdag}を用いた可視化 
 
-* 詳細は『私たちのR』[第20章](https://www.jaysong.net/RBook/visualization4.html#visual4-dag)を参照
+* 詳細は『私たちのR』[第22章](https://www.jaysong.net/RBook/visualization4.html#visual4-dag)を参照
 
 ::::{.columns}
 :::{.column width=45%}
@@ -1763,7 +1767,7 @@ lalondeは様々なパッケージがサンプルデータとして提供して�
 ```{r}
 #| echo: true
 data("lalonde", package = "cobalt")
-la_df <- as_tibble(lalonde)
+la_df <- as_tibble(lalonde) # tibble構造へ変換
 la_df
 ```
 :::
@@ -1782,3 +1786,7 @@ la_df
 | 9 | `re78` | 1978年の所得 |
 :::
 ::::
+
+:::{.aside}
+* Lalonde, Robert. 1984. "[Evaluating the Econometric Evaluations of Training Programs with Experimental Data](https://www.jstor.org/stable/1806062)," *American Economic Review,* 76 (4): 604-620.
+:::

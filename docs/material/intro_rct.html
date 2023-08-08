@@ -294,7 +294,11 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
   <li><a href="#多重比較の問題" id="toc-多重比較の問題" class="nav-link" data-scroll-target="#多重比較の問題">多重比較の問題</a></li>
   <li><a href="#統計的推定重回帰分析" id="toc-統計的推定重回帰分析" class="nav-link" data-scroll-target="#統計的推定重回帰分析">統計的推定（重回帰分析）</a></li>
   </ul></li>
-  <li><a href="#番外編" id="toc-番外編" class="nav-link" data-scroll-target="#番外編">番外編</a></li>
+  <li><a href="#番外編" id="toc-番外編" class="nav-link" data-scroll-target="#番外編">番外編</a>
+  <ul class="collapse">
+  <li><a href="#複数モデルの出力" id="toc-複数モデルの出力" class="nav-link" data-scroll-target="#複数モデルの出力">複数モデルの出力</a></li>
+  <li><a href="#交互作用" id="toc-交互作用" class="nav-link" data-scroll-target="#交互作用">交互作用</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -875,7 +879,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGAAAAB9CAQAAAD32a72AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAABB0lEQVR42u3aQQrCMBBG4UR6Rw/hefQOPaVuE7G1xcWbX963ExHmQSpkaH+2bBd6AAPoAX61jB8eXx+IW6cHbq21ccxl/uq6+8OVnvyD+CNkAM0AmgE0A2gG0AygGUAzgPZ2I6t459rXx/tliQvvAePM8UfIANr0EN9TFqXDw3pqL1TD/E8Zf4QMoBlAM4BmAM0AmgE0A2gG0OIDXGwRXGxVcnIvVON9oc0A3xcywIA8BtAMoBlAM4BmAM0AmgE090IE90KVuBeixR8hA2gG0AygGUAzgGYAzQCaAbT4APdCBPdClbgXosUfIQNoBtAMoBlAM4BmAM0AmgG0+ID/2gslij9CBtBeu/od7x9DAtEAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGAAAAB9CAQAAAD32a72AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy2CJ7HGAAABB0lEQVR42u3aQQrCMBBG4UR6Rw/hefQOPaVuE7G1xcWbX963ExHmQSpkaH+2bBd6AAPoAX61jB8eXx+IW6cHbq21ccxl/uq6+8OVnvyD+CNkAM0AmgE0A2gG0AygGUAzgPZ2I6t459rXx/tliQvvAePM8UfIANr0EN9TFqXDw3pqL1TD/E8Zf4QMoBlAM4BmAM0AmgE0A2gG0OIDXGwRXGxVcnIvVON9oc0A3xcywIA8BtAMoBlAM4BmAM0AmgE090IE90KVuBeixR8hA2gG0AygGUAzgGYAzQCaAbT4APdCBPdClbgXosUfIQNoBtAMoBlAM4BmAM0AmgG0+ID/2gslij9CBtBeu/od7x9DAtEAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDhUMDE6NTE6NDUrMDA6MDDaJ3bcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA4VDAxOjUxOjQ1KzAwOjAwq3rOYAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -915,7 +919,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAFgAAAA3CAQAAAAiPkUwAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAAAkklEQVRo3u3YsQ2AMAxE0RixIzvAPLBDpoTWiaCJFOKL/nVurFecIsV2J60sowGAo2X1wxW00Lt9gFPaRttekotJrhKAAQMGDBgw4FABDBgw4MnA1Z8ut235MeY/yta8pm+8Ua4ScuCiw2fIQ8pRNDX8IaV+BuQqARgwYMCAAQMOFcCAAQOeDKx9SFGIXCUA984D81ILx+yzmEIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAFgAAAA3CAQAAAAiPkUwAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy2CJ7HGAAAAkklEQVRo3u3YsQ2AMAxE0RixIzvAPLBDpoTWiaCJFOKL/nVurFecIsV2J60sowGAo2X1wxW00Lt9gFPaRttekotJrhKAAQMGDBgw4FABDBgw4MnA1Z8ut235MeY/yta8pm+8Ua4ScuCiw2fIQ8pRNDX8IaV+BuQqARgwYMCAAQMOFcCAAQOeDKx9SFGIXCUA984D81ILx+yzmEIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDhUMDE6NTE6NDUrMDA6MDDaJ3bcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA4VDAxOjUxOjQ1KzAwOjAwq3rOYAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -939,7 +943,7 @@ N: 344084
 </tbody>
 </table></td>
 <td style="text-align: left; vertical-align: middle;">86 distinct values</td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuCAQAAABxABKuAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAABx0lEQVR42u3cQZKCMBQAUbG8o3fQ8+gdPKVuQ7TUhoT8hH47NyN2zQ+BYZyeBxHH1gfQG4NBBoNO6Yup9dH87fa29F4rHnz6ZqfFP6Wx8+zVY7P3dSQhg0EGgzpZw25h9tedBGu3yOccSchgkMEgg0EGgwwGdbOt+GW+U6t3KT5MsHSfVnOX5khCBoMMBhkMCrvox7k/MRc22HbnPcaRhAwGGQwyGGQwyGCQwSCDQQaDDAYZDDIYZDDIYJDBIINBBoMMBhkMMhhkMMhgUOA/s62R/1Wz3NM8gwar98y1IwkZDAozklGfpciFCRbnfz2+cyQhg0EGgwwGGQwyGGQwyGCQwSCDQQaDAl1LtsK+x8dgB3bZ70hCBoMMBhkMarbo93JLOtfwLNnHLemcIwkZDDIYZDDIYNBOriXLPc2zk2DltjCOJGQwyGCQwaDNFv1YF9vLj2bDs2Ski+3l3+vjSEIGgwwGGQwyGFTxLBlrI1FK1W1FzC/lW8eRhAwGGQwyGFRw0R/nrPj2SZIb2kXPkpEur2t9DkcSMhhkMGjFGjbOIk+sWvRHWeQJRxJCv2H7HMK5KW1wN8hHl2TjOtmIcQ2DDAYZDHoBkgoxatSAN4MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAJgAAABuCAQAAABxABKuAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy2CJ7HGAAABx0lEQVR42u3cQZKCMBQAUbG8o3fQ8+gdPKVuQ7TUhoT8hH47NyN2zQ+BYZyeBxHH1gfQG4NBBoNO6Yup9dH87fa29F4rHnz6ZqfFP6Wx8+zVY7P3dSQhg0EGgzpZw25h9tedBGu3yOccSchgkMEgg0EGgwwGdbOt+GW+U6t3KT5MsHSfVnOX5khCBoMMBhkMCrvox7k/MRc22HbnPcaRhAwGGQwyGGQwyGCQwSCDQQaDDAYZDDIYZDDIYJDBIINBBoMMBhkMMhhkMMhgUOA/s62R/1Wz3NM8gwar98y1IwkZDAozklGfpciFCRbnfz2+cyQhg0EGgwwGGQwyGGQwyGCQwSCDQQaDAl1LtsK+x8dgB3bZ70hCBoMMBhkMarbo93JLOtfwLNnHLemcIwkZDDIYZDDIYNBOriXLPc2zk2DltjCOJGQwyGCQwaDNFv1YF9vLj2bDs2Ski+3l3+vjSEIGgwwGGQwyGFTxLBlrI1FK1W1FzC/lW8eRhAwGGQwyGFRw0R/nrPj2SZIb2kXPkpEur2t9DkcSMhhkMGjFGjbOIk+sWvRHWeQJRxJCv2H7HMK5KW1wN8hHl2TjOtmIcQ2DDAYZDHoBkgoxatSAN4MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDhUMDE6NTE6NDUrMDA6MDDaJ3bcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA4VDAxOjUxOjQ1KzAwOjAwq3rOYAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1030,7 +1034,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGoAAADECAQAAADdPnyCAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAABgUlEQVR42u3bYUoCURhG4Qz32CJaj+2hVdrfGY3SIrzn63n+SSBz6M6AL3o4P83z/OgLEPWfo47bF2933GCvh0df+t720o/7P73c+Bbvj2740sjjJ6pCVIWoClEVoipEVYiqEFUxMuri4/zaH9NvddgOFottKXfZdow8fiOjdvfUqTysb+6dH+5+q9k/4EYeP1EVoipEVYiqEFUhqkJUhaiKkVF2v5XZ/Yp+vfut9r2/q6j7d781Hywjj5+oClEVoipEVYiqEFUhqkJUhYlsZSayopFR3+5+K+56d0Vd737Np+HI4yeqQlSFqApRFaIqRFWIqhBVYfdbmd2vaH7U6Zz+pe/nUVOIqhBVIapCVIWoClEVoipEVYiqsPtViKq42P0efTl/EDWFqApRFaIqRFWIqhBVIapCVIWoCrtfxfwoE9nCRFWIqhBVIapCVIWoClEVoipEVYyMsvtVzI+y+y1MVIWoClEVoipEVYiqEFUhqkJUxciow5CtZWfkf0pUxQeNeCis3OJezAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwNjowODo1NSswMDowMGhWkKgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDAZCygUAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGoAAADECAQAAADdPnyCAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy2CJ7HGAAABgUlEQVR42u3bYUoCURhG4Qz32CJaj+2hVdrfGY3SIrzn63n+SSBz6M6AL3o4P83z/OgLEPWfo47bF2933GCvh0df+t720o/7P73c+Bbvj2740sjjJ6pCVIWoClEVoipEVYiqEFUxMuri4/zaH9NvddgOFottKXfZdow8fiOjdvfUqTysb+6dH+5+q9k/4EYeP1EVoipEVYiqEFUhqkJUhaiKkVF2v5XZ/Yp+vfut9r2/q6j7d781Hywjj5+oClEVoipEVYiqEFUhqkJUhYlsZSayopFR3+5+K+56d0Vd737Np+HI4yeqQlSFqApRFaIqRFWIqhBVYfdbmd2vaH7U6Zz+pe/nUVOIqhBVIapCVIWoClEVoipEVYiqsPtViKq42P0efTl/EDWFqApRFaIqRFWIqhBVIapCVIWoCrtfxfwoE9nCRFWIqhBVIapCVIWoClEVoipEVYyMsvtVzI+y+y1MVIWoClEVoipEVYiqEFUhqkJUxciow5CtZWfkf0pUxQeNeCis3OJezAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wOFQwMTo1MTo0NSswMDowMNondtwAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDhUMDE6NTE6NDUrMDA6MDCres5gAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1070,7 +1074,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAH0AAAA3CAQAAACLSo2kAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDce26FXAAAAnklEQVRo3u3ZsQ2AIBQAUTDu6A46j+7AlNqiiQ0REe9eR2O45GMBcQ9UQ+sNmG76m8Z8sf3+4M/xJj2EqfXeqkqnFXjgTScynch0ItOJTCcynch0ItOJTCe63M2lsq90KeaXsLH4M73Ia8EDD04/nfX1wSeI5fOnp9ITRA+/S/DAm05kOpHpRKYTmU5kOpHpRKYTmU7kEwQReOBNJzoAJacLx1TWcigAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDdUMDY6MDg6NTUrMDA6MDBoVpCoAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA3VDA2OjA4OjU1KzAwOjAwGQsoFAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAH0AAAA3CAQAAACLSo2kAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy2CJ7HGAAAAnklEQVRo3u3ZsQ2AIBQAUTDu6A46j+7AlNqiiQ0REe9eR2O45GMBcQ9UQ+sNmG76m8Z8sf3+4M/xJj2EqfXeqkqnFXjgTScynch0ItOJTCcynch0ItOJTCe63M2lsq90KeaXsLH4M73Ia8EDD04/nfX1wSeI5fOnp9ITRA+/S/DAm05kOpHpRKYTmU5kOpHpRKYTmU7kEwQReOBNJzoAJacLx1TWcigAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDgtMDhUMDE6NTE6NDUrMDA6MDDaJ3bcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA4LTA4VDAxOjUxOjQ1KzAwOjAwq3rOYAAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg==" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1110,7 +1114,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGgAAAA3CAQAAABKzccIAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDiOZLzGAAAAn0lEQVRo3u3YsQmAMBBA0UTc0R10Ht3BKbWNgk0Q7nv+36WRPLhYXD1KroboCwj6G2hsD9tHH9RcH0ClTNF362i/nNKNnCB6gugJoieIniB6gugJoieIniB6t53C3vcVULVd9NTuz8TWGtKNXDrQ5Q2tIYvG5dVJD180vv0bSjdygugJoieIniB6gugJoieIniB6gujlXjRmKN3ICaJ3AppiC8fdrh9zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTA4LTA3VDA2OjA4OjU2KzAwOjAwWb6KNQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wOC0wN1QwNjowODo1NiswMDowMCjjMokAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGgAAAA3CAQAAABKzccIAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy2CJ7HGAAAAn0lEQVRo3u3YsQmAMBBA0UTc0R10Ht3BKbWNgk0Q7nv+36WRPLhYXD1KroboCwj6G2hsD9tHH9RcH0ClTNF362i/nNKNnCB6gugJoieIniB6gugJoieIniB6t53C3vcVULVd9NTuz8TWGtKNXDrQ5Q2tIYvG5dVJD180vv0bSjdygugJoieIniB6gugJoieIniB6gujlXjRmKN3ICaJ3AppiC8fdrh9zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTA4LTA4VDAxOjUxOjQ1KzAwOjAw2id23AAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wOC0wOFQwMTo1MTo0NSswMDowMKt6zmAAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAASUVORK5CYII=" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1150,7 +1154,7 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGYAAAA3CAQAAABUBPe7AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDiOZLzGAAAAoElEQVRo3u3YsQmAMBBA0UTc0R10Ht0hU2obBQtFyM/5X5dG8uFicXlPcQytL2DMH2LG+rB1+IDmfBOT0tT6bg+V0ynUmBlDZQyVMVTGUBlDZQyVMVTGUBlDddkBlHdfgcj1Qia//kw79f1DjVmomNObWZstAZdPJhyxBPzqtxNqzIyhMobKGCpjqIyhMobKGCpjqIyhirsE7F2oMTOG6gClgAvHCon2YAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwNjowODo1NiswMDowMFm+ijUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDY6MDg6NTYrMDA6MDAo4zKJAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAGYAAAA3CAQAAABUBPe7AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy4bLuB8AAAAoElEQVRo3u3YsQmAMBBA0UTc0R10Ht0hU2obBQtFyM/5X5dG8uFicXlPcQytL2DMH2LG+rB1+IDmfBOT0tT6bg+V0ynUmBlDZQyVMVTGUBlDZQyVMVTGUBlDddkBlHdfgcj1Qia//kw79f1DjVmomNObWZstAZdPJhyxBPzqtxNqzIyhMobKGCpjqIyhMobKGCpjqIyhirsE7F2oMTOG6gClgAvHCon2YAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wOFQwMTo1MTo0NiswMDowMOvPbEEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDhUMDE6NTE6NDYrMDA6MDCaktT9AAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
@@ -1190,14 +1194,14 @@ N: 344084
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAHMAAAA3CAQAAACVg70XAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAcGCDiOZLzGAAAAoElEQVRo3u3YQQ5AMBBA0Vbc0R04D3dwSrYlsdCg8ue/XTfSn0wtJm8pgq71Bcw0866+PCyohzrmi8yUhtZ3e8x6OAUZWjNJzCQxk8RMEjNJzCQxk8RMEjNJTrugte4rv5fLZV6u/swflWVBhjZI5uFtzi+vo6dmr+LDdXTL31uQoTWTxEwSM0nMJDGTxEwSM0nMJDGTJOI6mivI0JpJsgNdPQvHfudQawAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wN1QwNjowODo1NiswMDowMFm+ijUAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDdUMDY6MDg6NTYrMDA6MDAo4zKJAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
+<td style="text-align: left; vertical-align: middle; padding: 0; background-color: transparent;"><img src="data:image/png;base64,%20iVBORw0KGgoAAAANSUhEUgAAAHMAAAA3CAQAAACVg70XAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfnCAgBMy4bLuB8AAAAoElEQVRo3u3YQQ5AMBBA0Vbc0R04D3dwSrYlsdCg8ue/XTfSn0wtJm8pgq71Bcw0866+PCyohzrmi8yUhtZ3e8x6OAUZWjNJzCQxk8RMEjNJzCQxk8RMEjNJTrugte4rv5fLZV6u/swflWVBhjZI5uFtzi+vo6dmr+LDdXTL31uQoTWTxEwSM0nMJDGTxEwSM0nMJDGTJOI6mivI0JpJsgNdPQvHfudQawAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0wOC0wOFQwMTo1MTo0NiswMDowMOvPbEEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMDgtMDhUMDE6NTE6NDYrMDA6MDCaktT9AAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC" class="img-fluid" style="border:none;background-color:transparent;padding:0;max-width:max-content;"></td>
 <td style="text-align: center;">344084 (100.0%)</td>
 <td style="text-align: center;">0 (0.0%)</td>
 </tr>
 </tbody>
 </table>
 
-<p>Generated by <a href="https://github.com/dcomtois/summarytools">summarytools</a> 1.0.1 (<a href="https://www.r-project.org/">R</a> version 4.3.1)<br>2023-08-07</p>
+<p>Generated by <a href="https://github.com/dcomtois/summarytools">summarytools</a> 1.0.1 (<a href="https://www.r-project.org/">R</a> version 4.3.1)<br>2023-08-08</p>
 </div>
 </div>
 </div>
@@ -1409,8 +1413,8 @@ N: 344084
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
 <span id="cb56-2"><a href="#cb56-2"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">factor</span>(treatment,</span>
-<span id="cb56-3"><a href="#cb56-3"></a>                            <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Civic Duty"</span>,</span>
-<span id="cb56-4"><a href="#cb56-4"></a>                                       <span class="st">"Self"</span>, <span class="st">"Neighbors"</span>, <span class="st">"Hawthorne"</span>)))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-3"><a href="#cb56-3"></a>                            <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Civic Duty"</span>, <span class="st">"Hawthorne"</span>,</span>
+<span id="cb56-4"><a href="#cb56-4"></a>                                       <span class="st">"Self"</span>, <span class="st">"Neighbors"</span>)))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>　それでは、改めてグループごとの<code>voted2006</code>の平均値を計算してみよう。今回は計算結果を<code>out_mean_df</code>という名のオブジェクトとして格納する。</p>
 <div class="cell" data-layout-align="center">
@@ -1425,9 +1429,9 @@ N: 344084
   &lt;fct&gt;        &lt;dbl&gt;
 1 Control      0.297
 2 Civic Duty   0.315
-3 Self         0.345
-4 Neighbors    0.378
-5 Hawthorne    0.322</code></pre>
+3 Hawthorne    0.322
+4 Self         0.345
+5 Neighbors    0.378</code></pre>
 </div>
 </div>
 <p>　今回は統制群は最初に出力されていることが確認できる。</p>
@@ -1537,9 +1541,9 @@ Coefficients:
                     Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept)         0.296638   0.001061 279.525  &lt; 2e-16 ***
 treatmentCivic Duty 0.017899   0.002600   6.884 5.85e-12 ***
+treatmentHawthorne  0.025736   0.002601   9.896  &lt; 2e-16 ***
 treatmentSelf       0.048513   0.002600  18.657  &lt; 2e-16 ***
 treatmentNeighbors  0.081310   0.002601  31.263  &lt; 2e-16 ***
-treatmentHawthorne  0.025736   0.002601   9.896  &lt; 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1556,7 +1560,7 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb66-4"><a href="#cb66-4"></a>fit1 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="co"># %&gt;% パイプを使う場合</span></span>
 <span id="cb66-5"><a href="#cb66-5"></a>  <span class="fu">lm</span>(voted2006 <span class="sc">~</span> treatment, <span class="at">data =</span> .)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>　Factor型、または文字型変数が説明変数の場合、自動的にダミー変数として処理され、Factor型の場合、最初の水準（ここでは<code>"Control"</code>）がベースカテゴリとなる。説明変数が文字型ならアルファベット順で最初の水準がベースカテゴリとなり、今回の例だと<code>"Civic Duty"</code>がベースカテゴリとなる。処置効果は「統制群に比べて〜」が重要となるので、数値型以外の説明変数は予めfactor化しておいた方が望ましい。</p>
+<p>　Factor型、または文字型変数が説明変数の場合、自動的にダミー変数として処理され、factor型の場合、最初の水準（ここでは<code>"Control"</code>）がベースカテゴリとなる。もし説明変数が文字型なら、アルファベット順で最初の水準がベースカテゴリとなり、今回の例だと<code>"Civic Duty"</code>がベースカテゴリとなる。処置効果は「統制群に比べて〜」が重要となるので、数値型以外の説明変数は予めfactor化しておいた方が望ましい。</p>
 <p>　Civic Dutyの推定値は約0.018であり、これは統制群に比べ、Civic Duty群の<code>voted2006</code>の平均値は約0.018高いことを意味する。応答変数が0、1であるため、これを割合（=投票率）で換算すると、約1.8%p高いことを意味する。つまり、Civic Dutyのはがきをもらった被験者はそうでない被験者に比べて投票率が約1.8%p高いことを意味する。他の推定値も同じやり方で解釈すれば良い。</p>
 <p>　それではこれらの処置効果が<strong>統計的に有意</strong>なものかを確認してみよう。統計的有意か否かを判定するためには有意と非有意の境界線が必要である、これは通常、<strong>有意水準</strong>（significance level; <span class="math inline">\(\alpha\)</span>）と呼ばれる。この有意水準は分析者が決めるものであるが、社会科学で広く使われる基準は<span class="math inline">\(\alpha = 0.05\)</span>、つまり5%だ。分析結果の画面には<code>Pr(&gt;|t|)</code>列が表示されているが、これが<span class="math inline">\(p\)</span>値と呼ばれるもので、これが0.05を下回る場合、統計的に有意と判定する。もし、<span class="math inline">\(\alpha = 0.1\)</span>を採用するなら、<span class="math inline">\(p &lt; 0.1\)</span>の場合において統計的に有意と判定する。Civic Dutyの<span class="math inline">\(p\)</span>値は5.85e-12であり、これは<span class="math inline">\(5.75 \times 10^{-12}\)</span>を意味する。<span class="math inline">\(10^{-1}\)</span>は0.1、<span class="math inline">\(10^{-2}\)</span>は0.01であることを考えると非常に小さい数値であり、統計的に有意であると考えられる。また、<span class="math inline">\(p\)</span>値が一定値以下であれば<code>&lt; 2e-16</code>と表示される。4つの処置群において処置効果は統計的に有意であると判定できよう。</p>
 <p>　続いて、この結果を可視化してみよう。ここでも{ggplot2}パッケージを使って可視化をするが、{ggplot2}で使用可能なオブジェクトは表形式のデータである。Rコンソール上で<code>class(オブジェクト名)</code>を入力すると、データのクラスが出力されるが、このクラスに<code>"data.frame"</code>があれば、{ggplot2}で使用できる。たとえば、<code>fit1</code>オブジェクトのクラスは<code>"lm"</code>であるため、そのまま{ggplot2}で使うことはできない。</p>
@@ -1578,9 +1582,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 (Intercept)           0.297    0.00106    280.   0           0.295     0.299 
 2 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230
-3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
-4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864
-5 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
+3 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308
+4 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
+5 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="fu">class</span>(fit1_coef)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1599,9 +1603,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   term                estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230
-2 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
-3 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864
-4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
+2 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308
+3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
+4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864</code></pre>
 </div>
 </div>
 <p>　それでは作図に入ろう。処置効果を示す場合は、点推定値以外にもその不確実性を示すのは一般的である。不確実性の指標として幅広く使われるのは標準誤差（standard error; 標準<strong>偏差</strong>ではない）であるが、可視化の際にはこの標準誤差に基づき計算した信頼区間を示すのが一般的だ。有意水準が5%（<span class="math inline">\(\alpha\)</span> = 0.05）であれば、95%信頼区間を示し、10%（<span class="math inline">\(\alpha\)</span> = 0.1）なら90%信頼区間を用いる。<code>tidy()</code>で得られたデータの場合、信頼区間の下限と上限はそれぞれ<code>conf.low</code>と<code>conf.high</code>という名の列に格納されている（<code>conf.int = TRUE</code>を指定しておかないと、信頼区間は計算されない）。</p>
@@ -1644,8 +1648,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb77-2"><a href="#cb77-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">recode</span>(term,</span>
 <span id="cb77-3"><a href="#cb77-3"></a>                       <span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
 <span id="cb77-4"><a href="#cb77-4"></a>                       <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
-<span id="cb77-5"><a href="#cb77-5"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
-<span id="cb77-6"><a href="#cb77-6"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>))</span>
+<span id="cb77-5"><a href="#cb77-5"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>,</span>
+<span id="cb77-6"><a href="#cb77-6"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>))</span>
 <span id="cb77-7"><a href="#cb77-7"></a></span>
 <span id="cb77-8"><a href="#cb77-8"></a>fit1_coef</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1653,9 +1657,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   term       estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230
-2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
-3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864
-4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
+2 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308
+3 Self         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
+4 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864</code></pre>
 </div>
 </div>
 <p>　以上の作業は<code>term</code>列の各値から<code>"treatment"</code>文字を<code>""</code>に置換することなので、文字列を置換する関数である<code>str_replace()</code>を使えば、より短くすることができる<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>。</p>
@@ -1692,9 +1696,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   term       estimate std.error statistic   p.value conf.low conf.high
   &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0128    0.0230
-2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
-3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864
-4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308</code></pre>
+2 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0206    0.0308
+3 Self         0.0485   0.00260     18.7  1.22e- 77   0.0434    0.0536
+4 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0762    0.0864</code></pre>
 </div>
 </div>
 <p>　それでは、 <a href="#fig-intro-pointrange-3" class="quarto-xref">図&nbsp;10</a> と同じコードでもう一度作図してみよう。</p>
@@ -1732,9 +1736,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 (Intercept)           0.297    0.00106    280.   0           0.294     0.299 
 2 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
-3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
-4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
-5 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+3 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+4 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+5 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878</code></pre>
 </div>
 </div>
 <p>　それでは <a href="#fig-intro-pointrange-4" class="quarto-xref">図&nbsp;11</a> と同じ図を作ってみよう。まず、切片の行を除外するが、ここでは<code>filter()</code>を使わず、<code>slice()</code>の使った方法を紹介する。<code>slice()</code>は<code>()</code>内に指定した行を残す関数だ。たとえば、<code>slice(fit1_coef, 2)</code>なら<code>fit1_coef</code>の2行目のみを残す。<code>fit1_coef</code>は<code>slice()</code>の第1引数だから、パイプ演算子を使うことも可能で、こちらの方を推奨する。そうすれば<code>()</code>内には残す行のみの指定で済む。<code>slice(2)</code>のみなら2行目を残し、<code>slice(1, 3, 5)</code>なら1、3、5行目を残す。<code>:</code>を使うと「〜行目から〜行目まで」の指定ができる。処置効果の係数は<code>fit1_coef</code>の2行目から5行目までなので、<code>2:5</code>と指定すれば良い。</p>
@@ -1748,9 +1752,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   term                estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 treatmentCivic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
-2 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
-3 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
-4 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+2 treatmentHawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+3 treatmentSelf         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+4 treatmentNeighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878</code></pre>
 </div>
 </div>
 <p>　続いて、<code>term</code>変数の値から<code>"treatment"</code>の文字を除去し、<code>fit1_coef</code>での出力順番で<code>term</code>をfactor化する。</p>
@@ -1759,8 +1763,8 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb88-2"><a href="#cb88-2"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">recode</span>(term,</span>
 <span id="cb88-3"><a href="#cb88-3"></a>                       <span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
 <span id="cb88-4"><a href="#cb88-4"></a>                       <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
-<span id="cb88-5"><a href="#cb88-5"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
-<span id="cb88-6"><a href="#cb88-6"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>),</span>
+<span id="cb88-5"><a href="#cb88-5"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>,</span>
+<span id="cb88-6"><a href="#cb88-6"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>),</span>
 <span id="cb88-7"><a href="#cb88-7"></a>         <span class="at">term =</span> <span class="fu">fct_inorder</span>(term))</span>
 <span id="cb88-8"><a href="#cb88-8"></a></span>
 <span id="cb88-9"><a href="#cb88-9"></a>fit1_coef</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1769,9 +1773,9 @@ F-statistic:   293 on 4 and 344079 DF,  p-value: &lt; 2.2e-16</code></pre>
   term       estimate std.error statistic   p.value conf.low conf.high
   &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
-2 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
-3 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
-4 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322</code></pre>
+2 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+3 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+4 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878</code></pre>
 </div>
 </div>
 <p>　最後に <a href="#fig-intro-pointrange-4" class="quarto-xref">図&nbsp;11</a> と同じコードで作図する。</p>
@@ -1817,9 +1821,9 @@ Coefficients:
                       Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept)          5.845e+00  1.099e-01  53.202  &lt; 2e-16 ***
 treatmentCivic Duty  1.839e-02  2.504e-03   7.343 2.10e-13 ***
+treatmentHawthorne   2.506e-02  2.504e-03  10.005  &lt; 2e-16 ***
 treatmentSelf        4.797e-02  2.504e-03  19.157  &lt; 2e-16 ***
 treatmentNeighbors   8.064e-02  2.504e-03  32.199  &lt; 2e-16 ***
-treatmentHawthorne   2.506e-02  2.504e-03  10.005  &lt; 2e-16 ***
 female              -5.783e-03  1.525e-03  -3.791  0.00015 ***
 yob                 -2.913e-03  5.642e-05 -51.633  &lt; 2e-16 ***
 hh_size              5.075e-03  1.018e-03   4.986 6.17e-07 ***
@@ -1863,6 +1867,14 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: center;">(0.003)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">treatmentHawthorne</td>
+<td style="text-align: center;">0.025</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.003)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">treatmentSelf</td>
 <td style="text-align: center;">0.048</td>
 </tr>
@@ -1873,14 +1885,6 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <tr class="odd">
 <td style="text-align: left;">treatmentNeighbors</td>
 <td style="text-align: center;">0.081</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.003)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">treatmentHawthorne</td>
-<td style="text-align: center;">0.025</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -2006,6 +2010,16 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: center;">(0.003)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">treatmentHawthorne</td>
+<td style="text-align: center;">0.026</td>
+<td style="text-align: center;">0.025</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.003)</td>
+<td style="text-align: center;">(0.003)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">treatmentSelf</td>
 <td style="text-align: center;">0.049</td>
 <td style="text-align: center;">0.048</td>
@@ -2019,16 +2033,6 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: left;">treatmentNeighbors</td>
 <td style="text-align: center;">0.081</td>
 <td style="text-align: center;">0.081</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.003)</td>
-<td style="text-align: center;">(0.003)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">treatmentHawthorne</td>
-<td style="text-align: center;">0.026</td>
-<td style="text-align: center;">0.025</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -2167,19 +2171,19 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: center;">0.018 (0.003)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">treatmentHawthorne</td>
+<td style="text-align: center;">0.026 (0.003)</td>
+<td style="text-align: center;">0.025 (0.003)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">treatmentSelf</td>
 <td style="text-align: center;">0.049 (0.003)</td>
 <td style="text-align: center;">0.048 (0.003)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">treatmentNeighbors</td>
 <td style="text-align: center;">0.081 (0.003)</td>
 <td style="text-align: center;">0.081 (0.003)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">treatmentHawthorne</td>
-<td style="text-align: center;">0.026 (0.003)</td>
-<td style="text-align: center;">0.025 (0.003)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">female</td>
@@ -2264,9 +2268,9 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb96-3"><a href="#cb96-3"></a>             <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
 <span id="cb96-4"><a href="#cb96-4"></a>             <span class="at">align =</span> <span class="st">"lrr"</span>, <span class="co"># 1列は左寄せ、2列は右寄せ、3列は右寄せ</span></span>
 <span id="cb96-5"><a href="#cb96-5"></a>             <span class="at">coef_rename =</span> <span class="fu">c</span>(<span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
-<span id="cb96-6"><a href="#cb96-6"></a>                             <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>,</span>
-<span id="cb96-7"><a href="#cb96-7"></a>                             <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
-<span id="cb96-8"><a href="#cb96-8"></a>                             <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
+<span id="cb96-6"><a href="#cb96-6"></a>                             <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
+<span id="cb96-7"><a href="#cb96-7"></a>                             <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>,</span>
+<span id="cb96-8"><a href="#cb96-8"></a>                             <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
 <span id="cb96-9"><a href="#cb96-9"></a>                             <span class="st">"female"</span>              <span class="ot">=</span> <span class="st">"Female"</span>,</span>
 <span id="cb96-10"><a href="#cb96-10"></a>                             <span class="st">"yob"</span>                 <span class="ot">=</span> <span class="st">"Year of Birth"</span>,</span>
 <span id="cb96-11"><a href="#cb96-11"></a>                             <span class="st">"hh_size"</span>             <span class="ot">=</span> <span class="st">"Household Size"</span>,</span>
@@ -2294,19 +2298,19 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <td style="text-align: right;">0.018 (0.003)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Hawthorne</td>
+<td style="text-align: right;">0.026 (0.003)</td>
+<td style="text-align: right;">0.025 (0.003)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Self</td>
 <td style="text-align: right;">0.049 (0.003)</td>
 <td style="text-align: right;">0.048 (0.003)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Neighbors</td>
 <td style="text-align: right;">0.081 (0.003)</td>
 <td style="text-align: right;">0.081 (0.003)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Hawthorne</td>
-<td style="text-align: right;">0.026 (0.003)</td>
-<td style="text-align: right;">0.025 (0.003)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Female</td>
@@ -2389,6 +2393,8 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="番外編" class="level2">
 <h2 class="anchored" data-anchor-id="番外編">番外編</h2>
+<section id="複数モデルの出力" class="level3">
+<h3 class="anchored" data-anchor-id="複数モデルの出力">複数モデルの出力</h3>
 <p>　<code>modelsummary()</code>を使えば、複数のモデルの推定結果を一つの表としてまとめられる。しかし、図の場合はどうだろう。共変量なしモデルとありモデルを <a href="#fig-intro-pointrange-5" class="quarto-xref">図&nbsp;12</a> のように一つにまとめることはできるだろうか。もちろん出来る。</p>
 <p>　まず、重回帰分析を行った結果（<code>fit2</code>）から処置効果の推定値情報を抽出し、<code>fit1_coef</code>と同じ構造のデータとしてまとめる。</p>
 <div class="cell" data-layout-align="center">
@@ -2399,8 +2405,8 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb97-5"><a href="#cb97-5"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">recode</span>(term,</span>
 <span id="cb97-6"><a href="#cb97-6"></a>                       <span class="st">"treatmentCivic Duty"</span> <span class="ot">=</span> <span class="st">"Civic Duty"</span>,</span>
 <span id="cb97-7"><a href="#cb97-7"></a>                       <span class="st">"treatmentHawthorne"</span>  <span class="ot">=</span> <span class="st">"Hawthorne"</span>,</span>
-<span id="cb97-8"><a href="#cb97-8"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>,</span>
-<span id="cb97-9"><a href="#cb97-9"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>),</span>
+<span id="cb97-8"><a href="#cb97-8"></a>                       <span class="st">"treatmentSelf"</span>       <span class="ot">=</span> <span class="st">"Self"</span>,</span>
+<span id="cb97-9"><a href="#cb97-9"></a>                       <span class="st">"treatmentNeighbors"</span>  <span class="ot">=</span> <span class="st">"Neighbors"</span>),</span>
 <span id="cb97-10"><a href="#cb97-10"></a>         <span class="at">term =</span> <span class="fu">fct_inorder</span>(term))</span>
 <span id="cb97-11"><a href="#cb97-11"></a></span>
 <span id="cb97-12"><a href="#cb97-12"></a>fit2_coef</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2409,9 +2415,9 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
   term       estimate std.error statistic   p.value conf.low conf.high
   &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 Civic Duty   0.0184   0.00250      7.34 2.10e- 13   0.0121    0.0246
-2 Self         0.0480   0.00250     19.2  9.27e- 82   0.0417    0.0542
-3 Neighbors    0.0806   0.00250     32.2  3.92e-227   0.0744    0.0869
-4 Hawthorne    0.0251   0.00250     10.0  1.45e- 23   0.0188    0.0313</code></pre>
+2 Hawthorne    0.0251   0.00250     10.0  1.45e- 23   0.0188    0.0313
+3 Self         0.0480   0.00250     19.2  9.27e- 82   0.0417    0.0542
+4 Neighbors    0.0806   0.00250     32.2  3.92e-227   0.0744    0.0869</code></pre>
 </div>
 </div>
 <p>　処置効果の推定値や標準誤差などが異なるが、構造としては同じである。続いて、<code>bind_rows()</code>を用い、この2つのデータを一つの表として結合する。2つの表は<code>list()</code>関数でまとめるが、それぞれ<code>"モデル名" = データ名</code>と指定する。最後に、<code>.id = "Model"</code>を追加する。</p>
@@ -2424,13 +2430,13 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
   Model   term       estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;   &lt;fct&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 1 Model 1 Civic Duty   0.0179   0.00260      6.88 5.85e- 12   0.0114    0.0244
-2 Model 1 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
-3 Model 1 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
-4 Model 1 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+2 Model 1 Hawthorne    0.0257   0.00260      9.90 4.37e- 23   0.0192    0.0322
+3 Model 1 Self         0.0485   0.00260     18.7  1.22e- 77   0.0420    0.0550
+4 Model 1 Neighbors    0.0813   0.00260     31.3  2.94e-214   0.0748    0.0878
 5 Model 2 Civic Duty   0.0184   0.00250      7.34 2.10e- 13   0.0121    0.0246
-6 Model 2 Self         0.0480   0.00250     19.2  9.27e- 82   0.0417    0.0542
-7 Model 2 Neighbors    0.0806   0.00250     32.2  3.92e-227   0.0744    0.0869
-8 Model 2 Hawthorne    0.0251   0.00250     10.0  1.45e- 23   0.0188    0.0313</code></pre>
+6 Model 2 Hawthorne    0.0251   0.00250     10.0  1.45e- 23   0.0188    0.0313
+7 Model 2 Self         0.0480   0.00250     19.2  9.27e- 82   0.0417    0.0542
+8 Model 2 Neighbors    0.0806   0.00250     32.2  3.92e-227   0.0744    0.0869</code></pre>
 </div>
 </div>
 <p>　2つの表が1つとなり、<code>Model</code>という列が追加される（これは<code>.id</code>で指定した名前）。そして、<code>fit1_coef</code>だった行は<code>"Model 1"</code>、<code>fit2_coef</code>だった行は<code>"Model 2"</code>が付く。ただし、これだけだと表が結合されて出力される<strong>だけ</strong>なので、<code>fit_coef</code>という名のオブジェクトとして作業環境内に格納しておく。</p>
@@ -2520,8 +2526,551 @@ F-statistic:  2827 on 10 and 344073 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="交互作用" class="level3">
+<h3 class="anchored" data-anchor-id="交互作用">交互作用</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(marginaleffects)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(voted2006 <span class="sc">~</span> treatment <span class="sc">*</span> hh_size <span class="sc">+</span> female <span class="sc">+</span> yob <span class="sc">+</span> hh_size <span class="sc">+</span></span>
+<span id="cb107-2"><a href="#cb107-2"></a>             voted2000 <span class="sc">+</span> voted2002 <span class="sc">+</span> voted2004, <span class="at">data =</span> df)</span>
+<span id="cb107-3"><a href="#cb107-3"></a></span>
+<span id="cb107-4"><a href="#cb107-4"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">"w/o Interaction"</span> <span class="ot">=</span> fit2, <span class="st">"w/ Interaction"</span> <span class="ot">=</span> fit3),</span>
+<span id="cb107-5"><a href="#cb107-5"></a>             <span class="at">estimate  =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb107-6"><a href="#cb107-6"></a>             <span class="at">statistic =</span> <span class="cn">NULL</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;w/o Interaction</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;w/ Interaction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">5.845 (0.110)</td>
+<td style="text-align: center;">5.836 (0.110)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatmentCivic Duty</td>
+<td style="text-align: center;">0.018 (0.003)</td>
+<td style="text-align: center;">0.044 (0.007)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatmentHawthorne</td>
+<td style="text-align: center;">0.025 (0.003)</td>
+<td style="text-align: center;">0.034 (0.007)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatmentSelf</td>
+<td style="text-align: center;">0.048 (0.003)</td>
+<td style="text-align: center;">0.076 (0.007)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatmentNeighbors</td>
+<td style="text-align: center;">0.081 (0.003)</td>
+<td style="text-align: center;">0.111 (0.007)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">female</td>
+<td style="text-align: center;">−0.006 (0.002)</td>
+<td style="text-align: center;">−0.006 (0.002)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yob</td>
+<td style="text-align: center;">−0.003 (0.000)</td>
+<td style="text-align: center;">−0.003 (0.000)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hh_size</td>
+<td style="text-align: center;">0.005 (0.001)</td>
+<td style="text-align: center;">0.010 (0.001)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">voted2000</td>
+<td style="text-align: center;">0.094 (0.002)</td>
+<td style="text-align: center;">0.094 (0.002)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">voted2002</td>
+<td style="text-align: center;">0.141 (0.002)</td>
+<td style="text-align: center;">0.141 (0.002)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">voted2004</td>
+<td style="text-align: center;">0.158 (0.002)</td>
+<td style="text-align: center;">0.158 (0.002)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatmentCivic Duty × hh_size</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.012 (0.003)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatmentHawthorne × hh_size</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.004 (0.003)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatmentSelf × hh_size</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">−0.013 (0.003)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; box-shadow: 0px 1.5px;">treatmentNeighbors × hh_size</td>
+<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">−0.014 (0.003)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">344084</td>
+<td style="text-align: center;">344084</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.076</td>
+<td style="text-align: center;">0.076</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.076</td>
+<td style="text-align: center;">0.076</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">422192.9</td>
+<td style="text-align: center;">422163.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">422321.9</td>
+<td style="text-align: center;">422335.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">−211084.453</td>
+<td style="text-align: center;">−211065.750</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">2826.942</td>
+<td style="text-align: center;">2022.112</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">0.45</td>
+<td style="text-align: center;">0.45</td>
+</tr>
+</tbody>
+</table>
 
 
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1"></a>fit3_pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit3,</span>
+<span id="cb108-2"><a href="#cb108-2"></a>                         <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">treatment =</span> <span class="fu">c</span>(<span class="st">"Control"</span>,</span>
+<span id="cb108-3"><a href="#cb108-3"></a>                                                          <span class="st">"Civic Duty"</span>,</span>
+<span id="cb108-4"><a href="#cb108-4"></a>                                                          <span class="st">"Hawthorne"</span>,</span>
+<span id="cb108-5"><a href="#cb108-5"></a>                                                          <span class="st">"Neighbors"</span>,</span>
+<span id="cb108-6"><a href="#cb108-6"></a>                                                          <span class="st">"Self"</span>),</span>
+<span id="cb108-7"><a href="#cb108-7"></a>                                            <span class="at">hh_size   =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>)))</span>
+<span id="cb108-8"><a href="#cb108-8"></a></span>
+<span id="cb108-9"><a href="#cb108-9"></a>fit3_pred</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Estimate Std. Error     z Pr(&gt;|z|)     S 2.5 % 97.5 % female  yob voted2000
+    0.285    0.00189 151.2   &lt;0.001   Inf 0.281  0.289  0.499 1956     0.252
+    0.315    0.00264 119.3   &lt;0.001   Inf 0.309  0.320  0.499 1956     0.252
+    0.354    0.00785  45.1   &lt;0.001   Inf 0.339  0.369  0.499 1956     0.252
+    0.317    0.00411  77.3   &lt;0.001   Inf 0.309  0.326  0.499 1956     0.252
+    0.312    0.00568  54.9   &lt;0.001   Inf 0.301  0.323  0.499 1956     0.252
+    0.304    0.01683  18.1   &lt;0.001 240.1 0.271  0.337  0.499 1956     0.252
+    0.315    0.00413  76.2   &lt;0.001   Inf 0.307  0.323  0.499 1956     0.252
+    0.333    0.00578  57.6   &lt;0.001   Inf 0.321  0.344  0.499 1956     0.252
+    0.357    0.01713  20.8   &lt;0.001 317.2 0.323  0.390  0.499 1956     0.252
+    0.382    0.00409  93.4   &lt;0.001   Inf 0.374  0.390  0.499 1956     0.252
+    0.370    0.00566  65.4   &lt;0.001   Inf 0.359  0.381  0.499 1956     0.252
+    0.355    0.01677  21.1   &lt;0.001 327.1 0.322  0.387  0.499 1956     0.252
+    0.348    0.00416  83.8   &lt;0.001   Inf 0.340  0.357  0.499 1956     0.252
+    0.339    0.00582  58.3   &lt;0.001   Inf 0.328  0.351  0.499 1956     0.252
+    0.327    0.01727  18.9   &lt;0.001 262.9 0.293  0.361  0.499 1956     0.252
+ voted2002 voted2004  treatment hh_size
+      0.39     0.402 Control          1
+      0.39     0.402 Control          4
+      0.39     0.402 Control          8
+      0.39     0.402 Civic Duty       1
+      0.39     0.402 Civic Duty       4
+      0.39     0.402 Civic Duty       8
+      0.39     0.402 Hawthorne        1
+      0.39     0.402 Hawthorne        4
+      0.39     0.402 Hawthorne        8
+      0.39     0.402 Neighbors        1
+      0.39     0.402 Neighbors        4
+      0.39     0.402 Neighbors        8
+      0.39     0.402 Self             1
+      0.39     0.402 Self             4
+      0.39     0.402 Self             8
+
+Columns: rowid, estimate, std.error, statistic, p.value, s.value, conf.low, conf.high, voted2006, female, yob, voted2000, voted2002, voted2004, treatment, hh_size </code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1"></a>fit3_pred <span class="sc">|&gt;</span> </span>
+<span id="cb110-2"><a href="#cb110-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb110-3"><a href="#cb110-3"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> Estimate)) <span class="sc">+</span></span>
+<span id="cb110-4"><a href="#cb110-4"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hh_size)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `geom_col()`:
+! Problem while computing aesthetics.
+ℹ Error occurred in the 1st layer.
+Caused by error:
+! object 'Estimate' not found</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1"></a><span class="fu">print</span>(fit3_pred, <span class="at">style =</span> <span class="st">"data.frame"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   rowid  estimate   std.error statistic      p.value  s.value  conf.low
+1      1 0.2851493 0.001885542 151.22935 0.000000e+00      Inf 0.2814537
+2      2 0.3146592 0.002637126 119.31899 0.000000e+00      Inf 0.3094905
+3      3 0.3540056 0.007852216  45.08353 0.000000e+00      Inf 0.3386156
+4      4 0.3174564 0.004106460  77.30658 0.000000e+00      Inf 0.3094079
+5      5 0.3117786 0.005677727  54.91257 0.000000e+00      Inf 0.3006504
+6      6 0.3042082 0.016831493  18.07375 5.130510e-73 240.1416 0.2712191
+7      7 0.3148007 0.004131894  76.18799 0.000000e+00      Inf 0.3067023
+8      8 0.3326750 0.005779665  57.55957 0.000000e+00      Inf 0.3213471
+9      9 0.3565074 0.017128191  20.81407 3.227406e-96 317.2147 0.3229367
+10    10 0.3821456 0.004093641  93.35103 0.000000e+00      Inf 0.3741222
+11    11 0.3702975 0.005661931  65.40128 0.000000e+00      Inf 0.3592003
+12    12 0.3545001 0.016770282  21.13859 3.514161e-99 327.0577 0.3216310
+13    13 0.3483799 0.004158475  83.77587 0.000000e+00      Inf 0.3402294
+14    14 0.3391501 0.005819399  58.27923 0.000000e+00      Inf 0.3277443
+15    15 0.3268438 0.017271044  18.92438 7.183265e-80 262.9096 0.2929931
+   conf.high voted2006    female      yob voted2000 voted2002 voted2004
+1  0.2888449 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+2  0.3198278 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+3  0.3693957 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+4  0.3255049 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+5  0.3229067 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+6  0.3371973 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+7  0.3228991 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+8  0.3440029 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+9  0.3900780 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+10 0.3901690 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+11 0.3813947 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+12 0.3873693 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+13 0.3565303 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+14 0.3505559 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+15 0.3606944 0.3158996 0.4992822 1956.214 0.2517409 0.3898379 0.4015008
+    treatment hh_size
+1     Control       1
+2     Control       4
+3     Control       8
+4  Civic Duty       1
+5  Civic Duty       4
+6  Civic Duty       8
+7   Hawthorne       1
+8   Hawthorne       4
+9   Hawthorne       8
+10  Neighbors       1
+11  Neighbors       4
+12  Neighbors       8
+13       Self       1
+14       Self       4
+15       Self       8</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1"></a>fit3_pred <span class="sc">|&gt;</span> </span>
+<span id="cb114-2"><a href="#cb114-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb114-3"><a href="#cb114-3"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb114-4"><a href="#cb114-4"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hh_size)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-74-1.png" class="img-fluid figure-img" width="1200"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1"></a>fit3_pred <span class="sc">|&gt;</span> </span>
+<span id="cb115-2"><a href="#cb115-2"></a>  <span class="fu">mutate</span>(<span class="at">hh_size =</span> <span class="fu">case_when</span>(hh_size <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Household size = 1"</span>,</span>
+<span id="cb115-3"><a href="#cb115-3"></a>                             hh_size <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Household size = 4"</span>,</span>
+<span id="cb115-4"><a href="#cb115-4"></a>                             hh_size <span class="sc">==</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"Household size = 8"</span>),</span>
+<span id="cb115-5"><a href="#cb115-5"></a>         <span class="at">hh_size =</span> <span class="fu">fct_inorder</span>(hh_size)) <span class="sc">|&gt;</span> </span>
+<span id="cb115-6"><a href="#cb115-6"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb115-7"><a href="#cb115-7"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb115-8"><a href="#cb115-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Groups"</span>, <span class="at">y =</span> <span class="st">"Predicted Turnout"</span>) <span class="sc">+</span></span>
+<span id="cb115-9"><a href="#cb115-9"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb115-10"><a href="#cb115-10"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hh_size)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-75-1.png" class="img-fluid figure-img" width="1200"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1"></a>fit3_pred <span class="sc">|&gt;</span> </span>
+<span id="cb116-2"><a href="#cb116-2"></a>  <span class="fu">mutate</span>(<span class="at">hh_size =</span> <span class="fu">case_when</span>(hh_size <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Household size = 1"</span>,</span>
+<span id="cb116-3"><a href="#cb116-3"></a>                             hh_size <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Household size = 4"</span>,</span>
+<span id="cb116-4"><a href="#cb116-4"></a>                             hh_size <span class="sc">==</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"Household size = 8"</span>),</span>
+<span id="cb116-5"><a href="#cb116-5"></a>         <span class="at">hh_size =</span> <span class="fu">fct_inorder</span>(hh_size)) <span class="sc">|&gt;</span> </span>
+<span id="cb116-6"><a href="#cb116-6"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb116-7"><a href="#cb116-7"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb116-8"><a href="#cb116-8"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> estimate, <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate))) <span class="sc">+</span></span>
+<span id="cb116-9"><a href="#cb116-9"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Groups"</span>, <span class="at">y =</span> <span class="st">"Predicted Turnout"</span>) <span class="sc">+</span></span>
+<span id="cb116-10"><a href="#cb116-10"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb116-11"><a href="#cb116-11"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hh_size)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid figure-img" width="1200"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1"></a>fit3_pred <span class="sc">|&gt;</span> </span>
+<span id="cb117-2"><a href="#cb117-2"></a>  <span class="fu">mutate</span>(<span class="at">hh_size =</span> <span class="fu">case_when</span>(hh_size <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Household size = 1"</span>,</span>
+<span id="cb117-3"><a href="#cb117-3"></a>                             hh_size <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Household size = 4"</span>,</span>
+<span id="cb117-4"><a href="#cb117-4"></a>                             hh_size <span class="sc">==</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"Household size = 8"</span>),</span>
+<span id="cb117-5"><a href="#cb117-5"></a>         <span class="at">hh_size =</span> <span class="fu">fct_inorder</span>(hh_size)) <span class="sc">|&gt;</span> </span>
+<span id="cb117-6"><a href="#cb117-6"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb117-7"><a href="#cb117-7"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb117-8"><a href="#cb117-8"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> treatment, <span class="at">y =</span> estimate, <span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, estimate)),</span>
+<span id="cb117-9"><a href="#cb117-9"></a>            <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">vjust =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb117-10"><a href="#cb117-10"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Groups"</span>, <span class="at">y =</span> <span class="st">"Predicted Turnout"</span>) <span class="sc">+</span></span>
+<span id="cb117-11"><a href="#cb117-11"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">guide =</span> <span class="fu">guide_axis</span>(<span class="at">n.dodge =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb117-12"><a href="#cb117-12"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hh_size)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-77-1.png" class="img-fluid figure-img" width="1200"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1"></a>fit3_ame <span class="ot">&lt;-</span> fit3 <span class="sc">|&gt;</span> </span>
+<span id="cb118-2"><a href="#cb118-2"></a>  <span class="fu">marginaleffects</span>(<span class="at">variables =</span> <span class="st">"treatment"</span>,</span>
+<span id="cb118-3"><a href="#cb118-3"></a>                  <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">hh_size =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>))</span>
+<span id="cb118-4"><a href="#cb118-4"></a></span>
+<span id="cb118-5"><a href="#cb118-5"></a><span class="fu">print</span>(fit3_ame, <span class="at">style =</span> <span class="st">"data.frame"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   rowid      term             contrast      estimate   std.error   statistic
+1      1 treatment Civic Duty - Control  0.0323070808 0.004485345  7.20280845
+2      2 treatment Civic Duty - Control  0.0205778631 0.002572276  7.99986703
+3      3 treatment Civic Duty - Control  0.0088486454 0.003568486  2.47966345
+4      4 treatment Civic Duty - Control -0.0028805723 0.006202483 -0.46442242
+5      5 treatment Civic Duty - Control -0.0146097900 0.009155693 -1.59570553
+6      6 treatment Civic Duty - Control -0.0263390077 0.012198436 -2.15921186
+7      7 treatment Civic Duty - Control -0.0380682254 0.015277309 -2.49181480
+8      8 treatment Civic Duty - Control -0.0497974431 0.018374159 -2.71018894
+9      1 treatment  Hawthorne - Control  0.0296514006 0.004508574  6.57666943
+10     2 treatment  Hawthorne - Control  0.0257728789 0.002569133 10.03174081
+11     3 treatment  Hawthorne - Control  0.0218943571 0.003610947  6.06332799
+12     4 treatment  Hawthorne - Control  0.0180158353 0.006296247  2.86136115
+13     5 treatment  Hawthorne - Control  0.0141373135 0.009295794  1.52082901
+14     6 treatment  Hawthorne - Control  0.0102587917 0.012383301  0.82843756
+15     7 treatment  Hawthorne - Control  0.0063802699 0.015506315  0.41146269
+16     8 treatment  Hawthorne - Control  0.0025017481 0.018647003  0.13416355
+17     1 treatment       Self - Control  0.0632305717 0.004532559 13.95030198
+18     2 treatment       Self - Control  0.0503173668 0.002570078 19.57814603
+19     3 treatment       Self - Control  0.0374041619 0.003623023 10.32402071
+20     4 treatment       Self - Control  0.0244909571 0.006333014  3.86718805
+21     5 treatment       Self - Control  0.0115777522 0.009356689  1.23737704
+22     6 treatment       Self - Control -0.0013354527 0.012467878 -0.10711147
+23     7 treatment       Self - Control -0.0142486576 0.015614356 -0.91253575
+24     8 treatment       Self - Control -0.0271618625 0.018778392 -1.44644239
+25     1 treatment  Neighbors - Control  0.0969962701 0.004473500 21.68241053
+26     2 treatment  Neighbors - Control  0.0832103023 0.002571524 32.35835884
+27     3 treatment  Neighbors - Control  0.0694243344 0.003565985 19.46848680
+28     4 treatment  Neighbors - Control  0.0556383666 0.006190537  8.98764820
+29     5 treatment  Neighbors - Control  0.0418523987 0.009134124  4.58198273
+30     6 treatment  Neighbors - Control  0.0280664309 0.012167361  2.30669823
+31     7 treatment  Neighbors - Control  0.0142804630 0.015236802  0.93723495
+32     8 treatment  Neighbors - Control  0.0004944951 0.018324261  0.02698582
+         p.value      s.value     conf.low    conf.high predicted predicted_hi
+1   5.898481e-13  40.62472176  0.023515966  0.041098195 0.2851493    0.3174564
+2   1.245536e-15  49.51215421  0.015536295  0.025619431 0.2949859    0.3155638
+3   1.315064e-02   6.24872273  0.001854540  0.015842750 0.3048225    0.3136712
+4   6.423451e-01   0.63857944 -0.015037216  0.009276072 0.3146592    0.3117786
+5   1.105546e-01   3.17716965 -0.032554619  0.003335039 0.3244958    0.3098860
+6   3.083373e-02   5.01934655 -0.050247503 -0.002430512 0.3343324    0.3079934
+7   1.270923e-02   6.29797972 -0.068011201 -0.008125249 0.3441690    0.3061008
+8   6.724489e-03   7.21635963 -0.085810134 -0.013784753 0.3540056    0.3042082
+9   4.811027e-11  34.27486404  0.020814758  0.038488043 0.2851493    0.3148007
+10  1.105501e-23  76.25964605  0.020737470  0.030808287 0.2949859    0.3207588
+11  1.333334e-09  29.48231499  0.014817031  0.028971683 0.3048225    0.3267169
+12  4.218262e-03   7.88913545  0.005675419  0.030356252 0.3146592    0.3326750
+13  1.283028e-01   2.96237598 -0.004082108  0.032356735 0.3244958    0.3386331
+14  4.074227e-01   1.29540158 -0.014012032  0.034529616 0.3343324    0.3445912
+15  6.807333e-01   0.55483843 -0.024011548  0.036772088 0.3441690    0.3505493
+16  8.932732e-01   0.16282654 -0.034045706  0.039049202 0.3540056    0.3565074
+17  3.132762e-44 144.51740123  0.054346919  0.072114225 0.2851493    0.3483799
+18  2.375088e-85 281.11590699  0.045280106  0.055354628 0.2949859    0.3453033
+19  5.487590e-25  80.59202958  0.030303168  0.044505156 0.3048225    0.3422267
+20  1.100975e-04  13.14893027  0.012078477  0.036903437 0.3146592    0.3391501
+21  2.159471e-01   2.21124989 -0.006761021  0.029916526 0.3244958    0.3360735
+22  9.147005e-01   0.12862858 -0.025772044  0.023101138 0.3343324    0.3329969
+23  3.614868e-01   1.46798528 -0.044852232  0.016354917 0.3441690    0.3299204
+24  1.480532e-01   2.75581283 -0.063966835  0.009643110 0.3540056    0.3268438
+25 3.007105e-104 343.89214648  0.088228371  0.105764170 0.2851493    0.3821456
+26 1.058313e-229 760.63976717  0.078170207  0.088250397 0.2949859    0.3781962
+27  2.031855e-84 278.01916262  0.062435132  0.076413537 0.3048225    0.3742469
+28  2.525770e-19  61.77991036  0.043505137  0.067771596 0.3146592    0.3702975
+29  4.605879e-06  17.72809196  0.023949845  0.059754953 0.3244958    0.3663482
+30  2.107165e-02   5.56855297  0.004218841  0.051914021 0.3343324    0.3623988
+31  3.486377e-01   1.52019945 -0.015583119  0.044144045 0.3441690    0.3584495
+32  9.784710e-01   0.03139893 -0.035420397  0.036409387 0.3540056    0.3545001
+   predicted_lo voted2006 treatment    female      yob voted2000 voted2002
+1     0.2851493 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+2     0.2949859 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+3     0.3048225 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+4     0.3146592 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+5     0.3244958 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+6     0.3343324 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+7     0.3441690 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+8     0.3540056 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+9     0.2851493 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+10    0.2949859 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+11    0.3048225 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+12    0.3146592 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+13    0.3244958 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+14    0.3343324 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+15    0.3441690 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+16    0.3540056 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+17    0.2851493 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+18    0.2949859 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+19    0.3048225 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+20    0.3146592 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+21    0.3244958 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+22    0.3343324 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+23    0.3441690 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+24    0.3540056 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+25    0.2851493 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+26    0.2949859 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+27    0.3048225 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+28    0.3146592 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+29    0.3244958 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+30    0.3343324 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+31    0.3441690 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+32    0.3540056 0.3158996   Control 0.4992822 1956.214 0.2517409 0.3898379
+   voted2004 hh_size
+1  0.4015008       1
+2  0.4015008       2
+3  0.4015008       3
+4  0.4015008       4
+5  0.4015008       5
+6  0.4015008       6
+7  0.4015008       7
+8  0.4015008       8
+9  0.4015008       1
+10 0.4015008       2
+11 0.4015008       3
+12 0.4015008       4
+13 0.4015008       5
+14 0.4015008       6
+15 0.4015008       7
+16 0.4015008       8
+17 0.4015008       1
+18 0.4015008       2
+19 0.4015008       3
+20 0.4015008       4
+21 0.4015008       5
+22 0.4015008       6
+23 0.4015008       7
+24 0.4015008       8
+25 0.4015008       1
+26 0.4015008       2
+27 0.4015008       3
+28 0.4015008       4
+29 0.4015008       5
+30 0.4015008       6
+31 0.4015008       7
+32 0.4015008       8</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1"></a>fit3_ame <span class="sc">|&gt;</span> </span>
+<span id="cb120-2"><a href="#cb120-2"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb120-3"><a href="#cb120-3"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb120-4"><a href="#cb120-4"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> hh_size, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb120-5"><a href="#cb120-5"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Household Size"</span>, <span class="at">y =</span> <span class="st">"Average Marginal Effects"</span>) <span class="sc">+</span></span>
+<span id="cb120-6"><a href="#cb120-6"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>contrast)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid figure-img" width="1050"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1"></a>fit3_ame <span class="sc">|&gt;</span> </span>
+<span id="cb121-2"><a href="#cb121-2"></a>  <span class="fu">mutate</span>(<span class="at">contrast =</span> <span class="fu">str_remove</span>(contrast, <span class="st">" - Control"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb121-3"><a href="#cb121-3"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb121-4"><a href="#cb121-4"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb121-5"><a href="#cb121-5"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> hh_size, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb121-6"><a href="#cb121-6"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Household Size"</span>, <span class="at">y =</span> <span class="st">"Average Marginal Effects"</span>) <span class="sc">+</span></span>
+<span id="cb121-7"><a href="#cb121-7"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>contrast)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid figure-img" width="1050"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1"></a>fit3_ame <span class="sc">|&gt;</span> </span>
+<span id="cb122-2"><a href="#cb122-2"></a>  <span class="fu">mutate</span>(<span class="at">contrast =</span> <span class="fu">str_remove</span>(contrast, <span class="st">" - Control"</span>),</span>
+<span id="cb122-3"><a href="#cb122-3"></a>         <span class="at">sig      =</span> <span class="fu">if_else</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"sig"</span>, <span class="st">"insig"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb122-4"><a href="#cb122-4"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb122-5"><a href="#cb122-5"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb122-6"><a href="#cb122-6"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> hh_size, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high,</span>
+<span id="cb122-7"><a href="#cb122-7"></a>                      <span class="at">color =</span> sig)) <span class="sc">+</span></span>
+<span id="cb122-8"><a href="#cb122-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Household Size"</span>, <span class="at">y =</span> <span class="st">"Average Marginal Effects"</span>) <span class="sc">+</span></span>
+<span id="cb122-9"><a href="#cb122-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>contrast)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-81-1.png" class="img-fluid figure-img" width="1050"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a>fit3_ame <span class="sc">|&gt;</span> </span>
+<span id="cb123-2"><a href="#cb123-2"></a>  <span class="fu">mutate</span>(<span class="at">contrast =</span> <span class="fu">str_remove</span>(contrast, <span class="st">" - Control"</span>),</span>
+<span id="cb123-3"><a href="#cb123-3"></a>         <span class="at">sig      =</span> <span class="fu">if_else</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"sig"</span>, <span class="st">"insig"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb123-4"><a href="#cb123-4"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb123-5"><a href="#cb123-5"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb123-6"><a href="#cb123-6"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">x =</span> hh_size, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high,</span>
+<span id="cb123-7"><a href="#cb123-7"></a>                      <span class="at">color =</span> sig)) <span class="sc">+</span></span>
+<span id="cb123-8"><a href="#cb123-8"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Household Size"</span>, <span class="at">y =</span> <span class="st">"Average Marginal Effects"</span>) <span class="sc">+</span></span>
+<span id="cb123-9"><a href="#cb123-9"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"sig"</span> <span class="ot">=</span> <span class="st">"black"</span>, <span class="st">"insig"</span> <span class="ot">=</span> <span class="st">"gray80"</span>)) <span class="sc">+</span></span>
+<span id="cb123-10"><a href="#cb123-10"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>contrast) <span class="sc">+</span></span>
+<span id="cb123-11"><a href="#cb123-11"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb123-12"><a href="#cb123-12"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro_rct_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid figure-img" width="1050"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
 </section>
 
 
