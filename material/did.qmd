@@ -23,8 +23,7 @@ pacman::p_load(tidyverse,     # Rの必須パッケージ
                modelsummary,  # 推定結果の要約
                estimatr,      # ロバストな回帰分析
                gsynth,        # 一般化SCM
-               panelView,     # パネルデータのチェック
-               CausalImpact)  # CausalImpactの実装
+               panelView)     # パネルデータのチェック
 
 did_df <- read_csv("data/did_data4.csv")
 
@@ -42,14 +41,22 @@ did_df <- did_df |>
 did_df
 ```
 
-　連続変数（`shooting`から`change_unem_rate`まで）の記述統計量を出力する。ここで一つ注意が必要だ。それは`select()`関数の使い方である。具体的に言えば、使い方そのものは変わらない。問題は、現在、`select()`関数が2つ以上存在するという点だ。最初に読み込んだ{gsynth}パッケージは{MASS}パッケージにも依存しているため、自動的に{MASS}も読み込まれる。この{MASS}にも`select()`関数が存在する。しかも、{gsynth}は{tidyverse}よりも先に読み込まれているので、`select()`のみ書くと、{MASS}の`select()`関数として認識する。したがって、「どのパッケージの`select()`関数か」を具体的に書く必要がある。書き方は`パッケージ名::関数名()`だ。{tidyverse}内には{dplyr}というパッケージがあり、列の抽出に使う`select()`関数はこの{dplyr}が提供しているため、`dplyr::select()`と書く必要がある。
+　連続変数（`shooting`から`change_unem_rate`まで）の記述統計量を出力する。
 
 ```{r}
 did_df |>
-  dplyr::select(shooting:change_unem_rate) |>
+  select(shooting:change_unem_rate) |>
   descr(stats = c("mean", "sd", "min", "max", "n.valid"),
         transpose = TRUE, order = "p")
 ```
+
+:::{.callout-note}
+## `select()`関数がおかしい?
+
+　今回の講義に限らず、よくある問題としてパッケージ間の衝突がある。これは同じ名前の関数が複数存在する際に生じる。たとえば、`select()`関数は{dplyr}パッケージだけでなく、{MASS}という有名なパッケージにも同じ名前の関数が存在する。自分が{dplyr}のみ読み込み、{MASS}を読み込まなかったとしても衝突は生じうる。たとえば、{X}というパッケージが{MASS}に依存する場合、{X}を読み込むと、裏では{MASS}も読み込まれるからだ。そもそも我々も{dplyr}を読み込んでないが、{tidyverse}が{dplyr}に依存しているため、{dplyr}が読み込まれている。
+
+　したがって、絶対存在するはずの関数で使い方も間違っていないにも関わらずエラーが発生した場合は、「どのパッケージの関数か」を明記してみよう。書き方は`パッケージ名::関数名()`だ。たとえば、{dplyr}パッケージの`select()`関数は`dplyr::select()`と書く。
+:::
 
 ## Diff-in-Diff
 
@@ -492,7 +499,7 @@ scm_df
 
 ```{r}
 scm_df |>
-  dplyr::select(Eligible:Candidates) |>
+  select(Eligible:Candidates) |>
   descr(stats = c("mean", "sd", "min", "max", "n.valid"),
         transpose = TRUE, order = "p")
 ```
