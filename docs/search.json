@@ -1411,7 +1411,7 @@
     "href": "slide/intro_rct.html#実習",
     "title": "方法論特殊講義III",
     "section": "実習",
-    "text": "実習\n実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。\n\n本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能\nJared P. Lander. 2017. R for Everyone: Advanced Analytics and Graphics (2nd Edition), Addison-Wesley Professional.（邦訳有り）\n宋財泫・矢内勇生.『私たちのR: ベストプラクティスの探究』Web-book\n\n無料のR入門書: Rを広く、深く勉強したい人におすすめ\n\n\n\n\n宋のR環境\n\nmacOS 13.5 “Ventura”\nR version 4.3.1 (2023-06-16)\n\nR &gt; 4.1ならOK\n\nRStudio 2023.06.0+421\nスライド、サポートページ、実習用資料の執筆環境\n\nQuarto 1.4.232\nR package {quarto} 1.2"
+    "text": "実習\n実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。\n\n本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能\nJared P. Lander. 2017. R for Everyone: Advanced Analytics and Graphics (2nd Edition), Addison-Wesley Professional.（邦訳有り）\n宋財泫・矢内勇生.『私たちのR: ベストプラクティスの探究』Web-book\n\n無料のR入門書: Rを広く、深く勉強したい人におすすめ\n\n\n\n\n宋のR環境\n\nmacOS 13.4.1 “Ventura”\nR version 4.3.1 (2023-06-16)\n\nR &gt; 4.1ならOK\n\nRStudio 2023.06.1+524\nスライド、サポートページ、実習用資料の執筆環境\n\nQuarto 1.4.241\nR package {quarto} 1.2"
   },
   {
     "objectID": "slide/intro_rct.html#rの学習資料",
@@ -1425,7 +1425,7 @@
     "href": "slide/intro_rct.html#discordについて",
     "title": "方法論特殊講義III",
     "section": "Discordについて",
-    "text": "Discordについて\n\nDiscordに登録し、Discordを起動する（アプリ版、Web版、どちらでも良い）。\n宋をフレンドとして追加\n\n宋のIDとタグはjaysong \n\n自分の学籍番号と氏名をDiscordメッセージで伝える。\n宋からの招待が届けば、サーバーに登録する。\n\nDiscord上の表示名（ニックネーム）は宋が実名へ変更する。任意の表示名に変更しないこと。"
+    "text": "Discordについて\n\nDiscordに登録し、Discordを起動する（アプリ版、Web版、どちらでも良い）。\n宋をフレンドとして追加\n\n宋のIDとタグは_jaysong_（前後にアンダースコア「_」あり） \n\n自分の学籍番号と氏名をDiscordメッセージで伝える。\n宋からの招待が届けば、サーバーに登録する。\n\nDiscord上の表示名（ニックネーム）は宋が実名へ変更する。任意の表示名に変更しないこと。"
   },
   {
     "objectID": "slide/intro_rct.html#評価",
