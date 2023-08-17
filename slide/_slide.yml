@@ -16,7 +16,7 @@ format:
     width: 1600
     height: 900
     slide-number: true
-    logo: Figs/logo.png
+    logo: figs/logo.png
     theme: [default, styles.scss]
     footer: <https://www.jaysong.net/kobe-ci/>
     preview-links: false
