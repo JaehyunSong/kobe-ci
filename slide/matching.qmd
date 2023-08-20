@@ -54,50 +54,6 @@ df3 <- read_csv("data/matching_data3.csv")
 * 回顧的因果推論には不向き
    * 主に**介入 (intervention)の効果**が推定対象
 
-## 因果推論
-
-The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
-
-* Level1: **Association** 
-* $P(y|x)$
-* Typical Activity: Seeing
-* Typical Question:
-   * What is?
-   * How would seeing $X$ change my belief in $Y$ ?
-* Examples:
-   * What does a symptom tell me about a disease?
-   * What does a survey tell us about the election results?
-
-## 因果推論
-
-The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
-
-* Level2: **Intervention** 
-* $P(y|do(x), z)$
-* Typical Activity: Doing
-* Typical Question:
-   * What if?
-   * What if I do $X$ ?
-* Examples:
-   * What if I take asprin, will my headache be cured?
-   * What if we ban cigarettes?
-
-## 因果推論
-
-The Three Layer Causal Hierarchy (Pearl 2009: p. 29)
-
-* Level3: **Counterfactual**
-* $P(y_x|x^{\prime}, y^{\prime})$
-* Typical Activity: Imagining and Retrospection
-* Typical Question:
-   * Why?
-   * What is $X$ that caused $Y$ ?
-   * What if I had acted differently?
-* Examples:
-   * Was it the aspirin that stopped my headache? 
-   * Would Kennedy be alive had Oswald not shot him? 
-   * What if I had not been smoking the past 2 years?
-
 ## 観察データを用いた因果推論
 
 もし、$X$をしたら（did）$Y$はどうなった（would）だろうか
