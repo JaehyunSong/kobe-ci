@@ -1026,8 +1026,8 @@ tibble(Age  = c(rep("20代", 4),
 重み付け回帰分析
 
 * $W = \{2.200, 0.367, 1.000, 1.100, 0.000, 0.000, ..., 1.100\}^{\top}$
-   * マッチングされないケースの重みは0にする（=分析から除外される）
-   * $\beta = (X^{\top}WX)^{-1}X^{\top}WY$
+   * マッチングされないケースの重みは0にする（= 分析から除外される）
+   * $\beta = (X^{\prime}WX)^{-1}X^{\prime}WY$
 * Rの場合、`lm(formula, data, weight = ...)`で推定可能
    * {cem} or {MatchIt}パッケージならもっと簡単
 * $\widehat{\text{Outcome}} = 4.567 + 2.033 \cdot \text{Treat}$
@@ -1044,25 +1044,15 @@ tibble(Age  = c(rep("20代", 4),
    * 主に$e$と表記する。
    * $e_i = Pr(T_i = 1 | X_i)$
 
-<br/><br/><br/><br/>
-
-なぜ傾向スコア?
-
-* マッチングの限界
-   1. 次元の問題 (dimension problem)
-   2. 恣意性
-   3. カテゴリ変数の扱い方
-   4. スケールの問題
-
 ## 傾向スコアの計算
 
-処置変数 ( $T_i$ ) を応答変数とし、共変量 ( $X_i$ ) を説明変数とする
+処置変数（$T_i$）を応答変数とし、共変量（$X_i$）を説明変数とする。
 
 * 一般的に、ロジットやプロビット回帰分析で推定する。
    * 他にも色々ある
       * Support Vector Machine, Decision Tree, Neural Network, ...
    * 色んな手法で算出した傾向スコアを重み付けして合成することも可能
-      * Ensemble Method (Samii, Paler, and Zukerman 2016)
+      * Ensemble Method（Samii, Paler, and Zukerman 2016）
 
 <br/><br/>
 

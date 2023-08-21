@@ -473,21 +473,21 @@
     "href": "slide/matching.html#cemの例-5",
     "title": "方法論特殊講義III",
     "section": "CEMの例",
-    "text": "CEMの例\n重み付け回帰分析\n\n\\(W = \\{2.200, 0.367, 1.000, 1.100, 0.000, 0.000, ..., 1.100\\}^{\\top}\\)\n\nマッチングされないケースの重みは0にする（=分析から除外される）\n\\(\\beta = (X^{\\top}WX)^{-1}X^{\\top}WY\\)\n\nRの場合、lm(formula, data, weight = ...)で推定可能\n\n{cem} or {MatchIt}パッケージならもっと簡単\n\n\\(\\widehat{\\text{Outcome}} = 4.567 + 2.033 \\cdot \\text{Treat}\\)\n\n処置群における因果効果（ATT）= 2.033\nATCの場合、重み付けが逆（統制群の重みを1とする）"
+    "text": "CEMの例\n重み付け回帰分析\n\n\\(W = \\{2.200, 0.367, 1.000, 1.100, 0.000, 0.000, ..., 1.100\\}^{\\top}\\)\n\nマッチングされないケースの重みは0にする（= 分析から除外される）\n\\(\\beta = (X^{\\prime}WX)^{-1}X^{\\prime}WY\\)\n\nRの場合、lm(formula, data, weight = ...)で推定可能\n\n{cem} or {MatchIt}パッケージならもっと簡単\n\n\\(\\widehat{\\text{Outcome}} = 4.567 + 2.033 \\cdot \\text{Treat}\\)\n\n処置群における因果効果（ATT）= 2.033\nATCの場合、重み付けが逆（統制群の重みを1とする）"
   },
   {
     "objectID": "slide/matching.html#傾向スコアとは",
     "href": "slide/matching.html#傾向スコアとは",
     "title": "方法論特殊講義III",
     "section": "傾向スコアとは",
-    "text": "傾向スコアとは\nPropensity Score\n\n簡単にいうと「あるユニット\\(i\\)が処置を受ける確率」\n\n主に\\(e\\)と表記する。\n\\(e_i = Pr(T_i = 1 | X_i)\\)\n\n\n\nなぜ傾向スコア?\n\nマッチングの限界\n\n次元の問題 (dimension problem)\n恣意性\nカテゴリ変数の扱い方\nスケールの問題"
+    "text": "傾向スコアとは\nPropensity Score\n\n簡単にいうと「あるユニット\\(i\\)が処置を受ける確率」\n\n主に\\(e\\)と表記する。\n\\(e_i = Pr(T_i = 1 | X_i)\\)"
   },
   {
     "objectID": "slide/matching.html#傾向スコアの計算",
     "href": "slide/matching.html#傾向スコアの計算",
     "title": "方法論特殊講義III",
     "section": "傾向スコアの計算",
-    "text": "傾向スコアの計算\n処置変数 ( \\(T_i\\) ) を応答変数とし、共変量 ( \\(X_i\\) ) を説明変数とする\n\n一般的に、ロジットやプロビット回帰分析で推定する。\n\n他にも色々ある\n\nSupport Vector Machine, Decision Tree, Neural Network, …\n\n色んな手法で算出した傾向スコアを重み付けして合成することも可能\n\nEnsemble Method (Samii, Paler, and Zukerman 2016)\n\n\n\n\n\n推定された予測確率 \\(\\rightarrow\\) 傾向スコア\n\nRではオブジェクト名$fitted.valueで抽出可\n傾向スコアは多くの共変量を一つの変数に集約したもの\n\\(\\rightarrow\\) 傾向スコアを統制した回帰分析で因果効果を推定\n\\(\\rightarrow\\) 傾向スコアを用いて最近傍マッチング"
+    "text": "傾向スコアの計算\n処置変数（\\(T_i\\)）を応答変数とし、共変量（\\(X_i\\)）を説明変数とする。\n\n一般的に、ロジットやプロビット回帰分析で推定する。\n\n他にも色々ある\n\nSupport Vector Machine, Decision Tree, Neural Network, …\n\n色んな手法で算出した傾向スコアを重み付けして合成することも可能\n\nEnsemble Method（Samii, Paler, and Zukerman 2016）\n\n\n\n\n\n推定された予測確率 \\(\\rightarrow\\) 傾向スコア\n\nRではオブジェクト名$fitted.valueで抽出可\n傾向スコアは多くの共変量を一つの変数に集約したもの\n\\(\\rightarrow\\) 傾向スコアを統制した回帰分析で因果効果を推定\n\\(\\rightarrow\\) 傾向スコアを用いて最近傍マッチング"
   },
   {
     "objectID": "slide/matching.html#傾向スコアマッチングの手順",
