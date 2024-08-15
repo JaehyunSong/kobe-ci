@@ -1,7 +1,6 @@
 ---
 subtitle: "差分の差分法"
-date: "1986/10/08"
-date-format: "2023年8月17〜23日"
+date: "2024/08/29"
 format: revealjs
 metadata-files: 
   - _slide.yml

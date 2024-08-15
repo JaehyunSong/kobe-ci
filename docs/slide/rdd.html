@@ -9,10 +9,11 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.241">
+  <meta name="generator" content="quarto-1.5.56">
 
   <meta name="author" content="宋(そん)&nbsp;&nbsp;財泫(じぇひょん)">
-  <title>Causal Inference@Kobe - 方法論特殊講義III</title>
+  <meta name="dcterms.date" content="2024-08-30">
+  <title>Causal Inference@Kobe – 方法論特殊講義III</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -32,7 +33,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -43,7 +44,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -71,7 +72,7 @@
     code span.at { color: #657422; } /* Attribute */
     code span.bn { color: #ad0000; } /* BaseN */
     code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #20794d; } /* Char */
     code span.cn { color: #8f5902; } /* Constant */
     code span.co { color: #5e5e5e; } /* Comment */
@@ -85,7 +86,7 @@
     code span.fu { color: #4758ab; } /* Function */
     code span.im { color: #00769e; } /* Import */
     code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; } /* Keyword */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
     code span.op { color: #5e5e5e; } /* Operator */
     code span.ot { color: #003b4f; } /* Other */
     code span.pp { color: #ad0000; } /* Preprocessor */
@@ -397,8 +398,6 @@
       margin-right: 0; 
     }
   </style>
-  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
-  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <meta property="og:title" content="Jaehyun Song, Ph.D.">
 <meta property="og:description" content="Causal Inference@Kobe">
 <meta property="og:image" content="https://www.jaysong.net/kobe-ci/slide/imgs/favicon.png">
@@ -429,7 +428,7 @@
     </div>
 </div>
 
-  <p class="date">2023年8月17〜23日</p>
+  <p class="date">2024-08-30</p>
 </section>
 <section>
 <section id="回帰不連続デザイン" class="title-slide slide level1 center">
@@ -484,11 +483,11 @@ T_i = \begin{cases}
 <ul>
 <li>人口が多くなるにつれ、投票率が減少傾向</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-2_21bc5255307112315f853d604618bc73">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-2-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -500,11 +499,11 @@ T_i = \begin{cases}
 <ul>
 <li>比例代表制は投票率を低下する制度だと解釈されてしまう</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-3_5c0860e9e39bec77e4da5702e59039d0">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-3-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -516,11 +515,11 @@ T_i = \begin{cases}
 <ul>
 <li>人口3500で分けてみると…</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-4_6bdfdc56f27c85772ba4fdbd3e28633f">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-4-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -532,71 +531,160 @@ T_i = \begin{cases}
 <ul>
 <li>人口3500で分けてみると…</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-5_cb885de9bb2adcf5ae07b121b54c263c">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;(1)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(2)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">切片</td>
-<td style="text-align: center;">59.650</td>
-<td style="text-align: center;">59.939</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.478)</td>
-<td style="text-align: center;">(0.453)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">人口</td>
-<td style="text-align: center;">−0.001</td>
-<td style="text-align: center;">−0.002</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.000)</td>
-<td style="text-align: center;">(0.000)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">人口3500以上ダミー</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">6.561</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;">(0.831)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Num.Obs.</td>
-<td style="text-align: center;">500</td>
-<td style="text-align: center;">500</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">R2</td>
-<td style="text-align: center;">0.338</td>
-<td style="text-align: center;">0.411</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">R2 Adj.</td>
-<td style="text-align: center;">0.336</td>
-<td style="text-align: center;">0.409</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RMSE</td>
-<td style="text-align: center;">5.27</td>
-<td style="text-align: center;">4.97</td>
-</tr>
-</tbody>
-</table>
+<!-- preamble start -->
 
+    <script>
+      function styleCell_9ncptqacynbjiv4r69n6(i, j, css_id) {
+        var table = document.getElementById("tinytable_9ncptqacynbjiv4r69n6");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_9ncptqacynbjiv4r69n6');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_9ncptqacynbjiv4r69n6(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_9ncptqacynbjiv4r69n6");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(0, 0, 'tinytable_css_id0vqzncfmw97d7snb3f50') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(0, 1, 'tinytable_css_idth4sw27x4clarncw9wpq') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(0, 2, 'tinytable_css_idth4sw27x4clarncw9wpq') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(1, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(1, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(1, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(2, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(2, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(2, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(3, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(3, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(3, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(4, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(4, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(4, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(5, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(5, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(5, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(6, 0, 'tinytable_css_idazft20rydjd52shjxoje') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(6, 1, 'tinytable_css_idqrtfloh2rvwjkt8mjlut') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(6, 2, 'tinytable_css_idqrtfloh2rvwjkt8mjlut') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(7, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(7, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(7, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(8, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(8, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(8, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(9, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(9, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(9, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(10, 0, 'tinytable_css_idvfua0ggvq5x4do8dyvks') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(10, 1, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+window.addEventListener('load', function () { styleCell_9ncptqacynbjiv4r69n6(10, 2, 'tinytable_css_idbhxpnwc5i675caecctk5') })
+    </script>
 
+    <style>
+    .table td.tinytable_css_id0vqzncfmw97d7snb3f50, .table th.tinytable_css_id0vqzncfmw97d7snb3f50 {  text-align: left;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_idth4sw27x4clarncw9wpq, .table th.tinytable_css_idth4sw27x4clarncw9wpq {  text-align: center;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_idvfua0ggvq5x4do8dyvks, .table th.tinytable_css_idvfua0ggvq5x4do8dyvks {  text-align: left; }
+    .table td.tinytable_css_idbhxpnwc5i675caecctk5, .table th.tinytable_css_idbhxpnwc5i675caecctk5 {  text-align: center; }
+    .table td.tinytable_css_idazft20rydjd52shjxoje, .table th.tinytable_css_idazft20rydjd52shjxoje {  border-bottom: solid 0.05em black;  text-align: left; }
+    .table td.tinytable_css_idqrtfloh2rvwjkt8mjlut, .table th.tinytable_css_idqrtfloh2rvwjkt8mjlut {  border-bottom: solid 0.05em black;  text-align: center; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_9ncptqacynbjiv4r69n6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">(1)</th>
+                <th scope="col">(2)</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>切片              </td>
+                  <td>59.650 </td>
+                  <td>59.939 </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>(0.478)</td>
+                  <td>(0.453)</td>
+                </tr>
+                <tr>
+                  <td>人口              </td>
+                  <td>-0.001 </td>
+                  <td>-0.002 </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>(0.000)</td>
+                  <td>(0.000)</td>
+                </tr>
+                <tr>
+                  <td>人口3500以上ダミー</td>
+                  <td>       </td>
+                  <td>6.561  </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>       </td>
+                  <td>(0.831)</td>
+                </tr>
+                <tr>
+                  <td>Num.Obs.          </td>
+                  <td>500    </td>
+                  <td>500    </td>
+                </tr>
+                <tr>
+                  <td>R2                </td>
+                  <td>0.338  </td>
+                  <td>0.411  </td>
+                </tr>
+                <tr>
+                  <td>R2 Adj.           </td>
+                  <td>0.336  </td>
+                  <td>0.409  </td>
+                </tr>
+                <tr>
+                  <td>RMSE              </td>
+                  <td>5.27   </td>
+                  <td>4.97   </td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 </section>
@@ -623,11 +711,11 @@ T_i = \begin{cases}
 </section>
 <section id="割当メカニズムの比較" class="slide level2">
 <h2>割当メカニズムの比較</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-6_59bd85985fa61e9e1cd3b3b1437cdc42">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-6-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -681,11 +769,11 @@ T_i = \begin{cases}
 <ul>
 <li><span class="math inline">\(\rho\)</span> = 制度が投票率に与える効果 (因果効果)</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-7_07e9f53fa7d219320aa29456592dd288">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-7-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -714,11 +802,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-rdd_data2.csv" class="slide level2">
 <h2>非線形回帰の例 (<code>rdd_data2.csv</code>)</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 \mbox{X}\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-8_297648c47b4567dc099f7a548267a3e3">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-8-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -727,11 +815,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-9_a2acdcc9f7e206356be2d30edbcaefd2">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-9-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -740,11 +828,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-1" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \beta_3 X^3\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-10_34082e567e9743f86ec9c638bbfd5eb3">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-10-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -753,11 +841,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-2" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \beta_4 X^4\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-11_906c524e114e014d60d98bfe20bc0ac6">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-11-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -766,11 +854,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-3" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_5 X^5\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-12_9809d74f6de2ec592ae5887e6ae8d5c1">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-12-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -779,11 +867,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-4" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_6 X^6\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-13_f4e922a47ab65c6d3fcfdd8e90b78991">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-13-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -792,11 +880,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-5" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_7 X^7\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-14_7518d208442d264430de2543b8c34b36">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-14-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -805,11 +893,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-6" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_8 X^8\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-15_ea568f8da9460bf35d92db3a57e835da">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-15-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -818,11 +906,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-7" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_9 X^9\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-16_0c2bf3986dab03d0b4dd562aad09c83c">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-16-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -831,11 +919,11 @@ T_i = \begin{cases}
 <section id="非線形回帰の例-8" class="slide level2">
 <h2>非線形回帰の例</h2>
 <p><span class="math display">\[\widehat{\mbox{Turnout}} = \beta_0 + \rho \mathbf{I}(\mbox{X} \geq 0) + \beta_1 X + \beta_2 X^2 + \dots + \beta_{10} X^{10}\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-17_ede16bd8df7c0e1587f77f5ba6d5e873">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-17-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -843,11 +931,11 @@ T_i = \begin{cases}
 </section>
 <section id="推定値の変化" class="slide level2">
 <h2>推定値の変化</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-18_a68a9637b3b18516357284adb0ec3093">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-18-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -855,11 +943,11 @@ T_i = \begin{cases}
 </section>
 <section id="調整済み決定係数の変化" class="slide level2">
 <h2>調整済み決定係数の変化</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-19_9e72bb90a932ea996f0c748738864ee2">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-19-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -889,79 +977,174 @@ T_i = \begin{cases}
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">交差項なし</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">交差項あり</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">\(\beta_0\)</td>
-<td style="text-align: center;">3.981</td>
-<td style="text-align: center;">3.028</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.701)</td>
-<td style="text-align: center;">(0.665)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">\(\beta_1\)</td>
-<td style="text-align: center;">1.273</td>
-<td style="text-align: center;">1.029</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.123)</td>
-<td style="text-align: center;">(0.121)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">\(\rho\)</td>
-<td style="text-align: center;">11.730</td>
-<td style="text-align: center;">0.699</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(1.519)</td>
-<td style="text-align: center;">(2.305)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">\(\gamma\)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">2.158</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;">(0.358)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Num.Obs.</td>
-<td style="text-align: center;">200</td>
-<td style="text-align: center;">200</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">R2 Adj.</td>
-<td style="text-align: center;">0.824</td>
-<td style="text-align: center;">0.851</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">F</td>
-<td style="text-align: center;">467.822</td>
-<td style="text-align: center;">379.750</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RMSE</td>
-<td style="text-align: center;">5.76</td>
-<td style="text-align: center;">5.29</td>
-</tr>
-</tbody>
-</table>
+<!-- preamble start -->
 
+    <script>
+      function styleCell_ah9chm2ggzb43jiiphn4(i, j, css_id) {
+        var table = document.getElementById("tinytable_ah9chm2ggzb43jiiphn4");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_ah9chm2ggzb43jiiphn4');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_ah9chm2ggzb43jiiphn4(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ah9chm2ggzb43jiiphn4");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(0, 0, 'tinytable_css_idfynujcmnc3ok6dw7pqs0') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(0, 1, 'tinytable_css_ide5kooo7vmls0134nhpje') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(0, 2, 'tinytable_css_ide5kooo7vmls0134nhpje') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(1, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(1, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(1, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(2, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(2, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(2, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(3, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(3, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(3, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(4, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(4, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(4, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(5, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(5, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(5, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(6, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(6, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(6, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(7, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(7, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(7, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(8, 0, 'tinytable_css_idevj859j1hhctmghv3pbd') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(8, 1, 'tinytable_css_id3bkv13v5l4lc73oy5yo7') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(8, 2, 'tinytable_css_id3bkv13v5l4lc73oy5yo7') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(9, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(9, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(9, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(10, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(10, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(10, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(11, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(11, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(11, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(12, 0, 'tinytable_css_idr93x5py8xk03faeh280a') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(12, 1, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+window.addEventListener('load', function () { styleCell_ah9chm2ggzb43jiiphn4(12, 2, 'tinytable_css_idkj45tpq5lagcsc769sii') })
+    </script>
 
+    <style>
+    .table td.tinytable_css_idfynujcmnc3ok6dw7pqs0, .table th.tinytable_css_idfynujcmnc3ok6dw7pqs0 {  text-align: left;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_ide5kooo7vmls0134nhpje, .table th.tinytable_css_ide5kooo7vmls0134nhpje {  text-align: center;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_idr93x5py8xk03faeh280a, .table th.tinytable_css_idr93x5py8xk03faeh280a {  text-align: left; }
+    .table td.tinytable_css_idkj45tpq5lagcsc769sii, .table th.tinytable_css_idkj45tpq5lagcsc769sii {  text-align: center; }
+    .table td.tinytable_css_idevj859j1hhctmghv3pbd, .table th.tinytable_css_idevj859j1hhctmghv3pbd {  border-bottom: solid 0.05em black;  text-align: left; }
+    .table td.tinytable_css_id3bkv13v5l4lc73oy5yo7, .table th.tinytable_css_id3bkv13v5l4lc73oy5yo7 {  border-bottom: solid 0.05em black;  text-align: center; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_ah9chm2ggzb43jiiphn4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">交差項なし</th>
+                <th scope="col">交差項あり</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>\(\beta_0\)</td>
+                  <td>3.981  </td>
+                  <td>3.028  </td>
+                </tr>
+                <tr>
+                  <td>              </td>
+                  <td>(0.701)</td>
+                  <td>(0.665)</td>
+                </tr>
+                <tr>
+                  <td>\(\beta_1\)</td>
+                  <td>1.273  </td>
+                  <td>1.029  </td>
+                </tr>
+                <tr>
+                  <td>              </td>
+                  <td>(0.123)</td>
+                  <td>(0.121)</td>
+                </tr>
+                <tr>
+                  <td>\(\rho\)   </td>
+                  <td>11.730 </td>
+                  <td>0.699  </td>
+                </tr>
+                <tr>
+                  <td>              </td>
+                  <td>(1.519)</td>
+                  <td>(2.305)</td>
+                </tr>
+                <tr>
+                  <td>\(\gamma\) </td>
+                  <td>       </td>
+                  <td>2.158  </td>
+                </tr>
+                <tr>
+                  <td>              </td>
+                  <td>       </td>
+                  <td>(0.358)</td>
+                </tr>
+                <tr>
+                  <td>Num.Obs.      </td>
+                  <td>200    </td>
+                  <td>200    </td>
+                </tr>
+                <tr>
+                  <td>R2 Adj.       </td>
+                  <td>0.824  </td>
+                  <td>0.851  </td>
+                </tr>
+                <tr>
+                  <td>F             </td>
+                  <td>467.822</td>
+                  <td>379.750</td>
+                </tr>
+                <tr>
+                  <td>RMSE          </td>
+                  <td>5.76   </td>
+                  <td>5.29   </td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 </section>
@@ -971,11 +1154,11 @@ T_i = \begin{cases}
 <li>交差項なしの処置効果: 11.730</li>
 <li>交差項ありの処置効果: 7.173</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-21_8ec27ddec2ecbabdcf39917d6cd1483d">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-21-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1014,11 +1197,11 @@ T_i = \begin{cases}
 <section id="中心化前の-rho" class="slide level2">
 <h2>中心化前の <span class="math inline">\(\rho\)</span></h2>
 <p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 X + \rho \mathbf{I}(X \geq 3) + \gamma X \cdot \mathbf{I}(X \geq 3).\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-22_55090010eb74d2cb511bfc25b88a604e">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-22-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1027,11 +1210,11 @@ T_i = \begin{cases}
 <section id="中心化後の-rho" class="slide level2">
 <h2>中心化後の <span class="math inline">\(\rho\)</span></h2>
 <p><span class="math display">\[\hat{Y} = \beta_0 + \beta_1 X^c + \rho \mathbf{I}(X^c \geq 0) + \gamma X \cdot \mathbf{I}(X^c \geq 0).\]</span></p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-23_fd0c7921e0e07c8b2123c739d8c644e9">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-23-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1095,11 +1278,11 @@ T_i = \begin{cases}
 <section id="ノンセミパラメトリック推定法" class="slide level2">
 <h2>ノン/セミパラメトリック推定法</h2>
 <p><span class="math inline">\(−h \leq X^c \leq h\)</span>範囲内のデータのみ使用</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-24_3e44decdf755504f7d01a1df5bb30a08">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-24-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-24-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1108,11 +1291,11 @@ T_i = \begin{cases}
 <section id="局所平均-rdd_data2.csv" class="slide level2">
 <h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
 <p><span class="math inline">\(h = 5\)</span> の場合</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-25_83c7bbfacdbc83f8350cf994aeccd928">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-25-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-25-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1121,11 +1304,11 @@ T_i = \begin{cases}
 <section id="局所平均-rdd_data2.csv-1" class="slide level2">
 <h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
 <p><span class="math inline">\(h = 3\)</span> の場合</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-26_28c8425dc8f6ae1fc6d2944062cac67c">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-26-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1134,11 +1317,11 @@ T_i = \begin{cases}
 <section id="局所平均-rdd_data2.csv-2" class="slide level2">
 <h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
 <p><span class="math inline">\(h = 1\)</span> の場合</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-27_b851204af4ecf6fc990686a6bfd0d568">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-27-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-27-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1147,11 +1330,11 @@ T_i = \begin{cases}
 <section id="局所平均-rdd_data2.csv-3" class="slide level2">
 <h2>局所平均 (<code>rdd_data2.csv</code>)</h2>
 <p>バンド幅の調整による因果効果の推定値の変化</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-28_c67f35d065c2d0c34c5c533d89c49df3">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-28-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-28-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1163,11 +1346,11 @@ T_i = \begin{cases}
 <ul>
 <li>傾きが緩やかな場合、バイアス小</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-29_8a5ede6b9c82ddcae353d6071b8de858">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-29-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-29-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1196,11 +1379,11 @@ T_i = \begin{cases}
 <section id="局所平均-vs.-局所回帰-rdd_data2.csv" class="slide level2">
 <h2>局所平均 vs.&nbsp;局所回帰 (<code>rdd_data2.csv</code>)</h2>
 <p><span class="math inline">\(h = 3\)</span> の場合</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-30_ab11d5e9f505dacc8f1dafe3a373860b">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-30-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-30-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1235,17 +1418,17 @@ T_i = \begin{cases}
 <h2>様々なカーネル関数</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/rdd/Kernels.png" width="900"></p>
+<p><img data-src="figs/rdd/Kernels.png" class="quarto-figure quarto-figure-center" width="900"></p>
 </figure>
 </div>
 </section>
 <section id="局所回帰-一様カーネルh-5" class="slide level2">
 <h2>局所回帰 &amp; 一様カーネル（<span class="math inline">\(h = 5\)</span>）</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-32_e1c36d25f7e9f13166b58b566b69662c">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-32-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-32-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1253,11 +1436,11 @@ T_i = \begin{cases}
 </section>
 <section id="局所回帰-一様カーネルh-3" class="slide level2">
 <h2>局所回帰 &amp; 一様カーネル（<span class="math inline">\(h = 3\)</span>）</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-34_eabaf3a182e31720cf2140a4992439d9">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-34-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-34-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1265,11 +1448,11 @@ T_i = \begin{cases}
 </section>
 <section id="局所回帰-一様カーネルh-1" class="slide level2">
 <h2>局所回帰 &amp; 一様カーネル（<span class="math inline">\(h = 1\)</span>）</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-36_bc7badf0cdcdef54b16ca7c43848c502">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-36-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-36-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1277,11 +1460,11 @@ T_i = \begin{cases}
 </section>
 <section id="バント幅とlate" class="slide level2">
 <h2>バント幅とLATE</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-37_be8ae23616c86e875e090f41faf43409">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-37-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-37-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1325,7 +1508,7 @@ T_i = \begin{cases}
 </center>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/rdd/WaiWai.png" width="150"></p>
+<p><img data-src="figs/rdd/WaiWai.png" class="quarto-figure quarto-figure-center" width="150"></p>
 </figure>
 </div>
 </div>
@@ -1340,23 +1523,23 @@ T_i = \begin{cases}
 <p>カーネル選択は推定値に大きな影響を与えない (Lee and Lemieux 2010)</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="hitqueuhdy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hitqueuhdy table {
+<div id="ulwhezxict" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ulwhezxict table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hitqueuhdy thead, #hitqueuhdy tbody, #hitqueuhdy tfoot, #hitqueuhdy tr, #hitqueuhdy td, #hitqueuhdy th {
+#ulwhezxict thead, #ulwhezxict tbody, #ulwhezxict tfoot, #ulwhezxict tr, #ulwhezxict td, #ulwhezxict th {
   border-style: none;
 }
 
-#hitqueuhdy p {
+#ulwhezxict p {
   margin: 0;
   padding: 0;
 }
 
-#hitqueuhdy .gt_table {
+#ulwhezxict .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1382,12 +1565,12 @@ T_i = \begin{cases}
   border-left-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_caption {
+#ulwhezxict .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hitqueuhdy .gt_title {
+#ulwhezxict .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1399,7 +1582,7 @@ T_i = \begin{cases}
   border-bottom-width: 0;
 }
 
-#hitqueuhdy .gt_subtitle {
+#ulwhezxict .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1411,7 +1594,7 @@ T_i = \begin{cases}
   border-top-width: 0;
 }
 
-#hitqueuhdy .gt_heading {
+#ulwhezxict .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1423,13 +1606,13 @@ T_i = \begin{cases}
   border-right-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_bottom_border {
+#ulwhezxict .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_col_headings {
+#ulwhezxict .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1444,7 +1627,7 @@ T_i = \begin{cases}
   border-right-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_col_heading {
+#ulwhezxict .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1464,7 +1647,7 @@ T_i = \begin{cases}
   overflow-x: hidden;
 }
 
-#hitqueuhdy .gt_column_spanner_outer {
+#ulwhezxict .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1476,15 +1659,15 @@ T_i = \begin{cases}
   padding-right: 4px;
 }
 
-#hitqueuhdy .gt_column_spanner_outer:first-child {
+#ulwhezxict .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hitqueuhdy .gt_column_spanner_outer:last-child {
+#ulwhezxict .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hitqueuhdy .gt_column_spanner {
+#ulwhezxict .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1496,11 +1679,11 @@ T_i = \begin{cases}
   width: 100%;
 }
 
-#hitqueuhdy .gt_spanner_row {
+#ulwhezxict .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hitqueuhdy .gt_group_heading {
+#ulwhezxict .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1526,7 +1709,7 @@ T_i = \begin{cases}
   text-align: left;
 }
 
-#hitqueuhdy .gt_empty_group_heading {
+#ulwhezxict .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1541,15 +1724,15 @@ T_i = \begin{cases}
   vertical-align: middle;
 }
 
-#hitqueuhdy .gt_from_md > :first-child {
+#ulwhezxict .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hitqueuhdy .gt_from_md > :last-child {
+#ulwhezxict .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hitqueuhdy .gt_row {
+#ulwhezxict .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1568,7 +1751,7 @@ T_i = \begin{cases}
   overflow-x: hidden;
 }
 
-#hitqueuhdy .gt_stub {
+#ulwhezxict .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1581,7 +1764,7 @@ T_i = \begin{cases}
   padding-right: 5px;
 }
 
-#hitqueuhdy .gt_stub_row_group {
+#ulwhezxict .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1595,15 +1778,15 @@ T_i = \begin{cases}
   vertical-align: top;
 }
 
-#hitqueuhdy .gt_row_group_first td {
+#ulwhezxict .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hitqueuhdy .gt_row_group_first th {
+#ulwhezxict .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hitqueuhdy .gt_summary_row {
+#ulwhezxict .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1613,16 +1796,16 @@ T_i = \begin{cases}
   padding-right: 5px;
 }
 
-#hitqueuhdy .gt_first_summary_row {
+#ulwhezxict .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_first_summary_row.thick {
+#ulwhezxict .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hitqueuhdy .gt_last_summary_row {
+#ulwhezxict .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1632,7 +1815,7 @@ T_i = \begin{cases}
   border-bottom-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_grand_summary_row {
+#ulwhezxict .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1642,7 +1825,7 @@ T_i = \begin{cases}
   padding-right: 5px;
 }
 
-#hitqueuhdy .gt_first_grand_summary_row {
+#ulwhezxict .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1652,7 +1835,7 @@ T_i = \begin{cases}
   border-top-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_last_grand_summary_row_top {
+#ulwhezxict .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1662,11 +1845,11 @@ T_i = \begin{cases}
   border-bottom-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_striped {
+#ulwhezxict .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hitqueuhdy .gt_table_body {
+#ulwhezxict .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1675,7 +1858,7 @@ T_i = \begin{cases}
   border-bottom-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_footnotes {
+#ulwhezxict .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1689,7 +1872,7 @@ T_i = \begin{cases}
   border-right-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_footnote {
+#ulwhezxict .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1698,7 +1881,7 @@ T_i = \begin{cases}
   padding-right: 5px;
 }
 
-#hitqueuhdy .gt_sourcenotes {
+#ulwhezxict .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1712,7 +1895,7 @@ T_i = \begin{cases}
   border-right-color: #D3D3D3;
 }
 
-#hitqueuhdy .gt_sourcenote {
+#ulwhezxict .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1720,122 +1903,146 @@ T_i = \begin{cases}
   padding-right: 5px;
 }
 
-#hitqueuhdy .gt_left {
+#ulwhezxict .gt_left {
   text-align: left;
 }
 
-#hitqueuhdy .gt_center {
+#ulwhezxict .gt_center {
   text-align: center;
 }
 
-#hitqueuhdy .gt_right {
+#ulwhezxict .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hitqueuhdy .gt_font_normal {
+#ulwhezxict .gt_font_normal {
   font-weight: normal;
 }
 
-#hitqueuhdy .gt_font_bold {
+#ulwhezxict .gt_font_bold {
   font-weight: bold;
 }
 
-#hitqueuhdy .gt_font_italic {
+#ulwhezxict .gt_font_italic {
   font-style: italic;
 }
 
-#hitqueuhdy .gt_super {
+#ulwhezxict .gt_super {
   font-size: 65%;
 }
 
-#hitqueuhdy .gt_footnote_marks {
+#ulwhezxict .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hitqueuhdy .gt_asterisk {
+#ulwhezxict .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hitqueuhdy .gt_indent_1 {
+#ulwhezxict .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hitqueuhdy .gt_indent_2 {
+#ulwhezxict .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hitqueuhdy .gt_indent_3 {
+#ulwhezxict .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hitqueuhdy .gt_indent_4 {
+#ulwhezxict .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hitqueuhdy .gt_indent_5 {
+#ulwhezxict .gt_indent_5 {
   text-indent: 25px;
 }
+
+#ulwhezxict .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ulwhezxict div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="kernel">kernel</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="BW">BW</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="LATE">LATE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Half BW">Half BW</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Double BW">Double BW</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="kernel" class="gt_row gt_left">triangular</td>
-<td headers="BW" class="gt_row gt_right">3.860</td>
-<td headers="LATE" class="gt_row gt_right">25.527</td>
-<td headers="Half BW" class="gt_row gt_right">30.865</td>
-<td headers="Double BW" class="gt_row gt_right">6.479</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">rectangular</td>
-<td headers="BW" class="gt_row gt_right">6.068</td>
-<td headers="LATE" class="gt_row gt_right">10.566</td>
-<td headers="Half BW" class="gt_row gt_right">24.551</td>
-<td headers="Double BW" class="gt_row gt_right">-40.634</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">epanechnikov</td>
-<td headers="BW" class="gt_row gt_right">3.593</td>
-<td headers="LATE" class="gt_row gt_right">24.570</td>
-<td headers="Half BW" class="gt_row gt_right">30.955</td>
-<td headers="Double BW" class="gt_row gt_right">7.702</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">quartic</td>
-<td headers="BW" class="gt_row gt_right">4.103</td>
-<td headers="LATE" class="gt_row gt_right">25.317</td>
-<td headers="Half BW" class="gt_row gt_right">30.860</td>
-<td headers="Double BW" class="gt_row gt_right">7.323</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">triweight</td>
-<td headers="BW" class="gt_row gt_right">4.560</td>
-<td headers="LATE" class="gt_row gt_right">25.478</td>
-<td headers="Half BW" class="gt_row gt_right">31.020</td>
-<td headers="Double BW" class="gt_row gt_right">7.443</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">tricube</td>
-<td headers="BW" class="gt_row gt_right">4.141</td>
-<td headers="LATE" class="gt_row gt_right">25.001</td>
-<td headers="Half BW" class="gt_row gt_right">30.834</td>
-<td headers="Double BW" class="gt_row gt_right">7.697</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">gaussian</td>
-<td headers="BW" class="gt_row gt_right">1.413</td>
-<td headers="LATE" class="gt_row gt_right">25.878</td>
-<td headers="Half BW" class="gt_row gt_right">31.318</td>
-<td headers="Double BW" class="gt_row gt_right">6.687</td></tr>
-    <tr><td headers="kernel" class="gt_row gt_left">cosine</td>
-<td headers="BW" class="gt_row gt_right">3.659</td>
-<td headers="LATE" class="gt_row gt_right">24.640</td>
-<td headers="Half BW" class="gt_row gt_right">30.891</td>
-<td headers="Double BW" class="gt_row gt_right">7.395</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="kernel" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">kernel</th>
+<th id="BW" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">BW</th>
+<th id="LATE" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">LATE</th>
+<th id="Half BW" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Half BW</th>
+<th id="Double BW" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Double BW</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="kernel">triangular</td>
+<td class="gt_row gt_right" headers="BW">3.860</td>
+<td class="gt_row gt_right" headers="LATE">25.527</td>
+<td class="gt_row gt_right" headers="Half BW">30.865</td>
+<td class="gt_row gt_right" headers="Double BW">6.479</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="kernel">rectangular</td>
+<td class="gt_row gt_right" headers="BW">6.068</td>
+<td class="gt_row gt_right" headers="LATE">10.566</td>
+<td class="gt_row gt_right" headers="Half BW">24.551</td>
+<td class="gt_row gt_right" headers="Double BW">-40.634</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="kernel">epanechnikov</td>
+<td class="gt_row gt_right" headers="BW">3.593</td>
+<td class="gt_row gt_right" headers="LATE">24.570</td>
+<td class="gt_row gt_right" headers="Half BW">30.955</td>
+<td class="gt_row gt_right" headers="Double BW">7.702</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="kernel">quartic</td>
+<td class="gt_row gt_right" headers="BW">4.103</td>
+<td class="gt_row gt_right" headers="LATE">25.317</td>
+<td class="gt_row gt_right" headers="Half BW">30.860</td>
+<td class="gt_row gt_right" headers="Double BW">7.323</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="kernel">triweight</td>
+<td class="gt_row gt_right" headers="BW">4.560</td>
+<td class="gt_row gt_right" headers="LATE">25.478</td>
+<td class="gt_row gt_right" headers="Half BW">31.020</td>
+<td class="gt_row gt_right" headers="Double BW">7.443</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="kernel">tricube</td>
+<td class="gt_row gt_right" headers="BW">4.141</td>
+<td class="gt_row gt_right" headers="LATE">25.001</td>
+<td class="gt_row gt_right" headers="Half BW">30.834</td>
+<td class="gt_row gt_right" headers="Double BW">7.697</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="kernel">gaussian</td>
+<td class="gt_row gt_right" headers="BW">1.413</td>
+<td class="gt_row gt_right" headers="LATE">25.878</td>
+<td class="gt_row gt_right" headers="Half BW">31.318</td>
+<td class="gt_row gt_right" headers="Double BW">6.687</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="kernel">cosine</td>
+<td class="gt_row gt_right" headers="BW">3.659</td>
+<td class="gt_row gt_right" headers="LATE">24.640</td>
+<td class="gt_row gt_right" headers="Half BW">30.891</td>
+<td class="gt_row gt_right" headers="Double BW">7.395</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1870,11 +2077,11 @@ T_i = \begin{cases}
 </section>
 <section id="アメリカにおける現職効果-1" class="slide level2">
 <h2>アメリカにおける現職効果 (1)</h2>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-39_ddd93e7f0e481221af84bfcedb75874b">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-39-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-39-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1931,11 +2138,11 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <section id="散布図" class="slide level2">
 <h2>散布図</h2>
 <p>全ケースの散布図</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-42_b80318e65dd712e02d4647cf89a5436f">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-42-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-42-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1944,11 +2151,11 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <section id="散布図-1" class="slide level2">
 <h2>散布図</h2>
 <p>区間ごとの平均値の散布図 (点が多い時に便利)</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-43_6626daf203244f2452ca13e505e44064">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-43-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-43-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1957,11 +2164,11 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <section id="処置効果" class="slide level2">
 <h2>処置効果</h2>
 <p>現職効果は見られない</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-44_46e59fe9cb53d923d68d9e9008200aac">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-44-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-44-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1970,11 +2177,11 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <section id="頑健性チェック-1" class="slide level2">
 <h2>頑健性チェック (1)</h2>
 <p>バンド幅を動かしても推定値は大きく変化しない</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-45_e9f24a548388ddd787d9bcfef87d79e1">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-45-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-45-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1983,11 +2190,11 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <section id="頑健性チェック-2" class="slide level2">
 <h2>頑健性チェック (2)</h2>
 <p>多項式回帰でも推定値は大きく変化しない (バンド幅は固定)</p>
-<div class="cell" data-layout-align="center" data-hash="rdd_cache/revealjs/unnamed-chunk-46_f602d5b5afa675c4424383b16c6bee6d">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-46-1.png" width="2100"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-46-1.png" class="quarto-figure quarto-figure-center" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -2003,12 +2210,12 @@ Double-BW  51.45  3         606         0.000e+00</code></pre>
 <div class="columns">
 <div class="column" style="width:60%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">DCdensity</span>(ariga_df<span class="sc">$</span>vm1, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">DCdensity</span>(ariga_df<span class="sc">$</span>vm1, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3002424</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">rddensity</span>(<span class="at">X =</span> ariga_df<span class="sc">$</span>vm1) <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">summary</span>()</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">rddensity</span>(<span class="at">X =</span> ariga_df<span class="sc">$</span>vm1) <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">summary</span>()</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Manipulation testing using local polynomial density estimation.
@@ -2047,20 +2254,19 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
 </div>
 </div><div class="column" style="width:40%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">rddensity</span>(<span class="at">X =</span> ariga_df<span class="sc">$</span>vm1) <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">rdplotdensity</span>(<span class="at">X =</span> ariga_df<span class="sc">$</span>vm1)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">rddensity</span>(<span class="at">X =</span> ariga_df<span class="sc">$</span>vm1) <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a></a>  <span class="fu">rdplotdensity</span>(<span class="at">X =</span> ariga_df<span class="sc">$</span>vm1)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-49-1.png" width="1500"></p>
+<p><img data-src="rdd_files/figure-revealjs/unnamed-chunk-49-1.png" class="quarto-figure quarto-figure-center" width="1500"></p>
 </figure>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></div>
 <aside class="notes">
 <p>{rddensity}の場合、デフォルトはjacknifeで分散共分散行列を算出</p>
 <p>jacknife: ケースを1個ずつ抜いたデータセットをN個作成する(LOOに似ている)。常に同じ結果が得られる</p>
@@ -2077,9 +2283,11 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
           display:block!important;
       }</style></aside>
 
+<div class="quarto-auto-generated-content">
 <p><img src="figs/logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://www.jaysong.net/kobe-ci/" class="uri">https://www.jaysong.net/kobe-ci/</a></p>
+</div>
 </div>
 </section></section>
     </div>
@@ -2364,18 +2572,7 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -2407,7 +2604,52 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+              // target, if specified
+              link.setAttribute("target", "_blank");
+              if (link.getAttribute("rel") === null) {
+                link.setAttribute("rel", "noopener");
+              }
+          }
+        }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
@@ -2444,7 +2686,11 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {
@@ -2484,20 +2730,6 @@ Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
           });
         }
       }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-          var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href);
-        }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-              // target, if specified
-              link.setAttribute("target", "_blank");
-          }
-        }
     });
     </script>
     

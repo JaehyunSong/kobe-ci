@@ -3,20 +3,14 @@ title: "Rの導入"
 link-external-newwindow: true
 ---
 
-:::{.callout-important}
-## 履修者のみなさまへ
+　自分のPCにRおよびRStudioがインストールされていない場合、『[私たちのR]()』の内容に従って、RとRStudioをインストールしてください。インストール不要のクラウド版もあり、こちらを推奨しております。
 
-　本来はクラウド環境である「JDCat分析ツール」を使用する予定でしたが、集中講義期間中は使用できないことが判明したため、**自分のラップトップPCにRとR Studioをインストールしておいてください**。
-:::
-
-## Rのインストール
-
-『私たちのR』「第2章：[Rのインストール](https://www.jaysong.net/RBook/installation.html)」
-
-## RStudioのインストール
-
-『私たちのR』「第3章：[IDEの導入](https://www.jaysong.net/RBook/ide.html)」
-
-## RStudioの設定
-
-『私たちのR』「第4章：[分析環境のカスタマイズ](https://www.jaysong.net/RBook/r_customize.html)
+- **Rのインストール**
+   - 本講義ではインストール不要のクラウド版（JDCat分析ツール）の使用を推奨します。自分のPCにRとRStudioがインストールされている場合でも全員が同じ環境で学習できるJDCat分析ツールを使ってください。R経験者であれば、自分のPCのものを使っても構いません。
+   - 第2章：[Rのインストール](https://www.jaysong.net/RBook/installation.html)
+      - クラウド版（JDCat分析ツール）の使い方は上記ページの後半にあります。
+- **RStudioのインストール**
+   - 自分のPCにインストールする場合のみ。クラウド版（JDCat分析ツール）を使用する場合、この作業は不要です。
+   - 第3章：[IDEの導入](https://www.jaysong.net/RBook/ide.html)
+- **RStudioの設定**
+   - 第4章：[分析環境のカスタマイズ](https://www.jaysong.net/RBook/r_customize.html)

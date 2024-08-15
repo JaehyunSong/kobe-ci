@@ -1,7 +1,6 @@
 ---
 subtitle: "マッチング"
-date: "2023/08/23"
-date-format: "2023年8月17〜23日" 
+date: "2024/08/28"
 format: revealjs
 metadata-files: 
   - _slide.yml

@@ -1,7 +1,6 @@
 ---
 subtitle: "因果推論の考え方とランダム化比較試験"
-date: "1986/10/08"
-date-format: "2023年8月17〜23日"
+date: "2024/08/26"
 format: revealjs
 metadata-files: 
   - _slide.yml
@@ -11,11 +10,13 @@ metadata-files:
 
 ```{r}
 #| include: false
+ff_ver <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applications/Firefox.app/Contents/Info.plist -o -', intern = TRUE) |>
+  stringr::str_extract("[0-9]+\\.[0-9]+.+") |>
+  stringr::str_replace("\b", "")
+
 rs_ver1 <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applications/RStudio.app/Contents/Info.plist -o -', intern = TRUE) |>
   stringr::str_replace("-daily", "") |>
   stringr::str_extract("202[0-9]\\.[0-9]+\\.[0-9]+\\+[0-9]+")
-
-macos_ver <- system('sw_vers -productVersion', intern = TRUE)
 
 pacman::p_load(tidyverse, haven, gt, modelsummary, ggdag, dagitty, icons)
 pacman::p_load_gh("JaehyunSong/BalanceR")
@@ -40,7 +41,7 @@ pacman::p_load_gh("JaehyunSong/BalanceR")
    * [関西大学](https://www.kansai-u.ac.jp/ja/?stt_lang=ja)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/) 准教授
    * 博士（政治学）
 * 専門は政治行動論、選挙研究、政治学方法論
-* 趣味はゲームはラーメン屋巡り
+* 趣味はゲームとラーメン屋巡り
    * 好きなラーメンは家系と二郎インスパイア、汁なし全般
    * 最近やっているゲームはFF XIV
 
@@ -56,17 +57,17 @@ pacman::p_load_gh("JaehyunSong/BalanceR")
 
 各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。
 
-1. 1日目：8月17日（木）
+1. 1日目：8月26日（木）
    * 因果推論の考え方
    * ランダム化比較試験
-2. 2日目：8月18日（金）
-   * Lab Session: R の使い方
+2. 2日目：8月27日（火）
+   * Lab Session（Rの使い方）
    * 2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説
-3. 3日目：8月21日（月）
+3. 3日目：8月28日（水）
    * 回帰分析とマッチング、その応用
-4. 4日目：8月22日（火）
+4. 4日目：8月29日（木）
    * 差分の差分法とその応用 
-5. 5日目：8月23日（水）
+5. 5日目：8月30日（金）
    * 回帰不連続デザイン
 
 ## 実習
@@ -76,20 +77,20 @@ pacman::p_load_gh("JaehyunSong/BalanceR")
 * 本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能
 * Jared P. Lander. 2017. [*R for Everyone: Advanced Analytics and Graphics (2nd Edition),*](https://www.amazon.co.jp/dp/013454692X/) Addison-Wesley Professional.（[邦訳有り](https://www.amazon.co.jp/dp/4839962154/)）
 * 宋財泫・矢内勇生.『[私たちのR: ベストプラクティスの探究](https://www.jaysong.net/RBook)』Web-book
-   * 無料のR入門書: Rを**広く、深く**勉強したい人におすすめ
+   * 無料のR入門書：Rを**広く、深く**勉強したい人におすすめ
 
 ::::{.columns}
 
 :::{.column width=70%}
 ### 宋のR環境
 
-* macOS `r macos_ver` "Ventura"
-* `r version$version.string`
-   * R > 4.1ならOK
-* RStudio `r rs_ver1`
-* スライド、サポートページ、実習用資料の執筆環境
-   * Quarto `r quarto::quarto_inspect()$quarto$version`
-   * R package {quarto} `r packageVersion("quarto")`
+- `r sessionInfo()$running`
+- `r version$version.string`
+   - R > 4.3ならOK
+- RStudio `r rs_ver1`
+- スライド、サポートページ、実習用資料の執筆環境
+   - Quarto `r quarto::quarto_inspect()$quarto$version`
+   - R package {quarto} `r packageVersion("quarto")`
 :::
 
 :::{.column width=20%}
@@ -138,11 +139,11 @@ R全般
 
 研究のプロポーザル
 
-* 本講義で紹介した手法を用いた分析のプロポーザルを作成
-* 実現可能性（予算、倫理など）があること
-   * 架空の予算は100万円を上限とする
-* 提出期限は**8月31日（木）13時**（締切厳守!）
-* 分量の制限（下限/上限）なし
+- 本講義で紹介した手法を用いた分析のプロポーザルを作成
+- 実現可能性（予算、倫理など）があること
+   - 架空の予算は100万円を上限とする
+- 分量の制限（下限/上限）なし
+- 提出期限および提出方法の詳細はDiscordにて案内
 
 ## 前提知識
 

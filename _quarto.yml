@@ -10,7 +10,7 @@ website:
   page-navigation: true
   favicon: figs/favicon.png
   page-footer: 
-    left: "Copyright 2023, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
+    left: "Copyright 2024, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
     right:
       - icon: house-fill
         href: https://www.jaysong.net
@@ -28,8 +28,10 @@ website:
     right: 
       - icon: terminal
         href: https://jupyter.cs.rcos.nii.ac.jp/
+        target: _blank
       - icon: book
         href: https://www.jaysong.net/RBook/
+        target: _blank
   sidebar:
     - id: syllabus
       title: "シラバス"
@@ -70,5 +72,22 @@ website:
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme: 
+      light: [a11y, r4ps.scss]
+    toc-depth: 3
+    link-external-newwindow: true
+    code-annotations: hover
+    mainfont: "Noto Sans JP"
+    sansfont: "Noto Sans JP"
+    monofont: "Noto Sans Mono"
+    header-includes: |
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet"> 
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet"> 
+
+knitr: 
+   opts_chunk: 
+     fig.align: "center"
+     dev: "ragg_png"
+
+execute:
+  freeze: auto

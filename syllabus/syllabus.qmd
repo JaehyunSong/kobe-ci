@@ -4,31 +4,19 @@ toc: true
 link-external-newwindow: true
 ---
 
-:::{.callout-important}
-## 履修者のみなさまへ
-
-　自分のPCにRとR Studioをインストールしておいてください。本来はクラウド環境である「JDCat分析ツール」を使用する予定でしたが、集中講義期間中は使用できないことが判明しました。インストール方法については『私たちのR』の「第2章：[Rのインストール](https://www.jaysong.net/RBook/installation.html)」および「第3章：[IDEの導入](https://www.jaysong.net/RBook/ide.html)」、「第4章：[分析環境のカスタマイズ](https://www.jaysong.net/RBook/r_customize.html)」を参照してください。
-:::
-
-```{r}
-#| include: false
-knitr::opts_chunk$set(fig.align = "center",
-                      dev       = "ragg_png")
-```
-
 ## 概要
 
-* 科目名: 方法論特殊講義III（プログラム講義計量政治学方法論Ⅰ）
-* 講師: 宋財泫 (ソン ジェヒョン)
-* 所属: [関西大学](https://www.kansai-u.ac.jp/)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/)
+* 科目名：方法論特殊講義III（プログラム講義計量政治学方法論Ⅰ）
+* 講師：宋財泫（ソン ジェヒョン）
+* 所属：[関西大学](https://www.kansai-u.ac.jp/)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/)
    * E-mail: song<i class="bi bi-at"></i>kansai-u.ac.jp
    * Homepage: <https://www.jaysong.net>
-* 時間: 2023年8月17、18、21、22、23日 2〜4限目
-* 教室: フロンティア館 303教室
+* 時間：2024年8月26〜30日 3〜5限目
+* 教室：フロンティア館 303教室
 
 ## 授業の内容
 
-　本講義は、近年政治学において関心が高まっている「因果推論」を行うための諸手段を 理解・習得することを目的とする。最初に、最良の因果推論とも称される RCT(ランダム 化比較試験)を説明し、RCT が不可能な際の手法としてマッチング、回帰不連続デザイ ン、差分の差などを紹介する。
+　本講義は、近年政治学において関心が高まっている「因果推論」を行うための諸手段を理解・習得することを目的とする。最初に、最良の因果推論とも称されるRCT（ランダム化比較試験）を説明し、RCT が不可能な際の手法としてマッチング、回帰不連続デザイン、差分の差などを紹介する。
 
 ## 評価
 
@@ -41,13 +29,12 @@ knitr::opts_chunk$set(fig.align = "center",
 
 　統計学に関する基礎知識が必要である。目安は母平均の差の検定、および線形回帰分析が理解でき、統計ソフトウェアで実行・解釈が可能なレベルである。
 
-　本講義における共通言語はRである。Rの使い方に関しては既にインターネット上に膨大な情報がある。[宋](https://www.jaysong.net)と[矢内勇生](https://yukiyanai.github.io/)(高知工科大学)が執筆中の以下の資料(無料で閲覧可能)を参照することも1つの選択肢である。
+　本講義における共通言語はRである。Rの使い方に関しては既にインターネット上に膨大な情報がある。[宋](https://www.jaysong.net)と[矢内勇生](https://yukiyanai.github.io/)(高知工科大学)が執筆中の以下の資料を参照することも1つの選択肢である。
 
-* 宋財泫・矢内勇生. 『[私たちの R: ベストプラクティスの探究](https://www.jaysong.net/RBook/)』(web-book)
+* 宋財泫・矢内勇生. 『[私たちの R: ベストプラクティスの探究](https://www.jaysong.net/RBook/)』
    * Rの導入方法は講義中、宋が解説する。
 
-　統計学および定量的分析、Rの使い方については以下の書籍を講義開始日までに読んで
-おくことを強く推奨する。
+　統計学および定量的分析、Rの使い方については以下の書籍を講義開始日までに読んでおくことを強く推奨する。
 
 * 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132)』オーム社.
 
@@ -58,7 +45,7 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ## 教科書・参考書
 
-以下は本書の内容を（一部）カバーする書籍の目録である。必ずしも購入する必要はないが、予習・復習において適宜参照することを推奨する。
+　以下は本書の内容を（一部）カバーする書籍の目録である。必ずしも購入する必要はないが、予習・復習において適宜参照することを推奨する。
 
 * 因果推論の理論と実例
    * **【AP 2008】** Angrist, Joahua D., and Jorn-steffen Pischke. 2008. [*Mostly Harmless Econometrics: An Empiricist’s Companion.*](http://amzn.asia/d/2TJ1HXE) Princeton University Press.
@@ -72,6 +59,7 @@ knitr::opts_chunk$set(fig.align = "center",
    * **【星野・田中 2016】** 星野匡郎・田中久稔. 2016.『[Rによる実証分析—回帰分析から因果分析へ—](http://amzn.asia/d/0LFlZqm)』オーム社.
    * **【安井 2020】** 安井翔太. 2020. 『[効果検証入門—正しい比較のための因果推論/計量経済学の基礎](https://www.amazon.co.jp/dp/4297111179)』技術評論社.
    * **【Cunningham 2021】** Cunningham, Scott. 2021. [*Causal Inference: The Mixtape.*](https://mixtape.scunning.com/) Yale University Press.
+      - 『[因果推論入門〜ミックステープ：基礎から現代的アプローチまで](https://amzn.asia/d/8KzbEL7)』
    * **【高橋 2022】** 高橋将宜. 2022. 『[統計的因果推論の理論と実装](https://www.amazon.co.jp/dp/4320112458/)』共立出版.
 
 ### 本講義との関係

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.232">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Causal Inference@Kobe - ファイル・システム</title>
+<title>ファイル・システム – Causal Inference@Kobe</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -47,12 +47,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "一致なし",
     "search-matching-documents-text": "一致した文書",
@@ -61,6 +62,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "追加の検索結果",
     "search-more-matches-text": "追加の検索結果",
     "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "取消",
     "search-submit-button-title": "検索",
     "search-label": "サーチ"
@@ -75,9 +77,10 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&amp;display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&amp;display=swap" rel="stylesheet"> 
 
 
-<link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Jaehyun Song, Ph.D.">
 <meta property="og:description" content="Causal Inference@Kobe">
 <meta property="og:image" content="https://www.jaysong.net/kobe-ci/intro/imgs/favicon.png">
@@ -94,7 +97,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
@@ -105,72 +108,72 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
     </a>
   </div>
             <div id="quarto-search" class="" title="サーチ"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">シラバス</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
         <li>
-    <a class="dropdown-item" href="../syllabus/syllabus.html" rel="" target="">
+    <a class="dropdown-item" href="../syllabus/syllabus.html">
  <span class="dropdown-text">シラバス</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../syllabus/dataset.html" rel="" target="">
+    <a class="dropdown-item" href="../syllabus/dataset.html">
  <span class="dropdown-text">データセットについて</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rの使い方" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rの使い方" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Rの使い方</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-rの使い方">    
         <li>
-    <a class="dropdown-item" href="../intro/install.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/install.html">
  <span class="dropdown-text">Rの導入</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/project.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/project.html">
  <span class="dropdown-text">プロジェクト管理</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/file.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/file.html">
  <span class="dropdown-text">ファイル管理</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/filesystem.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/filesystem.html">
  <span class="dropdown-text">ファイル・システム</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/packages.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/packages.html">
  <span class="dropdown-text">パッケージ</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">講義資料</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
         <li>
-    <a class="dropdown-item" href="../material/intro_rct.html" rel="" target="">
+    <a class="dropdown-item" href="../material/intro_rct.html">
  <span class="dropdown-text">因果推論の考え方とランダム化比較試験</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/matching.html" rel="" target="">
+    <a class="dropdown-item" href="../material/matching.html">
  <span class="dropdown-text">マッチング</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/did.html" rel="" target="">
+    <a class="dropdown-item" href="../material/did.html">
  <span class="dropdown-text">差分の差分法</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/rdd.html" rel="" target="">
+    <a class="dropdown-item" href="../material/rdd.html">
  <span class="dropdown-text">回帰不連続デザイン</span></a>
   </li>  
     </ul>
@@ -178,28 +181,28 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://jupyter.cs.rcos.nii.ac.jp/" rel="" target=""><i class="bi bi-terminal" role="img">
+    <a class="nav-link" href="https://jupyter.cs.rcos.nii.ac.jp/" target="_blank"> <i class="bi bi-terminal" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.jaysong.net/RBook/" rel="" target=""><i class="bi bi-book" role="img">
+    <a class="nav-link" href="https://www.jaysong.net/RBook/" target="_blank"> <i class="bi bi-book" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../intro/filesystem.html">ファイル・システム</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -207,7 +210,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -243,7 +246,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -280,14 +283,16 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <section id="拡張子" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="拡張子"><span class="header-section-number">1</span> 拡張子</h2>
 <p>　PC内に存在するほとんどのファイルは「<code>名前.拡張子</code>」と名付けられている<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。名前の拡張子は<code>.</code>で区切られており、名前は英数字と<code>_</code>のみで構成することを推奨する（ファイル名に<code>.</code>が推奨されない理由の一つが名前と拡張子を区分する文字として使われるからだ）。ここで注目したいのはファイルの名前でなく、拡張子のことだ。拡張子とはファイルの特徴を示すものである。たとえば、拡張子が<code>.html</code>であれば、ウェブページ形式を意味し、<code>.png</code>なら図、<code>.pdf</code>なら図・文書、<code>.exe</code>なら実行ファイル、<code>.dmg</code>ならディスクイメージを意味する。ファイル名が<code>Figure01.png</code>なら<code>Figure01</code>という名の画像ファイルであることを意味する<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。この拡張子によって、パソコンは当該ファイルをどのアプリケーションで開くかを判定する。<code>.exe</code>ファイルをダブルクリックするとアプリケーションが立ち上がるし、<code>.pdf</code>ファイルをダブルクリックするとPDFビュアーソフトが起動され、中身が表示される。</p>
 <p>　これは拡張子を変えると問題が生じ得ることを意味する。画像ファイルである<code>Figure01.png</code>のファイル名を動画ファイル拡張子である<code>Movie01.mp4</code>に修正しても、そのファイルは動画ファイルにはならない。また、拡張子が<code>.mp4</code>になると、そのファイルを開く際、動画プレイヤーが起動されるが、ファイルの中身は画像ファイルのままなのでエラーが出る。したがって、拡張子は勝手に変えてはならない。たまに課題の結果物としてファイルを提出する際、自分の名前を入れたくてファイル名を<code>XXXX.html</code>から<code>XXXX.html_Song</code>へ変更して提出する場合がある。しかし、これは大きな間違いだ。もやはこのファイルはHTMLファイル（<code>.html</code>）でなく、未知のファイル形式（<code>.html_Song</code>）として認識され、ダブルクリックしてもPCはどのアプリケーションで開けば良いかが分からなくなる。ファイル名を修正するなら<code>XXXX_Song.html</code>のように修正しよう<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。</p>
 <p>　Rを用いたデータ分析の場面において頻繁に登場する拡張子は以下の通りである。ファイルの名前は大文字と小文字を区別するが、拡張子の場合、区別されないケースが多い。</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
 <col style="width: 25%">
@@ -467,7 +472,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </section>
 
 
-<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">脚注</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">脚注</h2>
 
 <ol>
 <li id="fn1"><p>一部、拡張子を持たないファイルもある。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -475,7 +480,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <li id="fn3"><p>ただし、LMSに提出する場合、ファイル名をわざわざ修正しなくても良い。教員側からダウンロードする際、勝手に学生番号と氏名が付いたファイル名になるからだ。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>人によってはスクリプトファイルを<code>Script</code>フォルダー内に入れる人もいるが推奨しない。とりわけ、R MarkdownやQuartoの場合、コンソール上で実行時のパスとKnit時のパスの扱いが異なる場合が多い。プロジェクトフォルダーに入れておけば、問題は解決される。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</aside></div></main> <!-- /main -->
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -511,18 +516,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -554,7 +548,52 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -589,24 +628,64 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
   const processXRef = (id, note) => {
-    if (id.startsWith('sec-')) {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
         }
         return container.innerHTML
       } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
-      return note.innerHTML;
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -625,7 +704,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         const note = window.document.getElementById(id);
         if (note !== null) {
           try {
-            const html = processXRef(id, note);
+            const html = processXRef(id, note.cloneNode(true));
             instance.setContent(html);
           } finally {
             instance.enable();
@@ -648,6 +727,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -719,25 +821,90 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
           }
-        });
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
@@ -780,12 +947,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../intro/file.html" class="pagination-link">
+      <a href="../intro/file.html" class="pagination-link" aria-label="ファイル管理">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">ファイル管理</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../intro/packages.html" class="pagination-link">
+      <a href="../intro/packages.html" class="pagination-link" aria-label="パッケージ">
         <span class="nav-page-text">パッケージ</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -794,7 +961,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2023, <a href="https://www.jaysong.net" target="_blank">Jaehyun Song</a>. Powered by <a href="https://quarto.org/" target="_blank">Quarto</a></p>
+<p>Copyright 2024, <a href="https://www.jaysong.net" target="_blank">Jaehyun Song</a>. Powered by <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

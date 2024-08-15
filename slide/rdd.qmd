@@ -1,7 +1,6 @@
 ---
 subtitle: "回帰不連続デザイン"
-date: "1986/10/08"
-date-format: "2023年8月17〜23日"
+date: "2024/08/30"
 format: revealjs
 metadata-files: 
   - _slide.yml

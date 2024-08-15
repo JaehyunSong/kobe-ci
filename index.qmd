@@ -1,8 +1,8 @@
----
-title: "方法論特殊講義IIIサポートページ"
+<center><a href="https://jupyter.cs.rcos.nii.ac.jp/" class="btn btn-primary btn-lg" target="_blank" role="button"><i class="bi bi-terminal"></i>&nbsp;&nbsp;&nbsp;JDCat分析ツールの起動</a><br/><span style="font-size:0.75em">（はじめての方は「[Rの導入](intro/install.qmd)」を参照し、まず分析環境を作成してください。）</span></center>
+
 ---
 
-本ウェブサイトは神戸大学法学研究科/法学部「**方法論特殊講義III / プログラム講義計量政治学方法論I**（2023年度）」のサポートページです。
+本ウェブサイトは神戸大学法学研究科/法学部「**方法論特殊講義III / プログラム講義計量政治学方法論I**」のサポートページです。
 
 ```{r}
 #| include: false
@@ -13,13 +13,12 @@ ff_ver <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applicat
 rs_ver1 <- system('plutil -extract "CFBundleShortVersionString" binary1 /Applications/RStudio.app/Contents/Info.plist -o -', intern = TRUE) |>
   stringr::str_replace("-daily", "") |>
   stringr::str_extract("202[0-9]\\.[0-9]+\\.[0-9]+\\+[0-9]+")
-
-macos_ver <- system('sw_vers -productVersion', intern = TRUE)
 ```
 
 :::{.callout-tip}
 ## アイコン説明
-
+* [<i class="bi bi-terminal"></i>](https://jupyter.cs.rcos.nii.ac.jp/){target="_blank"}：JDCat分析ツールの起動
+   * 初期設定が必要です。
 * <a href="https://www.jaysong.net/RBook/" target="_blank"><i class="bi bi-book"></i></a>：Rの教科書（『私たちのR』）
 * <i class="bi bi-search"></i>：本ウェブサイト内の検索
 :::
@@ -28,9 +27,9 @@ macos_ver <- system('sw_vers -productVersion', intern = TRUE)
 :::{.callout-note}
 ## ページ情報
 
-* Last Update: `r format(Sys.Date(), "%Y年%m月%d日")`
-* Environment
-   * macOS `r macos_ver` "Ventura"
+* 最終更新日: `r format(Sys.Date(), "%Y年%m月%d日")`
+* 開発環境
+   * `r sessionInfo()$running`
    * Firefox `r ff_ver`
    * `r version$version.string`
    * RStudio `r rs_ver1`

@@ -9,10 +9,11 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.241">
+  <meta name="generator" content="quarto-1.5.56">
 
   <meta name="author" content="宋(そん)&nbsp;&nbsp;財泫(じぇひょん)">
-  <title>Causal Inference@Kobe - 方法論特殊講義III</title>
+  <meta name="dcterms.date" content="2024-08-26">
+  <title>Causal Inference@Kobe – 方法論特殊講義III</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -32,7 +33,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -43,7 +44,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -71,7 +72,7 @@
     code span.at { color: #657422; } /* Attribute */
     code span.bn { color: #ad0000; } /* BaseN */
     code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #20794d; } /* Char */
     code span.cn { color: #8f5902; } /* Constant */
     code span.co { color: #5e5e5e; } /* Comment */
@@ -85,7 +86,7 @@
     code span.fu { color: #4758ab; } /* Function */
     code span.im { color: #00769e; } /* Import */
     code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; } /* Keyword */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
     code span.op { color: #5e5e5e; } /* Operator */
     code span.ot { color: #003b4f; } /* Other */
     code span.pp { color: #ad0000; } /* Preprocessor */
@@ -397,8 +398,6 @@
       margin-right: 0; 
     }
   </style>
-  <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
-  <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <meta property="og:title" content="Jaehyun Song, Ph.D.">
 <meta property="og:description" content="Causal Inference@Kobe">
 <meta property="og:image" content="https://www.jaysong.net/kobe-ci/slide/imgs/favicon.png">
@@ -429,7 +428,7 @@
     </div>
 </div>
 
-  <p class="date">2023年8月17〜23日</p>
+  <p class="date">2024-08-26</p>
 </section>
 <section>
 <section id="講義概要" class="title-slide slide level1 center">
@@ -458,7 +457,7 @@
 <li>博士（政治学）</li>
 </ul></li>
 <li>専門は政治行動論、選挙研究、政治学方法論</li>
-<li>趣味はゲームはラーメン屋巡り
+<li>趣味はゲームとラーメン屋巡り
 <ul>
 <li>好きなラーメンは家系と二郎インスパイア、汁なし全般</li>
 <li>最近やっているゲームはFF XIV</li>
@@ -469,32 +468,31 @@
 <li><i class="bi bi-envelope"></i> <a href="mailto:song@kansai-u.ac.jp" class="email">song@kansai-u.ac.jp</a></li>
 <li><i class="bi bi-house"></i> <a href="https://www.jaysong.net" class="uri">https://www.jaysong.net</a></li>
 </ul>
-</div>
-</div>
+</div></div>
 </section>
 <section id="内容" class="slide level2">
 <h2>内容</h2>
 <p>各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。</p>
 <ol type="1">
-<li>1日目：8月17日（木）
+<li>1日目：8月26日（木）
 <ul>
 <li>因果推論の考え方</li>
 <li>ランダム化比較試験</li>
 </ul></li>
-<li>2日目：8月18日（金）
+<li>2日目：8月27日（火）
 <ul>
-<li>Lab Session: R の使い方</li>
+<li>Lab Session（Rの使い方）</li>
 <li>2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説</li>
 </ul></li>
-<li>3日目：8月21日（月）
+<li>3日目：8月28日（水）
 <ul>
 <li>回帰分析とマッチング、その応用</li>
 </ul></li>
-<li>4日目：8月22日（火）
+<li>4日目：8月29日（木）
 <ul>
 <li>差分の差分法とその応用</li>
 </ul></li>
-<li>5日目：8月23日（水）
+<li>5日目：8月30日（金）
 <ul>
 <li>回帰不連続デザイン</li>
 </ul></li>
@@ -508,31 +506,30 @@
 <li>Jared P. Lander. 2017. <a href="https://www.amazon.co.jp/dp/013454692X/"><em>R for Everyone: Advanced Analytics and Graphics (2nd Edition),</em></a> Addison-Wesley Professional.（<a href="https://www.amazon.co.jp/dp/4839962154/">邦訳有り</a>）</li>
 <li>宋財泫・矢内勇生.『<a href="https://www.jaysong.net/RBook">私たちのR: ベストプラクティスの探究</a>』Web-book
 <ul>
-<li>無料のR入門書: Rを<strong>広く、深く</strong>勉強したい人におすすめ</li>
+<li>無料のR入門書：Rを<strong>広く、深く</strong>勉強したい人におすすめ</li>
 </ul></li>
 </ul>
 <div class="columns">
 <div class="column" style="width:70%;">
 <h3 id="宋のr環境">宋のR環境</h3>
 <ul>
-<li>macOS 13.4.1 “Ventura”</li>
-<li>R version 4.3.1 (2023-06-16)
+<li>macOS Sonoma 14.6.1</li>
+<li>R version 4.4.1 (2024-06-14)
 <ul>
-<li>R &gt; 4.1ならOK</li>
+<li>R &gt; 4.3ならOK</li>
 </ul></li>
-<li>RStudio 2023.06.1+524</li>
+<li>RStudio 2024.04.2+764</li>
 <li>スライド、サポートページ、実習用資料の執筆環境
 <ul>
-<li>Quarto 1.4.241</li>
-<li>R package {quarto} 1.2</li>
+<li>Quarto 1.5.56</li>
+<li>R package {quarto} 1.4.4</li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:20%;">
 <p><img data-src="figs/01/R.png"></p>
 </div><div class="column" style="width:10%;">
 
-</div>
-</div>
+</div></div>
 </section>
 <section id="rの学習資料" class="slide level2">
 <h2>Rの学習資料</h2>
@@ -588,8 +585,8 @@
 <ul>
 <li>架空の予算は100万円を上限とする</li>
 </ul></li>
-<li>提出期限は<strong>8月31日（木）13時</strong>（締切厳守!）</li>
 <li>分量の制限（下限/上限）なし</li>
+<li>提出期限および提出方法の詳細はDiscordにて案内</li>
 </ul>
 </section>
 <section id="前提知識" class="slide level2">
@@ -628,17 +625,16 @@
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/Morgan_Winship.jpg" height="400"></p>
+<p><img data-src="figs/01/Morgan_Winship.jpg" class="quarto-figure quarto-figure-center" height="400"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/GaryKing.jpg" height="400"></p>
+<p><img data-src="figs/01/GaryKing.jpg" class="quarto-figure quarto-figure-center" height="400"></p>
 </figure>
 </div>
-</div>
-</div>
+</div></div>
 </section>
 <section id="相関から因果へ" class="slide level2">
 <h2>相関から因果へ</h2>
@@ -649,7 +645,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-2-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -672,8 +668,7 @@
 <li>Omitted Variable Biasなど</li>
 </ul></li>
 </ul>
-</div>
-</div>
+</div></div>
 </section>
 <section id="同時性" class="slide level2">
 <h2>同時性</h2>
@@ -682,7 +677,7 @@
 <div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/Sake.png"></p>
+<p><img data-src="figs/01/Sake.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div><div class="column" style="width:60%;">
@@ -700,8 +695,7 @@
 <li><span class="math inline">\(\rightarrow\)</span> 地獄のような無限ループ</li>
 </ul>
 <p><span class="math inline">\(\Rightarrow\)</span> 酒がストレスに与える影響は?</p>
-</div>
-</div>
+</div></div>
 </section>
 <section id="見かけ上の相関" class="slide level2">
 <h2>見かけ上の相関</h2>
@@ -714,7 +708,7 @@
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/Spurious1.png" style="width:90.0%"></p>
+<p><img data-src="figs/01/Spurious1.png" class="quarto-figure quarto-figure-center" style="width:90.0%"></p>
 </figure>
 </div>
 </section>
@@ -729,7 +723,7 @@
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/Spurious2.png" style="width:60.0%"></p>
+<p><img data-src="figs/01/Spurious2.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 </section>
@@ -745,12 +739,12 @@
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/Game_Height1.png" style="width:50.0%"></p>
+<p><img data-src="figs/01/Game_Height1.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/Game_Height2.png" class="fragment" style="width:50.0%"></p>
+<p><img data-src="figs/01/Game_Height2.png" class="fragment quarto-figure quarto-figure-center" style="width:50.0%"></p>
 </figure>
 </div>
 </div>
@@ -761,7 +755,7 @@
 <ul>
 <li>例) 心臓移植と生存率の例</li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -798,7 +792,7 @@
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/ReverseCausality.png" style="width:50.0%"></p>
+<p><img data-src="figs/01/ReverseCausality.png" class="quarto-figure quarto-figure-center" style="width:50.0%"></p>
 </figure>
 </div>
 </section>
@@ -812,7 +806,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-3-1.png" width="1200"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-3-1.png" class="quarto-figure quarto-figure-center" width="1200"></p>
 </figure>
 </div>
 </div>
@@ -825,8 +819,7 @@
 <li>=<span class="math inline">\(X\)</span>と<span class="math inline">\(Z\)</span>の共分散が0（<span class="math inline">\(\sigma_{X, Z} = 0\)</span>）</li>
 </ul></li>
 </ul>
-</div>
-</div>
+</div></div>
 </section>
 <section id="欠落変数バイアス-1" class="slide level2">
 <h2>欠落変数バイアス</h2>
@@ -838,7 +831,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-4-1.png" width="1200"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center" width="1200"></p>
 </figure>
 </div>
 </div>
@@ -860,8 +853,7 @@
 <li>定量的手法は反証可能性を高めやすい手法（=科学的な手法に<strong>なりやすい</strong>）であって、科学そのものを保障するものでもなく、得られた結果が真理であることを保障するものでもない。</li>
 </ul></li>
 </ul>
-</div>
-</div>
+</div></div>
 </section>
 <section id="自己選択バイアス" class="slide level2">
 <h2>自己選択バイアス</h2>
@@ -869,7 +861,7 @@
 <ul>
 <li>例1) 職業訓練と期待収入</li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -961,7 +953,7 @@
 <li>ソンさんの講義の因果効果は0</li>
 </ul></li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th></th>
@@ -998,7 +990,7 @@
 <li>一生ソンさんには頭が上がらない</li>
 </ul></li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th></th>
@@ -1035,7 +1027,7 @@
 <li>ソンさんは悪くない</li>
 </ul></li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th></th>
@@ -1071,7 +1063,7 @@
 <li>個人（藤村君）における処置効果を推定する際にはこれが不可欠</li>
 </ul></li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th></th>
@@ -1127,7 +1119,7 @@
 <section id="薬の効果は" class="slide level2">
 <h2>薬の効果は?</h2>
 <p>ITEの平均値は-4であり、個人差はあるものの、全体的に薬は成績に負の影響</p>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(i\)</span></th>
@@ -1197,7 +1189,7 @@
 <li><span class="math inline">\(Y_{i \in \{1, 2, 3\}}(T_{i \in \{1, 2, 3\}} = 0)\)</span>は<strong>反実仮想</strong>（counterfactual）であり、観察不可</li>
 <li><span class="math inline">\(Y_{i \in \{4, 5, 6\}}(T_{i \in \{4, 5, 6\}} = 1)\)</span>も<strong>反実仮想</strong></li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(i\)</span></th>
@@ -1271,7 +1263,7 @@
 <li>ITEは分からないが、平均値の差分を見ると、+100万円の効果</li>
 <li>ソンさんはマジ神なのか</li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(i\)</span></th>
@@ -1369,7 +1361,7 @@
 <li>ITEの平均値：80万円</li>
 <li>80万円の価値があるソンさんの講義、みんなで履修しよう!</li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(i\)</span></th>
@@ -1467,7 +1459,7 @@
 <li>ITEの平均値：-20万円</li>
 <li>ソンさんは悪くない</li>
 </ul>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;"><span class="math inline">\(i\)</span></th>
@@ -1577,7 +1569,7 @@
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/TimeMachine.png" class="fragment fade-in-then-semi-out" style="width:40.0%" data-fragment-index="1"></p>
+<p><img data-src="figs/01/TimeMachine.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:40.0%" data-fragment-index="1"></p>
 </figure>
 </div>
 </div>
@@ -1658,16 +1650,16 @@
 <div class="columns">
 <div class="column" style="width:55%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">19861008</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>Data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb1-3"><a href="#cb1-3"></a>   <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
-<span id="cb1-4"><a href="#cb1-4"></a>   <span class="at">Female =</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb1-5"><a href="#cb1-5"></a>                   <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>)),</span>
-<span id="cb1-6"><a href="#cb1-6"></a>   <span class="at">Age    =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">38</span>, <span class="dv">10</span>), <span class="dv">0</span>))</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>Data <span class="sc">|&gt;</span> </span>
-<span id="cb1-9"><a href="#cb1-9"></a>   <span class="fu">summarise</span>(<span class="at">Female =</span> <span class="fu">mean</span>(Female),</span>
-<span id="cb1-10"><a href="#cb1-10"></a>             <span class="at">Age    =</span> <span class="fu">mean</span>(Age))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">set.seed</span>(<span class="dv">19861008</span>)</span>
+<span id="cb1-2"><a></a>Data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-3"><a></a>   <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
+<span id="cb1-4"><a></a>   <span class="at">Female =</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-5"><a></a>                   <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.6</span>)),</span>
+<span id="cb1-6"><a></a>   <span class="at">Age    =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">38</span>, <span class="dv">10</span>), <span class="dv">0</span>))</span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a>Data <span class="sc">|&gt;</span> </span>
+<span id="cb1-9"><a></a>   <span class="fu">summarise</span>(<span class="at">Female =</span> <span class="fu">mean</span>(Female),</span>
+<span id="cb1-10"><a></a>             <span class="at">Age    =</span> <span class="fu">mean</span>(Age))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   Female   Age
@@ -2117,108 +2109,135 @@
 #xsyeumcwqw .gt_indent_5 {
   text-indent: 25px;
 }
+
+#xsyeumcwqw .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#xsyeumcwqw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="　">　</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="ID...1" class="gt_row gt_right">1</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">31</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">11</td>
-<td headers="Female...6" class="gt_row gt_right">0</td>
-<td headers="Age...7" class="gt_row gt_right">38</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">2</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">41</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">12</td>
-<td headers="Female...6" class="gt_row gt_right">1</td>
-<td headers="Age...7" class="gt_row gt_right">29</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">3</td>
-<td headers="Female...2" class="gt_row gt_right">0</td>
-<td headers="Age...3" class="gt_row gt_right">31</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">13</td>
-<td headers="Female...6" class="gt_row gt_right">0</td>
-<td headers="Age...7" class="gt_row gt_right">21</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">4</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">46</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">14</td>
-<td headers="Female...6" class="gt_row gt_right">0</td>
-<td headers="Age...7" class="gt_row gt_right">26</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">5</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">37</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">15</td>
-<td headers="Female...6" class="gt_row gt_right">1</td>
-<td headers="Age...7" class="gt_row gt_right">36</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">6</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">37</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">16</td>
-<td headers="Female...6" class="gt_row gt_right">1</td>
-<td headers="Age...7" class="gt_row gt_right">40</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">7</td>
-<td headers="Female...2" class="gt_row gt_right">0</td>
-<td headers="Age...3" class="gt_row gt_right">30</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">17</td>
-<td headers="Female...6" class="gt_row gt_right">0</td>
-<td headers="Age...7" class="gt_row gt_right">50</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">8</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">46</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">18</td>
-<td headers="Female...6" class="gt_row gt_right">0</td>
-<td headers="Age...7" class="gt_row gt_right">42</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">9</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">56</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">19</td>
-<td headers="Female...6" class="gt_row gt_right">0</td>
-<td headers="Age...7" class="gt_row gt_right">29</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">10</td>
-<td headers="Female...2" class="gt_row gt_right">0</td>
-<td headers="Age...3" class="gt_row gt_right">47</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...5" class="gt_row gt_right">20</td>
-<td headers="Female...6" class="gt_row gt_right">1</td>
-<td headers="Age...7" class="gt_row gt_right">47</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="ID" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ID</th>
+<th id="Female" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Female</th>
+<th id="Age" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Age</th>
+<th id="　" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">　</th>
+<th id="ID" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ID</th>
+<th id="Female" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Female</th>
+<th id="Age" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Age</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">1</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">31</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">11</td>
+<td class="gt_row gt_right" headers="Female...6">0</td>
+<td class="gt_row gt_right" headers="Age...7">38</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">2</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">41</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">12</td>
+<td class="gt_row gt_right" headers="Female...6">1</td>
+<td class="gt_row gt_right" headers="Age...7">29</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">3</td>
+<td class="gt_row gt_right" headers="Female...2">0</td>
+<td class="gt_row gt_right" headers="Age...3">31</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">13</td>
+<td class="gt_row gt_right" headers="Female...6">0</td>
+<td class="gt_row gt_right" headers="Age...7">21</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">4</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">46</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">14</td>
+<td class="gt_row gt_right" headers="Female...6">0</td>
+<td class="gt_row gt_right" headers="Age...7">26</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">5</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">37</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">15</td>
+<td class="gt_row gt_right" headers="Female...6">1</td>
+<td class="gt_row gt_right" headers="Age...7">36</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">6</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">37</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">16</td>
+<td class="gt_row gt_right" headers="Female...6">1</td>
+<td class="gt_row gt_right" headers="Age...7">40</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">7</td>
+<td class="gt_row gt_right" headers="Female...2">0</td>
+<td class="gt_row gt_right" headers="Age...3">30</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">17</td>
+<td class="gt_row gt_right" headers="Female...6">0</td>
+<td class="gt_row gt_right" headers="Age...7">50</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">8</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">46</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">18</td>
+<td class="gt_row gt_right" headers="Female...6">0</td>
+<td class="gt_row gt_right" headers="Age...7">42</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">9</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">56</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">19</td>
+<td class="gt_row gt_right" headers="Female...6">0</td>
+<td class="gt_row gt_right" headers="Age...7">29</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">10</td>
+<td class="gt_row gt_right" headers="Female...2">0</td>
+<td class="gt_row gt_right" headers="Age...3">47</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...5">20</td>
+<td class="gt_row gt_right" headers="Female...6">1</td>
+<td class="gt_row gt_right" headers="Age...7">47</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></div>
 </section>
 <section id="無作為割当の力-1" class="slide level2">
 <h2>無作為割当の力</h2>
 <p>コイン投げの結果</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">set.seed</span>(<span class="dv">19861008</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>Coin <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"T"</span>), <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>Data<span class="sc">$</span>Coin <span class="ot">&lt;-</span> Coin</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">set.seed</span>(<span class="dv">19861008</span>)</span>
+<span id="cb3-2"><a></a>Coin <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"T"</span>), <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a></a>Data<span class="sc">$</span>Coin <span class="ot">&lt;-</span> Coin</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -2661,117 +2680,145 @@
 #todzftlhwn .gt_indent_5 {
   text-indent: 25px;
 }
+
+#todzftlhwn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#todzftlhwn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Coin">Coin</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="　">　</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ID">ID</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Female">Female</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Age">Age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Coin">Coin</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="ID...1" class="gt_row gt_right">1</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">31</td>
-<td headers="Coin...4" class="gt_row gt_left">H</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">11</td>
-<td headers="Female...7" class="gt_row gt_right">0</td>
-<td headers="Age...8" class="gt_row gt_right">38</td>
-<td headers="Coin...9" class="gt_row gt_left">H</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">2</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">41</td>
-<td headers="Coin...4" class="gt_row gt_left">T</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">12</td>
-<td headers="Female...7" class="gt_row gt_right">1</td>
-<td headers="Age...8" class="gt_row gt_right">29</td>
-<td headers="Coin...9" class="gt_row gt_left">T</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">3</td>
-<td headers="Female...2" class="gt_row gt_right">0</td>
-<td headers="Age...3" class="gt_row gt_right">31</td>
-<td headers="Coin...4" class="gt_row gt_left">T</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">13</td>
-<td headers="Female...7" class="gt_row gt_right">0</td>
-<td headers="Age...8" class="gt_row gt_right">21</td>
-<td headers="Coin...9" class="gt_row gt_left">H</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">4</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">46</td>
-<td headers="Coin...4" class="gt_row gt_left">T</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">14</td>
-<td headers="Female...7" class="gt_row gt_right">0</td>
-<td headers="Age...8" class="gt_row gt_right">26</td>
-<td headers="Coin...9" class="gt_row gt_left">T</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">5</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">37</td>
-<td headers="Coin...4" class="gt_row gt_left">H</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">15</td>
-<td headers="Female...7" class="gt_row gt_right">1</td>
-<td headers="Age...8" class="gt_row gt_right">36</td>
-<td headers="Coin...9" class="gt_row gt_left">H</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">6</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">37</td>
-<td headers="Coin...4" class="gt_row gt_left">H</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">16</td>
-<td headers="Female...7" class="gt_row gt_right">1</td>
-<td headers="Age...8" class="gt_row gt_right">40</td>
-<td headers="Coin...9" class="gt_row gt_left">T</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">7</td>
-<td headers="Female...2" class="gt_row gt_right">0</td>
-<td headers="Age...3" class="gt_row gt_right">30</td>
-<td headers="Coin...4" class="gt_row gt_left">H</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">17</td>
-<td headers="Female...7" class="gt_row gt_right">0</td>
-<td headers="Age...8" class="gt_row gt_right">50</td>
-<td headers="Coin...9" class="gt_row gt_left">T</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">8</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">46</td>
-<td headers="Coin...4" class="gt_row gt_left">T</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">18</td>
-<td headers="Female...7" class="gt_row gt_right">0</td>
-<td headers="Age...8" class="gt_row gt_right">42</td>
-<td headers="Coin...9" class="gt_row gt_left">T</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">9</td>
-<td headers="Female...2" class="gt_row gt_right">1</td>
-<td headers="Age...3" class="gt_row gt_right">56</td>
-<td headers="Coin...4" class="gt_row gt_left">H</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">19</td>
-<td headers="Female...7" class="gt_row gt_right">0</td>
-<td headers="Age...8" class="gt_row gt_right">29</td>
-<td headers="Coin...9" class="gt_row gt_left">H</td></tr>
-    <tr><td headers="ID...1" class="gt_row gt_right">10</td>
-<td headers="Female...2" class="gt_row gt_right">0</td>
-<td headers="Age...3" class="gt_row gt_right">47</td>
-<td headers="Coin...4" class="gt_row gt_left">H</td>
-<td headers="X" class="gt_row gt_right"></td>
-<td headers="ID...6" class="gt_row gt_right">20</td>
-<td headers="Female...7" class="gt_row gt_right">1</td>
-<td headers="Age...8" class="gt_row gt_right">47</td>
-<td headers="Coin...9" class="gt_row gt_left">H</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="ID" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ID</th>
+<th id="Female" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Female</th>
+<th id="Age" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Age</th>
+<th id="Coin" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Coin</th>
+<th id="　" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">　</th>
+<th id="ID" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ID</th>
+<th id="Female" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Female</th>
+<th id="Age" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Age</th>
+<th id="Coin" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Coin</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">1</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">31</td>
+<td class="gt_row gt_left" headers="Coin...4">H</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">11</td>
+<td class="gt_row gt_right" headers="Female...7">0</td>
+<td class="gt_row gt_right" headers="Age...8">38</td>
+<td class="gt_row gt_left" headers="Coin...9">H</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">2</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">41</td>
+<td class="gt_row gt_left" headers="Coin...4">T</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">12</td>
+<td class="gt_row gt_right" headers="Female...7">1</td>
+<td class="gt_row gt_right" headers="Age...8">29</td>
+<td class="gt_row gt_left" headers="Coin...9">T</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">3</td>
+<td class="gt_row gt_right" headers="Female...2">0</td>
+<td class="gt_row gt_right" headers="Age...3">31</td>
+<td class="gt_row gt_left" headers="Coin...4">T</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">13</td>
+<td class="gt_row gt_right" headers="Female...7">0</td>
+<td class="gt_row gt_right" headers="Age...8">21</td>
+<td class="gt_row gt_left" headers="Coin...9">H</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">4</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">46</td>
+<td class="gt_row gt_left" headers="Coin...4">T</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">14</td>
+<td class="gt_row gt_right" headers="Female...7">0</td>
+<td class="gt_row gt_right" headers="Age...8">26</td>
+<td class="gt_row gt_left" headers="Coin...9">T</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">5</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">37</td>
+<td class="gt_row gt_left" headers="Coin...4">H</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">15</td>
+<td class="gt_row gt_right" headers="Female...7">1</td>
+<td class="gt_row gt_right" headers="Age...8">36</td>
+<td class="gt_row gt_left" headers="Coin...9">H</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">6</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">37</td>
+<td class="gt_row gt_left" headers="Coin...4">H</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">16</td>
+<td class="gt_row gt_right" headers="Female...7">1</td>
+<td class="gt_row gt_right" headers="Age...8">40</td>
+<td class="gt_row gt_left" headers="Coin...9">T</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">7</td>
+<td class="gt_row gt_right" headers="Female...2">0</td>
+<td class="gt_row gt_right" headers="Age...3">30</td>
+<td class="gt_row gt_left" headers="Coin...4">H</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">17</td>
+<td class="gt_row gt_right" headers="Female...7">0</td>
+<td class="gt_row gt_right" headers="Age...8">50</td>
+<td class="gt_row gt_left" headers="Coin...9">T</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">8</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">46</td>
+<td class="gt_row gt_left" headers="Coin...4">T</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">18</td>
+<td class="gt_row gt_right" headers="Female...7">0</td>
+<td class="gt_row gt_right" headers="Age...8">42</td>
+<td class="gt_row gt_left" headers="Coin...9">T</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="ID...1">9</td>
+<td class="gt_row gt_right" headers="Female...2">1</td>
+<td class="gt_row gt_right" headers="Age...3">56</td>
+<td class="gt_row gt_left" headers="Coin...4">H</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">19</td>
+<td class="gt_row gt_right" headers="Female...7">0</td>
+<td class="gt_row gt_right" headers="Age...8">29</td>
+<td class="gt_row gt_left" headers="Coin...9">H</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="ID...1">10</td>
+<td class="gt_row gt_right" headers="Female...2">0</td>
+<td class="gt_row gt_right" headers="Age...3">47</td>
+<td class="gt_row gt_left" headers="Coin...4">H</td>
+<td class="gt_row gt_right" headers="X"></td>
+<td class="gt_row gt_right" headers="ID...6">20</td>
+<td class="gt_row gt_right" headers="Female...7">1</td>
+<td class="gt_row gt_right" headers="Age...8">47</td>
+<td class="gt_row gt_left" headers="Coin...9">H</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -2784,11 +2831,11 @@
 <li>処置群 (9名): 女性比率が55.6%、平均年齢が39歳</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>Data <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">group_by</span>(Coin) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">summarise</span>(<span class="at">Female =</span> <span class="fu">mean</span>(Female),</span>
-<span id="cb4-4"><a href="#cb4-4"></a>            <span class="at">Age    =</span> <span class="fu">mean</span>(Age),</span>
-<span id="cb4-5"><a href="#cb4-5"></a>            <span class="at">N      =</span> <span class="fu">n</span>())</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>Data <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">group_by</span>(Coin) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">summarise</span>(<span class="at">Female =</span> <span class="fu">mean</span>(Female),</span>
+<span id="cb4-4"><a></a>            <span class="at">Age    =</span> <span class="fu">mean</span>(Age),</span>
+<span id="cb4-5"><a></a>            <span class="at">N      =</span> <span class="fu">n</span>())</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 4
   Coin  Female   Age     N
@@ -2863,42 +2910,42 @@
 <div class="r-stack">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment1.png" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment1.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment2.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment2.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment3.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment3.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment4.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment4.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment5.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment5.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment6.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment6.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment7.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment7.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figs/01/RandomAssignment8.png" class="fragment fade-in-then-semi-out" style="width:60.0%"></p>
+<p><img data-src="figs/01/RandomAssignment8.png" class="fragment fade-in-then-semi-out quarto-figure quarto-figure-center" style="width:60.0%"></p>
 </figure>
 </div>
 </div>
@@ -2953,19 +3000,22 @@
 <li><span class="math inline">\(\Rightarrow\)</span> 内生性がなくなる!</li>
 </ul></li>
 </ul>
-<div class="cell quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="cell quarto-layout-panel" data-layout-align="center" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-10-1.png" width="1800"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="1800"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-10-2.png" width="1800"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-10-2.png" class="quarto-figure quarto-figure-center" width="1800"></p>
 </figure>
 </div>
 </div>
@@ -2993,7 +3043,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-11-1.png" width="1500"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="1500"></p>
 </figure>
 </div>
 </div>
@@ -3014,12 +3064,11 @@
 </ul>
 </div><div class="column" style="width:45%;">
 <p><br><br> <span class="math inline">\(\Rightarrow\)</span> 内生性がある限り、因果効果の識別は困難 <br><br><br><br> <span class="math inline">\(\Rightarrow\)</span> ケースによって政策的含意が変わる。</p>
-</div>
-</div>
+</div></div>
 </section>
 <section id="rctの力" class="slide level2">
 <h2>RCTの力</h2>
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -3072,7 +3121,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-12-1.png" width="1500"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="1500"></p>
 </figure>
 </div>
 </div>
@@ -3091,8 +3140,7 @@
 </ul></li>
 <li><a href="https://ngreifer.github.io/cobalt/">{cobalt}</a>、<a href="https://github.com/JaehyunSong/BalanceR">{BalanceR}</a>など</li>
 </ul>
-</div>
-</div>
+</div></div>
 </section>
 <section id="標準化差分について" class="slide level2">
 <h2>標準化差分について</h2>
@@ -3129,23 +3177,23 @@
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="uhotcqpbxu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uhotcqpbxu table {
+<div id="pvvhxiukiw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pvvhxiukiw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uhotcqpbxu thead, #uhotcqpbxu tbody, #uhotcqpbxu tfoot, #uhotcqpbxu tr, #uhotcqpbxu td, #uhotcqpbxu th {
+#pvvhxiukiw thead, #pvvhxiukiw tbody, #pvvhxiukiw tfoot, #pvvhxiukiw tr, #pvvhxiukiw td, #pvvhxiukiw th {
   border-style: none;
 }
 
-#uhotcqpbxu p {
+#pvvhxiukiw p {
   margin: 0;
   padding: 0;
 }
 
-#uhotcqpbxu .gt_table {
+#pvvhxiukiw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3171,12 +3219,12 @@
   border-left-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_caption {
+#pvvhxiukiw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uhotcqpbxu .gt_title {
+#pvvhxiukiw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3188,7 +3236,7 @@
   border-bottom-width: 0;
 }
 
-#uhotcqpbxu .gt_subtitle {
+#pvvhxiukiw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3200,7 +3248,7 @@
   border-top-width: 0;
 }
 
-#uhotcqpbxu .gt_heading {
+#pvvhxiukiw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3212,13 +3260,13 @@
   border-right-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_bottom_border {
+#pvvhxiukiw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_col_headings {
+#pvvhxiukiw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3233,7 +3281,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_col_heading {
+#pvvhxiukiw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3253,7 +3301,7 @@
   overflow-x: hidden;
 }
 
-#uhotcqpbxu .gt_column_spanner_outer {
+#pvvhxiukiw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3265,15 +3313,15 @@
   padding-right: 4px;
 }
 
-#uhotcqpbxu .gt_column_spanner_outer:first-child {
+#pvvhxiukiw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uhotcqpbxu .gt_column_spanner_outer:last-child {
+#pvvhxiukiw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uhotcqpbxu .gt_column_spanner {
+#pvvhxiukiw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3285,11 +3333,11 @@
   width: 100%;
 }
 
-#uhotcqpbxu .gt_spanner_row {
+#pvvhxiukiw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uhotcqpbxu .gt_group_heading {
+#pvvhxiukiw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3315,7 +3363,7 @@
   text-align: left;
 }
 
-#uhotcqpbxu .gt_empty_group_heading {
+#pvvhxiukiw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3330,15 +3378,15 @@
   vertical-align: middle;
 }
 
-#uhotcqpbxu .gt_from_md > :first-child {
+#pvvhxiukiw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uhotcqpbxu .gt_from_md > :last-child {
+#pvvhxiukiw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uhotcqpbxu .gt_row {
+#pvvhxiukiw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3357,7 +3405,7 @@
   overflow-x: hidden;
 }
 
-#uhotcqpbxu .gt_stub {
+#pvvhxiukiw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3370,7 +3418,7 @@
   padding-right: 5px;
 }
 
-#uhotcqpbxu .gt_stub_row_group {
+#pvvhxiukiw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3384,15 +3432,15 @@
   vertical-align: top;
 }
 
-#uhotcqpbxu .gt_row_group_first td {
+#pvvhxiukiw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uhotcqpbxu .gt_row_group_first th {
+#pvvhxiukiw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uhotcqpbxu .gt_summary_row {
+#pvvhxiukiw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3402,16 +3450,16 @@
   padding-right: 5px;
 }
 
-#uhotcqpbxu .gt_first_summary_row {
+#pvvhxiukiw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_first_summary_row.thick {
+#pvvhxiukiw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uhotcqpbxu .gt_last_summary_row {
+#pvvhxiukiw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3421,7 +3469,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_grand_summary_row {
+#pvvhxiukiw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3431,7 +3479,7 @@
   padding-right: 5px;
 }
 
-#uhotcqpbxu .gt_first_grand_summary_row {
+#pvvhxiukiw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3441,7 +3489,7 @@
   border-top-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_last_grand_summary_row_top {
+#pvvhxiukiw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3451,11 +3499,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_striped {
+#pvvhxiukiw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uhotcqpbxu .gt_table_body {
+#pvvhxiukiw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3464,7 +3512,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_footnotes {
+#pvvhxiukiw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3478,7 +3526,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_footnote {
+#pvvhxiukiw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3487,7 +3535,7 @@
   padding-right: 5px;
 }
 
-#uhotcqpbxu .gt_sourcenotes {
+#pvvhxiukiw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3501,7 +3549,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uhotcqpbxu .gt_sourcenote {
+#pvvhxiukiw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3509,101 +3557,119 @@
   padding-right: 5px;
 }
 
-#uhotcqpbxu .gt_left {
+#pvvhxiukiw .gt_left {
   text-align: left;
 }
 
-#uhotcqpbxu .gt_center {
+#pvvhxiukiw .gt_center {
   text-align: center;
 }
 
-#uhotcqpbxu .gt_right {
+#pvvhxiukiw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uhotcqpbxu .gt_font_normal {
+#pvvhxiukiw .gt_font_normal {
   font-weight: normal;
 }
 
-#uhotcqpbxu .gt_font_bold {
+#pvvhxiukiw .gt_font_bold {
   font-weight: bold;
 }
 
-#uhotcqpbxu .gt_font_italic {
+#pvvhxiukiw .gt_font_italic {
   font-style: italic;
 }
 
-#uhotcqpbxu .gt_super {
+#pvvhxiukiw .gt_super {
   font-size: 65%;
 }
 
-#uhotcqpbxu .gt_footnote_marks {
+#pvvhxiukiw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uhotcqpbxu .gt_asterisk {
+#pvvhxiukiw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uhotcqpbxu .gt_indent_1 {
+#pvvhxiukiw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uhotcqpbxu .gt_indent_2 {
+#pvvhxiukiw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uhotcqpbxu .gt_indent_3 {
+#pvvhxiukiw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uhotcqpbxu .gt_indent_4 {
+#pvvhxiukiw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uhotcqpbxu .gt_indent_5 {
+#pvvhxiukiw .gt_indent_5 {
   text-indent: 25px;
 }
+
+#pvvhxiukiw .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#pvvhxiukiw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="線形回帰分析（LPM）">線形回帰分析（LPM）</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ロジスティック回帰分析">ロジスティック回帰分析</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="プロビット回帰分析">プロビット回帰分析</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="" class="gt_row gt_left">Intercept</td>
-<td headers="線形回帰分析（LPM）" class="gt_row gt_right">0.064 (0.006)</td>
-<td headers="ロジスティック回帰分析" class="gt_row gt_right">-2.675 (0.083)</td>
-<td headers="プロビット回帰分析" class="gt_row gt_right">-1.518 (0.040)</td></tr>
-    <tr><td headers="" class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">White</td>
-<td headers="線形回帰分析（LPM）" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">0.032 (0.008)</td>
-<td headers="ロジスティック回帰分析" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">0.438 (0.107)</td>
-<td headers="プロビット回帰分析" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6;">0.217 (0.053)</td></tr>
-    <tr><td headers="" class="gt_row gt_left">Num.Obs.</td>
-<td headers="線形回帰分析（LPM）" class="gt_row gt_right">4870</td>
-<td headers="ロジスティック回帰分析" class="gt_row gt_right">4870</td>
-<td headers="プロビット回帰分析" class="gt_row gt_right">4870</td></tr>
-    <tr><td headers="" class="gt_row gt_left">AIC</td>
-<td headers="線形回帰分析（LPM）" class="gt_row gt_right">1130.5</td>
-<td headers="ロジスティック回帰分析" class="gt_row gt_right">2713.9</td>
-<td headers="プロビット回帰分析" class="gt_row gt_right">2713.9</td></tr>
-    <tr><td headers="" class="gt_row gt_left">F</td>
-<td headers="線形回帰分析（LPM）" class="gt_row gt_right">16.931</td>
-<td headers="ロジスティック回帰分析" class="gt_row gt_right">16.669</td>
-<td headers="プロビット回帰分析" class="gt_row gt_right">16.836</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=" " class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="線形回帰分析（LPM）" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">線形回帰分析（LPM）</th>
+<th id="ロジスティック回帰分析" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">ロジスティック回帰分析</th>
+<th id="プロビット回帰分析" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">プロビット回帰分析</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">Intercept</td>
+<td class="gt_row gt_right" headers="線形回帰分析（LPM）">0.064 (0.006)</td>
+<td class="gt_row gt_right" headers="ロジスティック回帰分析">-2.675 (0.083)</td>
+<td class="gt_row gt_right" headers="プロビット回帰分析">-1.518 (0.040)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" " style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6">White</td>
+<td class="gt_row gt_right" headers="線形回帰分析（LPM）" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6">0.032 (0.008)</td>
+<td class="gt_row gt_right" headers="ロジスティック回帰分析" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6">0.438 (0.107)</td>
+<td class="gt_row gt_right" headers="プロビット回帰分析" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000; background-color: #ADD8E6">0.217 (0.053)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">Num.Obs.</td>
+<td class="gt_row gt_right" headers="線形回帰分析（LPM）">4870</td>
+<td class="gt_row gt_right" headers="ロジスティック回帰分析">4870</td>
+<td class="gt_row gt_right" headers="プロビット回帰分析">4870</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" ">AIC</td>
+<td class="gt_row gt_right" headers="線形回帰分析（LPM）">1130.5</td>
+<td class="gt_row gt_right" headers="ロジスティック回帰分析">2713.9</td>
+<td class="gt_row gt_right" headers="プロビット回帰分析">2713.9</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">F</td>
+<td class="gt_row gt_right" headers="線形回帰分析（LPM）">16.931</td>
+<td class="gt_row gt_right" headers="ロジスティック回帰分析">16.669</td>
+<td class="gt_row gt_right" headers="プロビット回帰分析">16.836</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -3630,23 +3696,23 @@
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="cuqgfgpikm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cuqgfgpikm table {
+<div id="ajillzyjky" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ajillzyjky table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cuqgfgpikm thead, #cuqgfgpikm tbody, #cuqgfgpikm tfoot, #cuqgfgpikm tr, #cuqgfgpikm td, #cuqgfgpikm th {
+#ajillzyjky thead, #ajillzyjky tbody, #ajillzyjky tfoot, #ajillzyjky tr, #ajillzyjky td, #ajillzyjky th {
   border-style: none;
 }
 
-#cuqgfgpikm p {
+#ajillzyjky p {
   margin: 0;
   padding: 0;
 }
 
-#cuqgfgpikm .gt_table {
+#ajillzyjky .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3672,12 +3738,12 @@
   border-left-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_caption {
+#ajillzyjky .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cuqgfgpikm .gt_title {
+#ajillzyjky .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3689,7 +3755,7 @@
   border-bottom-width: 0;
 }
 
-#cuqgfgpikm .gt_subtitle {
+#ajillzyjky .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3701,7 +3767,7 @@
   border-top-width: 0;
 }
 
-#cuqgfgpikm .gt_heading {
+#ajillzyjky .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3713,13 +3779,13 @@
   border-right-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_bottom_border {
+#ajillzyjky .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_col_headings {
+#ajillzyjky .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3734,7 +3800,7 @@
   border-right-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_col_heading {
+#ajillzyjky .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3754,7 +3820,7 @@
   overflow-x: hidden;
 }
 
-#cuqgfgpikm .gt_column_spanner_outer {
+#ajillzyjky .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3766,15 +3832,15 @@
   padding-right: 4px;
 }
 
-#cuqgfgpikm .gt_column_spanner_outer:first-child {
+#ajillzyjky .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cuqgfgpikm .gt_column_spanner_outer:last-child {
+#ajillzyjky .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cuqgfgpikm .gt_column_spanner {
+#ajillzyjky .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3786,11 +3852,11 @@
   width: 100%;
 }
 
-#cuqgfgpikm .gt_spanner_row {
+#ajillzyjky .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cuqgfgpikm .gt_group_heading {
+#ajillzyjky .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3816,7 +3882,7 @@
   text-align: left;
 }
 
-#cuqgfgpikm .gt_empty_group_heading {
+#ajillzyjky .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3831,15 +3897,15 @@
   vertical-align: middle;
 }
 
-#cuqgfgpikm .gt_from_md > :first-child {
+#ajillzyjky .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cuqgfgpikm .gt_from_md > :last-child {
+#ajillzyjky .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cuqgfgpikm .gt_row {
+#ajillzyjky .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3858,7 +3924,7 @@
   overflow-x: hidden;
 }
 
-#cuqgfgpikm .gt_stub {
+#ajillzyjky .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3871,7 +3937,7 @@
   padding-right: 5px;
 }
 
-#cuqgfgpikm .gt_stub_row_group {
+#ajillzyjky .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3885,15 +3951,15 @@
   vertical-align: top;
 }
 
-#cuqgfgpikm .gt_row_group_first td {
+#ajillzyjky .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cuqgfgpikm .gt_row_group_first th {
+#ajillzyjky .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cuqgfgpikm .gt_summary_row {
+#ajillzyjky .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3903,16 +3969,16 @@
   padding-right: 5px;
 }
 
-#cuqgfgpikm .gt_first_summary_row {
+#ajillzyjky .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_first_summary_row.thick {
+#ajillzyjky .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cuqgfgpikm .gt_last_summary_row {
+#ajillzyjky .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3922,7 +3988,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_grand_summary_row {
+#ajillzyjky .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3932,7 +3998,7 @@
   padding-right: 5px;
 }
 
-#cuqgfgpikm .gt_first_grand_summary_row {
+#ajillzyjky .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3942,7 +4008,7 @@
   border-top-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_last_grand_summary_row_top {
+#ajillzyjky .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3952,11 +4018,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_striped {
+#ajillzyjky .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cuqgfgpikm .gt_table_body {
+#ajillzyjky .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3965,7 +4031,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_footnotes {
+#ajillzyjky .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3979,7 +4045,7 @@
   border-right-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_footnote {
+#ajillzyjky .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3988,7 +4054,7 @@
   padding-right: 5px;
 }
 
-#cuqgfgpikm .gt_sourcenotes {
+#ajillzyjky .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4002,7 +4068,7 @@
   border-right-color: #D3D3D3;
 }
 
-#cuqgfgpikm .gt_sourcenote {
+#ajillzyjky .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4010,97 +4076,123 @@
   padding-right: 5px;
 }
 
-#cuqgfgpikm .gt_left {
+#ajillzyjky .gt_left {
   text-align: left;
 }
 
-#cuqgfgpikm .gt_center {
+#ajillzyjky .gt_center {
   text-align: center;
 }
 
-#cuqgfgpikm .gt_right {
+#ajillzyjky .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cuqgfgpikm .gt_font_normal {
+#ajillzyjky .gt_font_normal {
   font-weight: normal;
 }
 
-#cuqgfgpikm .gt_font_bold {
+#ajillzyjky .gt_font_bold {
   font-weight: bold;
 }
 
-#cuqgfgpikm .gt_font_italic {
+#ajillzyjky .gt_font_italic {
   font-style: italic;
 }
 
-#cuqgfgpikm .gt_super {
+#ajillzyjky .gt_super {
   font-size: 65%;
 }
 
-#cuqgfgpikm .gt_footnote_marks {
+#ajillzyjky .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cuqgfgpikm .gt_asterisk {
+#ajillzyjky .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cuqgfgpikm .gt_indent_1 {
+#ajillzyjky .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cuqgfgpikm .gt_indent_2 {
+#ajillzyjky .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cuqgfgpikm .gt_indent_3 {
+#ajillzyjky .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cuqgfgpikm .gt_indent_4 {
+#ajillzyjky .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cuqgfgpikm .gt_indent_5 {
+#ajillzyjky .gt_indent_5 {
   text-indent: 25px;
 }
+
+#ajillzyjky .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ajillzyjky div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Coef. (SE)">Coef. (SE)</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="" class="gt_row gt_left">Intercept</td>
-<td headers="(1)" class="gt_row gt_right">0.060 (0.023)</td></tr>
-    <tr><td headers="" class="gt_row gt_left" style="background-color: #ADD8E6;">White</td>
-<td headers="(1)" class="gt_row gt_right" style="background-color: #ADD8E6;">0.032 (0.008)</td></tr>
-    <tr><td headers="" class="gt_row gt_left">Female</td>
-<td headers="(1)" class="gt_row gt_right">0.007 (0.009)</td></tr>
-    <tr><td headers="" class="gt_row gt_left">Military</td>
-<td headers="(1)" class="gt_row gt_right">-0.027 (0.014)</td></tr>
-    <tr><td headers="" class="gt_row gt_left">Education</td>
-<td headers="(1)" class="gt_row gt_right">-0.002 (0.005)</td></tr>
-    <tr><td headers="" class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">High Quality</td>
-<td headers="(1)" class="gt_row gt_right" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">0.019 (0.008)</td></tr>
-    <tr><td headers="" class="gt_row gt_left">Num.Obs.</td>
-<td headers="(1)" class="gt_row gt_right">4870</td></tr>
-    <tr><td headers="" class="gt_row gt_left">AIC</td>
-<td headers="(1)" class="gt_row gt_right">1130.3</td></tr>
-    <tr><td headers="" class="gt_row gt_left">F</td>
-<td headers="(1)" class="gt_row gt_right">5.025</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=" " class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="Coef. (SE)" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Coef. (SE)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">Intercept</td>
+<td class="gt_row gt_right" headers="(1)">0.060 (0.023)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" " style="background-color: #ADD8E6">White</td>
+<td class="gt_row gt_right" headers="(1)" style="background-color: #ADD8E6">0.032 (0.008)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">Female</td>
+<td class="gt_row gt_right" headers="(1)">0.007 (0.009)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" ">Military</td>
+<td class="gt_row gt_right" headers="(1)">-0.027 (0.014)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">Education</td>
+<td class="gt_row gt_right" headers="(1)">-0.002 (0.005)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" " style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000">High Quality</td>
+<td class="gt_row gt_right" headers="(1)" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000">0.019 (0.008)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">Num.Obs.</td>
+<td class="gt_row gt_right" headers="(1)">4870</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=" ">AIC</td>
+<td class="gt_row gt_right" headers="(1)">1130.3</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=" ">F</td>
+<td class="gt_row gt_right" headers="(1)">5.025</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -4134,12 +4226,12 @@
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/intro_data2.csv"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>data2 <span class="ot">&lt;-</span> data2 <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">rename</span>(<span class="at">Treatment =</span> T, <span class="at">Female =</span> F)</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>data2</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/intro_data2.csv"</span>)</span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a>data2 <span class="ot">&lt;-</span> data2 <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a></a>  <span class="fu">rename</span>(<span class="at">Treatment =</span> T, <span class="at">Female =</span> F)</span>
+<span id="cb6-5"><a></a></span>
+<span id="cb6-6"><a></a>data2</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
@@ -4165,8 +4257,7 @@
 # ℹ 485 more rows</code></pre>
 </div>
 </div>
-</div>
-</div>
+</div></div>
 </section>
 <section id="因果効果の不均一性-2" class="slide level2">
 <h2>因果効果の不均一性</h2>
@@ -4175,7 +4266,7 @@
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">比較</a></li><li><a href="#tabset-1-2">コード1</a></li><li><a href="#tabset-1-3">コード2</a></li><li><a href="#tabset-1-4">コード3</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<table>
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -4217,9 +4308,9 @@
 <div id="tabset-1-2">
 <p>男性のみ</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data2 <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">filter</span>(Female <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>data2 <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a></a>  <span class="fu">filter</span>(Female <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -4238,9 +4329,9 @@ mean in group 0 mean in group 1
 <div id="tabset-1-3">
 <p>女性のみ</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data2 <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">filter</span>(Female <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>data2 <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a></a>  <span class="fu">filter</span>(Female <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -4259,8 +4350,8 @@ mean in group 0 mean in group 1
 <div id="tabset-1-4">
 <p>全体</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>data2 <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>data2 <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a></a>  <span class="fu">t.test</span>(Y <span class="sc">~</span> Treatment, <span class="at">data =</span> _)</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -4285,51 +4376,123 @@ mean in group 0 mean in group 1
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> Treatment <span class="sc">*</span> Female, <span class="at">data =</span> data2) <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>   <span class="fu">summary</span>()</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">lm</span>(Y <span class="sc">~</span> Treatment <span class="sc">*</span> Female, <span class="at">data =</span> data2) <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a></a>   <span class="fu">summary</span>()</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<table class="table" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">&nbsp;(1)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.611 (0.091)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Treatment</td>
-<td style="text-align: right;">0.951 (0.131)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">−0.117 (0.127)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; box-shadow: 0px 1.5px;">Treatment × Female</td>
-<td style="text-align: right; box-shadow: 0px 1.5px;">1.036 (0.180)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Num.Obs.</td>
-<td style="text-align: right;">500</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">R2 Adj.</td>
-<td style="text-align: right;">0.398</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">F</td>
-<td style="text-align: right;">110.905</td>
-</tr>
-</tbody>
-</table>
+<!-- preamble start -->
 
+    <script>
+      function styleCell_bp71tefz34jhaitv7537(i, j, css_id) {
+        var table = document.getElementById("tinytable_bp71tefz34jhaitv7537");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_bp71tefz34jhaitv7537');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_bp71tefz34jhaitv7537(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_bp71tefz34jhaitv7537");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(0, 0, 'tinytable_css_idqdff7haw2m99706mm3e4') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(0, 1, 'tinytable_css_iddosq6azoeb3cx4arvtf0') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(1, 0, 'tinytable_css_id2g1bqiyc5udhqlc4pcgj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(1, 1, 'tinytable_css_id80bth03eqyci7l252jya') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(2, 0, 'tinytable_css_id2g1bqiyc5udhqlc4pcgj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(2, 1, 'tinytable_css_id80bth03eqyci7l252jya') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(3, 0, 'tinytable_css_id2g1bqiyc5udhqlc4pcgj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(3, 1, 'tinytable_css_id80bth03eqyci7l252jya') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(4, 0, 'tinytable_css_id6istyxxq2kr2g0wxdouj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(4, 1, 'tinytable_css_id6f442ltg5dypwi2dl0fo') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(5, 0, 'tinytable_css_id2g1bqiyc5udhqlc4pcgj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(5, 1, 'tinytable_css_id80bth03eqyci7l252jya') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(6, 0, 'tinytable_css_id2g1bqiyc5udhqlc4pcgj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(6, 1, 'tinytable_css_id80bth03eqyci7l252jya') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(7, 0, 'tinytable_css_id2g1bqiyc5udhqlc4pcgj') })
+window.addEventListener('load', function () { styleCell_bp71tefz34jhaitv7537(7, 1, 'tinytable_css_id80bth03eqyci7l252jya') })
+    </script>
 
+    <style>
+    .table td.tinytable_css_idqdff7haw2m99706mm3e4, .table th.tinytable_css_idqdff7haw2m99706mm3e4 {  text-align: left;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_iddosq6azoeb3cx4arvtf0, .table th.tinytable_css_iddosq6azoeb3cx4arvtf0 {  text-align: right;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_id2g1bqiyc5udhqlc4pcgj, .table th.tinytable_css_id2g1bqiyc5udhqlc4pcgj {  text-align: left; }
+    .table td.tinytable_css_id80bth03eqyci7l252jya, .table th.tinytable_css_id80bth03eqyci7l252jya {  text-align: right; }
+    .table td.tinytable_css_id6istyxxq2kr2g0wxdouj, .table th.tinytable_css_id6istyxxq2kr2g0wxdouj {  border-bottom: solid 0.05em black;  text-align: left; }
+    .table td.tinytable_css_id6f442ltg5dypwi2dl0fo, .table th.tinytable_css_id6f442ltg5dypwi2dl0fo {  border-bottom: solid 0.05em black;  text-align: right; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_bp71tefz34jhaitv7537" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">(1)</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>(Intercept)       </td>
+                  <td>0.611 (0.091) </td>
+                </tr>
+                <tr>
+                  <td>Treatment         </td>
+                  <td>0.951 (0.131) </td>
+                </tr>
+                <tr>
+                  <td>Female            </td>
+                  <td>-0.117 (0.127)</td>
+                </tr>
+                <tr>
+                  <td>Treatment × Female</td>
+                  <td>1.036 (0.180) </td>
+                </tr>
+                <tr>
+                  <td>Num.Obs.          </td>
+                  <td>500           </td>
+                </tr>
+                <tr>
+                  <td>R2 Adj.           </td>
+                  <td>0.398         </td>
+                </tr>
+                <tr>
+                  <td>F                 </td>
+                  <td>110.905       </td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 </div><div class="column" style="width:50%;">
@@ -4348,8 +4511,7 @@ mean in group 0 mean in group 1
 <li>男性のATE: <span class="math inline">\(\beta_1 + \beta_3 \cdot 0 = \beta_1\)</span> = 0.951</li>
 <li>女性のATE: <span class="math inline">\(\beta_1 + \beta_3 \cdot 1 = \beta_1 + \beta_3\)</span> = 1.987</li>
 </ul>
-</div>
-</div>
+</div></div>
 </section>
 <section id="因果推論の前提sutva" class="slide level2">
 <h2>因果推論の前提:SUTVA</h2>
@@ -4367,10 +4529,13 @@ mean in group 0 mean in group 1
 </ul></li>
 </ul>
 <center>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<table>
+<table class="caption-top">
 <caption>例1</caption>
 <thead>
 <tr class="header">
@@ -4394,7 +4559,7 @@ mean in group 0 mean in group 1
 </table>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<table>
+<table class="caption-top">
 <caption>例2</caption>
 <thead>
 <tr class="header">
@@ -4481,11 +4646,11 @@ mean in group 0 mean in group 1
 <section id="バランスチェック-1" class="slide level2">
 <h2>バランスチェック</h2>
 <p>処置が複数の場合、組み合わせごとに標準化差分を計算</p>
-<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-22_babdf597175b7b266862507221cd13cd">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-22-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -4493,11 +4658,11 @@ mean in group 0 mean in group 1
 </section>
 <section id="処置効果の可視化" class="slide level2">
 <h2>処置効果の可視化</h2>
-<div class="cell" data-layout-align="center" data-hash="intro_rct_cache/revealjs/unnamed-chunk-23_c2f65f879c10b03707827318a656e673">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-23-1.png" width="2400"></p>
+<p><img data-src="intro_rct_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="2400"></p>
 </figure>
 </div>
 </div>
@@ -4513,9 +4678,11 @@ mean in group 0 mean in group 1
 <li>処置効果の報告</li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <p><img src="figs/logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://www.jaysong.net/kobe-ci/" class="uri">https://www.jaysong.net/kobe-ci/</a></p>
+</div>
 </div>
 </section></section>
     </div>
@@ -4800,18 +4967,7 @@ mean in group 0 mean in group 1
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -4843,7 +4999,52 @@ mean in group 0 mean in group 1
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+              // target, if specified
+              link.setAttribute("target", "_blank");
+              if (link.getAttribute("rel") === null) {
+                link.setAttribute("rel", "noopener");
+              }
+          }
+        }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
@@ -4880,7 +5081,11 @@ mean in group 0 mean in group 1
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {
@@ -4920,20 +5125,6 @@ mean in group 0 mean in group 1
           });
         }
       }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-          var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href);
-        }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-              // target, if specified
-              link.setAttribute("target", "_blank");
-          }
-        }
     });
     </script>
     

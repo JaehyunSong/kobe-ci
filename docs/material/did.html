@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.241">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Causal Inference@Kobe - 差分の差分法</title>
+<title>差分の差分法 – Causal Inference@Kobe</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,12 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
     "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "一致なし",
     "search-matching-documents-text": "一致した文書",
@@ -95,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "追加の検索結果",
     "search-more-matches-text": "追加の検索結果",
     "search-clear-button-title": "消去",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "取消",
     "search-submit-button-title": "検索",
     "search-label": "サーチ"
@@ -109,13 +111,39 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </script>
-<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&amp;display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&amp;display=swap" rel="stylesheet"> 
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <meta property="og:title" content="Jaehyun Song, Ph.D.">
 <meta property="og:description" content="Causal Inference@Kobe">
 <meta property="og:image" content="https://www.jaysong.net/kobe-ci/material/imgs/favicon.png">
@@ -132,7 +160,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
@@ -143,72 +171,72 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
     </a>
   </div>
             <div id="quarto-search" class="" title="サーチ"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="ナビゲーションを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">シラバス</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
         <li>
-    <a class="dropdown-item" href="../syllabus/syllabus.html" rel="" target="">
+    <a class="dropdown-item" href="../syllabus/syllabus.html">
  <span class="dropdown-text">シラバス</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../syllabus/dataset.html" rel="" target="">
+    <a class="dropdown-item" href="../syllabus/dataset.html">
  <span class="dropdown-text">データセットについて</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rの使い方" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rの使い方" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Rの使い方</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-rの使い方">    
         <li>
-    <a class="dropdown-item" href="../intro/install.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/install.html">
  <span class="dropdown-text">Rの導入</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/project.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/project.html">
  <span class="dropdown-text">プロジェクト管理</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/file.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/file.html">
  <span class="dropdown-text">ファイル管理</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/filesystem.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/filesystem.html">
  <span class="dropdown-text">ファイル・システム</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../intro/packages.html" rel="" target="">
+    <a class="dropdown-item" href="../intro/packages.html">
  <span class="dropdown-text">パッケージ</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">講義資料</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
         <li>
-    <a class="dropdown-item" href="../material/intro_rct.html" rel="" target="">
+    <a class="dropdown-item" href="../material/intro_rct.html">
  <span class="dropdown-text">因果推論の考え方とランダム化比較試験</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/matching.html" rel="" target="">
+    <a class="dropdown-item" href="../material/matching.html">
  <span class="dropdown-text">マッチング</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/did.html" rel="" target="">
+    <a class="dropdown-item" href="../material/did.html">
  <span class="dropdown-text">差分の差分法</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../material/rdd.html" rel="" target="">
+    <a class="dropdown-item" href="../material/rdd.html">
  <span class="dropdown-text">回帰不連続デザイン</span></a>
   </li>  
     </ul>
@@ -216,28 +244,28 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://jupyter.cs.rcos.nii.ac.jp/" rel="" target=""><i class="bi bi-terminal" role="img">
+    <a class="nav-link" href="https://jupyter.cs.rcos.nii.ac.jp/" target="_blank"> <i class="bi bi-terminal" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.jaysong.net/RBook/" rel="" target=""><i class="bi bi-book" role="img">
+    <a class="nav-link" href="https://www.jaysong.net/RBook/" target="_blank"> <i class="bi bi-book" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../material/did.html">差分の差分法</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="サイドバーを切り替える" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -245,7 +273,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -275,7 +303,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -309,6 +337,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 
 
 </header>
+
 
 <section id="スライド" class="level2">
 <h2 class="anchored" data-anchor-id="スライド">スライド</h2>
@@ -440,7 +469,7 @@ gtag('config', 'G-9F94XL4N4M', { 'anonymize_ip': true});
 <li><span class="math inline">\(\omega\)</span>: カウンティー固定効果</li>
 </ul>
 <p>応答変数が2種類、処置変数が3種類、共変量の有無でモデルを分けるので、推定するモデルは計12個である。</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">モデル</th>
@@ -634,194 +663,390 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(did_fit1, did_fit2, did_fit3, </span>
 <span id="cb12-2"><a href="#cb12-2"></a>                  did_fit4, did_fit5, did_fit6))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;(1)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(2)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(3)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(4)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(5)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;&nbsp;(6)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">shooting</td>
-<td style="text-align: center;">−0.521</td>
-<td style="text-align: center;">−0.710</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.646)</td>
-<td style="text-align: center;">(0.624)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">population</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.000</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.000</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.000)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.000)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.000)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">non_white</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−34.834</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−34.844</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−34.814</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(15.575)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(15.618)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(15.614)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">change_unem_rate</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.159</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.159</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.160</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.066)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.066)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.066)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fatal_shooting</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−0.678</td>
-<td style="text-align: center;">−0.918</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.619)</td>
-<td style="text-align: center;">(0.658)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">non_fatal_shooting</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−0.239</td>
-<td style="text-align: center;">−0.327</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;">(1.094)</td>
-<td style="text-align: center; box-shadow: 0px 1.5px;">(1.145)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Num.Obs.</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">R2</td>
-<td style="text-align: center;">0.857</td>
-<td style="text-align: center;">0.860</td>
-<td style="text-align: center;">0.857</td>
-<td style="text-align: center;">0.860</td>
-<td style="text-align: center;">0.857</td>
-<td style="text-align: center;">0.860</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">R2 Adj.</td>
-<td style="text-align: center;">0.829</td>
-<td style="text-align: center;">0.832</td>
-<td style="text-align: center;">0.829</td>
-<td style="text-align: center;">0.832</td>
-<td style="text-align: center;">0.829</td>
-<td style="text-align: center;">0.832</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AIC</td>
-<td style="text-align: center;">103543.4</td>
-<td style="text-align: center;">103237.2</td>
-<td style="text-align: center;">103543.3</td>
-<td style="text-align: center;">103237.1</td>
-<td style="text-align: center;">103544.6</td>
-<td style="text-align: center;">103239.4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">BIC</td>
-<td style="text-align: center;">103559.0</td>
-<td style="text-align: center;">103276.4</td>
-<td style="text-align: center;">103559.0</td>
-<td style="text-align: center;">103276.3</td>
-<td style="text-align: center;">103560.2</td>
-<td style="text-align: center;">103278.6</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RMSE</td>
-<td style="text-align: center;">3.90</td>
-<td style="text-align: center;">3.87</td>
-<td style="text-align: center;">3.90</td>
-<td style="text-align: center;">3.87</td>
-<td style="text-align: center;">3.90</td>
-<td style="text-align: center;">3.87</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Std.Errors</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-</tr>
-</tbody>
-</table>
+<!-- preamble start -->
 
+    <script>
+      function styleCell_b6e5av4k55hr6pna8m2s(i, j, css_id) {
+        var table = document.getElementById("tinytable_b6e5av4k55hr6pna8m2s");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_b6e5av4k55hr6pna8m2s');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_b6e5av4k55hr6pna8m2s(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_b6e5av4k55hr6pna8m2s");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 0, 'tinytable_css_id8hfhg69ti580cgl7su31') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 1, 'tinytable_css_idiiz1zdzw06rkqx2doosx') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 2, 'tinytable_css_idiiz1zdzw06rkqx2doosx') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 3, 'tinytable_css_idiiz1zdzw06rkqx2doosx') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 4, 'tinytable_css_idiiz1zdzw06rkqx2doosx') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 5, 'tinytable_css_idiiz1zdzw06rkqx2doosx') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(0, 6, 'tinytable_css_idiiz1zdzw06rkqx2doosx') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(1, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(2, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(3, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(4, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(5, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(6, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(7, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(8, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(9, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(10, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(11, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 0, 'tinytable_css_idptecxthvzh2cx0ezww8i') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 1, 'tinytable_css_idc0cmrx2m7p80alclv3gh') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 2, 'tinytable_css_idc0cmrx2m7p80alclv3gh') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 3, 'tinytable_css_idc0cmrx2m7p80alclv3gh') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 4, 'tinytable_css_idc0cmrx2m7p80alclv3gh') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 5, 'tinytable_css_idc0cmrx2m7p80alclv3gh') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(12, 6, 'tinytable_css_idc0cmrx2m7p80alclv3gh') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(13, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(14, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(15, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(16, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(17, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(18, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 0, 'tinytable_css_id69zarr4ec89mywdh3y1j') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 1, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 2, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 3, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 4, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 5, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+window.addEventListener('load', function () { styleCell_b6e5av4k55hr6pna8m2s(19, 6, 'tinytable_css_idfvwj6duxv4yx2dnix1y6') })
+    </script>
 
+    <style>
+    .table td.tinytable_css_id8hfhg69ti580cgl7su31, .table th.tinytable_css_id8hfhg69ti580cgl7su31 {  text-align: left;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_idiiz1zdzw06rkqx2doosx, .table th.tinytable_css_idiiz1zdzw06rkqx2doosx {  text-align: center;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_id69zarr4ec89mywdh3y1j, .table th.tinytable_css_id69zarr4ec89mywdh3y1j {  text-align: left; }
+    .table td.tinytable_css_idfvwj6duxv4yx2dnix1y6, .table th.tinytable_css_idfvwj6duxv4yx2dnix1y6 {  text-align: center; }
+    .table td.tinytable_css_idptecxthvzh2cx0ezww8i, .table th.tinytable_css_idptecxthvzh2cx0ezww8i {  border-bottom: solid 0.05em black;  text-align: left; }
+    .table td.tinytable_css_idc0cmrx2m7p80alclv3gh, .table th.tinytable_css_idc0cmrx2m7p80alclv3gh {  border-bottom: solid 0.05em black;  text-align: center; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_b6e5av4k55hr6pna8m2s" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">(1)</th>
+                <th scope="col">(2)</th>
+                <th scope="col">(3)</th>
+                <th scope="col">(4)</th>
+                <th scope="col">(5)</th>
+                <th scope="col">(6)</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>shooting          </td>
+                  <td>-0.521     </td>
+                  <td>-0.710     </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>(0.646)    </td>
+                  <td>(0.624)    </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>population        </td>
+                  <td>           </td>
+                  <td>0.000      </td>
+                  <td>           </td>
+                  <td>0.000      </td>
+                  <td>           </td>
+                  <td>0.000      </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>(0.000)    </td>
+                  <td>           </td>
+                  <td>(0.000)    </td>
+                  <td>           </td>
+                  <td>(0.000)    </td>
+                </tr>
+                <tr>
+                  <td>non_white         </td>
+                  <td>           </td>
+                  <td>-34.834    </td>
+                  <td>           </td>
+                  <td>-34.844    </td>
+                  <td>           </td>
+                  <td>-34.814    </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>(15.575)   </td>
+                  <td>           </td>
+                  <td>(15.618)   </td>
+                  <td>           </td>
+                  <td>(15.614)   </td>
+                </tr>
+                <tr>
+                  <td>change_unem_rate  </td>
+                  <td>           </td>
+                  <td>0.159      </td>
+                  <td>           </td>
+                  <td>0.159      </td>
+                  <td>           </td>
+                  <td>0.160      </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>(0.066)    </td>
+                  <td>           </td>
+                  <td>(0.066)    </td>
+                  <td>           </td>
+                  <td>(0.066)    </td>
+                </tr>
+                <tr>
+                  <td>fatal_shooting    </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>-0.678     </td>
+                  <td>-0.918     </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>(0.619)    </td>
+                  <td>(0.658)    </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>non_fatal_shooting</td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>-0.239     </td>
+                  <td>-0.327     </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>(1.094)    </td>
+                  <td>(1.145)    </td>
+                </tr>
+                <tr>
+                  <td>Num.Obs.          </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                </tr>
+                <tr>
+                  <td>R2                </td>
+                  <td>0.857      </td>
+                  <td>0.860      </td>
+                  <td>0.857      </td>
+                  <td>0.860      </td>
+                  <td>0.857      </td>
+                  <td>0.860      </td>
+                </tr>
+                <tr>
+                  <td>R2 Adj.           </td>
+                  <td>0.829      </td>
+                  <td>0.832      </td>
+                  <td>0.829      </td>
+                  <td>0.832      </td>
+                  <td>0.829      </td>
+                  <td>0.832      </td>
+                </tr>
+                <tr>
+                  <td>AIC               </td>
+                  <td>103543.4   </td>
+                  <td>103237.2   </td>
+                  <td>103543.3   </td>
+                  <td>103237.1   </td>
+                  <td>103544.6   </td>
+                  <td>103239.4   </td>
+                </tr>
+                <tr>
+                  <td>BIC               </td>
+                  <td>103559.0   </td>
+                  <td>103276.4   </td>
+                  <td>103559.0   </td>
+                  <td>103276.3   </td>
+                  <td>103560.2   </td>
+                  <td>103278.6   </td>
+                </tr>
+                <tr>
+                  <td>RMSE              </td>
+                  <td>3.90       </td>
+                  <td>3.87       </td>
+                  <td>3.90       </td>
+                  <td>3.87       </td>
+                  <td>3.90       </td>
+                  <td>3.87       </td>
+                </tr>
+                <tr>
+                  <td>Std.Errors        </td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 <p>　いずれのモデルも統計的に有意な処置効果は確認されていない。これらの結果を表として報告するには紙がもったいない気もする。これらの結果はOnline Appendixに回し、本文中には処置効果の点推定値と95%信頼区間を示せば良いだろう。</p>
@@ -996,7 +1221,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="1350"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1350"></p>
 </figure>
 </div>
 </div>
@@ -1022,7 +1247,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="1350"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1350"></p>
 </figure>
 </div>
 </div>
@@ -1089,194 +1314,390 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <span id="cb28-41"><a href="#cb28-41"></a>                  <span class="st">"Model 9"</span>  <span class="ot">=</span> did_fit9,  <span class="st">"Model 10"</span> <span class="ot">=</span> did_fit10, </span>
 <span id="cb28-42"><a href="#cb28-42"></a>                  <span class="st">"Model 11"</span> <span class="ot">=</span> did_fit11, <span class="st">"Model 12"</span> <span class="ot">=</span> did_fit12))</span></code><button title="コピー" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 7</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 8</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 9</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 10</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 11</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;Model 12</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">shooting</td>
-<td style="text-align: center;">4.513</td>
-<td style="text-align: center;">2.364</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;">(0.875)</td>
-<td style="text-align: center;">(0.737)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">population</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.000</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.000</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">0.000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.000)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.000)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.000)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">non_white</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">86.873</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">86.866</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">86.796</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(17.863)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(17.855)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(17.855)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">change_unem_rate</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−0.139</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−0.139</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">−0.140</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.127)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.128)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(0.127)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fatal_shooting</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">4.404</td>
-<td style="text-align: center;">1.782</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">(1.092)</td>
-<td style="text-align: center;">(0.836)</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">non_fatal_shooting</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;">4.217</td>
-<td style="text-align: center;">2.930</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;"></td>
-<td style="text-align: center; box-shadow: 0px 1.5px;">(1.298)</td>
-<td style="text-align: center; box-shadow: 0px 1.5px;">(1.037)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Num.Obs.</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-<td style="text-align: center;">18627</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">R2</td>
-<td style="text-align: center;">0.882</td>
-<td style="text-align: center;">0.894</td>
-<td style="text-align: center;">0.882</td>
-<td style="text-align: center;">0.894</td>
-<td style="text-align: center;">0.882</td>
-<td style="text-align: center;">0.894</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">R2 Adj.</td>
-<td style="text-align: center;">0.859</td>
-<td style="text-align: center;">0.873</td>
-<td style="text-align: center;">0.859</td>
-<td style="text-align: center;">0.873</td>
-<td style="text-align: center;">0.859</td>
-<td style="text-align: center;">0.873</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AIC</td>
-<td style="text-align: center;">110745.2</td>
-<td style="text-align: center;">108755.4</td>
-<td style="text-align: center;">110772.0</td>
-<td style="text-align: center;">108768.2</td>
-<td style="text-align: center;">110786.5</td>
-<td style="text-align: center;">108762.1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">BIC</td>
-<td style="text-align: center;">110760.8</td>
-<td style="text-align: center;">108794.6</td>
-<td style="text-align: center;">110787.7</td>
-<td style="text-align: center;">108807.3</td>
-<td style="text-align: center;">110802.2</td>
-<td style="text-align: center;">108801.3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">RMSE</td>
-<td style="text-align: center;">4.73</td>
-<td style="text-align: center;">4.48</td>
-<td style="text-align: center;">4.73</td>
-<td style="text-align: center;">4.48</td>
-<td style="text-align: center;">4.73</td>
-<td style="text-align: center;">4.48</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Std.Errors</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-<td style="text-align: center;">by: state_f</td>
-</tr>
-</tbody>
-</table>
+<!-- preamble start -->
 
+    <script>
+      function styleCell_kcazvgdf8khbfzn1oczw(i, j, css_id) {
+        var table = document.getElementById("tinytable_kcazvgdf8khbfzn1oczw");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_kcazvgdf8khbfzn1oczw');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_kcazvgdf8khbfzn1oczw(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_kcazvgdf8khbfzn1oczw");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 0, 'tinytable_css_idaa3u1nke7km496wco5hx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 1, 'tinytable_css_idw9o6luv854yzjm55pc0r') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 2, 'tinytable_css_idw9o6luv854yzjm55pc0r') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 3, 'tinytable_css_idw9o6luv854yzjm55pc0r') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 4, 'tinytable_css_idw9o6luv854yzjm55pc0r') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 5, 'tinytable_css_idw9o6luv854yzjm55pc0r') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(0, 6, 'tinytable_css_idw9o6luv854yzjm55pc0r') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(1, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(2, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(3, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(4, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(5, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(6, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(7, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(8, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(9, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(10, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(11, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 0, 'tinytable_css_idg9hneu9777fg9dqb73vl') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 1, 'tinytable_css_idkjlcec7o2ez7fa95bvtx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 2, 'tinytable_css_idkjlcec7o2ez7fa95bvtx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 3, 'tinytable_css_idkjlcec7o2ez7fa95bvtx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 4, 'tinytable_css_idkjlcec7o2ez7fa95bvtx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 5, 'tinytable_css_idkjlcec7o2ez7fa95bvtx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(12, 6, 'tinytable_css_idkjlcec7o2ez7fa95bvtx') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(13, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(14, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(15, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(16, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(17, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(18, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 0, 'tinytable_css_idtexoayfy1u87ccoisi9x') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 1, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 2, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 3, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 4, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 5, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+window.addEventListener('load', function () { styleCell_kcazvgdf8khbfzn1oczw(19, 6, 'tinytable_css_idtj76qgv9br6369ziz4cb') })
+    </script>
 
+    <style>
+    .table td.tinytable_css_idaa3u1nke7km496wco5hx, .table th.tinytable_css_idaa3u1nke7km496wco5hx {  text-align: left;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_idw9o6luv854yzjm55pc0r, .table th.tinytable_css_idw9o6luv854yzjm55pc0r {  text-align: center;  border-bottom: solid 0.1em #d3d8dc; }
+    .table td.tinytable_css_idtexoayfy1u87ccoisi9x, .table th.tinytable_css_idtexoayfy1u87ccoisi9x {  text-align: left; }
+    .table td.tinytable_css_idtj76qgv9br6369ziz4cb, .table th.tinytable_css_idtj76qgv9br6369ziz4cb {  text-align: center; }
+    .table td.tinytable_css_idg9hneu9777fg9dqb73vl, .table th.tinytable_css_idg9hneu9777fg9dqb73vl {  border-bottom: solid 0.05em black;  text-align: left; }
+    .table td.tinytable_css_idkjlcec7o2ez7fa95bvtx, .table th.tinytable_css_idkjlcec7o2ez7fa95bvtx {  border-bottom: solid 0.05em black;  text-align: center; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_kcazvgdf8khbfzn1oczw" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">Model 7</th>
+                <th scope="col">Model 8</th>
+                <th scope="col">Model 9</th>
+                <th scope="col">Model 10</th>
+                <th scope="col">Model 11</th>
+                <th scope="col">Model 12</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>shooting          </td>
+                  <td>4.513      </td>
+                  <td>2.364      </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>(0.875)    </td>
+                  <td>(0.737)    </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>population        </td>
+                  <td>           </td>
+                  <td>0.000      </td>
+                  <td>           </td>
+                  <td>0.000      </td>
+                  <td>           </td>
+                  <td>0.000      </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>(0.000)    </td>
+                  <td>           </td>
+                  <td>(0.000)    </td>
+                  <td>           </td>
+                  <td>(0.000)    </td>
+                </tr>
+                <tr>
+                  <td>non_white         </td>
+                  <td>           </td>
+                  <td>86.873     </td>
+                  <td>           </td>
+                  <td>86.866     </td>
+                  <td>           </td>
+                  <td>86.796     </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>(17.863)   </td>
+                  <td>           </td>
+                  <td>(17.855)   </td>
+                  <td>           </td>
+                  <td>(17.855)   </td>
+                </tr>
+                <tr>
+                  <td>change_unem_rate  </td>
+                  <td>           </td>
+                  <td>-0.139     </td>
+                  <td>           </td>
+                  <td>-0.139     </td>
+                  <td>           </td>
+                  <td>-0.140     </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>(0.127)    </td>
+                  <td>           </td>
+                  <td>(0.128)    </td>
+                  <td>           </td>
+                  <td>(0.127)    </td>
+                </tr>
+                <tr>
+                  <td>fatal_shooting    </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>4.404      </td>
+                  <td>1.782      </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>(1.092)    </td>
+                  <td>(0.836)    </td>
+                  <td>           </td>
+                  <td>           </td>
+                </tr>
+                <tr>
+                  <td>non_fatal_shooting</td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>4.217      </td>
+                  <td>2.930      </td>
+                </tr>
+                <tr>
+                  <td>                  </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>           </td>
+                  <td>(1.298)    </td>
+                  <td>(1.037)    </td>
+                </tr>
+                <tr>
+                  <td>Num.Obs.          </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                  <td>18627      </td>
+                </tr>
+                <tr>
+                  <td>R2                </td>
+                  <td>0.882      </td>
+                  <td>0.894      </td>
+                  <td>0.882      </td>
+                  <td>0.894      </td>
+                  <td>0.882      </td>
+                  <td>0.894      </td>
+                </tr>
+                <tr>
+                  <td>R2 Adj.           </td>
+                  <td>0.859      </td>
+                  <td>0.873      </td>
+                  <td>0.859      </td>
+                  <td>0.873      </td>
+                  <td>0.859      </td>
+                  <td>0.873      </td>
+                </tr>
+                <tr>
+                  <td>AIC               </td>
+                  <td>110745.2   </td>
+                  <td>108755.4   </td>
+                  <td>110772.0   </td>
+                  <td>108768.2   </td>
+                  <td>110786.5   </td>
+                  <td>108762.1   </td>
+                </tr>
+                <tr>
+                  <td>BIC               </td>
+                  <td>110760.8   </td>
+                  <td>108794.6   </td>
+                  <td>110787.7   </td>
+                  <td>108807.3   </td>
+                  <td>110802.2   </td>
+                  <td>108801.3   </td>
+                </tr>
+                <tr>
+                  <td>RMSE              </td>
+                  <td>4.73       </td>
+                  <td>4.48       </td>
+                  <td>4.73       </td>
+                  <td>4.48       </td>
+                  <td>4.73       </td>
+                  <td>4.48       </td>
+                </tr>
+                <tr>
+                  <td>Std.Errors        </td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                  <td>by: state_f</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 <p>　今回はいずれも統計的に有意な結果が得られている。例えば、モデル7（<code>did_fit7</code>）の場合、処置効果の推定値は4.513である。これは学校内銃撃事件が発生したカウンティーの場合、大統領選挙において民主党候補者の得票率が約4.513%p増加することを意味する。</p>
@@ -1429,7 +1850,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="1350"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1350"></p>
 </figure>
 </div>
 </div>
@@ -1556,7 +1977,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="1350"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1350"></p>
 </figure>
 </div>
 </div>
@@ -1606,7 +2027,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
       Candidates         5.49         5.42        2.00         72.00    938.00</code></pre>
 </div>
 </div>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>変数名</th>
@@ -1688,7 +2109,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="1200"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1200"></p>
 </figure>
 </div>
 </div>
@@ -1705,7 +2126,7 @@ F-statistic (proj. model): 5.047 on 4 and 49 DF,  p-value: 0.001739</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="1200"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1200"></p>
 </figure>
 </div>
 </div>
@@ -1737,36 +2158,36 @@ gsynth.formula(formula = Turnout ~ Treat + Magnitude + Candidates,
     se = TRUE, nboots = 500, inference = "parametric", parallel = FALSE)
 
 Average Treatment Effect on the Treated:
-        Estimate  S.E. CI.lower CI.upper   p.value
-ATT.avg   -6.563 1.453   -9.411   -3.715 6.285e-06
+        Estimate S.E. CI.lower CI.upper   p.value
+ATT.avg   -6.563 1.44   -9.386   -3.741 5.174e-06
 
    ~ by Period (including Pre-treatment Periods):
-         ATT   S.E.  CI.lower CI.upper   p.value n.Treated
--16  0.09054 1.1863  -2.23456   2.4156 9.392e-01         0
--15 -0.56609 1.2318  -2.98034   1.8482 6.458e-01         0
--14  3.32790 1.0729   1.22507   5.4307 1.923e-03         0
--13  1.44804 1.0538  -0.61729   3.5134 1.694e-01         0
--12 -1.53058 1.0050  -3.50026   0.4391 1.278e-01         0
--11 -1.21442 0.8881  -2.95504   0.5262 1.715e-01         0
--10 -2.51664 1.1633  -4.79674  -0.2365 3.052e-02         0
--9  -1.69683 1.1052  -3.86290   0.4692 1.247e-01         0
--8   1.12683 1.0510  -0.93313   3.1868 2.837e-01         0
--7  -1.03078 1.1934  -3.36985   1.3083 3.877e-01         0
--6   3.60723 1.6353   0.40204   6.8124 2.740e-02         0
--5  -0.85728 1.1320  -3.07604   1.3615 4.489e-01         0
--4   0.34762 0.9802  -1.57346   2.2687 7.228e-01         0
--3  -0.38462 0.9050  -2.15845   1.3892 6.708e-01         0
--2   0.26204 0.8773  -1.45737   1.9814 7.652e-01         0
--1   1.56199 0.8353  -0.07525   3.1992 6.150e-02         0
-0   -1.97495 0.8950  -3.72911  -0.2208 2.734e-02         0
-1   -6.57256 1.4328  -9.38088  -3.7642 4.495e-06         4
-2   -6.87683 2.0283 -10.85224  -2.9014 6.978e-04         4
-3   -6.24002 1.7540  -9.67786  -2.8022 3.744e-04         4
+         ATT   S.E. CI.lower CI.upper   p.value n.Treated
+-16  0.09054 1.2472  -2.3539  2.53503 9.421e-01         0
+-15 -0.56609 1.3214  -3.1559  2.02374 6.683e-01         0
+-14  3.32790 1.0784   1.2142  5.44161 2.030e-03         0
+-13  1.44804 1.1103  -0.7280  3.62409 1.921e-01         0
+-12 -1.53058 1.1324  -3.7501  0.68897 1.765e-01         0
+-11 -1.21442 0.9235  -3.0245  0.59571 1.885e-01         0
+-10 -2.51664 1.2470  -4.9608 -0.07247 4.358e-02         0
+-9  -1.69683 1.1193  -3.8906  0.49691 1.295e-01         0
+-8   1.12683 1.0835  -0.9969  3.25055 2.984e-01         0
+-7  -1.03078 1.1020  -3.1907  1.12916 3.496e-01         0
+-6   3.60723 1.4785   0.7093  6.50514 1.470e-02         0
+-5  -0.85728 1.1469  -3.1051  1.39058 4.548e-01         0
+-4   0.34762 0.9078  -1.4316  2.12688 7.018e-01         0
+-3  -0.38462 0.9701  -2.2860  1.51674 6.918e-01         0
+-2   0.26204 0.9329  -1.5664  2.09047 7.788e-01         0
+-1   1.56199 0.9097  -0.2210  3.34494 8.597e-02         0
+0   -1.97495 0.9575  -3.8517 -0.09820 3.916e-02         0
+1   -6.57256 1.3963  -9.3093 -3.83577 2.514e-06         4
+2   -6.87683 1.9895 -10.7761 -2.97756 5.470e-04         4
+3   -6.24002 1.7844  -9.7374 -2.74262 4.706e-04         4
 
 Coefficients for the Covariates:
                beta    S.E. CI.lower CI.upper   p.value
-Magnitude   2.64853 0.72669   1.2242  4.07282 0.0002677
-Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
+Magnitude   2.64853 0.75614   1.1665  4.13053 0.0004605
+Candidates -0.05892 0.03847  -0.1343  0.01648 0.1256243</code></pre>
 </div>
 </div>
 <p>　平均値な処置効果（AT<strong>T</strong>）は-6.563であり、統計的にも有意な結果が得られた。これは合区が行われた選挙区は、もし合区しなかった場合の投票率に比べ、約-6.563%p低いことを意味します。また、<code>~ by Period</code>以下の欄では各選挙ごとのAT<strong>T</strong>が表示されます。1以降が合区以降の時期であり、それぞれ約-6.573%p、-6.877%p、-6.240%pである。上記の-6.563はこの3つの数値の平均値である。ちなみに処置群の県が4つにも関わらず、AT<strong>T</strong>が一つだけ表示されるのは、4つの平均値を出しているからだ。それぞれの県ごとに効果を確認する方法は後ほど解説する。とりあえず、この結果から合区は投票率を下げたという解釈ができよう。</p>
@@ -1779,7 +2200,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="1050"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050"></p>
 </figure>
 </div>
 </div>
@@ -1794,7 +2215,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="1050"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050"></p>
 </figure>
 </div>
 </div>
@@ -1806,7 +2227,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="1050"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050"></p>
 </figure>
 </div>
 </div>
@@ -1816,7 +2237,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="1050"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050"></p>
 </figure>
 </div>
 </div>
@@ -2001,7 +2422,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="1200"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1200"></p>
 </figure>
 </div>
 </div>
@@ -2013,26 +2434,26 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <pre><code># A tibble: 20 × 5
         Eff  S.E. CI.lower CI.upper p.value
       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
- 1  -2.03    2.31   -6.56      2.50 0.379  
- 2  -0.960   2.33   -5.53      3.61 0.681  
- 3   1.69    2.06   -2.34      5.71 0.412  
- 4   1.07    2.09   -3.03      5.16 0.610  
- 5   0.721   2.01   -3.22      4.66 0.720  
- 6  -0.704   1.73   -4.09      2.68 0.683  
- 7  -0.926   2.08   -5.01      3.16 0.656  
- 8   0.816   2.07   -3.25      4.88 0.694  
- 9   0.247   2.02   -3.71      4.21 0.903  
-10  -3.24    2.19   -7.52      1.05 0.138  
-11   5.88    3.13   -0.252    12.0  0.0602 
-12   0.143   2.14   -4.06      4.35 0.947  
-13   0.0189  1.98   -3.86      3.90 0.992  
-14  -1.48    1.76   -4.94      1.97 0.400  
-15  -0.0566  1.72   -3.43      3.32 0.974  
-16   0.456   1.71   -2.89      3.80 0.789  
-17  -1.63    1.66   -4.88      1.61 0.324  
-18  -6.90    2.63  -12.1      -1.75 0.00869
-19  -9.00    3.98  -16.8      -1.20 0.0237 
-20 -10.9     3.37  -17.5      -4.28 0.00123</code></pre>
+ 1  -2.03    2.49   -6.92     2.85  0.415  
+ 2  -0.960   2.48   -5.83     3.91  0.699  
+ 3   1.69    2.03   -2.30     5.67  0.407  
+ 4   1.07    2.06   -2.97     5.11  0.605  
+ 5   0.721   2.27   -3.72     5.16  0.750  
+ 6  -0.704   1.77   -4.17     2.76  0.690  
+ 7  -0.926   2.16   -5.17     3.31  0.668  
+ 8   0.816   2.07   -3.25     4.88  0.694  
+ 9   0.247   2.11   -3.88     4.38  0.907  
+10  -3.24    2.09   -7.34     0.862 0.122  
+11   5.88    2.91    0.184   11.6   0.0430 
+12   0.143   2.23   -4.22     4.51  0.949  
+13   0.0189  1.81   -3.53     3.57  0.992  
+14  -1.48    1.82   -5.06     2.09  0.416  
+15  -0.0566  1.78   -3.54     3.43  0.975  
+16   0.456   1.83   -3.12     4.04  0.803  
+17  -1.63    1.77   -5.11     1.84  0.357  
+18  -6.90    2.76  -12.3     -1.49  0.0124 
+19  -9.00    4.09  -17.0     -0.976 0.0279 
+20 -10.9     3.54  -17.8     -3.94  0.00211</code></pre>
 </div>
 </div>
 <p>　ここで<code>Eff</code>列が架空の鳥取と実際の鳥取の差、つまり処置効果である。そして、<code>CI.lower</code>と<code>CI.upper</code>がそれぞれ95%信頼区間の下限と上限だ。これら4つの県のデータを結合し、<code>Election</code>変数を追加、都道府県をfactor化したものを<code>att_df</code>という名で格納する。</p>
@@ -2051,16 +2472,16 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <pre><code># A tibble: 80 × 7
    Election Pref     Eff  S.E. CI.lower CI.upper p.value
       &lt;int&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
- 1        7 鳥取  -2.03   2.31    -6.56     2.50   0.379
- 2        8 鳥取  -0.960  2.33    -5.53     3.61   0.681
- 3        9 鳥取   1.69   2.06    -2.34     5.71   0.412
- 4       10 鳥取   1.07   2.09    -3.03     5.16   0.610
- 5       11 鳥取   0.721  2.01    -3.22     4.66   0.720
- 6       12 鳥取  -0.704  1.73    -4.09     2.68   0.683
- 7       13 鳥取  -0.926  2.08    -5.01     3.16   0.656
- 8       14 鳥取   0.816  2.07    -3.25     4.88   0.694
- 9       15 鳥取   0.247  2.02    -3.71     4.21   0.903
-10       16 鳥取  -3.24   2.19    -7.52     1.05   0.138
+ 1        7 鳥取  -2.03   2.49    -6.92    2.85    0.415
+ 2        8 鳥取  -0.960  2.48    -5.83    3.91    0.699
+ 3        9 鳥取   1.69   2.03    -2.30    5.67    0.407
+ 4       10 鳥取   1.07   2.06    -2.97    5.11    0.605
+ 5       11 鳥取   0.721  2.27    -3.72    5.16    0.750
+ 6       12 鳥取  -0.704  1.77    -4.17    2.76    0.690
+ 7       13 鳥取  -0.926  2.16    -5.17    3.31    0.668
+ 8       14 鳥取   0.816  2.07    -3.25    4.88    0.694
+ 9       15 鳥取   0.247  2.11    -3.88    4.38    0.907
+10       16 鳥取  -3.24   2.09    -7.34    0.862   0.122
 # ℹ 70 more rows</code></pre>
 </div>
 </div>
@@ -2084,7 +2505,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="did_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid figure-img" width="1200"></p>
+<p><img src="did_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1200"></p>
 </figure>
 </div>
 </div>
@@ -2096,23 +2517,23 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="nmqidzolof" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nmqidzolof table {
+<div id="rmhtoweeaz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rmhtoweeaz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nmqidzolof thead, #nmqidzolof tbody, #nmqidzolof tfoot, #nmqidzolof tr, #nmqidzolof td, #nmqidzolof th {
+#rmhtoweeaz thead, #rmhtoweeaz tbody, #rmhtoweeaz tfoot, #rmhtoweeaz tr, #rmhtoweeaz td, #rmhtoweeaz th {
   border-style: none;
 }
 
-#nmqidzolof p {
+#rmhtoweeaz p {
   margin: 0;
   padding: 0;
 }
 
-#nmqidzolof .gt_table {
+#rmhtoweeaz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2138,12 +2559,12 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_caption {
+#rmhtoweeaz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nmqidzolof .gt_title {
+#rmhtoweeaz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2155,7 +2576,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-bottom-width: 0;
 }
 
-#nmqidzolof .gt_subtitle {
+#rmhtoweeaz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2167,7 +2588,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-top-width: 0;
 }
 
-#nmqidzolof .gt_heading {
+#rmhtoweeaz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2179,13 +2600,13 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_bottom_border {
+#rmhtoweeaz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_col_headings {
+#rmhtoweeaz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2200,7 +2621,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_col_heading {
+#rmhtoweeaz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2220,7 +2641,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   overflow-x: hidden;
 }
 
-#nmqidzolof .gt_column_spanner_outer {
+#rmhtoweeaz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2232,15 +2653,15 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   padding-right: 4px;
 }
 
-#nmqidzolof .gt_column_spanner_outer:first-child {
+#rmhtoweeaz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nmqidzolof .gt_column_spanner_outer:last-child {
+#rmhtoweeaz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nmqidzolof .gt_column_spanner {
+#rmhtoweeaz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2252,11 +2673,11 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   width: 100%;
 }
 
-#nmqidzolof .gt_spanner_row {
+#rmhtoweeaz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nmqidzolof .gt_group_heading {
+#rmhtoweeaz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2282,7 +2703,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   text-align: left;
 }
 
-#nmqidzolof .gt_empty_group_heading {
+#rmhtoweeaz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2297,15 +2718,15 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   vertical-align: middle;
 }
 
-#nmqidzolof .gt_from_md > :first-child {
+#rmhtoweeaz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nmqidzolof .gt_from_md > :last-child {
+#rmhtoweeaz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nmqidzolof .gt_row {
+#rmhtoweeaz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2324,7 +2745,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   overflow-x: hidden;
 }
 
-#nmqidzolof .gt_stub {
+#rmhtoweeaz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2337,7 +2758,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   padding-right: 5px;
 }
 
-#nmqidzolof .gt_stub_row_group {
+#rmhtoweeaz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2351,15 +2772,15 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   vertical-align: top;
 }
 
-#nmqidzolof .gt_row_group_first td {
+#rmhtoweeaz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nmqidzolof .gt_row_group_first th {
+#rmhtoweeaz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nmqidzolof .gt_summary_row {
+#rmhtoweeaz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2369,16 +2790,16 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   padding-right: 5px;
 }
 
-#nmqidzolof .gt_first_summary_row {
+#rmhtoweeaz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_first_summary_row.thick {
+#rmhtoweeaz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nmqidzolof .gt_last_summary_row {
+#rmhtoweeaz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2388,7 +2809,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_grand_summary_row {
+#rmhtoweeaz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2398,7 +2819,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   padding-right: 5px;
 }
 
-#nmqidzolof .gt_first_grand_summary_row {
+#rmhtoweeaz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2408,7 +2829,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_last_grand_summary_row_top {
+#rmhtoweeaz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2418,11 +2839,11 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_striped {
+#rmhtoweeaz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nmqidzolof .gt_table_body {
+#rmhtoweeaz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2431,7 +2852,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_footnotes {
+#rmhtoweeaz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2445,7 +2866,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_footnote {
+#rmhtoweeaz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2454,7 +2875,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   padding-right: 5px;
 }
 
-#nmqidzolof .gt_sourcenotes {
+#rmhtoweeaz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2468,7 +2889,7 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nmqidzolof .gt_sourcenote {
+#rmhtoweeaz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2476,297 +2897,391 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
   padding-right: 5px;
 }
 
-#nmqidzolof .gt_left {
+#rmhtoweeaz .gt_left {
   text-align: left;
 }
 
-#nmqidzolof .gt_center {
+#rmhtoweeaz .gt_center {
   text-align: center;
 }
 
-#nmqidzolof .gt_right {
+#rmhtoweeaz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nmqidzolof .gt_font_normal {
+#rmhtoweeaz .gt_font_normal {
   font-weight: normal;
 }
 
-#nmqidzolof .gt_font_bold {
+#rmhtoweeaz .gt_font_bold {
   font-weight: bold;
 }
 
-#nmqidzolof .gt_font_italic {
+#rmhtoweeaz .gt_font_italic {
   font-style: italic;
 }
 
-#nmqidzolof .gt_super {
+#rmhtoweeaz .gt_super {
   font-size: 65%;
 }
 
-#nmqidzolof .gt_footnote_marks {
+#rmhtoweeaz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nmqidzolof .gt_asterisk {
+#rmhtoweeaz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nmqidzolof .gt_indent_1 {
+#rmhtoweeaz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nmqidzolof .gt_indent_2 {
+#rmhtoweeaz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nmqidzolof .gt_indent_3 {
+#rmhtoweeaz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nmqidzolof .gt_indent_4 {
+#rmhtoweeaz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nmqidzolof .gt_indent_5 {
+#rmhtoweeaz .gt_indent_5 {
   text-indent: 25px;
 }
+
+#rmhtoweeaz .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#rmhtoweeaz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Kochi">Kochi</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Shimane">Shimane</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Tokushima">Tokushima</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Tottori">Tottori</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">Aichi</th>
-<td headers="stub_1_1 Kochi" class="gt_row gt_right">0.022</td>
-<td headers="stub_1_1 Shimane" class="gt_row gt_right">−2.169</td>
-<td headers="stub_1_1 Tokushima" class="gt_row gt_right">−2.755</td>
-<td headers="stub_1_1 Tottori" class="gt_row gt_right">0.448</td></tr>
-    <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">Akita</th>
-<td headers="stub_1_2 Kochi" class="gt_row gt_right">−0.151</td>
-<td headers="stub_1_2 Shimane" class="gt_row gt_right">−0.161</td>
-<td headers="stub_1_2 Tokushima" class="gt_row gt_right">−0.798</td>
-<td headers="stub_1_2 Tottori" class="gt_row gt_right">0.170</td></tr>
-    <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">Aomori</th>
-<td headers="stub_1_3 Kochi" class="gt_row gt_right">−0.069</td>
-<td headers="stub_1_3 Shimane" class="gt_row gt_right">−1.188</td>
-<td headers="stub_1_3 Tokushima" class="gt_row gt_right">−1.613</td>
-<td headers="stub_1_3 Tottori" class="gt_row gt_right">0.225</td></tr>
-    <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">Chiba</th>
-<td headers="stub_1_4 Kochi" class="gt_row gt_right">0.309</td>
-<td headers="stub_1_4 Shimane" class="gt_row gt_right">−2.096</td>
-<td headers="stub_1_4 Tokushima" class="gt_row gt_right">−1.885</td>
-<td headers="stub_1_4 Tottori" class="gt_row gt_right">0.327</td></tr>
-    <tr><th id="stub_1_5" scope="row" class="gt_row gt_left gt_stub">Ehime</th>
-<td headers="stub_1_5 Kochi" class="gt_row gt_right">0.238</td>
-<td headers="stub_1_5 Shimane" class="gt_row gt_right">0.471</td>
-<td headers="stub_1_5 Tokushima" class="gt_row gt_right">0.851</td>
-<td headers="stub_1_5 Tottori" class="gt_row gt_right">−0.009</td></tr>
-    <tr><th id="stub_1_6" scope="row" class="gt_row gt_left gt_stub">Fukui</th>
-<td headers="stub_1_6 Kochi" class="gt_row gt_right">−0.630</td>
-<td headers="stub_1_6 Shimane" class="gt_row gt_right">4.081</td>
-<td headers="stub_1_6 Tokushima" class="gt_row gt_right">4.711</td>
-<td headers="stub_1_6 Tottori" class="gt_row gt_right">−1.122</td></tr>
-    <tr><th id="stub_1_7" scope="row" class="gt_row gt_left gt_stub">Fukuoka</th>
-<td headers="stub_1_7 Kochi" class="gt_row gt_right">−0.541</td>
-<td headers="stub_1_7 Shimane" class="gt_row gt_right">0.634</td>
-<td headers="stub_1_7 Tokushima" class="gt_row gt_right">0.342</td>
-<td headers="stub_1_7 Tottori" class="gt_row gt_right">−0.368</td></tr>
-    <tr><th id="stub_1_8" scope="row" class="gt_row gt_left gt_stub">Fukushima</th>
-<td headers="stub_1_8 Kochi" class="gt_row gt_right">0.947</td>
-<td headers="stub_1_8 Shimane" class="gt_row gt_right">−0.235</td>
-<td headers="stub_1_8 Tokushima" class="gt_row gt_right">0.669</td>
-<td headers="stub_1_8 Tottori" class="gt_row gt_right">0.402</td></tr>
-    <tr><th id="stub_1_9" scope="row" class="gt_row gt_left gt_stub">Gifu</th>
-<td headers="stub_1_9 Kochi" class="gt_row gt_right">0.354</td>
-<td headers="stub_1_9 Shimane" class="gt_row gt_right">0.149</td>
-<td headers="stub_1_9 Tokushima" class="gt_row gt_right">0.566</td>
-<td headers="stub_1_9 Tottori" class="gt_row gt_right">0.097</td></tr>
-    <tr><th id="stub_1_10" scope="row" class="gt_row gt_left gt_stub">Gunma</th>
-<td headers="stub_1_10 Kochi" class="gt_row gt_right">0.318</td>
-<td headers="stub_1_10 Shimane" class="gt_row gt_right">2.085</td>
-<td headers="stub_1_10 Tokushima" class="gt_row gt_right">2.968</td>
-<td headers="stub_1_10 Tottori" class="gt_row gt_right">−0.291</td></tr>
-    <tr><th id="stub_1_11" scope="row" class="gt_row gt_left gt_stub">Hiroshima</th>
-<td headers="stub_1_11 Kochi" class="gt_row gt_right">−0.254</td>
-<td headers="stub_1_11 Shimane" class="gt_row gt_right">1.622</td>
-<td headers="stub_1_11 Tokushima" class="gt_row gt_right">2.146</td>
-<td headers="stub_1_11 Tottori" class="gt_row gt_right">−0.570</td></tr>
-    <tr><th id="stub_1_12" scope="row" class="gt_row gt_left gt_stub">Hokkaido</th>
-<td headers="stub_1_12 Kochi" class="gt_row gt_right">−0.553</td>
-<td headers="stub_1_12 Shimane" class="gt_row gt_right">−3.254</td>
-<td headers="stub_1_12 Tokushima" class="gt_row gt_right">−5.161</td>
-<td headers="stub_1_12 Tottori" class="gt_row gt_right">0.643</td></tr>
-    <tr><th id="stub_1_13" scope="row" class="gt_row gt_left gt_stub">Hyogo</th>
-<td headers="stub_1_13 Kochi" class="gt_row gt_right">0.117</td>
-<td headers="stub_1_13 Shimane" class="gt_row gt_right">−3.045</td>
-<td headers="stub_1_13 Tokushima" class="gt_row gt_right">−3.918</td>
-<td headers="stub_1_13 Tottori" class="gt_row gt_right">0.723</td></tr>
-    <tr><th id="stub_1_14" scope="row" class="gt_row gt_left gt_stub">Ibaraki</th>
-<td headers="stub_1_14 Kochi" class="gt_row gt_right">0.378</td>
-<td headers="stub_1_14 Shimane" class="gt_row gt_right">−0.483</td>
-<td headers="stub_1_14 Tokushima" class="gt_row gt_right">0.902</td>
-<td headers="stub_1_14 Tottori" class="gt_row gt_right">−0.263</td></tr>
-    <tr><th id="stub_1_15" scope="row" class="gt_row gt_left gt_stub">Ishikawa</th>
-<td headers="stub_1_15 Kochi" class="gt_row gt_right">−0.480</td>
-<td headers="stub_1_15 Shimane" class="gt_row gt_right">1.476</td>
-<td headers="stub_1_15 Tokushima" class="gt_row gt_right">1.294</td>
-<td headers="stub_1_15 Tottori" class="gt_row gt_right">−0.432</td></tr>
-    <tr><th id="stub_1_16" scope="row" class="gt_row gt_left gt_stub">Iwate</th>
-<td headers="stub_1_16 Kochi" class="gt_row gt_right">0.006</td>
-<td headers="stub_1_16 Shimane" class="gt_row gt_right">−2.615</td>
-<td headers="stub_1_16 Tokushima" class="gt_row gt_right">−4.020</td>
-<td headers="stub_1_16 Tottori" class="gt_row gt_right">0.833</td></tr>
-    <tr><th id="stub_1_17" scope="row" class="gt_row gt_left gt_stub">Kagawa</th>
-<td headers="stub_1_17 Kochi" class="gt_row gt_right">−0.391</td>
-<td headers="stub_1_17 Shimane" class="gt_row gt_right">3.227</td>
-<td headers="stub_1_17 Tokushima" class="gt_row gt_right">3.960</td>
-<td headers="stub_1_17 Tottori" class="gt_row gt_right">−0.902</td></tr>
-    <tr><th id="stub_1_18" scope="row" class="gt_row gt_left gt_stub">Kagoshima</th>
-<td headers="stub_1_18 Kochi" class="gt_row gt_right">0.098</td>
-<td headers="stub_1_18 Shimane" class="gt_row gt_right">0.202</td>
-<td headers="stub_1_18 Tokushima" class="gt_row gt_right">−0.102</td>
-<td headers="stub_1_18 Tottori" class="gt_row gt_right">0.200</td></tr>
-    <tr><th id="stub_1_19" scope="row" class="gt_row gt_left gt_stub">Kanagawa</th>
-<td headers="stub_1_19 Kochi" class="gt_row gt_right">0.506</td>
-<td headers="stub_1_19 Shimane" class="gt_row gt_right">−3.426</td>
-<td headers="stub_1_19 Tokushima" class="gt_row gt_right">−3.741</td>
-<td headers="stub_1_19 Tottori" class="gt_row gt_right">0.828</td></tr>
-    <tr><th id="stub_1_20" scope="row" class="gt_row gt_left gt_stub">Kumamoto</th>
-<td headers="stub_1_20 Kochi" class="gt_row gt_right">−0.791</td>
-<td headers="stub_1_20 Shimane" class="gt_row gt_right">1.767</td>
-<td headers="stub_1_20 Tokushima" class="gt_row gt_right">1.083</td>
-<td headers="stub_1_20 Tottori" class="gt_row gt_right">−0.490</td></tr>
-    <tr><th id="stub_1_21" scope="row" class="gt_row gt_left gt_stub">Kyoto</th>
-<td headers="stub_1_21 Kochi" class="gt_row gt_right">0.397</td>
-<td headers="stub_1_21 Shimane" class="gt_row gt_right">−4.141</td>
-<td headers="stub_1_21 Tokushima" class="gt_row gt_right">−5.373</td>
-<td headers="stub_1_21 Tottori" class="gt_row gt_right">1.200</td></tr>
-    <tr><th id="stub_1_22" scope="row" class="gt_row gt_left gt_stub">Mie</th>
-<td headers="stub_1_22 Kochi" class="gt_row gt_right">0.016</td>
-<td headers="stub_1_22 Shimane" class="gt_row gt_right">−1.162</td>
-<td headers="stub_1_22 Tokushima" class="gt_row gt_right">−1.447</td>
-<td headers="stub_1_22 Tottori" class="gt_row gt_right">0.231</td></tr>
-    <tr><th id="stub_1_23" scope="row" class="gt_row gt_left gt_stub">Miyagi</th>
-<td headers="stub_1_23 Kochi" class="gt_row gt_right">0.712</td>
-<td headers="stub_1_23 Shimane" class="gt_row gt_right">−0.122</td>
-<td headers="stub_1_23 Tokushima" class="gt_row gt_right">1.072</td>
-<td headers="stub_1_23 Tottori" class="gt_row gt_right">0.070</td></tr>
-    <tr><th id="stub_1_24" scope="row" class="gt_row gt_left gt_stub">Miyazaki</th>
-<td headers="stub_1_24 Kochi" class="gt_row gt_right">−1.071</td>
-<td headers="stub_1_24 Shimane" class="gt_row gt_right">5.630</td>
-<td headers="stub_1_24 Tokushima" class="gt_row gt_right">6.465</td>
-<td headers="stub_1_24 Tottori" class="gt_row gt_right">−1.699</td></tr>
-    <tr><th id="stub_1_25" scope="row" class="gt_row gt_left gt_stub">Nagano</th>
-<td headers="stub_1_25 Kochi" class="gt_row gt_right">0.498</td>
-<td headers="stub_1_25 Shimane" class="gt_row gt_right">−1.419</td>
-<td headers="stub_1_25 Tokushima" class="gt_row gt_right">−1.244</td>
-<td headers="stub_1_25 Tottori" class="gt_row gt_right">0.446</td></tr>
-    <tr><th id="stub_1_26" scope="row" class="gt_row gt_left gt_stub">Nagasaki</th>
-<td headers="stub_1_26 Kochi" class="gt_row gt_right">−0.921</td>
-<td headers="stub_1_26 Shimane" class="gt_row gt_right">1.910</td>
-<td headers="stub_1_26 Tokushima" class="gt_row gt_right">1.572</td>
-<td headers="stub_1_26 Tottori" class="gt_row gt_right">−0.763</td></tr>
-    <tr><th id="stub_1_27" scope="row" class="gt_row gt_left gt_stub">Nara</th>
-<td headers="stub_1_27 Kochi" class="gt_row gt_right">0.378</td>
-<td headers="stub_1_27 Shimane" class="gt_row gt_right">−2.473</td>
-<td headers="stub_1_27 Tokushima" class="gt_row gt_right">−2.658</td>
-<td headers="stub_1_27 Tottori" class="gt_row gt_right">0.589</td></tr>
-    <tr><th id="stub_1_28" scope="row" class="gt_row gt_left gt_stub">Nigata</th>
-<td headers="stub_1_28 Kochi" class="gt_row gt_right">0.856</td>
-<td headers="stub_1_28 Shimane" class="gt_row gt_right">−2.080</td>
-<td headers="stub_1_28 Tokushima" class="gt_row gt_right">−1.318</td>
-<td headers="stub_1_28 Tottori" class="gt_row gt_right">0.535</td></tr>
-    <tr><th id="stub_1_29" scope="row" class="gt_row gt_left gt_stub">Oita</th>
-<td headers="stub_1_29 Kochi" class="gt_row gt_right">−0.593</td>
-<td headers="stub_1_29 Shimane" class="gt_row gt_right">2.253</td>
-<td headers="stub_1_29 Tokushima" class="gt_row gt_right">1.749</td>
-<td headers="stub_1_29 Tottori" class="gt_row gt_right">−0.444</td></tr>
-    <tr><th id="stub_1_30" scope="row" class="gt_row gt_left gt_stub">Okayama</th>
-<td headers="stub_1_30 Kochi" class="gt_row gt_right">−0.264</td>
-<td headers="stub_1_30 Shimane" class="gt_row gt_right">0.966</td>
-<td headers="stub_1_30 Tokushima" class="gt_row gt_right">1.560</td>
-<td headers="stub_1_30 Tottori" class="gt_row gt_right">−0.557</td></tr>
-    <tr><th id="stub_1_31" scope="row" class="gt_row gt_left gt_stub">Okinawa</th>
-<td headers="stub_1_31 Kochi" class="gt_row gt_right">0.958</td>
-<td headers="stub_1_31 Shimane" class="gt_row gt_right">0.416</td>
-<td headers="stub_1_31 Tokushima" class="gt_row gt_right">0.697</td>
-<td headers="stub_1_31 Tottori" class="gt_row gt_right">0.637</td></tr>
-    <tr><th id="stub_1_32" scope="row" class="gt_row gt_left gt_stub">Osaka</th>
-<td headers="stub_1_32 Kochi" class="gt_row gt_right">0.387</td>
-<td headers="stub_1_32 Shimane" class="gt_row gt_right">−3.404</td>
-<td headers="stub_1_32 Tokushima" class="gt_row gt_right">−4.601</td>
-<td headers="stub_1_32 Tottori" class="gt_row gt_right">1.118</td></tr>
-    <tr><th id="stub_1_33" scope="row" class="gt_row gt_left gt_stub">Saga</th>
-<td headers="stub_1_33 Kochi" class="gt_row gt_right">−0.913</td>
-<td headers="stub_1_33 Shimane" class="gt_row gt_right">4.668</td>
-<td headers="stub_1_33 Tokushima" class="gt_row gt_right">5.637</td>
-<td headers="stub_1_33 Tottori" class="gt_row gt_right">−1.552</td></tr>
-    <tr><th id="stub_1_34" scope="row" class="gt_row gt_left gt_stub">Saitama</th>
-<td headers="stub_1_34 Kochi" class="gt_row gt_right">0.217</td>
-<td headers="stub_1_34 Shimane" class="gt_row gt_right">−0.975</td>
-<td headers="stub_1_34 Tokushima" class="gt_row gt_right">−0.328</td>
-<td headers="stub_1_34 Tottori" class="gt_row gt_right">−0.031</td></tr>
-    <tr><th id="stub_1_35" scope="row" class="gt_row gt_left gt_stub">Shiga</th>
-<td headers="stub_1_35 Kochi" class="gt_row gt_right">−0.012</td>
-<td headers="stub_1_35 Shimane" class="gt_row gt_right">−0.073</td>
-<td headers="stub_1_35 Tokushima" class="gt_row gt_right">−0.613</td>
-<td headers="stub_1_35 Tottori" class="gt_row gt_right">0.235</td></tr>
-    <tr><th id="stub_1_36" scope="row" class="gt_row gt_left gt_stub">Shizuoka</th>
-<td headers="stub_1_36 Kochi" class="gt_row gt_right">0.599</td>
-<td headers="stub_1_36 Shimane" class="gt_row gt_right">0.961</td>
-<td headers="stub_1_36 Tokushima" class="gt_row gt_right">2.654</td>
-<td headers="stub_1_36 Tottori" class="gt_row gt_right">−0.330</td></tr>
-    <tr><th id="stub_1_37" scope="row" class="gt_row gt_left gt_stub">Tochigi</th>
-<td headers="stub_1_37 Kochi" class="gt_row gt_right">0.409</td>
-<td headers="stub_1_37 Shimane" class="gt_row gt_right">0.338</td>
-<td headers="stub_1_37 Tokushima" class="gt_row gt_right">1.366</td>
-<td headers="stub_1_37 Tottori" class="gt_row gt_right">−0.143</td></tr>
-    <tr><th id="stub_1_38" scope="row" class="gt_row gt_left gt_stub">Tokyo</th>
-<td headers="stub_1_38 Kochi" class="gt_row gt_right">0.619</td>
-<td headers="stub_1_38 Shimane" class="gt_row gt_right">−4.424</td>
-<td headers="stub_1_38 Tokushima" class="gt_row gt_right">−5.420</td>
-<td headers="stub_1_38 Tottori" class="gt_row gt_right">1.301</td></tr>
-    <tr><th id="stub_1_39" scope="row" class="gt_row gt_left gt_stub">Toyama</th>
-<td headers="stub_1_39 Kochi" class="gt_row gt_right">−0.819</td>
-<td headers="stub_1_39 Shimane" class="gt_row gt_right">4.384</td>
-<td headers="stub_1_39 Tokushima" class="gt_row gt_right">5.389</td>
-<td headers="stub_1_39 Tottori" class="gt_row gt_right">−1.467</td></tr>
-    <tr><th id="stub_1_40" scope="row" class="gt_row gt_left gt_stub">Wakayama</th>
-<td headers="stub_1_40 Kochi" class="gt_row gt_right">−0.050</td>
-<td headers="stub_1_40 Shimane" class="gt_row gt_right">−1.103</td>
-<td headers="stub_1_40 Tokushima" class="gt_row gt_right">−1.730</td>
-<td headers="stub_1_40 Tottori" class="gt_row gt_right">0.323</td></tr>
-    <tr><th id="stub_1_41" scope="row" class="gt_row gt_left gt_stub">Yamagata</th>
-<td headers="stub_1_41 Kochi" class="gt_row gt_right">0.652</td>
-<td headers="stub_1_41 Shimane" class="gt_row gt_right">−1.077</td>
-<td headers="stub_1_41 Tokushima" class="gt_row gt_right">−0.815</td>
-<td headers="stub_1_41 Tottori" class="gt_row gt_right">0.508</td></tr>
-    <tr><th id="stub_1_42" scope="row" class="gt_row gt_left gt_stub">Yamaguchi</th>
-<td headers="stub_1_42 Kochi" class="gt_row gt_right">−1.048</td>
-<td headers="stub_1_42 Shimane" class="gt_row gt_right">1.821</td>
-<td headers="stub_1_42 Tokushima" class="gt_row gt_right">0.402</td>
-<td headers="stub_1_42 Tottori" class="gt_row gt_right">−0.382</td></tr>
-    <tr><th id="stub_1_43" scope="row" class="gt_row gt_left gt_stub">Yamanashi</th>
-<td headers="stub_1_43 Kochi" class="gt_row gt_right">−0.444</td>
-<td headers="stub_1_43 Shimane" class="gt_row gt_right">2.064</td>
-<td headers="stub_1_43 Tokushima" class="gt_row gt_right">1.486</td>
-<td headers="stub_1_43 Tottori" class="gt_row gt_right">−0.274</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="Kochi" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Kochi</th>
+<th id="Shimane" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Shimane</th>
+<th id="Tokushima" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Tokushima</th>
+<th id="Tottori" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Tottori</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Aichi</td>
+<td class="gt_row gt_right" headers="stub_1_1 Kochi">0.022</td>
+<td class="gt_row gt_right" headers="stub_1_1 Shimane">−2.169</td>
+<td class="gt_row gt_right" headers="stub_1_1 Tokushima">−2.755</td>
+<td class="gt_row gt_right" headers="stub_1_1 Tottori">0.448</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Akita</td>
+<td class="gt_row gt_right" headers="stub_1_2 Kochi">−0.151</td>
+<td class="gt_row gt_right" headers="stub_1_2 Shimane">−0.161</td>
+<td class="gt_row gt_right" headers="stub_1_2 Tokushima">−0.798</td>
+<td class="gt_row gt_right" headers="stub_1_2 Tottori">0.170</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Aomori</td>
+<td class="gt_row gt_right" headers="stub_1_3 Kochi">−0.069</td>
+<td class="gt_row gt_right" headers="stub_1_3 Shimane">−1.188</td>
+<td class="gt_row gt_right" headers="stub_1_3 Tokushima">−1.613</td>
+<td class="gt_row gt_right" headers="stub_1_3 Tottori">0.225</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Chiba</td>
+<td class="gt_row gt_right" headers="stub_1_4 Kochi">0.309</td>
+<td class="gt_row gt_right" headers="stub_1_4 Shimane">−2.096</td>
+<td class="gt_row gt_right" headers="stub_1_4 Tokushima">−1.885</td>
+<td class="gt_row gt_right" headers="stub_1_4 Tottori">0.327</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_5" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Ehime</td>
+<td class="gt_row gt_right" headers="stub_1_5 Kochi">0.238</td>
+<td class="gt_row gt_right" headers="stub_1_5 Shimane">0.471</td>
+<td class="gt_row gt_right" headers="stub_1_5 Tokushima">0.851</td>
+<td class="gt_row gt_right" headers="stub_1_5 Tottori">−0.009</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Fukui</td>
+<td class="gt_row gt_right" headers="stub_1_6 Kochi">−0.630</td>
+<td class="gt_row gt_right" headers="stub_1_6 Shimane">4.081</td>
+<td class="gt_row gt_right" headers="stub_1_6 Tokushima">4.711</td>
+<td class="gt_row gt_right" headers="stub_1_6 Tottori">−1.122</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Fukuoka</td>
+<td class="gt_row gt_right" headers="stub_1_7 Kochi">−0.541</td>
+<td class="gt_row gt_right" headers="stub_1_7 Shimane">0.634</td>
+<td class="gt_row gt_right" headers="stub_1_7 Tokushima">0.342</td>
+<td class="gt_row gt_right" headers="stub_1_7 Tottori">−0.368</td>
+</tr>
+<tr class="even">
+<td id="stub_1_8" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Fukushima</td>
+<td class="gt_row gt_right" headers="stub_1_8 Kochi">0.947</td>
+<td class="gt_row gt_right" headers="stub_1_8 Shimane">−0.235</td>
+<td class="gt_row gt_right" headers="stub_1_8 Tokushima">0.669</td>
+<td class="gt_row gt_right" headers="stub_1_8 Tottori">0.402</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_9" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Gifu</td>
+<td class="gt_row gt_right" headers="stub_1_9 Kochi">0.354</td>
+<td class="gt_row gt_right" headers="stub_1_9 Shimane">0.149</td>
+<td class="gt_row gt_right" headers="stub_1_9 Tokushima">0.566</td>
+<td class="gt_row gt_right" headers="stub_1_9 Tottori">0.097</td>
+</tr>
+<tr class="even">
+<td id="stub_1_10" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Gunma</td>
+<td class="gt_row gt_right" headers="stub_1_10 Kochi">0.318</td>
+<td class="gt_row gt_right" headers="stub_1_10 Shimane">2.085</td>
+<td class="gt_row gt_right" headers="stub_1_10 Tokushima">2.968</td>
+<td class="gt_row gt_right" headers="stub_1_10 Tottori">−0.291</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_11" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Hiroshima</td>
+<td class="gt_row gt_right" headers="stub_1_11 Kochi">−0.254</td>
+<td class="gt_row gt_right" headers="stub_1_11 Shimane">1.622</td>
+<td class="gt_row gt_right" headers="stub_1_11 Tokushima">2.146</td>
+<td class="gt_row gt_right" headers="stub_1_11 Tottori">−0.570</td>
+</tr>
+<tr class="even">
+<td id="stub_1_12" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Hokkaido</td>
+<td class="gt_row gt_right" headers="stub_1_12 Kochi">−0.553</td>
+<td class="gt_row gt_right" headers="stub_1_12 Shimane">−3.254</td>
+<td class="gt_row gt_right" headers="stub_1_12 Tokushima">−5.161</td>
+<td class="gt_row gt_right" headers="stub_1_12 Tottori">0.643</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_13" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Hyogo</td>
+<td class="gt_row gt_right" headers="stub_1_13 Kochi">0.117</td>
+<td class="gt_row gt_right" headers="stub_1_13 Shimane">−3.045</td>
+<td class="gt_row gt_right" headers="stub_1_13 Tokushima">−3.918</td>
+<td class="gt_row gt_right" headers="stub_1_13 Tottori">0.723</td>
+</tr>
+<tr class="even">
+<td id="stub_1_14" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Ibaraki</td>
+<td class="gt_row gt_right" headers="stub_1_14 Kochi">0.378</td>
+<td class="gt_row gt_right" headers="stub_1_14 Shimane">−0.483</td>
+<td class="gt_row gt_right" headers="stub_1_14 Tokushima">0.902</td>
+<td class="gt_row gt_right" headers="stub_1_14 Tottori">−0.263</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_15" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Ishikawa</td>
+<td class="gt_row gt_right" headers="stub_1_15 Kochi">−0.480</td>
+<td class="gt_row gt_right" headers="stub_1_15 Shimane">1.476</td>
+<td class="gt_row gt_right" headers="stub_1_15 Tokushima">1.294</td>
+<td class="gt_row gt_right" headers="stub_1_15 Tottori">−0.432</td>
+</tr>
+<tr class="even">
+<td id="stub_1_16" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Iwate</td>
+<td class="gt_row gt_right" headers="stub_1_16 Kochi">0.006</td>
+<td class="gt_row gt_right" headers="stub_1_16 Shimane">−2.615</td>
+<td class="gt_row gt_right" headers="stub_1_16 Tokushima">−4.020</td>
+<td class="gt_row gt_right" headers="stub_1_16 Tottori">0.833</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_17" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Kagawa</td>
+<td class="gt_row gt_right" headers="stub_1_17 Kochi">−0.391</td>
+<td class="gt_row gt_right" headers="stub_1_17 Shimane">3.227</td>
+<td class="gt_row gt_right" headers="stub_1_17 Tokushima">3.960</td>
+<td class="gt_row gt_right" headers="stub_1_17 Tottori">−0.902</td>
+</tr>
+<tr class="even">
+<td id="stub_1_18" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Kagoshima</td>
+<td class="gt_row gt_right" headers="stub_1_18 Kochi">0.098</td>
+<td class="gt_row gt_right" headers="stub_1_18 Shimane">0.202</td>
+<td class="gt_row gt_right" headers="stub_1_18 Tokushima">−0.102</td>
+<td class="gt_row gt_right" headers="stub_1_18 Tottori">0.200</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_19" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Kanagawa</td>
+<td class="gt_row gt_right" headers="stub_1_19 Kochi">0.506</td>
+<td class="gt_row gt_right" headers="stub_1_19 Shimane">−3.426</td>
+<td class="gt_row gt_right" headers="stub_1_19 Tokushima">−3.741</td>
+<td class="gt_row gt_right" headers="stub_1_19 Tottori">0.828</td>
+</tr>
+<tr class="even">
+<td id="stub_1_20" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Kumamoto</td>
+<td class="gt_row gt_right" headers="stub_1_20 Kochi">−0.791</td>
+<td class="gt_row gt_right" headers="stub_1_20 Shimane">1.767</td>
+<td class="gt_row gt_right" headers="stub_1_20 Tokushima">1.083</td>
+<td class="gt_row gt_right" headers="stub_1_20 Tottori">−0.490</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_21" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Kyoto</td>
+<td class="gt_row gt_right" headers="stub_1_21 Kochi">0.397</td>
+<td class="gt_row gt_right" headers="stub_1_21 Shimane">−4.141</td>
+<td class="gt_row gt_right" headers="stub_1_21 Tokushima">−5.373</td>
+<td class="gt_row gt_right" headers="stub_1_21 Tottori">1.200</td>
+</tr>
+<tr class="even">
+<td id="stub_1_22" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Mie</td>
+<td class="gt_row gt_right" headers="stub_1_22 Kochi">0.016</td>
+<td class="gt_row gt_right" headers="stub_1_22 Shimane">−1.162</td>
+<td class="gt_row gt_right" headers="stub_1_22 Tokushima">−1.447</td>
+<td class="gt_row gt_right" headers="stub_1_22 Tottori">0.231</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_23" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Miyagi</td>
+<td class="gt_row gt_right" headers="stub_1_23 Kochi">0.712</td>
+<td class="gt_row gt_right" headers="stub_1_23 Shimane">−0.122</td>
+<td class="gt_row gt_right" headers="stub_1_23 Tokushima">1.072</td>
+<td class="gt_row gt_right" headers="stub_1_23 Tottori">0.070</td>
+</tr>
+<tr class="even">
+<td id="stub_1_24" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Miyazaki</td>
+<td class="gt_row gt_right" headers="stub_1_24 Kochi">−1.071</td>
+<td class="gt_row gt_right" headers="stub_1_24 Shimane">5.630</td>
+<td class="gt_row gt_right" headers="stub_1_24 Tokushima">6.465</td>
+<td class="gt_row gt_right" headers="stub_1_24 Tottori">−1.699</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_25" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Nagano</td>
+<td class="gt_row gt_right" headers="stub_1_25 Kochi">0.498</td>
+<td class="gt_row gt_right" headers="stub_1_25 Shimane">−1.419</td>
+<td class="gt_row gt_right" headers="stub_1_25 Tokushima">−1.244</td>
+<td class="gt_row gt_right" headers="stub_1_25 Tottori">0.446</td>
+</tr>
+<tr class="even">
+<td id="stub_1_26" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Nagasaki</td>
+<td class="gt_row gt_right" headers="stub_1_26 Kochi">−0.921</td>
+<td class="gt_row gt_right" headers="stub_1_26 Shimane">1.910</td>
+<td class="gt_row gt_right" headers="stub_1_26 Tokushima">1.572</td>
+<td class="gt_row gt_right" headers="stub_1_26 Tottori">−0.763</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_27" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Nara</td>
+<td class="gt_row gt_right" headers="stub_1_27 Kochi">0.378</td>
+<td class="gt_row gt_right" headers="stub_1_27 Shimane">−2.473</td>
+<td class="gt_row gt_right" headers="stub_1_27 Tokushima">−2.658</td>
+<td class="gt_row gt_right" headers="stub_1_27 Tottori">0.589</td>
+</tr>
+<tr class="even">
+<td id="stub_1_28" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Nigata</td>
+<td class="gt_row gt_right" headers="stub_1_28 Kochi">0.856</td>
+<td class="gt_row gt_right" headers="stub_1_28 Shimane">−2.080</td>
+<td class="gt_row gt_right" headers="stub_1_28 Tokushima">−1.318</td>
+<td class="gt_row gt_right" headers="stub_1_28 Tottori">0.535</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_29" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Oita</td>
+<td class="gt_row gt_right" headers="stub_1_29 Kochi">−0.593</td>
+<td class="gt_row gt_right" headers="stub_1_29 Shimane">2.253</td>
+<td class="gt_row gt_right" headers="stub_1_29 Tokushima">1.749</td>
+<td class="gt_row gt_right" headers="stub_1_29 Tottori">−0.444</td>
+</tr>
+<tr class="even">
+<td id="stub_1_30" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Okayama</td>
+<td class="gt_row gt_right" headers="stub_1_30 Kochi">−0.264</td>
+<td class="gt_row gt_right" headers="stub_1_30 Shimane">0.966</td>
+<td class="gt_row gt_right" headers="stub_1_30 Tokushima">1.560</td>
+<td class="gt_row gt_right" headers="stub_1_30 Tottori">−0.557</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_31" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Okinawa</td>
+<td class="gt_row gt_right" headers="stub_1_31 Kochi">0.958</td>
+<td class="gt_row gt_right" headers="stub_1_31 Shimane">0.416</td>
+<td class="gt_row gt_right" headers="stub_1_31 Tokushima">0.697</td>
+<td class="gt_row gt_right" headers="stub_1_31 Tottori">0.637</td>
+</tr>
+<tr class="even">
+<td id="stub_1_32" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Osaka</td>
+<td class="gt_row gt_right" headers="stub_1_32 Kochi">0.387</td>
+<td class="gt_row gt_right" headers="stub_1_32 Shimane">−3.404</td>
+<td class="gt_row gt_right" headers="stub_1_32 Tokushima">−4.601</td>
+<td class="gt_row gt_right" headers="stub_1_32 Tottori">1.118</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_33" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Saga</td>
+<td class="gt_row gt_right" headers="stub_1_33 Kochi">−0.913</td>
+<td class="gt_row gt_right" headers="stub_1_33 Shimane">4.668</td>
+<td class="gt_row gt_right" headers="stub_1_33 Tokushima">5.637</td>
+<td class="gt_row gt_right" headers="stub_1_33 Tottori">−1.552</td>
+</tr>
+<tr class="even">
+<td id="stub_1_34" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Saitama</td>
+<td class="gt_row gt_right" headers="stub_1_34 Kochi">0.217</td>
+<td class="gt_row gt_right" headers="stub_1_34 Shimane">−0.975</td>
+<td class="gt_row gt_right" headers="stub_1_34 Tokushima">−0.328</td>
+<td class="gt_row gt_right" headers="stub_1_34 Tottori">−0.031</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_35" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Shiga</td>
+<td class="gt_row gt_right" headers="stub_1_35 Kochi">−0.012</td>
+<td class="gt_row gt_right" headers="stub_1_35 Shimane">−0.073</td>
+<td class="gt_row gt_right" headers="stub_1_35 Tokushima">−0.613</td>
+<td class="gt_row gt_right" headers="stub_1_35 Tottori">0.235</td>
+</tr>
+<tr class="even">
+<td id="stub_1_36" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Shizuoka</td>
+<td class="gt_row gt_right" headers="stub_1_36 Kochi">0.599</td>
+<td class="gt_row gt_right" headers="stub_1_36 Shimane">0.961</td>
+<td class="gt_row gt_right" headers="stub_1_36 Tokushima">2.654</td>
+<td class="gt_row gt_right" headers="stub_1_36 Tottori">−0.330</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_37" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Tochigi</td>
+<td class="gt_row gt_right" headers="stub_1_37 Kochi">0.409</td>
+<td class="gt_row gt_right" headers="stub_1_37 Shimane">0.338</td>
+<td class="gt_row gt_right" headers="stub_1_37 Tokushima">1.366</td>
+<td class="gt_row gt_right" headers="stub_1_37 Tottori">−0.143</td>
+</tr>
+<tr class="even">
+<td id="stub_1_38" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Tokyo</td>
+<td class="gt_row gt_right" headers="stub_1_38 Kochi">0.619</td>
+<td class="gt_row gt_right" headers="stub_1_38 Shimane">−4.424</td>
+<td class="gt_row gt_right" headers="stub_1_38 Tokushima">−5.420</td>
+<td class="gt_row gt_right" headers="stub_1_38 Tottori">1.301</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_39" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Toyama</td>
+<td class="gt_row gt_right" headers="stub_1_39 Kochi">−0.819</td>
+<td class="gt_row gt_right" headers="stub_1_39 Shimane">4.384</td>
+<td class="gt_row gt_right" headers="stub_1_39 Tokushima">5.389</td>
+<td class="gt_row gt_right" headers="stub_1_39 Tottori">−1.467</td>
+</tr>
+<tr class="even">
+<td id="stub_1_40" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Wakayama</td>
+<td class="gt_row gt_right" headers="stub_1_40 Kochi">−0.050</td>
+<td class="gt_row gt_right" headers="stub_1_40 Shimane">−1.103</td>
+<td class="gt_row gt_right" headers="stub_1_40 Tokushima">−1.730</td>
+<td class="gt_row gt_right" headers="stub_1_40 Tottori">0.323</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_41" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Yamagata</td>
+<td class="gt_row gt_right" headers="stub_1_41 Kochi">0.652</td>
+<td class="gt_row gt_right" headers="stub_1_41 Shimane">−1.077</td>
+<td class="gt_row gt_right" headers="stub_1_41 Tokushima">−0.815</td>
+<td class="gt_row gt_right" headers="stub_1_41 Tottori">0.508</td>
+</tr>
+<tr class="even">
+<td id="stub_1_42" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Yamaguchi</td>
+<td class="gt_row gt_right" headers="stub_1_42 Kochi">−1.048</td>
+<td class="gt_row gt_right" headers="stub_1_42 Shimane">1.821</td>
+<td class="gt_row gt_right" headers="stub_1_42 Tokushima">0.402</td>
+<td class="gt_row gt_right" headers="stub_1_42 Tottori">−0.382</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_43" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">Yamanashi</td>
+<td class="gt_row gt_right" headers="stub_1_43 Kochi">−0.444</td>
+<td class="gt_row gt_right" headers="stub_1_43 Shimane">2.064</td>
+<td class="gt_row gt_right" headers="stub_1_43 Tokushima">1.486</td>
+<td class="gt_row gt_right" headers="stub_1_43 Tottori">−0.274</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -2775,14 +3290,14 @@ Candidates -0.05892 0.03739  -0.1322  0.01437 0.1150951</code></pre>
 </section>
 
 
-<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">脚注</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">脚注</h2>
 
 <ol>
 <li id="fn1"><p><code>fixed_effects</code>引数でなく、回帰式に説明変数として指定しても結果は同じである。しかし、回帰式に書く場合、固定効果の推定値も全て出力され、推定結果が非常に長くなる。しかし、固定効果の推定値は論文内で報告することもない。<code>fixed_effects</code>で指定すると、それらの結果は省略される。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>{gsynth}は通常のSCMでなく、一般化SCM（Generalized Synthetic Control Method）を実装したパッケージである。通常のSCMは処置群は1つのみに使えるが、一般化SCMは処置群が複数あっても使える。一般化SCMについてはYiqing Xu. 2017. “<a href="https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3#article">Generalized Synthetic Control Method: Causal Inference with Interactive Fixed Effects Models</a>,” <em>Political Analysis,</em> 25 (1): 57-76.を参照されたい。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>第7〜23回参院選のデータは<a href="http://db.cps.kutc.kansai-u.ac.jp/">参議院議員通常選挙データベース</a>からダウンロードしたものを架空したものであり、第24〜26回データは宋が手入力したものである。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</aside></div></main> <!-- /main -->
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -2818,18 +3333,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -2861,7 +3365,54 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+          // default icon
+          link.classList.add("external");
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -2896,7 +3447,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -2911,15 +3466,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    if (id.startsWith('sec-')) {
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
         }
         return container.innerHTML
       } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -2928,7 +3496,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -2970,6 +3546,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -3041,25 +3640,90 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
           }
-        });
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
@@ -3098,32 +3762,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp("https:\/\/www\.jaysong\.net\/kobe-ci\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-          // default icon
-          link.classList.add("external");
-      }
-    }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../material/matching.html" class="pagination-link">
+      <a href="../material/matching.html" class="pagination-link" aria-label="マッチング">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">マッチング</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../material/rdd.html" class="pagination-link">
+      <a href="../material/rdd.html" class="pagination-link" aria-label="回帰不連続デザイン">
         <span class="nav-page-text">回帰不連続デザイン</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -3132,7 +3780,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2023, <a href="https://www.jaysong.net" target="_blank">Jaehyun Song</a>. Powered by <a href="https://quarto.org/" target="_blank">Quarto</a></p>
+<p>Copyright 2024, <a href="https://www.jaysong.net" target="_blank">Jaehyun Song</a>. Powered by <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
