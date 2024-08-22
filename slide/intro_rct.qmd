@@ -58,26 +58,26 @@ pacman::p_load_gh("JaehyunSong/BalanceR")
 各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。
 
 1. 1日目：8月26日（木）
-   * 因果推論の考え方
-   * ランダム化比較試験
+   - 因果推論の考え方
+   - ランダム化比較試験
 2. 2日目：8月27日（火）
-   * Lab Session（Rの使い方）
-   * 2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説
+   - Lab Session（Rの使い方）
+   - 2日目にLab Sessionを行わない場合は、以下の内容を繰り上げ、5日目は操作変数を解説
 3. 3日目：8月28日（水）
-   * 回帰分析とマッチング、その応用
+   - 回帰分析とマッチング、その応用
 4. 4日目：8月29日（木）
-   * 差分の差分法とその応用 
+   - 差分の差分法とその応用 
 5. 5日目：8月30日（金）
-   * 回帰不連続デザイン
+   - 回帰不連続デザイン
 
 ## 実習
 
 実習はRで行う。1・2日目はRの導入および使い方についても解説（復習レベル）する。
 
-* 本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能
-* Jared P. Lander. 2017. [*R for Everyone: Advanced Analytics and Graphics (2nd Edition),*](https://www.amazon.co.jp/dp/013454692X/) Addison-Wesley Professional.（[邦訳有り](https://www.amazon.co.jp/dp/4839962154/)）
-* 宋財泫・矢内勇生.『[私たちのR: ベストプラクティスの探究](https://www.jaysong.net/RBook)』Web-book
-   * 無料のR入門書：Rを**広く、深く**勉強したい人におすすめ
+- 本講義の分析はExcel, SPSS, Stata, Julia, Pythonなどでも可能
+- Jared P. Lander. 2017. [*R for Everyone: Advanced Analytics and Graphics (2nd Edition),*](https://www.amazon.co.jp/dp/013454692X/) Addison-Wesley Professional.（[邦訳有り](https://www.amazon.co.jp/dp/4839962154/)）
+- 宋財泫・矢内勇生.『[私たちのR: ベストプラクティスの探究](https://www.jaysong.net/RBook)』Web-book
+   - 無料のR入門書：Rを**広く、深く**勉強したい人におすすめ
 
 ::::{.columns}
 
@@ -105,45 +105,45 @@ pacman::p_load_gh("JaehyunSong/BalanceR")
 
 計量政治学とR
 
-* 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132/)』オーム社.
-* 飯田健. 2013.『[計量政治分析](https://www.amazon.co.jp/dp/4320019245/)』共立出版.
-* Kosuke Imai. 2017. [*Quantitative Social Science: An Introduction*](https://www.amazon.co.jp/dp/0691175462/), Princeton University Press. (邦訳あり[[上](https://www.amazon.co.jp/dp/400061245X/)/[下](https://www.amazon.co.jp/dp/4000612468/)])
+- 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132/)』オーム社.
+- 飯田健. 2013.『[計量政治分析](https://www.amazon.co.jp/dp/4320019245/)』共立出版.
+- Kosuke Imai. 2017. [*Quantitative Social Science: An Introduction*](https://www.amazon.co.jp/dp/0691175462/), Princeton University Press. (邦訳あり[[上](https://www.amazon.co.jp/dp/400061245X/)/[下](https://www.amazon.co.jp/dp/4000612468/)])
 
 R全般
 
-* Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/487311814X/)/[原著はインターネットから無料で閲覧可](https://r4ds.had.co.nz/))
-* 松村優哉 他. 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
-* Wickham, Hadley. 2019. [*Advanced R (Second Edition),*](https://www.amazon.co.jp/dp/0815384572/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/432012393X/)/[原著はインターネットから無料で閲覧可](https://adv-r.hadley.nz/))
+- Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/487311814X/)/[原著はインターネットから無料で閲覧可](https://r4ds.had.co.nz/))
+- 松村優哉 他. 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
+- Wickham, Hadley. 2019. [*Advanced R (Second Edition),*](https://www.amazon.co.jp/dp/0815384572/) O’Reilly. ([邦訳あり](https://www.amazon.co.jp/dp/432012393X/)/[原著はインターネットから無料で閲覧可](https://adv-r.hadley.nz/))
 
 ## Discordについて
 
 1. Discordに登録し、Discordを起動する（アプリ版、Web版、どちらでも良い）。
 1. 宋をフレンドとして追加
-   * 宋のIDとタグは**\_jaysong\_**（前後にアンダースコア「\_」あり）
+   - 宋のIDとタグは**\_jaysong\_**（前後にアンダースコア「\_」あり）
    ![](figs/01/discord.png)
 1. 自分の学籍番号と氏名をDiscordメッセージで伝える。
 1. 宋からの招待が届けば、サーバーに登録する。
-   * Discord上の表示名（ニックネーム）は宋が実名へ変更する。**任意の表示名に変更しない**こと。
+   - Discord上の表示名（ニックネーム）は宋が実名へ変更する。**任意の表示名に変更しない**こと。
 
 ## 評価
 
 平常点と期末レポート 
 
-* **平常点**: 30%
-   * 授業への参加度（質問/発言）
-   * Discordでの参加度も含む
-* **期末レポート**: 70%
-   * 提出方法、期限は講義最終日に告知
+- **平常点**: ~~30%~~ 100%
+   - 授業への参加度（質問/発言）
+   - Discordでの参加度も含む
+- ~~**期末レポート**: 70%~~
+   - ~~提出方法、期限は講義最終日に告知~~
 
-## レポート
+## ~~レポート~~
 
-研究のプロポーザル
+~~研究のプロポーザル~~
 
-- 本講義で紹介した手法を用いた分析のプロポーザルを作成
-- 実現可能性（予算、倫理など）があること
-   - 架空の予算は100万円を上限とする
-- 分量の制限（下限/上限）なし
-- 提出期限および提出方法の詳細はDiscordにて案内
+- ~~本講義で紹介した手法を用いた分析のプロポーザルを作成~~
+- ~~実現可能性（予算、倫理など）があること~~
+   - ~~架空の予算は100万円を上限とする~~
+- ~~分量の制限（下限/上限）なし~~
+- ~~提出期限および提出方法の詳細はDiscordにて案内~~
 
 ## 前提知識
 
@@ -151,9 +151,9 @@ R全般
 
 自分で計算できなくても、結果の読み方が分かるレベル
 
-* 仮説検定
-* 統計的有意性検定
-* 回帰分析
+- 仮説検定
+- 統計的有意性検定
+- 回帰分析
 
 #### R
 
