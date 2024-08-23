@@ -7,7 +7,7 @@ link-external-newwindow: true
 ## 概要
 
 * 科目名：方法論特殊講義III（プログラム講義計量政治学方法論Ⅰ）
-* 講師：宋財泫（ソン ジェヒョン）
+* 講師：<ruby>宋<rt>そん</rt></ruby><ruby>財泫<rt>じぇひょん</rt></ruby><rp>（ソン ジェヒョン）</rp>
 * 所属：[関西大学](https://www.kansai-u.ac.jp/)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/)
    * E-mail: song<i class="bi bi-at"></i>kansai-u.ac.jp
    * Homepage: <https://www.jaysong.net>
