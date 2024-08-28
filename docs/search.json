@@ -1137,29 +1137,29 @@
     "objectID": "slide/did.html#マッチングの限界",
     "href": "slide/did.html#マッチングの限界",
     "title": "方法論特殊講義III",
-    "section": "",
-    "text": "条件付き独立の仮定 (Conditional Independent Assumption; CIA)\n\n処置変数（\\(T\\)）と応答変数（\\(Y\\)）の間に存在する交絡要因（\\(W\\)）が全て観察されている場合\n\n\\({Y_i (T_i = 1), Y_i (T_i = 0) \\perp T_i | W_i}\\)\n\\(\\rightarrow\\) 交絡変数を共変量として統制する場合、観察データからも因果効果の推定が可能\n\nしかし、全ての交絡要因がデータに含まれる場合もほぼゼロ\n\n\\(\\rightarrow\\) 仮定としては強すぎるため、（回帰分析を含む）マッチングによる厳密な因果推論は困難\nただし、単純に処置変数と応答変数の単回帰分析よりは望ましい。\n\nより緩い仮定の下で可能な因果推論の手法\n\n\\(\\rightarrow\\) 自然実験（Natural Experiment）"
+    "section": "マッチングの限界",
+    "text": "マッチングの限界\n条件付き独立の仮定 (Conditional Independent Assumption; CIA)\n\n処置変数（\\(T\\)）と応答変数（\\(Y\\)）の間に存在する交絡要因（\\(W\\)）が全て観察されている場合\n\n\\({Y_i (T_i = 1), Y_i (T_i = 0) \\perp T_i | W_i}\\)\n\\(\\rightarrow\\) 交絡変数を共変量として統制する場合、観察データからも因果効果の推定が可能\n\nしかし、全ての交絡要因がデータに含まれる場合もほぼゼロ\n\n\\(\\rightarrow\\) 仮定としては強すぎるため、（回帰分析を含む）マッチングによる厳密な因果推論は困難\nただし、単純に処置変数と応答変数の単回帰分析よりは望ましい。\n\nより緩い仮定の下で可能な因果推論の手法\n\n\\(\\rightarrow\\) 自然実験（Natural Experiment）"
   },
   {
     "objectID": "slide/did.html#自然実験とは",
     "href": "slide/did.html#自然実験とは",
     "title": "方法論特殊講義III",
-    "section": "",
-    "text": "RCTの3つの特徴（Freedman, Pisani, and Purves 2007）\n\nThe response of experimental subjects assigned to receive a treatment is compared to the response of subjects assigned to a control group.\nThe assignment of subjects to treatment and control groups is done at random, through a randomizing device such as a coin flip.\nThe manipulation of the treatment—also known as the intervention—is under the control of an experimental researcher.\n\n\n自然実験は（Dunning 2012）\n\n同じ\n処置の有無は無作為のように決まる（as-if random）。\n処置内容などを研究者が操作することは不可能\n\n2と3は自然、制度などによって影響を受ける。"
+    "section": "自然実験とは",
+    "text": "自然実験とは\nRCTの3つの特徴（Freedman, Pisani, and Purves 2007）\n\nThe response of experimental subjects assigned to receive a treatment is compared to the response of subjects assigned to a control group.\nThe assignment of subjects to treatment and control groups is done at random, through a randomizing device such as a coin flip.\nThe manipulation of the treatment—also known as the intervention—is under the control of an experimental researcher.\n\n\n自然実験は（Dunning 2012）\n\n同じ\n処置の有無は無作為のように決まる（as-if random）。\n処置内容などを研究者が操作することは不可能\n\n2と3は自然、制度などによって影響を受ける。"
   },
   {
     "objectID": "slide/did.html#自然実験の例",
     "href": "slide/did.html#自然実験の例",
     "title": "方法論特殊講義III",
-    "section": "",
-    "text": "処置を受けるか否かが自然、制度、偶然などによって規定される\n\n多数代表制と比例代表制\n\n人口3500未満なら多数代表制、以上なら比例代表制を採用（フランス地方選挙）\n\n軍の経験と所得\n\nベトナム戦争時、徴兵対象がくじによって決まる（アメリカ）\n\n最低賃金の効果\n\n隣接するペンシルベニア州とニュージャージー州の最低賃金の格差\n\n現職効果\n\n惜敗・辛勝の場合、候補者間の質には大差ないはず\n\n選挙区定数の効果\n\n人口によって選挙区定数が決まる\n\nその他"
+    "section": "自然実験の例",
+    "text": "自然実験の例\n処置を受けるか否かが自然、制度、偶然などによって規定される\n\n多数代表制と比例代表制\n\n人口3500未満なら多数代表制、以上なら比例代表制を採用（フランス地方選挙）\n\n軍の経験と所得\n\nベトナム戦争時、徴兵対象がくじによって決まる（アメリカ）\n\n最低賃金の効果\n\n隣接するペンシルベニア州とニュージャージー州の最低賃金の格差\n\n現職効果\n\n惜敗・辛勝の場合、候補者間の質には大差ないはず\n\n選挙区定数の効果\n\n人口によって選挙区定数が決まる\n\nその他"
   },
   {
     "objectID": "slide/did.html#自然実験の方法",
     "href": "slide/did.html#自然実験の方法",
     "title": "方法論特殊講義III",
-    "section": "",
-    "text": "本講義では1と2を解説\n\n差分の差分法（Difference-in-Difference; Diff-in-Diff/DID/DD）\n回帰不連続デザイン (Regression Discontinuity Design; RDD)\n\n中断時系列デザイン（Interrupted Time-series Design; ITS）\n\nRDDの時系列版であるが、自己相関などの対処が必要であるため本講義では省略\n\n\n操作変数（Instrumental Variable; IV）\n集積分析（Bunching Analysis）など"
+    "section": "自然実験の方法",
+    "text": "自然実験の方法\n本講義では1と2を解説\n\n差分の差分法（Difference-in-Difference; Diff-in-Diff/DID/DD）\n回帰不連続デザイン (Regression Discontinuity Design; RDD)\n\n中断時系列デザイン（Interrupted Time-series Design; ITS）\n\nRDDの時系列版であるが、自己相関などの対処が必要であるため本講義では省略\n\n\n操作変数（Instrumental Variable; IV）\n集積分析（Bunching Analysis）など"
   },
   {
     "objectID": "slide/did.html#保育所の整備と母の就労率1",
@@ -1453,7 +1453,7 @@
     "href": "slide/did.html#実習内容",
     "title": "方法論特殊講義III",
     "section": "実習内容",
-    "text": "実習内容\n\n{estimatr}パッケージ（lm_robust()関数）の使い方\n推定結果の可視化\nSynthetic Control Methodの実装 ({gsynth})"
+    "text": "実習内容\n\n{estimatr}パッケージ（lm_robust()関数）の使い方\n推定結果の可視化\nSynthetic Control Methodの実装 ({gsynth})\n\n\n\n\n\nhttps://www.jaysong.net/kobe-ci/"
   },
   {
     "objectID": "slide/intro_rct.html#講師紹介",
