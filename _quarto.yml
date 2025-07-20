@@ -10,7 +10,7 @@ website:
   page-navigation: true
   favicon: figs/favicon.png
   page-footer: 
-    left: "Copyright 2024, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
+    left: "© 2025, <a href='https://www.jaysong.net' target='_blank'>Jaehyun Song</a>. Powered by <a href='https://quarto.org/' target='_blank'>Quarto</a>" 
     right:
       - icon: house-fill
         href: https://www.jaysong.net

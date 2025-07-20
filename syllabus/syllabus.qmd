@@ -6,13 +6,14 @@ link-external-newwindow: true
 
 ## 概要
 
-* 科目名：方法論特殊講義III（プログラム講義計量政治学方法論Ⅰ）
-* 講師：<ruby>宋<rt>そん</rt></ruby><ruby>財泫<rt>じぇひょん</rt></ruby><rp>（ソン ジェヒョン）</rp>
-* 所属：[関西大学](https://www.kansai-u.ac.jp/)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/)
-   * E-mail: song<i class="bi bi-at"></i>kansai-u.ac.jp
-   * Homepage: <https://www.jaysong.net>
-* 時間：2024年8月26〜30日 3〜5限目
-* 教室：フロンティア館 303教室
+- 科目名：方法論特殊講義III（プログラム講義計量政治学方法論Ⅰ）
+- 講師：<ruby>宋<rt>そん</rt></ruby><ruby>財泫<rt>じぇひょん</rt></ruby><rp>（ソン ジェヒョン）</rp>
+- 所属：[関西大学](https://www.kansai-u.ac.jp/)[総合情報学部](https://www.kansai-u.ac.jp/Fc_inf/)
+   - E-mail: song<i class="bi bi-at"></i>kansai-u.ac.jp
+   - Homepage: <https://www.jaysong.net>
+- 時間：2025年8月15〜16、18〜20日 3〜5限目
+   - 2日目（8月16日[土]）は**オンデマンド**で実施
+- 教室：フロンティア館 303教室
 
 ## 授業の内容
 
@@ -20,34 +21,34 @@ link-external-newwindow: true
 
 ## 評価
 
-* 授業貢献度 ~~30%~~100%
-   * 授業への参加度、質問など
-* ~~期末レポート 70%~~
-   * ~~期末レポートの内容は初回の授業で紹介する~~
+- 授業貢献度：30%
+   - 授業への参加度、質問など
+- 期末レポート：70%
+   - 期末レポートの内容は初回の授業で案内する
 
 ## 履修上の注意
 
 　統計学に関する基礎知識が必要である。目安は母平均の差の検定、および線形回帰分析が理解でき、統計ソフトウェアで実行・解釈が可能なレベルである。
 
-　本講義における共通言語はRである。Rの使い方に関しては既にインターネット上に膨大な情報がある。[宋](https://www.jaysong.net)と[矢内勇生](https://yukiyanai.github.io/)(高知工科大学)が執筆中の以下の資料を参照することも1つの選択肢である。
+　本講義における共通言語はRである。Rの使い方に関しては既にインターネット上に膨大な情報がある。[宋](https://www.jaysong.net)と[矢内](https://yukiyanai.github.io/)（高知工科大学）が執筆中の以下の資料を参照することも1つの選択肢である。
 
-* 宋財泫・矢内勇生. 『[私たちの R: ベストプラクティスの探究](https://www.jaysong.net/RBook/)』
-   * Rの導入方法は講義中、宋が解説する。
+- 宋財泫・矢内勇生. 『[私たちの R: ベストプラクティスの探究](https://www.jaysong.net/RBook/)』
+   - Rの導入方法は講義中、宋が解説する。
 
 　統計学および定量的分析、Rの使い方については以下の書籍を講義開始日までに読んでおくことを強く推奨する。
 
-* 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132)』オーム社.
+- 浅野正彦・矢内勇生. 2019『[Rによる計量政治学](https://www.amazon.co.jp/dp/4274223132)』オーム社.
 
 　R スクリプト作成の際、{tidyverse} というパッケージ群を積極的に活用する。この パッケージには {dplyr}、{ggplot2} などのパッケージが含まれている。各パッケージの 使い方を習得するには以下の教材を推奨する。
 
-* Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳](www.amazon.co.jp/dp/487311814X/)あり/[原著](https://r4ds.had.co.nz)はインターネットから無料で閲覧可)
-* 松村優哉・湯谷啓明・紀ノ定保礼・前田和寛 . 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
+- Wickham, Hadley and Grolemund, Garrett. 2017. [*R for Data Science: Import, Tidy, Transform, Visualize, and Model Data,*](https://www.amazon.co.jp/dp/1491910399/) O’Reilly. ([邦訳](www.amazon.co.jp/dp/487311814X/)あり/[原著](https://r4ds.had.co.nz)はインターネットから無料で閲覧可)
+- 松村優哉・湯谷啓明・紀ノ定保礼・前田和寛 . 2021. 『[改訂2版 Rユーザのための RStudio[実践] 入門—tidyverseによるモダンな分析フローの世界—](https://www.amazon.co.jp/dp/4297121700/)』技術評論社.
 
 ## 教科書・参考書
 
 　以下は本書の内容を（一部）カバーする書籍の目録である。必ずしも購入する必要はないが、予習・復習において適宜参照することを推奨する。
 
-* 因果推論の理論と実例
+- 因果推論の理論と実例
    * **【AP 2008】** Angrist, Joahua D., and Jorn-steffen Pischke. 2008. [*Mostly Harmless Econometrics: An Empiricist’s Companion.*](http://amzn.asia/d/2TJ1HXE) Princeton University Press.
       * 『[「ほとんど無害」な計量経済学―応用経済学のための実証分析ガイド](http://amzn.asia/d/3JwCmNG)』 (翻訳はかなり有害)
    * **【AP 2014】** Angrist, Joahua D., and Jorn-steffen Pischke. 2014. [*Mastering ’Metrics: The Path from Cause to Effect.*](http://amzn.asia/d/fIkurDl) Princeton University Press.

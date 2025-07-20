@@ -1,6 +1,6 @@
 ---
 subtitle: "マッチング"
-date: "2024/08/28"
+date: "2025/08/18"
 format: revealjs
 metadata-files: 
   - _slide.yml
