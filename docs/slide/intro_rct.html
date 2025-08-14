@@ -7,8 +7,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.33">
 
   <meta name="author" content="宋(そん)&nbsp;&nbsp;財泫(じぇひょん)">
   <meta name="dcterms.date" content="2025-08-15">
@@ -270,14 +270,14 @@
 </section>
 <section id="内容" class="slide level2">
 <h2>内容</h2>
-<p>各講義は以下の内容に関する理論と実習を5:5で行う予定。また、履修者の理解・進捗状況に応じて変更の可能性がある。</p>
+<p>各講義は以下の内容に関する理論と実習を6:4で行う予定。第3回以降の実習はコードの解説が中心となる。また、履修者の理解・進捗状況に応じて変更の可能性がある。</p>
 <ol type="1">
-<li>1日目：8月15日（月）
+<li>1日目：8月15日（金）
 <ul>
 <li>因果推論の考え方</li>
 <li>ランダム化比較試験</li>
 </ul></li>
-<li>2日目：8月16日（火）
+<li>2日目：8月16日（土）
 <ul>
 <li>Lab Session（Rの使い方）</li>
 <li><strong>オンデマンド</strong>で実施</li>
@@ -311,7 +311,7 @@
 <div class="column" style="width:70%;">
 <h3 id="宋のr環境">宋のR環境</h3>
 <ul>
-<li>macOS Sequoia 15.5</li>
+<li>macOS Sequoia 15.6</li>
 <li>R version 4.5.1 (2025-06-13)
 <ul>
 <li>R &gt; 4.3ならOK</li>
@@ -319,7 +319,7 @@
 <li>RStudio 2025.05.1+513</li>
 <li>スライド、サポートページ、実習用資料の執筆環境
 <ul>
-<li>Quarto 1.7.32</li>
+<li>Quarto 1.7.33</li>
 <li>R package {quarto} 1.4.4</li>
 </ul></li>
 </ul>
@@ -354,7 +354,7 @@
 </ul></li>
 <li><strong>期末レポート</strong>: 70%
 <ul>
-<li><del>提出方法、期限は講義最終日に告知</del></li>
+<li>提出方法、期限は講義最終日に告知</li>
 </ul></li>
 </ul>
 </section>
@@ -4187,19 +4187,6 @@ mean in group 0 mean in group 1
           } else {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
-      }
-      function insertSpanRow(i, colspan, content) {
-        var table = document.getElementById('tinytable_bp71tefz34jhaitv7537');
-        // Find the row with data-row attribute matching i
-        var targetRow = table.querySelector(`tr [data-row="${i}"]`).closest('tr');
-        var newRow = table.insertRow(targetRow.rowIndex);
-        var newCell = newRow.insertCell(0);
-        newCell.setAttribute("colspan", colspan);
-        newCell.setAttribute("data-col", "0");
-        newCell.setAttribute("data-row", i - 1);
-        // newCell.innerText = content;
-        // this may be unsafe, but innerText does not interpret <br>
-        newCell.innerHTML = content;
       }
       function spanCell_bp71tefz34jhaitv7537(i, j, rowspan, colspan) {
         var table = document.getElementById("tinytable_bp71tefz34jhaitv7537");
